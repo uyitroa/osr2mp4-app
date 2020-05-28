@@ -11,10 +11,11 @@ class Label(QLabel):
         super(Label, self).__init__(parent)
         self.width,self.height,self.file_type = width,height,file_type
         #Setting image for default start
-        self.start_button = QPixmap(img)
+        self.start_button = QPixmap("res/" + img)
+        print("res/" + img)
         self.start_button = self.start_button.scaled(width,height)
         #setting image for hover start
-        self.start_button_hover = QPixmap(img_hover)
+        self.start_button_hover = QPixmap("res/" + img_hover)
         self.start_button_hover = self.start_button_hover.scaled(width,height)
         self.setPixmap(self.start_button)
         
