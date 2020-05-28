@@ -2,7 +2,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import QPixmap, QImage, QPalette, QBrush
 from PyQt5.QtCore import QSize,pyqtSlot
 from PyQt5.QtWidgets import QMainWindow,QApplication, QFileDialog,QWidget, QScrollArea, QVBoxLayout,QStackedWidget,QLineEdit,QGridLayout, QGroupBox, QLabel, QPushButton, QFormLayout,QToolBox,QMessageBox,QTabWidget
-import ctypes,sys,imagesize
+import sys,imagesize
 from pathlib import Path
 
 class Label(QLabel):
@@ -43,7 +43,6 @@ class Label(QLabel):
 class Window(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.user = ctypes.windll.user32
         self.setWindowIcon(QtGui.QIcon("icon.png"))
         self.setWindowTitle("Subscribe to Raishin Aot")
         self.setStyleSheet("background-color: grey;")
