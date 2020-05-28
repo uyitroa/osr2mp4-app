@@ -47,7 +47,7 @@ class Window(QMainWindow):
         self.setWindowIcon(QtGui.QIcon("icon.png"))
         self.setWindowTitle("Subscribe to Raishin Aot")
         self.setStyleSheet("background-color: grey;")
-        width,height = 800,500
+        width,height = 600,400
         x_pos,self.button_y = 0,20
         logo = Label(10,self.button_y,278,278,"osr2mp4_logo.png","osr2mp4_logo.png","",self)
         image_list = ["select_osr.png","select_osr_hover.png","select_osu.png","select_osu_hover.png","select_skin.png","select_skin_hover.png","output.png","output_hover.png"]
@@ -79,6 +79,11 @@ class Window(QMainWindow):
         
     def resizeEvent(self, event):
         ypos = 20
+        
+        scale = int(self.height()/469)
+        self.button_width = 257 * scale
+        self.button_height = 46 * scale
+        
         progressbar_width,progressbar_height = self.width() - 20,30
         print(self.width())
         print(progressbar_width)
