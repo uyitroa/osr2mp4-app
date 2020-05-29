@@ -1,4 +1,4 @@
-- Add background
 - Add shadow effect for button
 - Position should also change when window resize
 - Add setting icon and setting page
+- Add progress bar fill
