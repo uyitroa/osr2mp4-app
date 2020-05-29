@@ -1,33 +1,33 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import QPixmap, QImage, QPalette, QBrush
 from PyQt5.QtCore import QSize,pyqtSlot
-from PyQt5.QtWidgets import QMainWindow,QApplication, QFileDialog,QWidget, QScrollArea, QVBoxLayout,QStackedWidget,QLineEdit,QGridLayout, QGroupBox, QLabel, QPushButton, QFormLayout,QToolBox,QMessageBox,QTabWidget
+from PyQt5.QtWidgets import QMainWindow,QApplication, QFileDialog,QWidget,QLabel, QPushButton
 import sys
 from pathlib import Path
+from progressbar_class import progress_bar
 
-class Label(QLabel):
-#fuck	
+class Label(QPushButton):
     def __init__(self,x_pos,y_pos,width,height,img,img_hover,file_type,parent=None):
         super(Label, self).__init__(parent)
         self.width,self.height,self.file_type = width,height,file_type
         #Setting image for default start
-        self.start_button = QPixmap("res/" + img)
-        self.start_button = self.start_button.scaled(width,height)
+        self.img_idle = "res/" + img
+        self.img_hover = "res/" + img_hover
         #setting image for hover start
-        self.start_button_hover = QPixmap("res/" + img_hover)
-        self.start_button_hover = self.start_button_hover.scaled(width,height)
-        self.setPixmap(self.start_button)
         
+        self.setIcon(QtGui.QIcon(self.img_idle))
         self.setGeometry(x_pos,y_pos,width,height)
+        self.setIconSize(QtCore.QSize(width,height))
+        self.setFlat(True)
 
     def mousePressEvent(self,QEvent):
         if not self.file_type == "":
             self.openFileNameDialog()
     def enterEvent(self, QEvent):
-        self.setPixmap(self.start_button_hover)
+        self.setIcon(QtGui.QIcon(self.img_hover))
 
     def leaveEvent(self, QEvent):
-        self.setPixmap(self.start_button)
+        self.setIcon(QtGui.QIcon(self.img_idle))
  
     def openFileNameDialog(self):
         if self.file_type != "folder" and  self.file_type != "output":
@@ -63,6 +63,14 @@ class Window(QMainWindow):
         #self.start = Label(progressbar_x + progressbar_width - self.start_width,height-40-self.start_height,self.start_width,self.start_height,"start.png","start_hover.png","",self)
 
         self.resize(width,height)
+        stylesheet = """
+    Window {
+        background-image: url("bg.jpg"); 
+        background-repeat: no-repeat; 
+        background-position: center;
+    }
+"""
+        self.setStyleSheet(stylesheet)
         #self.showMaximized()
         self.show()
         
@@ -87,7 +95,8 @@ class Window(QMainWindow):
             self.delete_widget(self.main_buttons[x-1],x-1)
         for x in range(0,len(self.image_list) - 1,2):
             button = Label(self.width()-button_width,button_y,button_width,button_height,self.image_list[x],self.image_list[x+1],self.file_type[file_typeCounter],self)
-            button_y+=70
+            button_width-=30
+            button_y+=int(self.width()/16)
             file_typeCounter+=1
             self.main_buttons.append(button)
             button.show()
@@ -95,7 +104,7 @@ class Window(QMainWindow):
         self.progressBar.setParent(None)
         self.start.setParent(None)
         
-        self.progressBar = Label(progressbar_x,progressbar_y,self.width()-20,32,"progressbar.png","progressbar.png","",self)
+        self.progressBar = progress_bar(progressbar_x,progressbar_y,self.width()-20,32,"progressbar.png","progressbar.png","",self)
         self.progressBar.show()
         
         self.start = Label(progressbar_x + progressbar_width - start_width,height-40-start_height,start_width,start_height,"start.png","start_hover.png","",self)
