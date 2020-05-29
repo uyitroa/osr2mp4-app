@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 
 class Label(QLabel):
-
+#fuck	
     def __init__(self,x_pos,y_pos,width,height,img,img_hover,file_type,parent=None):
         super(Label, self).__init__(parent)
         self.width,self.height,self.file_type = width,height,file_type
