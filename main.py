@@ -17,6 +17,10 @@ class Label(QPushButton):
         def __init__(self,x_pos,y_pos,width,height,img,img_hover,file_type,clickable,center,parent=None):
 
                 super(Label, self).__init__(parent)
+		
+                self.window = parent
+
+
                 self.setMouseTracking(True)
                 self.clickable = clickable
                 self.width,self.height,self.file_type = width,height,file_type
@@ -52,13 +56,23 @@ class Label(QPushButton):
  
         def openFileNameDialog(self):
                 if self.clickable:
+                        if self.file_type == "Output":
+                                self.window.selected_output = True
+                        if self.file_type == "Skin":
+                                self.window.selected_skin = True
+
+                                
                         if self.file_type == "Output" or  self.file_type == "Beatmap" or self.file_type == "osu!" or self.file_type == "Skin":
                                 home_dir = str(Path.home())
                                 fname = QFileDialog.getExistingDirectory(None, ("Select Directory"), home_dir)
                         else:
                                 home_dir = str(Path.home())
                                 fname = QFileDialog.getOpenFileName(self, 'Open file', home_dir, "{} files (*{})".format(self.file_type,self.file_type))
+
                         current_config['"{} path": '.format(self.file_type)] = fname
+                        if self.window.selected_output and self.window.selected_skin:
+                                self.window.gay()
+
 
 class Window(QMainWindow):
         def __init__(self):
@@ -82,6 +96,8 @@ class Window(QMainWindow):
 
 
                 self.first_exec = False
+                self.selected_output = False
+                self.selected_skin = False
                 self.counter = 0
                 self.resize(width,height)
                 self.setMouseTracking(True)
@@ -97,7 +113,7 @@ class Window(QMainWindow):
                 self.setStyleSheet(stylesheet)
                 self.showMaximized()
                 self.show()
-        def mouseMoveEvent(self,event):
+        def gay(self):
                 if  current_config['"Output path": '] != "" and current_config['"Skin path": '] != "":  
                         self.first_exec = True
                         self.resizeEvent(True)
