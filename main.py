@@ -1,7 +1,6 @@
-from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtGui import QPixmap, QImage, QPalette, QBrush
-from PyQt5.QtCore import QSize,pyqtSlot
-from PyQt5.QtWidgets import QDesktopWidget, QMainWindow,QApplication, QFileDialog,QComboBox,QWidget,QLabel, QPushButton, QGraphicsBlurEffect,QVBoxLayout
+from PyQt5 import QtCore, QtGui
+from PyQt5.QtGui import QPixmap
+from PyQt5.QtWidgets import QDesktopWidget, QMainWindow,QApplication, QFileDialog,QComboBox,QLabel, QPushButton, QGraphicsBlurEffect
 import sys
 from pathlib import Path
 from progressbar_class import progress_bar
@@ -40,7 +39,6 @@ class ComboBox(QComboBox):
 			skins_path.append(path)
 			self.window.skin_dropdown.setItemText(index,path)
 			self.window.skin_dropdown.addItems(["Browse Skin Path"])
-			selected_skin = path
 	def openFileNameDialog(self):
 		home_dir = str(Path.home())
 		fname = QFileDialog.getExistingDirectory(None, ("Select Directory"), home_dir)
@@ -132,7 +130,6 @@ class Window(QMainWindow):
 		self.setWindowTitle("Subscribe to Raishin Aot")
 		self.setStyleSheet("background-color: grey;")
 		width,height = 1000,600
-		x_pos,button_y = 0,20
 		self.image_listIdle = ["osr idle.png","mapset idle.png"]
 		self.image_listHover = ["osr hover.png","mapset hover.png"]
 		self.file_type = [".osr","Beatmap","Beatmap","Output"]
@@ -145,6 +142,7 @@ class Window(QMainWindow):
 		self.popupw, self.output,self.osu,self.osr_,self.osr_path,self.map_path,self.map_ = QLabel(),QLabel(),QLabel(),QLabel(),QLabel(),QLabel(),QLabel()
 		self.popup_widgets = []
 		self.logo = QLabel()
+		self.bitch = QLabel()
 		self.mapset_  = QLabel()
 		self.first_exec = False
 		self.selected_output,self.selected_osr,self.selected_map = False,False,False
@@ -186,17 +184,16 @@ Window {
 				self.map_pathText = path
 				self.resizeEvent(True)
 	def resizeEvent(self, event):
-		ypos = 20
+		pass
 		
-		scale = min(self.height()/469, self.width()/832)
+		min(self.height()/469, self.width()/832)
 		button_width,button_height = get_scale(832,469,357,60,self.width(),self.height())
 
 		start_width,start_height = get_scale(832,469,178,77,self.width(),self.height())
 		
-		progressbar_width,progressbar_height = self.width() - 20,30
+		progressbar_width = self.width() - 20
 		progressbar_x,progressbar_y = 10,self.height()-40
-		tmp_counter=0
-		x_pos,button_y = 0,50
+		button_y = 50
 
 		if self.first_exec:	
 			self.delete_widgets(self.main_buttons)
