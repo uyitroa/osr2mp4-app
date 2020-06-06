@@ -5,6 +5,7 @@ from PyQt5.QtWidgets import QDesktopWidget, QMainWindow,QApplication, QFileDialo
 import sys
 from pathlib import Path
 from progressbar_class import progress_bar
+from run_osu import run_osu_
 import json
 skins_path = []
 skins_index = []
@@ -75,14 +76,15 @@ class Label(QPushButton):
 
 			if self.file_type == "start":
 				print("Starting sex ed")
+
 				with open('config.json', 'w+') as f:
-					f.write(json.dumps(current_config))
+					json.dump(current_config, f, indent=4)
 				print(current_config)
 				with open("skins.txt","w+") as a:
 					for x in skins_path:
 						a.write(x)
 				current_config["Skin path"] = selected_skin
-				import run_osu.py
+				run_osu_()
 
 	def enterEvent(self, QEvent):
 			self.setIcon(QtGui.QIcon(self.img_hover))
@@ -98,7 +100,8 @@ class Label(QPushButton):
 
 					
 			if self.file_type == "Output" or  self.file_type == "Beatmap" or self.file_type == "osu!":
-
+				if self.file_type == "Beatmap":
+					self.window.selected_map = True
 				home_dir = str(Path.home())
 				fname = QFileDialog.getExistingDirectory(None, ("Select Directory"), home_dir)
 				if self.file_type == "Output":
@@ -117,6 +120,9 @@ class Label(QPushButton):
 			if self.window.selected_osr:
 				self.window.update_osrPath(fname[0])
 				self.window.selected_osr = False
+			if self.window.selected_map:
+				self.window.update_mapPath(fname)
+				self.window.selected_map = False
 
 
 class Window(QMainWindow):
@@ -136,17 +142,17 @@ class Window(QMainWindow):
 				self.main_buttons.append(button)
 		self.progressBar=QLabel()
 		self.start=QLabel()
-		self.popupw, self.output,self.osu,self.osr_,self.osr_path = QLabel(),QLabel(),QLabel(),QLabel(),QLabel()
+		self.popupw, self.output,self.osu,self.osr_,self.osr_path,self.map_path,self.map_ = QLabel(),QLabel(),QLabel(),QLabel(),QLabel(),QLabel(),QLabel()
 		self.popup_widgets = []
 		self.logo = QLabel()
-		self.osr_pathGui,mapset_pathGui = QLabel(),QLabel()
+		self.mapset_  = QLabel()
 		self.first_exec = False
-		self.selected_output,self.selected_osr = False,False
+		self.selected_output,self.selected_osr,self.selected_map = False,False,False
 		self.selected_osu = False
 		self.counter = 0
 		self.resize(width,height)
 		self.popup_mode = True
-		self.osr_pathText = ""
+		self.osr_pathText,self.map_pathText = "",""
 		self.osr_updateIdle,self.mapset_updateIdle = True,True
 		self.skin_dropdown = ComboBox(self) 
 		self.skin_dropdown.addItems(["Skin dropdown","Browse Skin Path"]) 
@@ -173,9 +179,12 @@ Window {
 		if  current_config[".osr path"] != "":
 			self.osr_updateIdle = False
 			self.osr_pathText = path
-			print(path)
 			self.resizeEvent(True)
-
+	def update_mapPath(self,path):
+			if  current_config["Beatmap path"] != "":
+				self.mapset_updateIdle = False
+				self.map_pathText = path
+				self.resizeEvent(True)
 	def resizeEvent(self, event):
 		ypos = 20
 		
@@ -189,26 +198,28 @@ Window {
 		tmp_counter=0
 		x_pos,button_y = 0,50
 
-		if self.first_exec:
-				self.delete_widgets(self.main_buttons)
-				self.delete_widgets(self.extra_widgets)
-				self.load_buttons(button_width,button_y,button_height,True)
-				self.load_mainWidgets(progressbar_x,progressbar_y,progressbar_width,start_width,start_height,True)
-				if self.popup_mode:
-						self.delete_widgets(self.popup_widgets)
-						self.popup()
-				self.load_logo(True)
-				self.path_guiUpdate("",self.osr_updateIdle,self.main_buttons[-1].y())
+		if self.first_exec:	
+			self.delete_widgets(self.main_buttons)
+			self.delete_widgets(self.extra_widgets)
+			self.load_buttons(button_width,button_y,button_height,True,True)
+			self.load_mainWidgets(progressbar_x,progressbar_y,progressbar_width,start_width,start_height,True,True)
+			if self.popup_mode:
+					self.delete_widgets(self.popup_widgets)
+					self.popup()
+			self.load_logo(True)
+			self.path_guiUpdate(self.osr_updateIdle,self.mapset_updateIdle,self.main_buttons[-1].y())
+
+
 		else:
-				self.delete_widgets(self.main_buttons)
-				self.delete_widgets(self.extra_widgets)
-				self.load_buttons(button_width,button_y,button_height,False)
-				self.load_mainWidgets(progressbar_x,progressbar_y,progressbar_width,start_width,start_height,False)
-				if self.popup_mode:
-						self.delete_widgets(self.popup_widgets)
-						self.popup()
-				self.load_logo(False)
-				self.path_guiUpdate("",self.osr_updateIdle,self.main_buttons[-1].y())
+			self.delete_widgets(self.main_buttons)
+			self.delete_widgets(self.extra_widgets)
+			self.load_buttons(button_width,button_y,button_height,False,False)
+			self.load_mainWidgets(progressbar_x,progressbar_y,progressbar_width,start_width,start_height,False,False)
+			if self.popup_mode:
+					self.delete_widgets(self.popup_widgets)
+					self.popup()
+			self.load_logo(False)
+			self.path_guiUpdate(self.osr_updateIdle,self.mapset_updateIdle,self.main_buttons[-1].y())
 
 	def loadImg(self,img_dir,width,height):
 			pixmap = QPixmap("res/" + img_dir)
@@ -227,28 +238,32 @@ Window {
 		self.logo.show()
 		self.logo.lower()
 		self.extra_widgets.append(self.logo)
-	def load_buttons(self,button_width,button_y,button_height,clickable):
+	def load_buttons(self,button_width,button_y,button_height,clickable,hover):
 		file_typeCounter = 0
 		for x in range(len(self.image_listHover)):
+			if hover:
 				button = Label(self.width()-button_width,button_y,button_width,button_height,self.image_listIdle[x],self.image_listHover[x],self.file_type[file_typeCounter],clickable,False,self)
-				#button_width-=30
-				button_y+=int(self.width()/16)
-				file_typeCounter+=1
-				if not clickable:
-						blur_effect = QGraphicsBlurEffect() 
-						button.setGraphicsEffect(blur_effect)
-				button.show()
-				self.main_buttons.append(button)
+			else:button = Label(self.width()-button_width,button_y,button_width,button_height,self.image_listIdle[x],self.image_listIdle[x],self.file_type[file_typeCounter],clickable,False,self)
+			#button_width-=30
+			button_y+=int(self.width()/16)
+			file_typeCounter+=1
+			if not clickable:
+					blur_effect = QGraphicsBlurEffect() 
+					button.setGraphicsEffect(blur_effect)
+			button.show()
+			self.main_buttons.append(button)
 
-	def load_mainWidgets(self,progressbar_x,progressbar_y,progressbar_width,start_width,start_height,clickable):
+	def load_mainWidgets(self,progressbar_x,progressbar_y,progressbar_width,start_width,start_height,clickable,hover):
 		blur_effect0 = QGraphicsBlurEffect() 
 		self.progressBar.setParent(None)
 		self.start.setParent(None)
 		
 		self.progressBar = progress_bar(progressbar_x,progressbar_y,self.width()-20,32,"progressbar.png","progressbar.png","",self)
 		self.progressBar.show()
-		
-		self.start = Label(progressbar_x + progressbar_width - start_width,self.height()-40-start_height,start_width,start_height,"start.png","start_hover.png","start",True,False,self)
+		if hover:
+			self.start = Label(progressbar_x + progressbar_width - start_width,self.height()-40-start_height,start_width,start_height,"start.png","start_hover.png","start",True,False,self)
+		else:
+					self.start = Label(progressbar_x + progressbar_width - start_width,self.height()-40-start_height,start_width,start_height,"start.png","start.png","start",True,False,self)
 		self.start.show()
 		if not clickable:
 				self.start.setGraphicsEffect(blur_effect0)
@@ -263,7 +278,7 @@ Window {
 		osu_x,osu_y = get_coordinates(1280,668,self.width(),self.height(),612,430)
 
 		self.popupw = Label(popup_x,popup_y,popup_width,popup_height,"popup_1.png","popup_1.png","",False,False,self)
-		self.output = Label(output_x,output_y,output_width,output_height,"outputf.png","outputf.png","Output",True,False,self)
+		self.output = Label(output_x,output_y,output_width,output_height,"output_idle.png","output_hover.png","Output",True,False,self)
 		self.osu = Label(osu_x,osu_y,osu_width,osu_height,"osufolder idle.png","osufolder hover.png","osu!",True,False,self)
 		self.popup_widgets.extend((self.popupw,self.output,self.osu))
 		self.popupw.show()
@@ -273,28 +288,56 @@ Window {
 		center_x = self.width() / 2 - width / 2
 		center_y = self.height() / 2 - height / 2
 		return center_x,center_y
-	def path_guiUpdate(self,path,idle,posY):
+	def path_guiUpdate(self,osr_idle,mapset_idle,posY):
 		width,height = get_scale(1280,668,400,59,self.width(),self.height())
 		font_width,font_height = get_scale(1280,668,814,239, self.width(),self.height())
 		tmp_x = self.main_buttons[-1].frameGeometry().width() - width
 		x_pos =  self.main_buttons[-1].x() + tmp_x/2
 		padding = 100
-		if idle:
+		if osr_idle:
 			self.osr_ = Label(x_pos,posY+padding,width,height,"osr_pathIdle.png","osr_pathIdle.png","",False,False,self)
 		else:
 			self.osr_ = Label(x_pos,posY+padding,width,height,"osr_pathDetected.png","osr_pathDetected.png","",False,False,self)
 			self.osr_path = Label(x_pos,posY+padding+height/6,width,height,"","","",False,False,self)
-			self.osr_path.setText(self.osr_pathText)
+			
+			set_text = find_lastIndex(self.osr_pathText,"/")
+			self.osr_path.setText(self.osr_pathText[set_text+1:len(self.osr_pathText)])
 			self.osr_path.setStyleSheet("""QPushButton {
+
 	font: bold 14px;
 	color: white
 }""")
-		self.skin_dropdown.setGeometry(x_pos,self.osr_.y() + 50,width/2,height/2)
+		if mapset_idle:
+			self.mapset_ = Label(x_pos,posY+padding+height,width,height,"mapset_pathIdle.png","mapset_pathIdle.png","",False,False,self)
+		else:
+			self.mapset_ = Label(x_pos,posY+padding+height,width,height,"mapset_pathDetected.png","mapset_pathDetected.png","",False,False,self)
+			self.map_path = Label(x_pos,posY+padding+height+height/6,width,height,"","","",False,False,self)
+			self.map_path.setText(self.map_pathText)
+			self.map_path.setStyleSheet("""QPushButton {
+
+	font: bold 14px;
+	color: white
+}""")
+		self.skin_dropdown.setGeometry(x_pos,self.mapset_.y() + 100,width/2,height/2)
 		self.osr_.show()
 		self.osr_.lower()
+		self.mapset_.show()
+		self.mapset_.lower()
+
+		self.osr_path.show()
+		self.osr_path.lower()
+		self.map_path.show()
+		self.map_path.lower()
+
 		self.extra_widgets.append(self.osr_)
 		self.extra_widgets.append(self.osr_path)
-		self.osr_path.show()
+		self.extra_widgets.append(self.mapset_)
+		self.extra_widgets.append(self.map_path)
+def find_lastIndex(text,item):
+	index = 0
+	for x in range(len(text)):
+		if text[x] == item: index = x
+	return index
 def get_scale(w,h,widW,widH,window_width,window_height):
 	scale = min(window_height/h, window_width/w)
 	width = int(widW * scale)
