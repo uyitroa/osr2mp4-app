@@ -1,7 +1,6 @@
+- add setting icon and setting page
+- add progress bar fill
+- add dropdown menu for skins selection
+- add mapset path (too ez so skip first 2lazy2copypasta)
+- save configuration settings in a txt file
 - pls fix dictionary spaces in config ty
-- pls add auto adjust for x and y position of the popup ty
-- Add shadow effect for button
-- Position should also change when window resize
-- Add setting icon and setting page
-- Add progress bar fill
-
