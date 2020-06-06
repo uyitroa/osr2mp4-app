@@ -4,3 +4,8 @@
 - add mapset path (too ez so skip first 2lazy2copypasta)
 - save configuration settings in a txt file
 - pls fix dictionary spaces in config ty
+- Auto find osu folder, if not found then pop up window
+- Auto find the used skin folder, the information should be in osu!.username.cfg in osu folder
+- Usually users want to convert their latest replay, so when the user open the app, auto find the most recent .osr file. All the replay files are stored in the Replays/ in osu folder
+- Auto find the mapset. Usually the replay filename contains the beatmap name and difficulty, so you can search for the right mapset folder in Songs/
+- Auto setup the settings file. Most of the time the user wants to use the same settings as their osu game. Settings info are in osu!.username.cfg
