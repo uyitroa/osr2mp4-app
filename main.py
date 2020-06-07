@@ -383,7 +383,8 @@ Window {
 		replay_cut = replay[find_firstIndex(replay,"-")+2:len(replay)]
 		beatmap_path = ""
 		for x in beatmap_folders:
-			if replay_cut[0:int(len(replay_cut)/2)] in x:
+			print(replay_cut[0:find_firstIndex(replay_cut, "[") - 2])
+			if replay_cut[0:find_firstIndex(replay_cut, "[") - 2] in x:
 				beatmap_path = x
 		difficulty = replay[find_lastIndex(replay,"["):find_lastIndex(replay,"]") + 1]
 		if beatmap_path != "":
