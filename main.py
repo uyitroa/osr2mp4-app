@@ -4,11 +4,16 @@ from PyQt5.QtWidgets import QDesktopWidget, QMainWindow,QApplication, QFileDialo
 from pathlib import Path
 from progressbar_class import progress_bar
 from run_osu import run_osu_
-import os,json,sys,glob
+import os,json,sys,glob,os.path
 import configparser
 import io
 skins_path = []
 skins_index = []
+user_data = {
+	"osu! path": "",
+	"Output path": ""
+}
+exist_counter = 0
 current_config = {
 "osu! path": "",
 "Skin path": "",
@@ -42,12 +47,19 @@ class ComboBox(QComboBox):
 		return fname
 class Label(QPushButton):
 	def __init__(self,x_pos,y_pos,width,height,img,img_hover,file_type,clickable,center,parent):
+			global exist_counter
 
-			super(Label, self).__init__(parent)
 	
 			self.window = parent
+			
+			if exist_counter < 1:
+				if os.path.isfile("user_data.json"):
+					self.window.skins_directory =  os.listdir(current_config["osu! path"] + "/Skins")
+					self.get_skins(current_config["osu! path"])
+					exist_counter += 1
+					print("bruh")
 
-
+			super(Label, self).__init__(parent)
 			self.clickable = clickable
 			self.width,self.height,self.file_type = width,height,file_type
 			#Setting image for default start
@@ -65,23 +77,22 @@ class Label(QPushButton):
 				rect.moveCenter(center)
 				self.move(rect.topLeft())
 	def mousePressEvent(self,QEvent):
+		if not self.file_type == "start":
+				self.openFileNameDialog()
 
-			if not self.file_type == "start":
-					self.openFileNameDialog()
+		if self.file_type == "start":
+			print("Starting sex ed")
 
-			if self.file_type == "start":
-				print("Starting sex ed")
-
-				with open('config.json', 'w+') as f:
-					json.dump(current_config, f, indent=4)
-					f.close()
-				print(current_config)
-				with open("skins.txt","w+") as a:
-					for x in skins_path:
-						a.write(x)
-					a.close()
-				current_config["Skin path"] = selected_skin
-				run_osu_()
+			with open('config.json', 'w+') as f:
+				json.dump(current_config, f, indent=4)
+				f.close()
+			print(current_config)
+			with open("skins.txt","w+") as a:
+				for x in skins_path:
+					a.write(x)
+				a.close()
+			current_config["Skin path"] = selected_skin
+			run_osu_()
 
 	def enterEvent(self, QEvent):
 			self.setIcon(QtGui.QIcon(self.img_hover))
@@ -101,9 +112,11 @@ class Label(QPushButton):
 				if self.file_type == "Output":
 					self.window.selected_output = True
 					fname += "/output.avi"
+					user_data["Output path"] = fname
 				if self.file_type == "osu!":
 					self.window.selected_osu = True
 					self.window.skins_directory =  os.listdir(fname + "/Skins")
+					user_data["osu! path"] = fname
 					self.get_skins(fname)
 
 
@@ -112,8 +125,8 @@ class Label(QPushButton):
 				home_dir = str(Path.home())
 				fname = QFileDialog.getOpenFileName(self, 'Open file', home_dir, "{} files (*{})".format(self.file_type,self.file_type))
 				self.window.selected_osr = True
+
 			current_config["{} path".format(self.file_type)] =  fname[0] if tmp_bool == True else fname
-			print(self.file_type)
 			if self.window.selected_output and self.window.selected_osu:
 					self.window.gay()
 			if self.window.selected_osr:
@@ -122,6 +135,10 @@ class Label(QPushButton):
 			if self.window.selected_map:
 				self.window.update_mapPath(fname)
 				self.window.selected_map = False
+			if self.window.selected_output and self.window.selected_osu:
+					with open('user_data.json', 'w+') as f:
+						json.dump(user_data, f, indent=4)
+						f.close()
 	def get_skins(self,path):
 		self.window.skin_dropdown.addItems(self.window.skins_directory)
 		self.get_configInfo(path)
@@ -169,7 +186,13 @@ class Window(QMainWindow):
 		self.osr_pathText,self.map_pathText = "",""
 		self.osr_updateIdle,self.mapset_updateIdle = True,True
 		self.skin_dropdown = ComboBox(self) 
-		
+		if os.path.isfile("user_data.json"): 
+			with open('user_data.json') as f:
+				data = json.load(f)
+			current_config["Output path"] = data["Output path"]
+			current_config["osu! path"] = data["osu! path"]
+			print(current_config["Output path"])
+			self.gay()
 		stylesheet = """
 Window {
 		background-image: url("bg.jpg"); 
@@ -286,7 +309,6 @@ Window {
 		popup_x,popup_y = self.get_center(popup_width,popup_height)
 		output_x,output_y = get_coordinates(1280,668,self.width(),self.height(),395,440)
 		osu_x,osu_y = get_coordinates(1280,668,self.width(),self.height(),612,430)
-
 		self.popupw = Label(popup_x,popup_y,popup_width,popup_height,"popup_1.png","popup_1.png","",False,False,self)
 		self.output = Label(output_x,output_y,output_width,output_height,"output_idle.png","output_hover.png","Output",True,False,self)
 		self.osu = Label(osu_x,osu_y,osu_width,osu_height,"osufolder idle.png","osufolder hover.png","osu!",True,False,self)
@@ -351,16 +373,16 @@ def get_coordinates(w,h,window_width,window_height,base_x,base_y):
 
 	return x_pos,y_pos
 def read_properties_file(file_path):
-    with open(file_path) as f:
-        config = io.StringIO()
-        config.write('[dummy_section]\n')
-        config.write(f.read().replace('%', '%%'))
-        config.seek(0, os.SEEK_SET)
+	with open(file_path) as f:
+		config = io.StringIO()
+		config.write('[dummy_section]\n')
+		config.write(f.read().replace('%', '%%'))
+		config.seek(0, os.SEEK_SET)
 
-        cp = configparser.SafeConfigParser()
-        cp.readfp(config)
+		cp = configparser.SafeConfigParser()
+		cp.readfp(config)
 
-        return dict(cp.items('dummy_section'))
+		return dict(cp.items('dummy_section'))
 
 App = QApplication(sys.argv)
 window = Window()
