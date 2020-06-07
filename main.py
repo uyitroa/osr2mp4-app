@@ -1,11 +1,12 @@
 from PyQt5 import QtCore, QtGui
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QDesktopWidget, QMainWindow,QApplication, QFileDialog,QComboBox,QLabel, QPushButton, QGraphicsBlurEffect
-import sys
 from pathlib import Path
 from progressbar_class import progress_bar
 from run_osu import run_osu_
-import json
+import os,json,sys,glob
+import configparser
+import io
 skins_path = []
 skins_index = []
 current_config = {
@@ -25,6 +26,7 @@ current_config = {
 "ffmpeg path": "ffmpeg"
 }
 selected_skin = ""
+
 class ComboBox(QComboBox):
 	def __init__(self,parent):
 		super(ComboBox, self).__init__(parent)
@@ -32,13 +34,8 @@ class ComboBox(QComboBox):
 		self.window = parent
 		self.counter = 0
 	def activated_(self,index):
-
-		if index == self.window.skin_dropdown.count() - 1:
-			print(index)
-			path = self.openFileNameDialog()
-			skins_path.append(path)
-			self.window.skin_dropdown.setItemText(index,path)
-			self.window.skin_dropdown.addItems(["Browse Skin Path"])
+		selected_skin = current_config["osu! path"] + self.window.skin_dropdown.itemText(index)
+		print(selected_skin)
 	def openFileNameDialog(self):
 		home_dir = str(Path.home())
 		fname = QFileDialog.getExistingDirectory(None, ("Select Directory"), home_dir)
@@ -77,10 +74,12 @@ class Label(QPushButton):
 
 				with open('config.json', 'w+') as f:
 					json.dump(current_config, f, indent=4)
+					f.close()
 				print(current_config)
 				with open("skins.txt","w+") as a:
 					for x in skins_path:
 						a.write(x)
+					a.close()
 				current_config["Skin path"] = selected_skin
 				run_osu_()
 
@@ -93,10 +92,7 @@ class Label(QPushButton):
 	def openFileNameDialog(self):
 		tmp_bool = False
 		if self.clickable:
-			if self.file_type == "osu!":
-				self.window.selected_osu = True
-
-					
+				
 			if self.file_type == "Output" or  self.file_type == "Beatmap" or self.file_type == "osu!":
 				if self.file_type == "Beatmap":
 					self.window.selected_map = True
@@ -105,6 +101,11 @@ class Label(QPushButton):
 				if self.file_type == "Output":
 					self.window.selected_output = True
 					fname += "/output.avi"
+				if self.file_type == "osu!":
+					self.window.selected_osu = True
+					self.window.skins_directory =  os.listdir(fname + "/Skins")
+					self.get_skins(fname)
+
 
 			else:
 				tmp_bool = True
@@ -121,11 +122,27 @@ class Label(QPushButton):
 			if self.window.selected_map:
 				self.window.update_mapPath(fname)
 				self.window.selected_map = False
+	def get_skins(self,path):
+		self.window.skin_dropdown.addItems(self.window.skins_directory)
+		self.get_configInfo(path)
+	def get_configInfo(self,path):
+		for name in glob.glob(path + "/*.cfg"):
+			cfg = name
+
+		props = read_properties_file(cfg)
+		name = props['skin']
+
+		self.window.skin_dropdown.setCurrentIndex(self.window.skin_dropdown.findText(name))
+
+		
+
+
 
 
 class Window(QMainWindow):
 	def __init__(self):
 		super().__init__()
+		self.skins_directory = ""
 		self.setWindowIcon(QtGui.QIcon("icon.png"))
 		self.setWindowTitle("Subscribe to Raishin Aot")
 		self.setStyleSheet("background-color: grey;")
@@ -142,7 +159,6 @@ class Window(QMainWindow):
 		self.popupw, self.output,self.osu,self.osr_,self.osr_path,self.map_path,self.map_ = QLabel(),QLabel(),QLabel(),QLabel(),QLabel(),QLabel(),QLabel()
 		self.popup_widgets = []
 		self.logo = QLabel()
-		self.bitch = QLabel()
 		self.mapset_  = QLabel()
 		self.first_exec = False
 		self.selected_output,self.selected_osr,self.selected_map = False,False,False
@@ -153,7 +169,6 @@ class Window(QMainWindow):
 		self.osr_pathText,self.map_pathText = "",""
 		self.osr_updateIdle,self.mapset_updateIdle = True,True
 		self.skin_dropdown = ComboBox(self) 
-		self.skin_dropdown.addItems(["Skin dropdown","Browse Skin Path"]) 
 		
 		stylesheet = """
 Window {
@@ -183,9 +198,7 @@ Window {
 				self.mapset_updateIdle = False
 				self.map_pathText = path
 				self.resizeEvent(True)
-	def resizeEvent(self, event):
-		pass
-		
+	def resizeEvent(self, event):		
 		min(self.height()/469, self.width()/832)
 		button_width,button_height = get_scale(832,469,357,60,self.width(),self.height())
 
@@ -299,29 +312,21 @@ Window {
 			
 			set_text = find_lastIndex(self.osr_pathText,"/")
 			self.osr_path.setText(self.osr_pathText[set_text+1:len(self.osr_pathText)])
-			self.osr_path.setStyleSheet("""QPushButton {
-
-	font: bold 14px;
-	color: white
-}""")
+			self.osr_path.setStyleSheet("""QPushButton {font: bold 14px;color: green}""")
+			self.osr_path.show()
 		if mapset_idle:
 			self.mapset_ = Label(x_pos,posY+padding+height,width,height,"mapset_pathIdle.png","mapset_pathIdle.png","",False,False,self)
 		else:
 			self.mapset_ = Label(x_pos,posY+padding+height,width,height,"mapset_pathDetected.png","mapset_pathDetected.png","",False,False,self)
 			self.map_path = Label(x_pos,posY+padding+height+height/6,width,height,"","","",False,False,self)
 			self.map_path.setText(self.map_pathText)
-			self.map_path.setStyleSheet("""QPushButton {
-
-	font: bold 14px;
-	color: white
-}""")
-		self.skin_dropdown.setGeometry(x_pos,self.mapset_.y() + 100,width/2,height/2)
+			self.map_path.setStyleSheet("""QPushButton {font: bold 14px;color: green}""")
+		self.skin_dropdown.setGeometry(int(x_pos),self.mapset_.y() + 100,int(width/2),int(height/2))
 		self.osr_.show()
 		self.osr_.lower()
 		self.mapset_.show()
 		self.mapset_.lower()
 
-		self.osr_path.show()
 		self.osr_path.lower()
 		self.map_path.show()
 		self.map_path.lower()
@@ -345,6 +350,17 @@ def get_coordinates(w,h,window_width,window_height,base_x,base_y):
 	y_pos = base_y * (window_height / h)
 
 	return x_pos,y_pos
+def read_properties_file(file_path):
+    with open(file_path) as f:
+        config = io.StringIO()
+        config.write('[dummy_section]\n')
+        config.write(f.read().replace('%', '%%'))
+        config.seek(0, os.SEEK_SET)
+
+        cp = configparser.SafeConfigParser()
+        cp.readfp(config)
+
+        return dict(cp.items('dummy_section'))
 
 App = QApplication(sys.argv)
 window = Window()
