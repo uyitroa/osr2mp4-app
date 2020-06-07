@@ -47,10 +47,11 @@ class Label(QPushButton):
 	def __init__(self,x_pos,y_pos,width,height,img,img_hover,file_type,clickable,center,parent):
 			global exist_counter
 
-	
+			
 			self.window = parent
 			
 			if exist_counter < 1:
+
 				if os.path.isfile("user_data.json"):
 					self.window.skins_directory =  os.listdir(current_config["osu! path"] + "/Skins")
 					self.get_skins(current_config["osu! path"])
@@ -136,6 +137,7 @@ class Label(QPushButton):
 					with open('user_data.json', 'w+') as f:
 						json.dump(user_data, f, indent=4)
 						f.close()
+					self.window.find_latestReplay()
 	def get_skins(self,path):
 		self.window.skin_dropdown.addItems(self.window.skins_directory)
 		self.get_configInfo(path)
@@ -187,7 +189,10 @@ class Window(QMainWindow):
 			current_config["Output path"] = data["Output path"]
 			current_config["osu! path"] = data["osu! path"]
 			self.gay()
-		self.find_latestReplay()
+		try:
+			self.find_latestReplay()
+		except ValueError:
+			print("Please setup your osu path first nerd")
 		stylesheet = """
 Window {
 		background-image: url("bg.jpg"); 
@@ -322,9 +327,12 @@ Window {
 		tmp_x = self.main_buttons[-1].frameGeometry().width() - width
 		x_pos =  self.main_buttons[-1].x() + tmp_x/2
 		padding = 100
+		self.osr_.hide()
 		if osr_idle:
+			print("press b")
 			self.osr_ = Label(x_pos,posY+padding,width,height,"osr_pathIdle.png","osr_pathIdle.png","",False,False,self)
 		else:
+			
 			self.osr_ = Label(x_pos,posY+padding,width,height,"osr_pathDetected.png","osr_pathDetected.png","",False,False,self)
 			self.osr_path = Label(x_pos,posY+padding+height/6,width,height,"","","",False,False,self)
 			
@@ -335,10 +343,13 @@ Window {
 		if mapset_idle:
 			self.mapset_ = Label(x_pos,posY+padding+height,width,height,"mapset_pathIdle.png","mapset_pathIdle.png","",False,False,self)
 		else:
+			self.mapset_.hide()
 			self.mapset_ = Label(x_pos,posY+padding+height,width,height,"mapset_pathDetected.png","mapset_pathDetected.png","",False,False,self)
+			print(self.mapset_)
 			self.map_path = Label(x_pos,posY+padding+height+height/6,width,height,"","","",False,False,self)
 			self.map_path.setText(self.map_pathText)
 			self.map_path.setStyleSheet("""QPushButton {font: bold 14px;color: green}""")
+
 		self.skin_dropdown.setGeometry(int(x_pos),self.mapset_.y() + 100,int(width/2),int(height/2))
 		self.osr_.show()
 		self.osr_.lower()
@@ -364,6 +375,7 @@ Window {
 			self.osr_updateIdle = False
 			self.osr_pathText = replay_name
 			self.path_guiUpdate(self.osr_updateIdle,self.mapset_updateIdle,self.main_buttons[-1].y())
+		print("Replay: ",replay_name)
 		current_config[".osr path"] = replay
 	def find_latestMap(self,replay):
 		path =  current_config["osu! path"] + "/Songs/*/"
@@ -378,6 +390,7 @@ Window {
 			self.map_pathText = beatmap_path
 			self.path_guiUpdate(self.osr_updateIdle,self.mapset_updateIdle,self.main_buttons[-1].y())
 		current_config["Beatmap path"] = beatmap_path
+		print("Beatmap: ",beatmap_path)
 
 def find_lastIndex(text,item):
 	index = 0
