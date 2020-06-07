@@ -78,7 +78,6 @@ class Label(QPushButton):
 				self.openFileNameDialog()
 
 		if self.file_type == "start":
-			print("FFFFFFFFFFFF",current_config["Skin path"])
 			print("Starting sex ed")
 
 			with open('config.json', 'w+') as f:
@@ -141,10 +140,8 @@ class Label(QPushButton):
 		self.window.skin_dropdown.addItems(self.window.skins_directory)
 		self.get_configInfo(path)
 	def get_configInfo(self,path):
-		for name in glob.glob(path + "/*.cfg"):
-			cfg = name
-
-		props = read_properties_file(cfg)
+		cfg =  glob.glob(path + "/*.cfg")
+		props = read_properties_file(cfg[1])
 		name = props['skin']
 		self.window.skin_dropdown.setCurrentIndex(self.window.skin_dropdown.findText(name))
 		current_config["Skin path"] = current_config["osu! path"] + name
@@ -183,12 +180,14 @@ class Window(QMainWindow):
 		self.osr_pathText,self.map_pathText = "",""
 		self.osr_updateIdle,self.mapset_updateIdle = True,True
 		self.skin_dropdown = ComboBox(self) 
+		self.skin_dropdown.addItems(["Default Skin"])
 		if os.path.isfile("user_data.json"): 
 			with open('user_data.json') as f:
 				data = json.load(f)
 			current_config["Output path"] = data["Output path"]
 			current_config["osu! path"] = data["osu! path"]
 			self.gay()
+		self.find_latestReplay()
 		stylesheet = """
 Window {
 		background-image: url("bg.jpg"); 
@@ -196,6 +195,7 @@ Window {
 		background-position: center;
 }
 """
+
 		self.setStyleSheet(stylesheet)
 		self.showMaximized()
 		self.show()
@@ -353,10 +353,43 @@ Window {
 		self.extra_widgets.append(self.osr_path)
 		self.extra_widgets.append(self.mapset_)
 		self.extra_widgets.append(self.map_path)
+	def find_latestReplay(self):
+		path = current_config["osu! path"] + "/Replays/*.osr"
+		list_of_files = glob.glob(path)
+		replay = max(list_of_files, key=os.path.getctime)
+		slash,backslash = find_lastIndex(replay,"/"),find_lastIndex(replay,"\\")
+		replay_name = replay[max(slash,backslash)+1:len(replay)]
+		self.find_latestMap(replay_name)
+		if replay_name != "":
+			self.osr_updateIdle = False
+			self.osr_pathText = replay_name
+			self.path_guiUpdate(self.osr_updateIdle,self.mapset_updateIdle,self.main_buttons[-1].y())
+		current_config[".osr path"] = replay
+	def find_latestMap(self,replay):
+		path =  current_config["osu! path"] + "/Songs/*/"
+		beatmap_folders = glob.glob(path)
+		replay_cut = replay[find_firstIndex(replay,"-")+2:len(replay)]
+		for x in beatmap_folders:
+			if replay_cut[0:int(len(replay_cut)/2)] in x:
+				beatmap_path = x
+		difficulty = replay[find_lastIndex(replay,"["):find_lastIndex(replay,"]") + 1]
+		if beatmap_path != "":
+			self.mapset_updateIdle = False
+			self.map_pathText = beatmap_path
+			self.path_guiUpdate(self.osr_updateIdle,self.mapset_updateIdle,self.main_buttons[-1].y())
+		current_config["Beatmap path"] = beatmap_path
+
 def find_lastIndex(text,item):
 	index = 0
 	for x in range(len(text)):
 		if text[x] == item: index = x
+	return index
+def find_firstIndex(text,item):
+	index = 0
+	for x in range(len(text)):
+		if text[x] == item: 
+			index = x
+			break
 	return index
 def get_scale(w,h,widW,widH,window_width,window_height):
 	scale = min(window_height/h, window_width/w)
