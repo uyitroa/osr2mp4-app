@@ -381,6 +381,7 @@ Window {
 		path =  current_config["osu! path"] + "/Songs/*/"
 		beatmap_folders = glob.glob(path)
 		replay_cut = replay[find_firstIndex(replay,"-")+2:len(replay)]
+		beatmap_path = ""
 		for x in beatmap_folders:
 			if replay_cut[0:int(len(replay_cut)/2)] in x:
 				beatmap_path = x
