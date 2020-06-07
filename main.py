@@ -30,7 +30,6 @@ current_config = {
 "Process": 0,
 "ffmpeg path": "ffmpeg"
 }
-selected_skin = ""
 
 class ComboBox(QComboBox):
 	def __init__(self,parent):
@@ -39,8 +38,7 @@ class ComboBox(QComboBox):
 		self.window = parent
 		self.counter = 0
 	def activated_(self,index):
-		selected_skin = current_config["osu! path"] + self.window.skin_dropdown.itemText(index)
-		print(selected_skin)
+		current_config["Skin path"] = current_config["osu! path"] + self.window.skin_dropdown.itemText(index)
 	def openFileNameDialog(self):
 		home_dir = str(Path.home())
 		fname = QFileDialog.getExistingDirectory(None, ("Select Directory"), home_dir)
@@ -57,7 +55,6 @@ class Label(QPushButton):
 					self.window.skins_directory =  os.listdir(current_config["osu! path"] + "/Skins")
 					self.get_skins(current_config["osu! path"])
 					exist_counter += 1
-					print("bruh")
 
 			super(Label, self).__init__(parent)
 			self.clickable = clickable
@@ -81,6 +78,7 @@ class Label(QPushButton):
 				self.openFileNameDialog()
 
 		if self.file_type == "start":
+			print("FFFFFFFFFFFF",current_config["Skin path"])
 			print("Starting sex ed")
 
 			with open('config.json', 'w+') as f:
@@ -91,7 +89,7 @@ class Label(QPushButton):
 				for x in skins_path:
 					a.write(x)
 				a.close()
-			current_config["Skin path"] = selected_skin
+			
 			run_osu_()
 
 	def enterEvent(self, QEvent):
@@ -148,10 +146,9 @@ class Label(QPushButton):
 
 		props = read_properties_file(cfg)
 		name = props['skin']
-
 		self.window.skin_dropdown.setCurrentIndex(self.window.skin_dropdown.findText(name))
+		current_config["Skin path"] = current_config["osu! path"] + name
 
-		
 
 
 
@@ -191,7 +188,6 @@ class Window(QMainWindow):
 				data = json.load(f)
 			current_config["Output path"] = data["Output path"]
 			current_config["osu! path"] = data["osu! path"]
-			print(current_config["Output path"])
 			self.gay()
 		stylesheet = """
 Window {
