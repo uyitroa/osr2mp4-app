@@ -7,6 +7,7 @@ from run_osu import run_osu_
 import os,json,sys,glob,os.path
 import configparser
 import io
+from find_beatmap import find_beatmap_
 skins_path = []
 skins_index = []
 user_data = {
@@ -329,7 +330,6 @@ Window {
 		padding = 100
 		self.osr_.hide()
 		if osr_idle:
-			print("press b")
 			self.osr_ = Label(x_pos,posY+padding,width,height,"osr_pathIdle.png","osr_pathIdle.png","",False,False,self)
 		else:
 			
@@ -375,24 +375,15 @@ Window {
 			self.osr_updateIdle = False
 			self.osr_pathText = replay_name
 			self.path_guiUpdate(self.osr_updateIdle,self.mapset_updateIdle,self.main_buttons[-1].y())
-		print("Replay: ",replay_name)
 		current_config[".osr path"] = replay
 	def find_latestMap(self,replay):
-		path =  current_config["osu! path"] + "/Songs/*/"
-		beatmap_folders = glob.glob(path)
-		replay_cut = replay[find_firstIndex(replay,"-")+2:len(replay)]
-		beatmap_path = ""
-		for x in beatmap_folders:
-			print(replay_cut[0:find_firstIndex(replay_cut, "[") - 2])
-			if replay_cut[0:find_firstIndex(replay_cut, "[") - 2] in x:
-				beatmap_path = x
-		difficulty = replay[find_lastIndex(replay,"["):find_lastIndex(replay,"]") + 1]
+		beatmap_path = find_beatmap_(current_config["osu! path"] + "/Replays/" + replay,current_config["osu! path"])
+		current_config["Beatmap path"] = current_config["osu! path"] + "/Songs/" + beatmap_path
 		if beatmap_path != "":
 			self.mapset_updateIdle = False
 			self.map_pathText = beatmap_path
 			self.path_guiUpdate(self.osr_updateIdle,self.mapset_updateIdle,self.main_buttons[-1].y())
-		current_config["Beatmap path"] = beatmap_path
-		print("Beatmap: ",beatmap_path)
+
 
 def find_lastIndex(text,item):
 	index = 0
