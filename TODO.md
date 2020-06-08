@@ -1,3 +1,6 @@
 - add setting icon and setting page
 - add progress bar fill
 - Auto setup the settings file. Most of the time the user wants to use the same settings as their osu game. Settings info are in osu!.username.cfg
+- Actually pls use subprocess to call run_osu cause otherwise it will freeze the app. Using multithread will affect the performance I think.
+- pls fix skin path missing slash
+- When the user selected a .osr, the app should auto search for the beatmap too

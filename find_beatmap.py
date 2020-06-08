@@ -169,7 +169,7 @@ def getMapInfo(db, hash):
 def find_beatmap_(replay_path,osu_path):
     replayfile = osrparse.parse_replay_file(replay_path)
     print(replay_path)
-    osuDb = open(osu_path + r'\osu!.db', "rb")
+    osuDb = open(osu_path + '/osu!.db', "rb")
     print(str(osuDb))
     beatmap = getMapInfo(osuDb.read(), replayfile.beatmap_hash)
     osuDb.close()
