@@ -7,3 +7,5 @@
 - Resize makes the app lag pls fix
 - When click button, show image click instead of image hover
 - Fix button size
+- Background blur when window popup
+- Blur not enough
