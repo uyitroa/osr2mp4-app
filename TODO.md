@@ -6,3 +6,4 @@
 - When the user selected a .osr, the app should auto search for the beatmap too
 - Resize makes the app lag pls fix
 - When click button, show image click instead of image hover
+- Fix button size
