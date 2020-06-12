@@ -1,423 +1,218 @@
-from PyQt5 import QtCore, QtGui
-from PyQt5.QtGui import QPixmap
-from PyQt5.QtWidgets import QDesktopWidget, QMainWindow,QApplication, QFileDialog,QComboBox,QLabel, QPushButton, QGraphicsBlurEffect
-from pathlib import Path
+from PyQt5.QtWidgets import QMainWindow,QApplication, QFileDialog,QComboBox,QLabel, QPushButton, QGraphicsBlurEffect
+import os,json,sys,glob,os.path,configparser,io,subprocess
 from progressbar_class import progress_bar
-from run_osu import run_osu_
-import os,json,sys,glob,os.path
-import configparser
-import io
 from find_beatmap import find_beatmap_
-skins_path = []
-skins_index = []
-user_data = {
-	"osu! path": "",
-	"Output path": ""
-}
-exist_counter = 0
-current_config = {
-"osu! path": "",
-"Skin path": "",
-"Beatmap path": "",
-".osr path": "",
-"Default skin path": "",
-"Output path": "",
-"Width": 600,
-"Height": 400,
-"FPS": 60,
-"Start time": 210,
-"End time": -1,
-"Video codec": "XVID",
-"Process": 0,
-"ffmpeg path": "ffmpeg"
-}
+from PyQt5 import QtCore,  QtGui
+from PyQt5.QtGui import QPixmap, QIcon
+from pathlib import Path
+from config_data import current_config
+class Button(QPushButton):
+	def __init__(self,x_pos,y_pos,width,height,img,img_hover,file_type,clickable,parent):
+		self.main_window = parent
+		super(Button, self).__init__(parent)
+		#Button Properties
+		self.clickable = clickable
+		self.width,self.height,self.file_type = width,height,file_type
 
-class ComboBox(QComboBox):
-	def __init__(self,parent):
-		super(ComboBox, self).__init__(parent)
-		self. activated.connect(self.activated_)
-		self.window = parent
-		self.counter = 0
-	def activated_(self,index):
-		current_config["Skin path"] = current_config["osu! path"] + self.window.skin_dropdown.itemText(index)
-	def openFileNameDialog(self):
-		home_dir = str(Path.home())
-		fname = QFileDialog.getExistingDirectory(None, ("Select Directory"), home_dir)
-		return fname
-class Label(QPushButton):
-	def __init__(self,x_pos,y_pos,width,height,img,img_hover,file_type,clickable,center,parent):
-			global exist_counter
+		#Setting image for default start
+		self.img_idle = "res/" + img
+		self.img_hover = "res/" + img_hover
 
-			
-			self.window = parent
-			
-			if exist_counter < 1:
+		#Applying properties to buttons
+		self.setIcon(QtGui.QIcon(self.img_idle))
+		self.setIconSize(QtCore.QSize(width,height))
+		self.setGeometry(x_pos,y_pos,width,height)
+		self.setFlat(True)
 
-				if os.path.isfile("user_data.json"):
-					self.window.skins_directory =  os.listdir(current_config["osu! path"] + "/Skins")
-					self.get_skins(current_config["osu! path"])
-					exist_counter += 1
+		#I don't know
+		self.openable_filetype = [".osr","Beatmap","Output","osu!"]
+		self.folder_type = ["Beatmap","Output","osu!"]
+		self.displayable_path = [".osr","Beatmap"]
 
-			super(Label, self).__init__(parent)
-			self.clickable = clickable
-			self.width,self.height,self.file_type = width,height,file_type
-			#Setting image for default start
-			self.img_idle = "res/" + img
-			self.img_hover = "res/" + img_hover
-			#setting image for hover start
-			self.setIcon(QtGui.QIcon(self.img_idle))
-			self.setIconSize(QtCore.QSize(width,height))
-			self.setGeometry(x_pos,y_pos,width,height)
-			
-			self.setFlat(True)
-			if center:
-				rect = self.frameGeometry()
-				center = QDesktopWidget().availableGeometry().center()
-				rect.moveCenter(center)
-				self.move(rect.topLeft())
+		#Setting up blur effects for button
+		'''self.blur_effect = QGraphicsBlurEffect() 	
+		self.blur_effect.setBlurRadius(25) 
+		self.setGraphicsEffect(self.blur_effect)
+		self.blur_condition = True'''
+
+
+
+	def blur_me(self,blur):
+		if blur:
+			self.blur_condition = True
+			self.blur_effect.setBlurRadius(25) 
+		else:
+			self.blur_condition = False
+			self.blur_effect.setBlurRadius(0) 
+
 	def mousePressEvent(self,QEvent):
-		if not self.file_type == "start":
-				self.openFileNameDialog()
-
-		if self.file_type == "start":
-			print("Starting sex ed")
-
-			with open('config.json', 'w+') as f:
-				json.dump(current_config, f, indent=4)
-				f.close()
-			print(current_config)
-			with open("skins.txt","w+") as a:
-				for x in skins_path:
-					a.write(x)
-				a.close()
-			
-			run_osu_()
-
+		if self.file_type in self.openable_filetype:
+			self.openFileNameDialog()
 	def enterEvent(self, QEvent):
-			self.setIcon(QtGui.QIcon(self.img_hover))
+		self.setIcon(QtGui.QIcon(self.img_hover))
 
 	def leaveEvent(self, QEvent):
-			self.setIcon(QtGui.QIcon(self.img_idle))
+		self.setIcon(QtGui.QIcon(self.img_idle))
 
 	def openFileNameDialog(self):
-		tmp_bool = False
+		file_name = ""
 		if self.clickable:
-				
-			if self.file_type == "Output" or  self.file_type == "Beatmap" or self.file_type == "osu!":
-				if self.file_type == "Beatmap":
-					self.window.selected_map = True
+			if self.file_type in self.folder_type:
 				home_dir = str(Path.home())
-				fname = QFileDialog.getExistingDirectory(None, ("Select Directory"), home_dir)
-				if self.file_type == "Output":
-					self.window.selected_output = True
-					fname += "/output.avi"
-					user_data["Output path"] = fname
-				if self.file_type == "osu!":
-					self.window.selected_osu = True
-					self.window.skins_directory =  os.listdir(fname + "/Skins")
-					user_data["osu! path"] = fname
-					self.get_skins(fname)
-
-
+				file_name = QFileDialog.getExistingDirectory(None, ("Select Directory"), home_dir)
 			else:
-				tmp_bool = True
 				home_dir = str(Path.home())
-				fname = QFileDialog.getOpenFileName(self, 'Open file', home_dir, "{} files (*{})".format(self.file_type,self.file_type))
-				self.window.selected_osr = True
+				file_name = QFileDialog.getOpenFileName(self, 'Open file', home_dir, "{} files (*{})".format(self.file_type,self.file_type))[0]
+			current_config[self.file_type + " path"] = file_name
 
-			current_config["{} path".format(self.file_type)] =  fname[0] if tmp_bool == True else fname
-			if self.window.selected_output and self.window.selected_osu:
-					self.window.gay()
-			if self.window.selected_osr:
-				self.window.update_osrPath(fname[0])
-				self.window.selected_osr = False
-			if self.window.selected_map:
-				self.window.update_mapPath(fname)
-				self.window.selected_map = False
-			if self.window.selected_output and self.window.selected_osu:
-					with open('user_data.json', 'w+') as f:
-						json.dump(user_data, f, indent=4)
-						f.close()
-					self.window.find_latestReplay()
-	def get_skins(self,path):
-		self.window.skin_dropdown.addItems(self.window.skins_directory)
-		self.get_configInfo(path)
-	def get_configInfo(self,path):
-		cfg =  glob.glob(path + "/*.cfg")
-		props = read_properties_file(cfg[1])
-		name = props['skin']
-		self.window.skin_dropdown.setCurrentIndex(self.window.skin_dropdown.findText(name))
-		current_config["Skin path"] = current_config["osu! path"] + name
-
-
-
-
-
+		if self.file_type in self.displayable_path:
+			osr,beatmap = False,False
+			if self.file_type == ".osr":
+				osr = True 
+			else:
+				beatmap = True
+			self.main_window.set_path_gui(osr,beatmap,file_name)
 class Window(QMainWindow):
 	def __init__(self):
 		super().__init__()
-		self.skins_directory = ""
+		#Main Window Propeties
 		self.setWindowIcon(QtGui.QIcon("icon.png"))
 		self.setWindowTitle("Subscribe to Raishin Aot")
 		self.setStyleSheet("background-color: grey;")
-		width,height = 1000,600
-		self.image_listIdle = ["osr idle.png","mapset idle.png"]
-		self.image_listHover = ["osr hover.png","mapset hover.png"]
-		self.file_type = [".osr","Beatmap","Beatmap","Output"]
-		self.main_buttons,self.extra_widgets = [],[]
-		for x in range(0,len(self.image_listHover) - 1,2):
-				button = QLabel()
-				self.main_buttons.append(button)
-		self.progressBar=QLabel()
-		self.start=QLabel()
-		self.popupw, self.output,self.osu,self.osr_,self.osr_path,self.map_path,self.map_ = QLabel(),QLabel(),QLabel(),QLabel(),QLabel(),QLabel(),QLabel()
-		self.popup_widgets = []
-		self.logo = QLabel()
-		self.mapset_  = QLabel()
-		self.first_exec = False
-		self.selected_output,self.selected_osr,self.selected_map = False,False,False
-		self.selected_osu = False
-		self.counter = 0
-		self.resize(width,height)
-		self.popup_mode = True
-		self.osr_pathText,self.map_pathText = "",""
-		self.osr_updateIdle,self.mapset_updateIdle = True,True
-		self.skin_dropdown = ComboBox(self) 
-		self.skin_dropdown.addItems(["Default Skin"])
-		if os.path.isfile("user_data.json"): 
-			with open('user_data.json') as f:
-				data = json.load(f)
-			current_config["Output path"] = data["Output path"]
-			current_config["osu! path"] = data["osu! path"]
-			self.gay()
-		try:
-			self.find_latestReplay()
-		except ValueError:
-			print("Please setup your osu path first nerd")
-		stylesheet = """
-Window {
-		background-image: url("bg.jpg"); 
-		background-repeat: no-repeat; 
-		background-position: center;
-}
-"""
+		window_width,window_height = 1000,600
+		self.resize(window_width,window_height)
 
-		self.setStyleSheet(stylesheet)
-		self.showMaximized()
+		#Main Buttons Properties/Variables(Osr button, Mapset button)
+		image_listIdle = ["osr idle.png","mapset idle.png"]
+		image_listHover = ["osr hover.png","mapset hover.png"]
+		file_type = [".osr","Beatmap"]
+		self.current_path = ["res/osr_pathIdle.png","res/mapset_pathIdle.png"]
+		self.main_buttons = []
+		self.osr_path,self.map_path = QLabel(),QLabel()
+
+		#Load osu logo
+		self.logo = Button(0,0,0,0,"osr2mp4_logo.png","osr2mp4_logo.png","",False,self)
+
+		#Applying properties to buttons
+		for x in range(len(file_type)):
+			btn = Button(0,0,0,0,image_listIdle[x],image_listHover[x],file_type[x],False,self)
+			self.main_buttons.append(btn)
+
+		#Load osr path gui
+		self.osr_idle = Button(0,0,0,0,"osr_pathIdle.png","osr_pathIdle.png","",False,self)
+
+		#Load map path gui
+		self.map_idle = Button(0,0,0,0,"mapset_pathIdle.png","mapset_pathIdle.png","",False,self)
+		
+		#Load the popup widget
+		self.popup_window = Button(0,0,0,0,"popup_1.png","popup_1.png","",False,self)
+
+		#Load output widget
+		self.output_window = Button(0,0,0,0,"output_idle.png","output_hover.png","Output",True,self)
+
+		#Load skin widget
+		self.osu_window = Button(0,0,0,0,"osufolder idle.png","osufolder hover.png","Output",True,self)
+
 		self.show()
-	def gay(self):
-		if  current_config["Output path"] != "" and current_config["osu! path"] != "":  
-			self.first_exec = True
-			self.resizeEvent(True)
-			self.popupw.hide()
-			self.output.hide()
-			self.osu.hide()
-			self.popup_mode = False
-	def update_osrPath(self,path):
-		if  current_config[".osr path"] != "":
-			self.osr_updateIdle = False
-			self.osr_pathText = path
-			self.resizeEvent(True)
-	def update_mapPath(self,path):
-			if  current_config["Beatmap path"] != "":
-				self.mapset_updateIdle = False
-				self.map_pathText = path
-				self.resizeEvent(True)
-	def resizeEvent(self, event):		
-		min(self.height()/469, self.width()/832)
-		button_width,button_height = get_scale(832,469,357,60,self.width(),self.height())
 
-		start_width,start_height = get_scale(832,469,178,77,self.width(),self.height())
-		
-		progressbar_width = self.width() - 20
-		progressbar_x,progressbar_y = 10,self.height()-40
-		button_y = 50
-
-		if self.first_exec:	
-			self.delete_widgets(self.main_buttons)
-			self.delete_widgets(self.extra_widgets)
-			self.load_buttons(button_width,button_y,button_height,True,True)
-			self.load_mainWidgets(progressbar_x,progressbar_y,progressbar_width,start_width,start_height,True,True)
-			if self.popup_mode:
-					self.delete_widgets(self.popup_widgets)
-					self.popup()
-			self.load_logo(True)
-			self.path_guiUpdate(self.osr_updateIdle,self.mapset_updateIdle,self.main_buttons[-1].y())
-
-
-		else:
-			self.delete_widgets(self.main_buttons)
-			self.delete_widgets(self.extra_widgets)
-			self.load_buttons(button_width,button_y,button_height,False,False)
-			self.load_mainWidgets(progressbar_x,progressbar_y,progressbar_width,start_width,start_height,False,False)
-			if self.popup_mode:
-					self.delete_widgets(self.popup_widgets)
-					self.popup()
-			self.load_logo(False)
-			self.path_guiUpdate(self.osr_updateIdle,self.mapset_updateIdle,self.main_buttons[-1].y())
-
-	def loadImg(self,img_dir,width,height):
-			pixmap = QPixmap("res/" + img_dir)
-			pixmap = pixmap.scaled(width,height)
-			return pixmap
-	def delete_widgets(self,listt):	
-		for x in range(len(listt),0,-1):
-				listt[x-1].setParent(None)
-				listt.pop(x-1)
-	def load_logo(self,clickable):
+	def resizeEvent(self, event):
+		#Buttons scaling
 		logo_w,logo_h = get_scale(1280,668,700,500,self.width(),self.height())
-		self.logo = Label(-50,50,logo_w,logo_h,"osr2mp4_logo.png","osr2mp4_logo.png","",False,False,self)
-		if not clickable:
-			blur_effect0 = QGraphicsBlurEffect() 
-			self.logo.setGraphicsEffect(blur_effect0)
-		self.logo.show()
-		self.logo.lower()
-		self.extra_widgets.append(self.logo)
-	def load_buttons(self,button_width,button_y,button_height,clickable,hover):
-		file_typeCounter = 0
-		for x in range(len(self.image_listHover)):
-			if hover:
-				button = Label(self.width()-button_width,button_y,button_width,button_height,self.image_listIdle[x],self.image_listHover[x],self.file_type[file_typeCounter],clickable,False,self)
-			else:button = Label(self.width()-button_width,button_y,button_width,button_height,self.image_listIdle[x],self.image_listIdle[x],self.file_type[file_typeCounter],clickable,False,self)
-			#button_width-=30
-			button_y+=int(self.width()/16)
-			file_typeCounter+=1
-			if not clickable:
-					blur_effect = QGraphicsBlurEffect() 
-					button.setGraphicsEffect(blur_effect)
-			button.show()
-			self.main_buttons.append(button)
+		main_buttonW,main_buttonH = get_scale(832,469,357,65,self.width(),self.height())
 
-	def load_mainWidgets(self,progressbar_x,progressbar_y,progressbar_width,start_width,start_height,clickable,hover):
-		blur_effect0 = QGraphicsBlurEffect() 
-		self.progressBar.setParent(None)
-		self.start.setParent(None)
+		osr_width,osr_height = get_scale(832,469,280,80,self.width(),self.height())
+		osr_x,osr_y = get_coordinates(832,469,self.width(),self.height(),525,150)
+
+		map_width,map_height = get_scale(832,469,280,80,self.width(),self.height())
+		map_x,map_y = get_coordinates(832,469,self.width(),self.height(),525,200)
+
+		osr_pathX,osr_pathY = get_coordinates(1000,600,self.width(),self.height(),635,240)
+		osr_pathWidth,osr_pathHeight = get_scale(1000,600,336,12,self.width(),self.height())
+
+		map_pathX,map_pathY = get_coordinates(1000,600,self.width(),self.height(),635,305)
+		map_pathWidth,map_pathHeight = get_scale(1000,600,336,12,self.width(),self.height())
+
+		popup_width,popup_height = get_scale(1000,600,750,550,self.width(),self.height())
+		popup_x,popup_y = get_coordinates(1000,600,self.width(),self.height(),125,60)
+
+		output_width, output_height = get_scale(1000,600,260,200,self.width(), self.height())
+		output_x,output_y = get_coordinates(1000,600,self.width(),self.height(),250, 350)
 		
-		self.progressBar = progress_bar(progressbar_x,progressbar_y,self.width()-20,32,"progressbar.png","progressbar.png","",self)
-		self.progressBar.show()
-		if hover:
-			self.start = Label(progressbar_x + progressbar_width - start_width,self.height()-40-start_height,start_width,start_height,"start.png","start_hover.png","start",True,False,self)
-		else:
-					self.start = Label(progressbar_x + progressbar_width - start_width,self.height()-40-start_height,start_width,start_height,"start.png","start.png","start",True,False,self)
-		self.start.show()
-		if not clickable:
-				self.start.setGraphicsEffect(blur_effect0)
-				blur_effect0 = QGraphicsBlurEffect() 
-				self.progressBar.setGraphicsEffect(blur_effect0)
-	def popup(self):
-		popup_width,popup_height = get_scale(1280,668,800,600,self.width(),self.height())
-		output_width, output_height = get_scale(1280,668,244,52,self.width(),self.height())
-		osu_width, osu_height = get_scale(1280,668,272,68,self.width(),self.height())
-		popup_x,popup_y = self.get_center(popup_width,popup_height)
-		output_x,output_y = get_coordinates(1280,668,self.width(),self.height(),395,440)
-		osu_x,osu_y = get_coordinates(1280,668,self.width(),self.height(),612,430)
-		self.popupw = Label(popup_x,popup_y,popup_width,popup_height,"popup_1.png","popup_1.png","",False,False,self)
-		self.output = Label(output_x,output_y,output_width,output_height,"output_idle.png","output_hover.png","Output",True,False,self)
-		self.osu = Label(osu_x,osu_y,osu_width,osu_height,"osufolder idle.png","osufolder hover.png","osu!",True,False,self)
-		self.popup_widgets.extend((self.popupw,self.output,self.osu))
-		self.popupw.show()
-		self.output.show()
-		self.osu.show()
-	def get_center(self,width,height):
-		center_x = self.width() / 2 - width / 2
-		center_y = self.height() / 2 - height / 2
-		return center_x,center_y
-	def path_guiUpdate(self,osr_idle,mapset_idle,posY):
-		width,height = get_scale(1280,668,400,59,self.width(),self.height())
-		font_width,font_height = get_scale(1280,668,814,239, self.width(),self.height())
-		tmp_x = self.main_buttons[-1].frameGeometry().width() - width
-		x_pos =  self.main_buttons[-1].x() + tmp_x/2
-		padding = 100
-		self.osr_.hide()
-		if osr_idle:
-			self.osr_ = Label(x_pos,posY+padding,width,height,"osr_pathIdle.png","osr_pathIdle.png","",False,False,self)
-		else:
+
+		osu_width, osu_height = get_scale(1000,600,260,200,self.width(), self.height())
+		osu_x,osu_y = get_coordinates(1000,600,self.width(),self.height(),485, 350)
+		
+
+
+		#Changing buttons properties(Osr button,Mapset Button)
+		main_buttonY = 50
+		for x in self.main_buttons:
+			x.setGeometry(self.width()-main_buttonW,main_buttonY,main_buttonW,main_buttonH)
+			x.setIconSize(QtCore.QSize(main_buttonW,main_buttonH))
+			x.clickable=True
+			main_buttonY +=self.width()//14
+
+		self.logo.setGeometry(-50,50,logo_w,logo_h)
+		self.logo.setIconSize(QtCore.QSize(logo_w,logo_h))
+
+		self.osr_idle.setGeometry(osr_x,osr_y,osr_width,osr_height)
+		self.osr_idle.setIconSize(QtCore.QSize(osr_width,osr_height))
+
+		self.map_idle.setGeometry(map_x,map_y,map_width,map_height)
+		self.map_idle.setIconSize(QtCore.QSize(map_width,map_height))
+
+		self.osr_path.setGeometry(osr_pathX,osr_pathY,osr_pathWidth,osr_pathHeight)
+		self.map_path.setGeometry(map_pathX,map_pathY,map_pathWidth,map_pathHeight)
+
+		self.popup_window.setGeometry(popup_x,popup_y,popup_width,popup_height)
+		self.popup_window.setIconSize(QtCore.QSize(popup_width,popup_height))
+
+		self.output_window.setGeometry(output_x,output_y,output_width,output_height)
+		self.output_window.setIconSize(QtCore.QSize(output_width,output_height))
+
+		self.osu_window.setGeometry(osu_x,osu_y,osu_width,osu_height)
+		self.osu_window.setIconSize(QtCore.QSize(osu_width,osu_height))
+
+	def set_path_gui(self,osr,mapset,text):
+		if osr:
+			osr_x,osr_y = get_coordinates(1000,600,self.width(),self.height(),635,240)
+			osr_width,osr_height = get_scale(1000,600,336,12,self.width(),self.height())
 			
-			self.osr_ = Label(x_pos,posY+padding,width,height,"osr_pathDetected.png","osr_pathDetected.png","",False,False,self)
-			self.osr_path = Label(x_pos,posY+padding+height/6,width,height,"","","",False,False,self)
-			
-			set_text = find_lastIndex(self.osr_pathText,"/")
-			self.osr_path.setText(self.osr_pathText[set_text+1:len(self.osr_pathText)])
-			self.osr_path.setStyleSheet("""QPushButton {font: bold 14px;color: green}""")
+			self.osr_path = QLabel(self)
+			self.osr_path.setText(text)
+			self.osr_path.setStyleSheet("font-weight: bold; color: white")
+			self.osr_path.setGeometry(osr_x,osr_y,osr_width,osr_height)
+			self.osr_idle.img_hover = "res/osr_pathDetected.png"
+			self.osr_idle.img_idle = "res/osr_pathDetected.png"
+			#To reload the button image
+			self.osr_idle.enterEvent(True)
 			self.osr_path.show()
-		if mapset_idle:
-			self.mapset_ = Label(x_pos,posY+padding+height,width,height,"mapset_pathIdle.png","mapset_pathIdle.png","",False,False,self)
-		else:
-			self.mapset_.hide()
-			self.mapset_ = Label(x_pos,posY+padding+height,width,height,"mapset_pathDetected.png","mapset_pathDetected.png","",False,False,self)
-			print(self.mapset_)
-			self.map_path = Label(x_pos,posY+padding+height+height/6,width,height,"","","",False,False,self)
-			self.map_path.setText(self.map_pathText)
-			self.map_path.setStyleSheet("""QPushButton {font: bold 14px;color: green}""")
+		elif mapset:
+			map_x,map_y = get_coordinates(1000,600,self.width(),self.height(),635,305)
+			map_width,map_height = get_scale(1000,600,336,12,self.width(),self.height())
+			self.map_path = QLabel(self)
+			self.map_path.setText(text)
+			self.map_path.setStyleSheet("font-weight: bold; color: white")
+			self.map_path.setGeometry(map_x,map_y,map_width,map_height)
+			self.map_idle.img_hover = "res/mapset_pathDetected.png"
+			self.map_idle.img_idle = "res/mapset_pathDetected.png"
+			#To reload the button image
+			self.map_idle.enterEvent(True)
+			self.map_path.show()
+			
 
-		self.skin_dropdown.setGeometry(int(x_pos),self.mapset_.y() + 100,int(width/2),int(height/2))
-		self.osr_.show()
-		self.osr_.lower()
-		self.mapset_.show()
-		self.mapset_.lower()
-
-		self.osr_path.lower()
-		self.map_path.show()
-		self.map_path.lower()
-
-		self.extra_widgets.append(self.osr_)
-		self.extra_widgets.append(self.osr_path)
-		self.extra_widgets.append(self.mapset_)
-		self.extra_widgets.append(self.map_path)
-	def find_latestReplay(self):
-		path = current_config["osu! path"] + "/Replays/*.osr"
-		list_of_files = glob.glob(path)
-		replay = max(list_of_files, key=os.path.getctime)
-		slash,backslash = find_lastIndex(replay,"/"),find_lastIndex(replay,"\\")
-		replay_name = replay[max(slash,backslash)+1:len(replay)]
-		self.find_latestMap(replay_name)
-		if replay_name != "":
-			self.osr_updateIdle = False
-			self.osr_pathText = replay_name
-			self.path_guiUpdate(self.osr_updateIdle,self.mapset_updateIdle,self.main_buttons[-1].y())
-		current_config[".osr path"] = replay
-	def find_latestMap(self,replay):
-		beatmap_path = find_beatmap_(current_config["osu! path"] + "/Replays/" + replay,current_config["osu! path"])
-		current_config["Beatmap path"] = current_config["osu! path"] + "/Songs/" + beatmap_path
-		if beatmap_path != "":
-			self.mapset_updateIdle = False
-			self.map_pathText = beatmap_path
-			self.path_guiUpdate(self.osr_updateIdle,self.mapset_updateIdle,self.main_buttons[-1].y())
-
-
-def find_lastIndex(text,item):
-	index = 0
-	for x in range(len(text)):
-		if text[x] == item: index = x
-	return index
-def find_firstIndex(text,item):
-	index = 0
-	for x in range(len(text)):
-		if text[x] == item: 
-			index = x
-			break
-	return index
 def get_scale(w,h,widW,widH,window_width,window_height):
 	scale = min(window_height/h, window_width/w)
+
 	width = int(widW * scale)
 	height = int(widH * scale)
 	return width,height
 def get_coordinates(w,h,window_width,window_height,base_x,base_y):
 	x_pos = base_x * (window_width / w)
 	y_pos = base_y * (window_height / h)
-
+	x_pos = int(x_pos)
+	y_pos = int(y_pos)
 	return x_pos,y_pos
-def read_properties_file(file_path):
-	with open(file_path) as f:
-		config = io.StringIO()
-		config.write('[dummy_section]\n')
-		config.write(f.read().replace('%', '%%'))
-		config.seek(0, os.SEEK_SET)
-
-		cp = configparser.SafeConfigParser()
-		cp.readfp(config)
-
-		return dict(cp.items('dummy_section'))
 
 App = QApplication(sys.argv)
 window = Window()
