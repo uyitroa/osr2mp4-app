@@ -69,6 +69,7 @@ class Button(QPushButton):
 			self.main_window.popup_bool = False
 			self.main_window.resizeEvent(True)
 			user_data["Output path"], user_data["osu! path"] = current_config["Output path"], current_config["osu! path"]
+			self.main_window.check_replay_map()
 			with open('user_data.json', 'w+') as f:
 				json.dump(user_data, f, indent=4)
 				f.close()
@@ -94,10 +95,20 @@ class Window(QMainWindow):
 		self.setStyleSheet("background-color: grey;")
 		window_width,window_height = 1000,600
 		self.resize(window_width,window_height)
-
-		#Booleans and list for deleting widget
+		#Booleans and list for deleting widget and default scales
 		self.popup_bool = True
 		self.popup_widgets = []
+		self.paths_defaultScale = [1000,600,320,12]
+		self.osr_pathCoordinates = [635,230]
+		self.map_defaultScale = [832,469,280,80]
+		self.map_defaultCoordinates = [832,469,525,200]
+		self.map_pathCoordinates = [635,290]
+		self.logo_defaultScale = [1280,668,700,500]
+		self.logo_defaultCoordinates = [832,469,357,65]
+		self.osr_defaultScale = [832,469,280,80]
+		self.osr_defaultcoordinates = [832,469,525,150]
+		self.start_defaultScale = [832,469,220,150]
+		self.start_defaultCoordinates = [1000,600,726,400]
 
 		#Main Buttons Properties/Variables(Osr button, Mapset button)
 		image_listIdle = ["osr idle.png","mapset idle.png"]
@@ -105,7 +116,7 @@ class Window(QMainWindow):
 		file_type = [".osr","Beatmap"]
 		self.current_path = ["res/osr_pathIdle.png","res/mapset_pathIdle.png"]
 		self.main_buttons = []
-		self.osr_path,self.map_path = QLabel(),QLabel()
+		self.osr_path,self.map_path = QLabel(self),QLabel(self)
 
 		self.logo = Button(0,0,0,0,"osr2mp4_logo.png","osr2mp4_logo.png","",False,self)
 
@@ -137,43 +148,35 @@ class Window(QMainWindow):
 			self.blurrable_widgets.append(x)
 
 		self.check_osuPath()
+		self.check_replay_map()
 		self.show()
 
 
 	def resizeEvent(self, event):
 		#Buttons scaling
-		logo_defaultScale = [1280,668,700,500]
-		logo_defaultCoordinates = [832,469,357,65]
-		logo_w,logo_h = get_scale(logo_defaultScale[0],logo_defaultScale[1],logo_defaultScale[2],logo_defaultScale[3],self.width(),self.height())
-		main_buttonW,main_buttonH = get_scale(logo_defaultCoordinates[0],logo_defaultCoordinates[1],logo_defaultCoordinates[2],logo_defaultCoordinates[3],self.width(),self.height())
 
-		osr_defaultScale = [832,469,280,80]
-		osr_defaultcoordinates = [832,469,525,150]
-		osr_width,osr_height = get_scale(osr_defaultScale[0],osr_defaultScale[1],osr_defaultScale[2],osr_defaultScale[3],self.width(),self.height())
-		osr_x,osr_y = get_coordinates(osr_defaultcoordinates[0],osr_defaultcoordinates[1],self.width(),self.height(),osr_defaultcoordinates[2],osr_defaultcoordinates[3])
+		logo_w,logo_h = get_scale(self.logo_defaultScale[0],self.logo_defaultScale[1],self.logo_defaultScale[2],self.logo_defaultScale[3],self.width(),self.height())
+		main_buttonW,main_buttonH = get_scale(self.logo_defaultCoordinates[0],self.logo_defaultCoordinates[1],self.logo_defaultCoordinates[2],self.logo_defaultCoordinates[3],self.width(),self.height())
 
-		map_defaultScale = [832,469,280,80]
-		map_defaultCoordinates = [832,469,525,200]
-		map_width,map_height = get_scale(map_defaultScale[0],map_defaultScale[1],map_defaultScale[2],map_defaultScale[3],self.width(),self.height())
-		map_x,map_y = get_coordinates(map_defaultCoordinates[0],map_defaultCoordinates[1],self.width(),self.height(),map_defaultCoordinates[2],map_defaultCoordinates[3])
+		osr_width,osr_height = get_scale(self.osr_defaultScale[0],self.osr_defaultScale[1],self.osr_defaultScale[2],self.osr_defaultScale[3],self.width(),self.height())
+		osr_x,osr_y = get_coordinates(self.osr_defaultcoordinates[0],self.osr_defaultcoordinates[1],self.width(),self.height(),self.osr_defaultcoordinates[2],self.osr_defaultcoordinates[3])
 
-		paths_defaultScale = [1000,600,336,12]
-		osr_pathCoordinates = [635,240]
-		osr_pathX,osr_pathY = get_coordinates(1000,600,self.width(),self.height(),osr_pathCoordinates[0],osr_pathCoordinates[1])
-		osr_pathWidth,osr_pathHeight = get_scale(paths_defaultScale[0],paths_defaultScale[1],paths_defaultScale[2],paths_defaultScale[3],self.width(),self.height())
+		map_width,map_height = get_scale(self.map_defaultScale[0],self.map_defaultScale[1],self.map_defaultScale[2],self.map_defaultScale[3],self.width(),self.height())
+		map_x,map_y = get_coordinates(self.map_defaultCoordinates[0],self.map_defaultCoordinates[1],self.width(),self.height(),self.map_defaultCoordinates[2],self.map_defaultCoordinates[3])
 
-		map_pathCoordinates = [635,305]
-		map_pathX,map_pathY = get_coordinates(paths_defaultScale[0],paths_defaultScale[1],self.width(),self.height(),map_pathCoordinates[0],map_pathCoordinates[1])
-		map_pathWidth,map_pathHeight = get_scale(paths_defaultScale[0],paths_defaultScale[1],paths_defaultScale[2],paths_defaultScale[3],self.width(),self.height())
+
+		osr_pathX,osr_pathY = get_coordinates(1000,600,self.width(),self.height(),self.osr_pathCoordinates[0],self.osr_pathCoordinates[1])
+		osr_pathWidth,osr_pathHeight = get_scale(self.paths_defaultScale[0],self.paths_defaultScale[1],self.paths_defaultScale[2],self.paths_defaultScale[3],self.width(),self.height())
+
+		map_pathX,map_pathY = get_coordinates(self.paths_defaultScale[0],self.paths_defaultScale[1],self.width(),self.height(),self.map_pathCoordinates[0],self.map_pathCoordinates[1])
+		map_pathWidth,map_pathHeight = get_scale(self.paths_defaultScale[0],self.paths_defaultScale[1],self.paths_defaultScale[2],self.paths_defaultScale[3],self.width(),self.height())
 
 		progressbar_width,progressbar_height = self.width() - 20,32
 		progressbar_x,progressbar_y = 10,self.height()-40
 
-		start_defaultScale = [832,469,220,150]
-		start_defaultCoordinates = [1000,600,726,400]
 
-		start_width, start_height = get_scale(start_defaultScale[0],start_defaultScale[1],start_defaultScale[2],start_defaultScale[3],self.width(),self.height())
-		start_x, start_y = get_coordinates(start_defaultCoordinates[0],start_defaultCoordinates[1],self.width(),self.height(),start_defaultCoordinates[2],start_defaultCoordinates[3])
+		start_width, start_height = get_scale(self.start_defaultScale[0],self.start_defaultScale[1],self.start_defaultScale[2],self.start_defaultScale[3],self.width(),self.height())
+		start_x, start_y = get_coordinates(self.start_defaultCoordinates[0],self.start_defaultCoordinates[1],self.width(),self.height(),self.start_defaultCoordinates[2],self.start_defaultCoordinates[3])
 		
 		popup_x,popup_y, output_x, output_y, osu_x, osu_y = 0, 0,0,0,0,0
 		popup_width, popup_height, output_width, output_height, osu_width, osu_height = 0,0,0,0,0,0	
@@ -238,9 +241,8 @@ class Window(QMainWindow):
 			osr_x,osr_y = get_coordinates(1000,600,self.width(),self.height(),635,240)
 			osr_width,osr_height = get_scale(1000,600,336,12,self.width(),self.height())
 			
-			self.osr_path = QLabel(self)
 			self.osr_path.setText(text)
-			self.osr_path.setStyleSheet("font-weight: bold; color: white")
+			self.map_path.setStyleSheet("font-size: 9pt; font-weight: bold; color: white")
 			self.osr_path.setGeometry(osr_x,osr_y,osr_width,osr_height)
 			self.osr_idle.img_hover = "res/osr_pathDetected.png"
 			self.osr_idle.img_idle = "res/osr_pathDetected.png"
@@ -248,11 +250,10 @@ class Window(QMainWindow):
 			self.osr_idle.enterEvent(True)
 			self.osr_path.show()
 		elif mapset:
-			map_x,map_y = get_coordinates(1000,600,self.width(),self.height(),635,305)
-			map_width,map_height = get_scale(1000,600,336,12,self.width(),self.height())
-			self.map_path = QLabel(self)
+			map_width,map_height = get_scale(self.map_defaultScale[0],self.map_defaultScale[1],self.map_defaultScale[2],self.map_defaultScale[3],self.width(),self.height())
+			map_x,map_y = get_coordinates(self.map_defaultCoordinates[0],self.map_defaultCoordinates[1],self.width(),self.height(),self.map_defaultCoordinates[2],self.map_defaultCoordinates[3])
 			self.map_path.setText(text)
-			self.map_path.setStyleSheet("font-weight: bold; color: white")
+			self.map_path.setStyleSheet("font-size: 9pt; font-weight: bold; color: white")
 			self.map_path.setGeometry(map_x,map_y,map_width,map_height)
 			self.map_idle.img_hover = "res/mapset_pathDetected.png"
 			self.map_idle.img_idle = "res/mapset_pathDetected.png"
@@ -289,6 +290,50 @@ class Window(QMainWindow):
 				self.popup_bool = False
 			print("Data loaded:\n{}\n{}".format(data["Output path"], data["osu! path"]))
 
+	def find_latestReplay(self):
+		if current_config["osu! path"] != "":
+			path = current_config["osu! path"] + "/Replays/*.osr"
+			list_of_files = glob.glob(path)
+			replay = max(list_of_files, key=os.path.getctime)
+			slash,backslash = find_lastIndex(replay,"/"),find_lastIndex(replay,"\\")
+			replay_name = replay[max(slash,backslash)+1:len(replay)]
+			self.find_latestMap(replay_name)
+			if replay_name != "":
+				map_x,map_y = get_coordinates(self.map_pathCoordinates[0],self.map_pathCoordinates[1],self.width(),self.height(),self.map_defaultCoordinates[2],self.map_defaultCoordinates[3])
+				self.osr_path.setText(replay_name)
+				self.osr_path.setStyleSheet("font-size: 9pt; font-weight: bold; color: white")
+				self.osr_path.setGeometry(map_x,map_y,0,0)
+
+				self.osr_idle.img_hover = "res/osr_pathDetected.png"
+				self.osr_idle.img_idle = "res/osr_pathDetected.png"
+				self.osr_idle.enterEvent(True)
+				self.resizeEvent(True)
+
+			current_config[".osr path"] = replay
+			print(replay_name)
+		
+
+	def find_latestMap(self,replay):
+		if current_config["osu! path"] != "":
+			beatmap_path = find_beatmap_(current_config["osu! path"] + "/Replays/" + replay,current_config["osu! path"])
+			current_config["Beatmap path"] = current_config["osu! path"] + "/Songs/" + beatmap_path
+			if beatmap_path != "":
+				map_x,map_y = get_coordinates(self.map_pathCoordinates[0],self.map_pathCoordinates[1],self.width(),self.height(),self.map_defaultCoordinates[2],self.map_defaultCoordinates[3])
+				self.map_path.setText(beatmap_path)
+				self.map_path.setStyleSheet("font-size: 9pt; font-weight: bold; color: white")
+				self.map_path.setGeometry(map_x,map_y,0,0)
+
+				self.map_idle.img_hover = "res/mapset_pathDetected.png"
+				self.map_idle.img_idle = "res/mapset_pathDetected.png"
+				self.map_idle.enterEvent(True)
+				self.resizeEvent(True)
+
+			current_config["Beatmap path"] = beatmap_path
+			print(beatmap_path)
+
+
+	def check_replay_map(self):
+		self.find_latestReplay()
 def get_scale(w,h,widW,widH,window_width,window_height):
 	scale = min(window_height/h, window_width/w)
 
@@ -300,6 +345,13 @@ def get_coordinates(w,h,window_width,window_height,base_x,base_y):
     x_pos = int(base_x * scale)
     y_pos = int(base_y * scale)
     return x_pos,y_pos
+
+
+def find_lastIndex(text,item):
+	index = 0
+	for x in range(len(text)):
+		if text[x] == item: index = x
+	return index
 
 App = QApplication(sys.argv)
 window = Window()
