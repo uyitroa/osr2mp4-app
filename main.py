@@ -5,10 +5,9 @@ from find_beatmap import find_beatmap_
 from PyQt5 import QtCore,  QtGui
 from PyQt5.QtGui import QPixmap, QIcon
 from pathlib import Path
-from config_data import current_config
+from config_data import current_config, user_data
 
 
-user_data = {"osu! path": "","Output path": ""}
 
 
 class Button(QPushButton):
@@ -177,7 +176,7 @@ class Window(QMainWindow):
 		start_x, start_y = get_coordinates(start_defaultCoordinates[0],start_defaultCoordinates[1],self.width(),self.height(),start_defaultCoordinates[2],start_defaultCoordinates[3])
 		
 		popup_x,popup_y, output_x, output_y, osu_x, osu_y = 0, 0,0,0,0,0
-		popup_width, popup_height, output_width, output_height, osu_width, osu_height = 0,0,0,0,0,0
+		popup_width, popup_height, output_width, output_height, osu_width, osu_height = 0,0,0,0,0,0	
 		if self.popup_bool:
 
 			popup_defaultScale = [1000,600,750,550]
@@ -185,12 +184,12 @@ class Window(QMainWindow):
 			popup_width,popup_height = get_scale(popup_defaultScale[0],popup_defaultScale[1],popup_defaultScale[2],popup_defaultScale[3],self.width(),self.height())
 			popup_x,popup_y = get_coordinates(popup_defaultScale[0],popup_defaultScale[1],self.width(),self.height(),popup_defaultCoordinates[0],popup_defaultCoordinates[1])
 			
-			popup_btnScale = [1000,600,260,200]
-			popup_btnCoordinates = [250,350]
+			popup_btnScale = [1000,600,260,70]
+			popup_btnCoordinates = [250,410]
 			output_width, output_height = get_scale(popup_btnScale[0],popup_btnScale[1],popup_btnScale[2],popup_btnScale[3],self.width(), self.height())
 			output_x,output_y = get_coordinates(popup_btnScale[0],popup_btnScale[1],self.width(),self.height(),popup_btnCoordinates[0], popup_btnCoordinates[1])
 			
-			osr_btnCoordinates = [485,350]
+			osr_btnCoordinates = [485,410]
 			osu_width, osu_height = get_scale(popup_btnScale[0],popup_btnScale[1],popup_btnScale[2],popup_btnScale[3],self.width(), self.height())
 			osu_x,osu_y = get_coordinates(popup_btnScale[0],popup_btnScale[1],self.width(),self.height(),osr_btnCoordinates[0], osr_btnCoordinates[1])
 		
@@ -297,11 +296,10 @@ def get_scale(w,h,widW,widH,window_width,window_height):
 	height = int(widH * scale)
 	return width,height
 def get_coordinates(w,h,window_width,window_height,base_x,base_y):
-	x_pos = base_x * (window_width / w)
-	y_pos = base_y * (window_height / h)
-	x_pos = int(x_pos)
-	y_pos = int(y_pos)
-	return x_pos,y_pos
+    scale = min(window_height/h, window_width/w)
+    x_pos = int(base_x * scale)
+    y_pos = int(base_y * scale)
+    return x_pos,y_pos
 
 App = QApplication(sys.argv)
 window = Window()
