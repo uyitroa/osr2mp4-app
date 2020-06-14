@@ -68,9 +68,10 @@ class Button(QPushButton):
 		if current_config["Output path"] != "" and current_config["osu! path"] != "":
 			self.main_window.delete_popup()
 			self.main_window.popup_bool = False
-			self.main_window.resizeEvent(True)
+			
 			user_data["Output path"], user_data["osu! path"] = current_config["Output path"], current_config["osu! path"]
 			self.main_window.check_replay_map()
+			self.main_window.resizeEvent(True)
 			with open('user_data.json', 'w+') as f:
 				json.dump(user_data, f, indent=4)
 				f.close()
