@@ -85,6 +85,7 @@ class Button(QPushButton):
 					replay_name = file_name[backslash+1:len(file_name)]
 				self.main_window.find_latestMap(replay_name)
 				self.main_window.set_path_gui(True,False,replay_name)
+				self.main_window.resizeEvent(True)
 
 		if self.file_type == "start":
 			with open('config.json', 'w+') as f:
@@ -260,13 +261,14 @@ class Window(QMainWindow):
 			map_x,map_y = get_coordinates(self.map_defaultCoordinates[0],self.map_defaultCoordinates[1],self.width(),self.height(),self.map_defaultCoordinates[2],self.map_defaultCoordinates[3])
 			map_x = self.width()-map_width-30
 			self.map_path.setText(text)
-			self.map_path.setStyleSheet("font-size: 9pt; font-weight: bold; color: white")
+			self.map_path.setStyleSheet("font-size: 19pt; font-weight: bold; color: red")
 			self.map_path.setGeometry(map_x,map_y,map_width,map_height)
 			self.map_idle.img_hover = "res/mapset_pathDetected.png"
 			self.map_idle.img_idle = "res/mapset_pathDetected.png"
 			#To reload the button image
 			self.map_idle.enterEvent(True)
 			self.map_path.show()
+			print("FFFF")
 
 	def blur_function(self,blur):
 		if blur:
@@ -306,16 +308,7 @@ class Window(QMainWindow):
 			replay_name = replay[max(slash,backslash)+1:len(replay)]
 			self.find_latestMap(replay_name)
 			if replay_name != "":
-				osr_x,osr_y = get_coordinates(self.map_pathCoordinates[0],self.map_pathCoordinates[1],self.width(),self.height(),self.map_defaultCoordinates[2],self.map_defaultCoordinates[3])
-				osr_x = self.width()-self.osr_idle.frameGeometry().width()-30
-				self.osr_path.setText(replay_name)
-				self.osr_path.setStyleSheet("font-size: 9pt; font-weight: bold; color: white")
-				self.osr_path.setGeometry(osr_x,osr_y,0,0)
-
-				self.osr_idle.img_hover = "res/osr_pathDetected.png"
-				self.osr_idle.img_idle = "res/osr_pathDetected.png"
-				self.osr_idle.enterEvent(True)
-				self.resizeEvent(True)
+				self.set_path_gui(True,False,replay_name)
 
 			current_config[".osr path"] = replay
 			print(replay_name)
