@@ -64,6 +64,7 @@ class Button(QPushButton):
 				file_name = QFileDialog.getOpenFileName(self, 'Open file', home_dir, "{} files (*{})".format(self.file_type,self.file_type))[0]
 			current_config[self.file_type + " path"] = file_name
 
+
 		if current_config["Output path"] != "" and current_config["osu! path"] != "":
 			self.main_window.delete_popup()
 			self.main_window.popup_bool = False
@@ -77,15 +78,18 @@ class Button(QPushButton):
 			osr,beatmap = False,False
 			if self.file_type == ".osr":
 				osr = True 
-			else:
-				beatmap = True
-			self.main_window.set_path_gui(osr,beatmap,file_name)
+				slash,backslash = find_lastIndex(file_name,"/"),find_lastIndex(file_name,"\\")
+				if slash != 0: 
+					replay_name = file_name[slash+1:len(file_name)]  
+				else:
+					replay_name = file_name[backslash+1:len(file_name)]
+				self.main_window.find_latestMap(replay_name)
+				self.main_window.set_path_gui(True,False,replay_name)
 
 		if self.file_type == "start":
 			with open('config.json', 'w+') as f:
 				json.dump(current_config, f, indent=4)
 				f.close()
-		print(current_config)
 
 class Window(QMainWindow):
 	def __init__(self):
@@ -93,22 +97,21 @@ class Window(QMainWindow):
 		self.setWindowIcon(QtGui.QIcon("icon.png"))
 		self.setWindowTitle("Subscribe to Raishin Aot")
 		self.setStyleSheet("background-color: grey;")
-		window_width,window_height = 1000,600
+		window_width,window_height = 832,469
 		self.resize(window_width,window_height)
 		#Booleans and list for deleting widget and default scales
 		self.popup_bool = True
 		self.popup_widgets = []
-		self.paths_defaultScale = [1000,600,320,12]
-		self.osr_pathCoordinates = [635,230]
+		self.paths_defaultScale = [832,469,270,12]
+		self.osr_pathCoordinates = [635,240]
 		self.map_defaultScale = [832,469,280,80]
 		self.map_defaultCoordinates = [832,469,525,200]
-		self.map_pathCoordinates = [635,290]
+		self.map_pathCoordinates = [635,190]
 		self.logo_defaultScale = [1280,668,700,500]
 		self.logo_defaultCoordinates = [832,469,357,65]
 		self.osr_defaultScale = [832,469,280,80]
 		self.osr_defaultcoordinates = [832,469,525,150]
-		self.start_defaultScale = [832,469,220,150]
-		self.start_defaultCoordinates = [1000,600,726,400]
+		self.start_defaultScale = [832,469,220,100]
 
 		#Main Buttons Properties/Variables(Osr button, Mapset button)
 		image_listIdle = ["osr idle.png","mapset idle.png"]
@@ -160,24 +163,25 @@ class Window(QMainWindow):
 
 		osr_width,osr_height = get_scale(self.osr_defaultScale[0],self.osr_defaultScale[1],self.osr_defaultScale[2],self.osr_defaultScale[3],self.width(),self.height())
 		osr_x,osr_y = get_coordinates(self.osr_defaultcoordinates[0],self.osr_defaultcoordinates[1],self.width(),self.height(),self.osr_defaultcoordinates[2],self.osr_defaultcoordinates[3])
-
+		osr_x = self.width()-osr_width-30
 		map_width,map_height = get_scale(self.map_defaultScale[0],self.map_defaultScale[1],self.map_defaultScale[2],self.map_defaultScale[3],self.width(),self.height())
 		map_x,map_y = get_coordinates(self.map_defaultCoordinates[0],self.map_defaultCoordinates[1],self.width(),self.height(),self.map_defaultCoordinates[2],self.map_defaultCoordinates[3])
 
 
-		osr_pathX,osr_pathY = get_coordinates(1000,600,self.width(),self.height(),self.osr_pathCoordinates[0],self.osr_pathCoordinates[1])
+		osr_pathX,osr_pathY = get_coordinates(832,469,self.width(),self.height(),self.osr_pathCoordinates[0],self.osr_pathCoordinates[1])
 		osr_pathWidth,osr_pathHeight = get_scale(self.paths_defaultScale[0],self.paths_defaultScale[1],self.paths_defaultScale[2],self.paths_defaultScale[3],self.width(),self.height())
 
-		map_pathX,map_pathY = get_coordinates(self.paths_defaultScale[0],self.paths_defaultScale[1],self.width(),self.height(),self.map_pathCoordinates[0],self.map_pathCoordinates[1])
+		map_pathX,map_pathY = get_coordinates(832,469,self.width(),self.height(),self.map_pathCoordinates[0],self.map_pathCoordinates[1])
 		map_pathWidth,map_pathHeight = get_scale(self.paths_defaultScale[0],self.paths_defaultScale[1],self.paths_defaultScale[2],self.paths_defaultScale[3],self.width(),self.height())
 
-		progressbar_width,progressbar_height = self.width() - 20,32
+		progressbar_width,progressbar_height = self.width() - 20,30
 		progressbar_x,progressbar_y = 10,self.height()-40
 
 
 		start_width, start_height = get_scale(self.start_defaultScale[0],self.start_defaultScale[1],self.start_defaultScale[2],self.start_defaultScale[3],self.width(),self.height())
-		start_x, start_y = get_coordinates(self.start_defaultCoordinates[0],self.start_defaultCoordinates[1],self.width(),self.height(),self.start_defaultCoordinates[2],self.start_defaultCoordinates[3])
-		
+		start_x = progressbar_x + progressbar_width - start_width
+		start_y = progressbar_y - progressbar_height - start_height + 20
+
 		popup_x,popup_y, output_x, output_y, osu_x, osu_y = 0, 0,0,0,0,0
 		popup_width, popup_height, output_width, output_height, osu_width, osu_height = 0,0,0,0,0,0	
 		if self.popup_bool:
@@ -216,11 +220,11 @@ class Window(QMainWindow):
 		self.osr_idle.setGeometry(osr_x,osr_y,osr_width,osr_height)
 		self.osr_idle.setIconSize(QtCore.QSize(osr_width,osr_height))
 
-		self.map_idle.setGeometry(map_x,map_y,map_width,map_height)
+		self.map_idle.setGeometry(osr_x,map_y,map_width,map_height)
 		self.map_idle.setIconSize(QtCore.QSize(map_width,map_height))
 
-		self.osr_path.setGeometry(osr_pathX,osr_pathY,osr_pathWidth,osr_pathHeight)
-		self.map_path.setGeometry(map_pathX,map_pathY,map_pathWidth,map_pathHeight)
+		self.osr_path.setGeometry(osr_x,osr_pathY,osr_pathWidth,osr_pathHeight)
+		self.map_path.setGeometry(osr_x,map_pathY,map_pathWidth,map_pathHeight)
 
 		self.popup_window.setGeometry(popup_x,popup_y,popup_width,popup_height)
 		self.popup_window.setIconSize(QtCore.QSize(popup_width,popup_height))
@@ -239,6 +243,8 @@ class Window(QMainWindow):
 	def set_path_gui(self,osr,mapset,text):
 		if osr:
 			osr_x,osr_y = get_coordinates(1000,600,self.width(),self.height(),635,240)
+			self.width()-self.osr_idle.frameGeometry().width()-30
+
 			osr_width,osr_height = get_scale(1000,600,336,12,self.width(),self.height())
 			
 			self.osr_path.setText(text)
@@ -252,6 +258,7 @@ class Window(QMainWindow):
 		elif mapset:
 			map_width,map_height = get_scale(self.map_defaultScale[0],self.map_defaultScale[1],self.map_defaultScale[2],self.map_defaultScale[3],self.width(),self.height())
 			map_x,map_y = get_coordinates(self.map_defaultCoordinates[0],self.map_defaultCoordinates[1],self.width(),self.height(),self.map_defaultCoordinates[2],self.map_defaultCoordinates[3])
+			map_x = self.width()-map_width-30
 			self.map_path.setText(text)
 			self.map_path.setStyleSheet("font-size: 9pt; font-weight: bold; color: white")
 			self.map_path.setGeometry(map_x,map_y,map_width,map_height)
@@ -299,10 +306,11 @@ class Window(QMainWindow):
 			replay_name = replay[max(slash,backslash)+1:len(replay)]
 			self.find_latestMap(replay_name)
 			if replay_name != "":
-				map_x,map_y = get_coordinates(self.map_pathCoordinates[0],self.map_pathCoordinates[1],self.width(),self.height(),self.map_defaultCoordinates[2],self.map_defaultCoordinates[3])
+				osr_x,osr_y = get_coordinates(self.map_pathCoordinates[0],self.map_pathCoordinates[1],self.width(),self.height(),self.map_defaultCoordinates[2],self.map_defaultCoordinates[3])
+				osr_x = self.width()-self.osr_idle.frameGeometry().width()-30
 				self.osr_path.setText(replay_name)
 				self.osr_path.setStyleSheet("font-size: 9pt; font-weight: bold; color: white")
-				self.osr_path.setGeometry(map_x,map_y,0,0)
+				self.osr_path.setGeometry(osr_x,osr_y,0,0)
 
 				self.osr_idle.img_hover = "res/osr_pathDetected.png"
 				self.osr_idle.img_idle = "res/osr_pathDetected.png"
@@ -314,19 +322,12 @@ class Window(QMainWindow):
 		
 
 	def find_latestMap(self,replay):
+		print(replay)
 		if current_config["osu! path"] != "":
 			beatmap_path = find_beatmap_(current_config["osu! path"] + "/Replays/" + replay,current_config["osu! path"])
 			current_config["Beatmap path"] = current_config["osu! path"] + "/Songs/" + beatmap_path
 			if beatmap_path != "":
-				map_x,map_y = get_coordinates(self.map_pathCoordinates[0],self.map_pathCoordinates[1],self.width(),self.height(),self.map_defaultCoordinates[2],self.map_defaultCoordinates[3])
-				self.map_path.setText(beatmap_path)
-				self.map_path.setStyleSheet("font-size: 9pt; font-weight: bold; color: white")
-				self.map_path.setGeometry(map_x,map_y,0,0)
-
-				self.map_idle.img_hover = "res/mapset_pathDetected.png"
-				self.map_idle.img_idle = "res/mapset_pathDetected.png"
-				self.map_idle.enterEvent(True)
-				self.resizeEvent(True)
+				self.set_path_gui(False,True,beatmap_path)
 
 			current_config["Beatmap path"] = beatmap_path
 			print(beatmap_path)
