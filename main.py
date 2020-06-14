@@ -6,7 +6,7 @@ from PyQt5 import QtCore,  QtGui
 from PyQt5.QtGui import QPixmap, QIcon
 from pathlib import Path
 from config_data import current_config, user_data
-
+import threading
 		
 
 class ComboBox(QComboBox):
@@ -58,7 +58,7 @@ class Button(QPushButton):
 		self.openable_filetype = [".osr", "Beatmap", "Output", "osu!"]
 		self.folder_type = ["Beatmap", "Output", "osu!"]
 		self.displayable_path = [".osr", "Beatmap"]
-
+		self.hoverable_widgets = [".osr", "Beatmap", "start"]
 
 		#Setting up blur effects for button
 		self.blur_effect = QGraphicsBlurEffect() 	
@@ -66,15 +66,22 @@ class Button(QPushButton):
 		self.setGraphicsEffect(self.blur_effect)
 
 	def mouseReleaseEvent(self, event):
-		self.setIcon(QtGui.QIcon(self.img_hover))
+		if self.file_type in self.hoverable_widgets:
+			self.setIcon(QtGui.QIcon(self.img_hover))
 	def blur_me(self, blur):
 		if blur:
 			self.blur_effect.setBlurRadius(25) 
 		else:
 			self.blur_effect.setBlurRadius(0) 
 
+	def run_osu(self):
+		from osr2mp4.osr2mp4 import Osr2mp4
+		converter = Osr2mp4(filedata="config.json", filesettings="settings.json")
+		converter.startall()
+		converter.joinall()
 	def mousePressEvent(self,QEvent):
-		self.setIcon(QtGui.QIcon(self.img_click))
+		if self.file_type in self.hoverable_widgets:
+			self.setIcon(QtGui.QIcon(self.img_click))
 		if self.file_type in self.openable_filetype:
 			self.openFileNameDialog()
 		if self.file_type == "start":
@@ -86,8 +93,12 @@ class Button(QPushButton):
 					a.write(x)
 				a.close()'''
 			print(current_config)	
-			#p = subprocess.Popen([sys.executable, '/home/shiho/Desktop/osr-gui/run_osu.py'],stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-			p = subprocess.Popen("/home/shiho/Desktop/osr-gui/run_osu.py",shell=True)
+			func = threading.Thread(target=self.run_osu)
+			func.start()
+			'''p = subprocess.Popen([sys.executable or "python", "/home/shiho/Desktop/osr-gui/run_osu.py"],stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+			p.wait()'''
+			#p = subprocess.Popen("/home/shiho/Desktop/osr-gui/run_osu.py",shell=True)
+			#subprocess.check_call([sys.executable or "python", "/home/shiho/Desktop/osr-gui/run_osu.py"], shell=True)
 			#os.system("/home/shiho/Desktop/osr-gui/run_osu.py")
 	def enterEvent(self, QEvent):
 		self.setIcon(QtGui.QIcon(self.img_hover))
