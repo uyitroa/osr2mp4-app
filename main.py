@@ -28,14 +28,22 @@ class ComboBox(QComboBox):
 			cfg =  glob.glob(path + "/*.cfg")
 			props = read_properties_file(cfg[1])
 			name = props['skin']
-			self.window.skin_dropdown.addItems([name])
+			
 			self.window.skin_dropdown.setCurrentIndex(self.window.skin_dropdown.findText(name))
+
 			current_config["Skin path"] = current_config["osu! path"] + "/Skins/" + name
-			skin_list = glob.glob(current_config["Skin path"])
+			skin_list = [f for f in glob.glob(current_config["osu! path"] + "/Skins/*", recursive=True)]
 			for x in skin_list:
 				index = find_lastIndex(x,"/")
-				self.window.skin_dropdown.addItems([x[index+1:len(x)]])
-
+				index2 = find_lastIndex(x,"\\")
+				if index > index2:
+					self.window.skin_dropdown.addItems([x[index+1:len(x)]])
+					print(x[index+1:len(x)])
+				else:
+					self.window.skin_dropdown.addItems([x[index2+1:len(x)]])
+					print(x[index2+1:len(x)])
+			
+			#rint(self.window.skin_dropdown.findText(name))
 
 class Button(QPushButton):
 	def __init__(self,x_pos,y_pos,width,height,img,img_hover,img_click,file_type,clickable,parent):
@@ -96,7 +104,6 @@ class Button(QPushButton):
 		if self.file_type in self.openable_filetype:
 			self.openFileNameDialog()
 		if self.file_type in self.hoverable_widgets:
-			print("WTF")
 			self.setIcon(QtGui.QIcon(self.img_hover))
 
 
@@ -117,6 +124,8 @@ class Button(QPushButton):
 			else:
 				home_dir = str(Path.home())
 				file_name = QFileDialog.getOpenFileName(self, 'Open file', home_dir, "{} files (*{})".format(self.file_type,self.file_type))[0]
+				#if file_name == '':
+					#file_name = r"C:\Program Files\osu!\Replays\osu! - SPYAIR - Sakura Mitsutsuki (TV Size) [Aurora] (2020-06-15) Osu.osr"
 			current_config[self.file_type + " path"] = file_name
 
 
@@ -140,7 +149,10 @@ class Button(QPushButton):
 					replay_name = file_name[slash+1:len(file_name)]  
 				else:
 					replay_name = file_name[backslash+1:len(file_name)]
-				self.main_window.find_latestMap(replay_name)
+				try:
+					self.main_window.find_latestMap(replay_name)
+				except:
+					pass
 				self.main_window.set_path_gui(True,False,replay_name)
 				self.main_window.resizeEvent(True)
 
@@ -291,8 +303,6 @@ class Window(QMainWindow):
 			main_buttonY +=self.width()//13
 			counter += 1
 
-		print(self.width()-main_buttonW+25,main_buttonY,main_buttonW-25,main_buttonH)
-		print(self.width(),self.height())
 		self.logo.setGeometry(-50,50,logo_w,logo_h)
 		self.logo.setIconSize(QtCore.QSize(logo_w,logo_h))
 
