@@ -8,7 +8,7 @@ from pathlib import Path
 from config_data import current_config, user_data
 import threading
 		
-
+	
 class ComboBox(QComboBox):
 	def __init__(self,parent):
 		super(ComboBox, self).__init__(parent)
@@ -58,16 +58,13 @@ class Button(QPushButton):
 		self.openable_filetype = [".osr", "Beatmap", "Output", "osu!"]
 		self.folder_type = ["Beatmap", "Output", "osu!"]
 		self.displayable_path = [".osr", "Beatmap"]
-		self.hoverable_widgets = [".osr", "Beatmap", "start"]
+		self.hoverable_widgets = [".osr", "start", "Beatmap"]
 
 		#Setting up blur effects for button
 		self.blur_effect = QGraphicsBlurEffect() 	
 		self.blur_effect.setBlurRadius(0) 
 		self.setGraphicsEffect(self.blur_effect)
 
-	def mouseReleaseEvent(self, event):
-		if self.file_type in self.hoverable_widgets:
-			self.setIcon(QtGui.QIcon(self.img_hover))
 	def blur_me(self, blur):
 		if blur:
 			self.blur_effect.setBlurRadius(25) 
@@ -82,16 +79,10 @@ class Button(QPushButton):
 	def mousePressEvent(self,QEvent):
 		if self.file_type in self.hoverable_widgets:
 			self.setIcon(QtGui.QIcon(self.img_click))
-		if self.file_type in self.openable_filetype:
-			self.openFileNameDialog()
 		if self.file_type == "start":
 			with open('config.json', 'w+') as f:
 				json.dump(current_config, f, indent=4)
 				f.close()
-			'''with open("skins.txt","w+") as a:
-				for x in skins_path:
-					a.write(x)
-				a.close()'''
 			print(current_config)	
 			func = threading.Thread(target=self.run_osu)
 			func.start()
@@ -100,6 +91,15 @@ class Button(QPushButton):
 			#p = subprocess.Popen("/home/shiho/Desktop/osr-gui/run_osu.py",shell=True)
 			#subprocess.check_call([sys.executable or "python", "/home/shiho/Desktop/osr-gui/run_osu.py"], shell=True)
 			#os.system("/home/shiho/Desktop/osr-gui/run_osu.py")
+
+	def mouseReleaseEvent(self, event):
+		if self.file_type in self.openable_filetype:
+			self.openFileNameDialog()
+		if self.file_type in self.hoverable_widgets:
+			print("WTF")
+			self.setIcon(QtGui.QIcon(self.img_hover))
+
+
 	def enterEvent(self, QEvent):
 		self.setIcon(QtGui.QIcon(self.img_hover))
 
@@ -112,6 +112,8 @@ class Button(QPushButton):
 			if self.file_type in self.folder_type:
 				home_dir = str(Path.home())
 				file_name = QFileDialog.getExistingDirectory(None, ("Select Directory"), home_dir)
+				if self.file_type == "Output":
+					file_name += "/output.avi"
 			else:
 				home_dir = str(Path.home())
 				file_name = QFileDialog.getOpenFileName(self, 'Open file', home_dir, "{} files (*{})".format(self.file_type,self.file_type))[0]
@@ -153,6 +155,9 @@ class Window(QMainWindow):
 		window_width,window_height = 832,469
 		self.resize(window_width,window_height)
 		#Booleans and list for deleting widget and default scales
+		self.button_1_coordinates = [832, 468, 458, 178]
+		self.previous_resolution = [0, 0]
+		self.minimum_resolution = [640, 360]
 		self.skins_list = []
 		self.popup_bool = True
 		self.popup_widgets = []
@@ -162,7 +167,7 @@ class Window(QMainWindow):
 		self.map_defaultCoordinates = [832,469,525,230]
 		self.map_pathCoordinates = [635,220]
 		self.logo_defaultScale = [1280,668,700,500]
-		self.button_default_scale = [832,469,357,70]
+		self.button_default_scale = [832,469,400,70]
 		self.osr_defaultScale = [832,469,280,80]
 		self.osr_defaultcoordinates = [832,469,525,180]
 		self.start_defaultScale = [832,469,220,100]
@@ -215,12 +220,15 @@ class Window(QMainWindow):
 
 
 	def resizeEvent(self, event):
-		width = self.height() * 16/9
-		self.resize(int(width),self.height())
+		height = self.width() * 9/16 
+		self.resize(self.width(),height)
+		if self.width() < self.minimum_resolution[0] and self.height() < self.minimum_resolution[1]:
+			self.resize(self.previous_resolution[0],self.previous_resolution[1])
 		#Buttons scaling
 
 		logo_w,logo_h = get_scale(self.logo_defaultScale[0],self.logo_defaultScale[1],self.logo_defaultScale[2],self.logo_defaultScale[3],self.width(),self.height())
 		main_buttonW,main_buttonH = get_scale(self.button_default_scale[0],self.button_default_scale[1],self.button_default_scale[2],self.button_default_scale[3],self.width(),self.height())
+		button1_x,button1_y = get_scale(self.button_1_coordinates[0],self.button_1_coordinates[1],self.button_1_coordinates[2],self.button_1_coordinates[3],self.width(),self.height())
 
 		osr_width,osr_height = get_scale(self.osr_defaultScale[0],self.osr_defaultScale[1],self.osr_defaultScale[2],self.osr_defaultScale[3],self.width(),self.height())
 		osr_x,osr_y = get_coordinates(self.osr_defaultcoordinates[0],self.osr_defaultcoordinates[1],self.width(),self.height(),self.osr_defaultcoordinates[2],self.osr_defaultcoordinates[3])
@@ -269,13 +277,22 @@ class Window(QMainWindow):
 
 		#Changing buttons properties(Osr button,Mapset Button)
 		main_buttonY = 50
+		counter = 0
 		for x in self.main_buttons:
-			x.setGeometry(self.width()-main_buttonW,main_buttonY,main_buttonW,main_buttonH)
-			x.setIconSize(QtCore.QSize(main_buttonW,main_buttonH))
+			if counter == 0:
+				x.setGeometry(self.width()-main_buttonW ,main_buttonY,main_buttonW,main_buttonH)
+				x.setIconSize(QtCore.QSize(main_buttonW,main_buttonH))
+			else:
+				x.setGeometry(button1_x,main_buttonY,main_buttonW-25,main_buttonH)
+				x.setIconSize(QtCore.QSize(main_buttonW-25,main_buttonH))
 			if not self.popup_bool:
 				x.clickable=True
-			main_buttonY +=self.width()//14
 
+			main_buttonY +=self.width()//13
+			counter += 1
+
+		print(self.width()-main_buttonW+25,main_buttonY,main_buttonW-25,main_buttonH)
+		print(self.width(),self.height())
 		self.logo.setGeometry(-50,50,logo_w,logo_h)
 		self.logo.setIconSize(QtCore.QSize(logo_w,logo_h))
 
@@ -302,6 +319,8 @@ class Window(QMainWindow):
 
 		self.start_btn.setGeometry(start_x,start_y,start_width,start_height)
 		self.start_btn.setIconSize(QtCore.QSize(start_width, start_height))
+		self.previous_resolution[0] = self.width()
+		self.previous_resolution[1] = self.height()
 	def set_path_gui(self,osr,mapset,text):
 		if osr:
 			osr_x,osr_y = get_coordinates(1000,600,self.width(),self.height(),635,240)
@@ -352,7 +371,7 @@ class Window(QMainWindow):
 		if os.path.isfile("user_data.json"): 
 			with open('user_data.json') as f:
 				data = json.load(f)
-			current_config["Output path"] = data["Output path"]
+			current_config["Output path"] = data["Output path"] + "/output.avi"
 			current_config["osu! path"] = data["osu! path"]
 			if data["Output path"] != "" and data["osu! path"] != "":
 				self.delete_popup()
