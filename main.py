@@ -102,6 +102,7 @@ class Button(QPushButton):
 
 	def mouseReleaseEvent(self, event):
 		if self.file_type in self.openable_filetype:
+			print("F")
 			self.openFileNameDialog()
 		if self.file_type in self.hoverable_widgets:
 			self.setIcon(QtGui.QIcon(self.img_hover))
@@ -180,14 +181,14 @@ class Window(QMainWindow):
 		self.map_pathCoordinates = [635,220]
 		self.logo_defaultScale = [1280,668,700,500]
 		self.button_default_scale = [832,469,400,70]
+		self.button_shadow_scale = [832,469,430,103]
 		self.osr_defaultScale = [832,469,280,80]
 		self.osr_defaultcoordinates = [832,469,525,180]
 		self.start_defaultScale = [832,469,220,100]
-
 		#Main Buttons Properties/Variables(Osr button, Mapset button)
-		image_listIdle = ["osr idle.png","mapset idle.png"]
-		image_listHover = ["osr hover.png","mapset hover.png"]
-		image_listClick = ["osr click.png", "mapset click.png"]
+		image_listIdle = ["B1_Idle.png","B2_Idle.png"]
+		image_listHover = ["B1_Hover.png","B2_Hover.png"]
+		image_listClick = ["B1_Click.png", "B2_Click.png"]
 		file_type = [".osr","Beatmap"]
 		self.current_path = ["res/osr_pathIdle.png","res/mapset_pathIdle.png"]
 		self.main_buttons = []
@@ -205,10 +206,17 @@ class Window(QMainWindow):
 		self.map_idle = Button(0,0,0,0,"mapset_pathIdle.png","mapset_pathIdle.png","mapset click.png", "",False,self)
 		
 		self.popup_window = Button(0,0,0,0,"popup_1.png","popup_1.png","", "",False,self)
+		self.popup_shadow = Button(0,0,0,0,"popup_shadow.png","popup_shadow.png","", "",False,self)
 
 		self.output_window = Button(0,0,0,0,"output_idle.png","output_hover.png","output_click.png", "Output",True,self)
+		self.output_shadow = Button(0,0,0,0,"output_shadow.png","output_shadow.png","output_shadow.png", "",True,self)
 
 		self.osu_window = Button(0,0,0,0,"osufolder idle.png","osufolder hover.png","osufolder click.png", "osu!",True,self)
+		self.osu_shadow = Button(0,0,0,0,"osufolder shadow.png","osufolder shadow.png","osufolder shadow.png", "",True,self)
+		
+		self.b1_shadow = Button(0,0,0,0,"B1_Shadow.png","B1_Shadow.png","B1_Shadow.png", "",True,self)
+		self.b2_shadow = Button(0,0,0,0,"B2_Shadow.png","B2_Shadow.png","B2_Shadow.png", "",True,self)
+
 
 		progressbar_width, progressbar_height, progressbar_x, progressbar_y = self.load_progressbar()
 		self.progress_bar = progress_bar(progressbar_x,progressbar_y,self.width()-20,progressbar_height,"progressbar.png","progressbar.png","",self)
@@ -216,7 +224,7 @@ class Window(QMainWindow):
 		self.start_btn = Button(0,0,0,0,"start.png","start_hover.png","start_click.png", "start",True,self)
 		self.start_btn.lower()
 
-		self.popup_widgets.extend((self.popup_window,self.output_window,self.osu_window))
+		self.popup_widgets.extend((self.popup_window,self.output_window,self.osu_window,self.popup_shadow,self.osu_shadow, self.output_shadow))
 
 		self.blurrable_widgets = [self.logo,self.start_btn,self.osr_idle,self.map_idle]
 		for x in self.main_buttons:
@@ -224,6 +232,7 @@ class Window(QMainWindow):
 
 		self.skin_dropdown = ComboBox(self) 
 		self.skin_dropdown.addItems(["Default Skin"])
+
 
 		self.check_osuPath()
 		self.check_replay_map()
@@ -240,6 +249,9 @@ class Window(QMainWindow):
 
 		logo_w,logo_h = get_scale(self.logo_defaultScale[0],self.logo_defaultScale[1],self.logo_defaultScale[2],self.logo_defaultScale[3],self.width(),self.height())
 		main_buttonW,main_buttonH = get_scale(self.button_default_scale[0],self.button_default_scale[1],self.button_default_scale[2],self.button_default_scale[3],self.width(),self.height())
+
+		main_shadowW,main_shadowH = get_scale(self.button_shadow_scale[0],self.button_shadow_scale[1],self.button_shadow_scale[2],self.button_shadow_scale[3],self.width(),self.height())
+		
 		button1_x,button1_y = get_scale(self.button_1_coordinates[0],self.button_1_coordinates[1],self.button_1_coordinates[2],self.button_1_coordinates[3],self.width(),self.height())
 
 		osr_width,osr_height = get_scale(self.osr_defaultScale[0],self.osr_defaultScale[1],self.osr_defaultScale[2],self.osr_defaultScale[3],self.width(),self.height())
@@ -265,22 +277,43 @@ class Window(QMainWindow):
 
 		
 		if self.popup_bool:
-			popup_x,popup_y, output_x, output_y, osu_x, osu_y = 0, 0,0,0,0,0
-			popup_width, popup_height, output_width, output_height, osu_width, osu_height = 0,0,0,0,0,0	
-			popup_defaultScale = [1000,600,750,550]
-			popup_defaultCoordinates = [125,60]
+
+			popup_defaultScale = [1000,600,620,430]
+
+			popup_shadowScale = [1000,600,630,440]
+			popup_shadowCoordinates = [225,95]
+
+			popup_defaultCoordinates = [230,100]
 			popup_width,popup_height = get_scale(popup_defaultScale[0],popup_defaultScale[1],popup_defaultScale[2],popup_defaultScale[3],self.width(),self.height())
 			popup_x,popup_y = get_coordinates(popup_defaultScale[0],popup_defaultScale[1],self.width(),self.height(),popup_defaultCoordinates[0],popup_defaultCoordinates[1])
+
+			popup_shadowW,popup_shadowH = get_scale(popup_shadowScale[0],popup_shadowScale[1],popup_shadowScale[2],popup_shadowScale[3],self.width(),self.height())
+			popup_shadowX,popup_shadowY = get_coordinates(popup_shadowScale[0],popup_shadowScale[1],self.width(),self.height(),popup_shadowCoordinates[0],popup_shadowCoordinates[1])
 			
 			popup_btnScale = [1000,600,260,70]
-			popup_btnCoordinates = [250,410]
+			
+			popup_btnCoordinates = [295,410]
+			osr_btnCoordinates = [530,410]
+
 			output_width, output_height = get_scale(popup_btnScale[0],popup_btnScale[1],popup_btnScale[2],popup_btnScale[3],self.width(), self.height())
 			output_x,output_y = get_coordinates(popup_btnScale[0],popup_btnScale[1],self.width(),self.height(),popup_btnCoordinates[0], popup_btnCoordinates[1])
 			
-			osr_btnCoordinates = [485,410]
+			
+			shadow_Scale = [1000,600,280,80]
+			osr_shadowCoordinates = [520,405]
+
+			output_shadowScale = [1000,600,280,70]
+			output_shadowCoordinates = [285,410]
+
 			osu_width, osu_height = get_scale(popup_btnScale[0],popup_btnScale[1],popup_btnScale[2],popup_btnScale[3],self.width(), self.height())
+			osu_shadowWidth, osu_shadowHeight = get_scale(shadow_Scale[0],shadow_Scale[1],shadow_Scale[2],shadow_Scale[3],self.width(), self.height())
+
 			osu_x,osu_y = get_coordinates(popup_btnScale[0],popup_btnScale[1],self.width(),self.height(),osr_btnCoordinates[0], osr_btnCoordinates[1])
-		
+			osu_shadowX,osu_shadowY = get_coordinates(shadow_Scale[0],shadow_Scale[1],self.width(),self.height(),osr_shadowCoordinates[0], osr_shadowCoordinates[1])
+			
+			output_shadowWidth, output_shadowHeight = get_scale(output_shadowScale[0],output_shadowScale[1],output_shadowScale[2],output_shadowScale[3],self.width(), self.height())
+			output_shadowX,output_shadowY = get_coordinates(output_shadowScale[0],output_shadowScale[1],self.width(),self.height(),output_shadowCoordinates[0], output_shadowCoordinates[1])
+
 			self.blur_function(True)
 
 		else:
@@ -289,18 +322,28 @@ class Window(QMainWindow):
 
 		#Changing buttons properties(Osr button,Mapset Button)
 		main_buttonY = 50
+		main_shadowY = 35
 		counter = 0
 		for x in self.main_buttons:
 			if counter == 0:
 				x.setGeometry(self.width()-main_buttonW ,main_buttonY,main_buttonW,main_buttonH)
 				x.setIconSize(QtCore.QSize(main_buttonW,main_buttonH))
+
+				self.b1_shadow.setGeometry(self.width()-main_buttonW-15 ,main_shadowY,main_shadowW,main_shadowH)
+				self.b1_shadow.setIconSize(QtCore.QSize(main_shadowW,main_shadowH))
+				x.raise_()
 			else:
 				x.setGeometry(button1_x,main_buttonY,main_buttonW-25,main_buttonH)
 				x.setIconSize(QtCore.QSize(main_buttonW-25,main_buttonH))
+
+				self.b2_shadow.setGeometry(button1_x-15,main_shadowY,main_shadowW-25,main_shadowH)
+				self.b2_shadow.setIconSize(QtCore.QSize(main_shadowW-25,main_shadowH))
+				x.raise_()
 			if not self.popup_bool:
 				x.clickable=True
 
 			main_buttonY +=self.width()//13
+			main_shadowY +=self.width()//13
 			counter += 1
 
 		self.logo.setGeometry(-50,50,logo_w,logo_h)
@@ -318,12 +361,24 @@ class Window(QMainWindow):
 			self.popup_window.setGeometry(popup_x,popup_y,popup_width,popup_height)
 			self.popup_window.setIconSize(QtCore.QSize(popup_width,popup_height))
 
+			self.popup_shadow.setGeometry(popup_shadowX,popup_shadowY,popup_shadowW,popup_shadowH)
+			self.popup_shadow.setIconSize(QtCore.QSize(popup_shadowW,popup_shadowH	))
+
 			self.output_window.setGeometry(output_x,output_y,output_width,output_height)
 			self.output_window.setIconSize(QtCore.QSize(output_width,output_height))
 
 			self.osu_window.setGeometry(osu_x,osu_y,osu_width,osu_height)
 			self.osu_window.setIconSize(QtCore.QSize(osu_width,osu_height))
 
+			self.osu_shadow.setGeometry(osu_shadowX,osu_shadowY,osu_shadowWidth,osu_shadowHeight)
+			self.osu_shadow.setIconSize(QtCore.QSize(osu_shadowWidth,osu_shadowHeight))
+
+			self.output_shadow.setGeometry(output_shadowX,output_shadowY,output_shadowWidth,output_shadowHeight)
+			self.output_shadow.setIconSize(QtCore.QSize(output_shadowWidth,output_shadowHeight))
+
+
+			self.osu_window.raise_()
+			self.output_window.raise_()
 		self.progress_bar.setGeometry(progressbar_x,progressbar_y,progressbar_width,progressbar_height)
 		self.progress_bar.scale_me(progressbar_width,progressbar_height)
 
@@ -339,7 +394,7 @@ class Window(QMainWindow):
 			osr_width,osr_height = get_scale(1000,600,336,12,self.width(),self.height())
 			
 			self.osr_path.setText(text)
-			self.osr_path.setStyleSheet("font-size: 9pt; font-weight: bold; color: white")
+			self.osr_path.setStyleSheet("font-size: 8pt; font-weight: bold; color: white")
 			self.osr_path.setGeometry(osr_x,osr_y,osr_width,osr_height)
 			self.osr_idle.img_hover = "res/osr_pathDetected.png"
 			self.osr_idle.img_idle = "res/osr_pathDetected.png"
@@ -351,7 +406,7 @@ class Window(QMainWindow):
 			map_x,map_y = get_coordinates(self.map_defaultCoordinates[0],self.map_defaultCoordinates[1],self.width(),self.height(),self.map_defaultCoordinates[2],self.map_defaultCoordinates[3])
 			map_x = self.width()-map_width-30
 			self.map_path.setText(text)
-			self.map_path.setStyleSheet("font-size: 9pt; font-weight: bold; color: white")
+			self.map_path.setStyleSheet("font-size: 8pt; font-weight: bold; color: white")
 			self.map_path.setGeometry(map_x,map_y,map_width,map_height)
 			self.map_idle.img_hover = "res/mapset_pathDetected.png"
 			self.map_idle.img_idle = "res/mapset_pathDetected.png"
