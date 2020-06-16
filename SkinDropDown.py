@@ -26,12 +26,7 @@ class SkinDropDown(QComboBox):
 		super(SkinDropDown, self).__init__(parent)
 		self.activated.connect(self.activated_)
 		self.main_window = parent
-		self.counter = 0
 		self.addItems(["Default Skin"])
-		self.setStyleSheet("""QComboBox:on { /* shift the text when the popup opens */
-    padding-top: 3px;
-    padding-left: 4px;
-}""")
 
 	def activated_(self, index):
 		current_config["Skin path"] = current_config["osu! path"] + "/Skins/" + self.itemText(index)

@@ -32,8 +32,12 @@ class Window(QMainWindow):
 		self.popup_bool = True
 
 		self.skin_dropdown = SkinDropDown(self)
-		self.skin_dropdown.addItems(["Well"])
-		self.skin_dropdown.addItems(["GGGGG"])
+		self.skin_dropdown.setStyleSheet("""QComboBox:on {
+    padding-top: 3px;
+    padding-left: 4px;
+}""")
+
+
 		self.osrbutton = OsrButton(self)
 		self.mapsetbutton = MapsetButton(self)
 		self.startbutton = StartButton(self)
@@ -53,7 +57,7 @@ class Window(QMainWindow):
 
 		self.check_osuPath()
 		self.check_replay_map()
-
+		self.skin_dropdown.raise_()
 		self.show()
 
 	def resizeEvent(self, event):
