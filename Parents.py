@@ -36,6 +36,7 @@ class Button(QPushButton):
 		if self.img_shadow is not None:
 			self.setup_shadow()
 		else:
+			self.shadow.setParent(None)
 			self.shadow = None
 
 		self.setIcon(QtGui.QIcon(self.img_idle))
