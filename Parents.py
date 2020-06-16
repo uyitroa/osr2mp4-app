@@ -9,12 +9,12 @@ def getsize(img):
 	return a.shape[1]/10, a.shape[0]/10
 
 
-def get_shadowpos(button, shadow):
+def get_shadowpos(button, width, height):
 	middle_x = button.x() + button.width()/2
 	middle_y = button.y() + button.height()/2
 
-	shadow_x = middle_x - shadow.width()/2
-	shadow_y = middle_y - shadow.height()/2
+	shadow_x = middle_x - width/2
+	shadow_y = middle_y - height/2
 
 	return shadow_x, shadow_y
 
@@ -65,7 +65,7 @@ class Button(QPushButton):
 		self.default_shadowwidth, self.default_shadowheight = width, height
 		self.shadow.setIcon(QtGui.QIcon(self.img_shadow))
 		self.shadow.setIconSize(QtCore.QSize(width, height))
-		x, y = get_shadowpos(self, self.shadow)
+		x, y = get_shadowpos(self, width, height)
 		self.shadow.setGeometry(x, y, width, height)
 		self.shadow.setFlat(True)
 
@@ -115,7 +115,7 @@ class Button(QPushButton):
 			width = self.default_shadowwidth * scale
 			height = self.default_shadowheight * scale
 			self.shadow.setIconSize(QtCore.QSize(width, height))
-			x, y = get_shadowpos(self, self.shadow)
+			x, y = get_shadowpos(self, width, height)
 			self.shadow.setGeometry(x, y, width, height)
 
 
