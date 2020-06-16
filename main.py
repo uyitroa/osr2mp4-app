@@ -11,10 +11,9 @@ from SkinDropDown import SkinDropDown
 from StartButton import StartButton
 from osuButton import osuButton
 from find_beatmap import find_beatmap_
-from PyQt5 import QtGui
+from PyQt5 import QtGui, QtCore
 from config_data import current_config
 from progressbar_class import progress_bar
-
 class Window(QMainWindow):
 	def __init__(self):
 		super().__init__()
@@ -32,11 +31,28 @@ class Window(QMainWindow):
 		self.popup_bool = True
 
 		self.skin_dropdown = SkinDropDown(self)
-		self.skin_dropdown.setStyleSheet("""QComboBox:on {
-    padding-top: 3px;
-    padding-left: 4px;
-}""")
+		self.skin_dropdown.setStyleSheet("""QComboBox
+{
+border-image : url(res/Drop_Scale.png);
+background:rgba(0,0,0,0);
 
+}
+QComboBox::drop-down
+{
+border-bottom-right-radius: 1px;
+}
+QListView
+{
+outline: none;
+
+color: white;
+font: bold;
+border-image : url(res/listview.png);	
+}
+""")
+		self.skin_dropdown.setGeometry(50,100,220,30)
+		self.skin_dropdown.setIconSize(QtCore.QSize(220,30))
+ 
 
 		self.osrbutton = OsrButton(self)
 		self.mapsetbutton = MapsetButton(self)
