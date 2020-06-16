@@ -8,8 +8,8 @@ class OutputButton(ButtonBrowse):
 	def __init__(self, parent):
 		super(OutputButton, self).__init__(parent)
 
-		self.default_x = 505
-		self.default_y = 85
+		self.default_x = 213
+		self.default_y = 330
 		self.default_size = 3.35
 		self.file_type = "Folder"
 

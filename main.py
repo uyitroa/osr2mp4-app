@@ -13,12 +13,11 @@ from osuButton import osuButton
 from find_beatmap import find_beatmap_
 from PyQt5 import QtGui
 from config_data import current_config
-
+from progressbar_class import progress_bar
 
 class Window(QMainWindow):
 	def __init__(self):
 		super().__init__()
-
 		self.setWindowIcon(QtGui.QIcon("icon.png"))
 		self.setWindowTitle("Subscribe to Raishin Aot")
 		self.setStyleSheet("background-color: grey;")
@@ -33,17 +32,23 @@ class Window(QMainWindow):
 		self.popup_bool = True
 
 		self.skin_dropdown = SkinDropDown(self)
+		self.skin_dropdown.addItems(["Well"])
+		self.skin_dropdown.addItems(["GGGGG"])
 		self.osrbutton = OsrButton(self)
 		self.mapsetbutton = MapsetButton(self)
 		self.startbutton = StartButton(self)
 		self.logo = Logo(self)
 		self.osrpath = OsrPath(self)
+		self.progressbar = progress_bar(self)
 		self.mapsetpath = MapSetPath(self)
 		self.blurrable_widgets = [self.osrbutton, self.mapsetbutton, self.startbutton, self.logo, self.osrpath, self.mapsetpath]
 
+		
+		self.popup_window = PopupWindow(self)
 		self.output_window = OutputButton(self)
 		self.osu_window = osuButton(self)
-		self.popup_window = PopupWindow(self)
+
+		
 		self.popup_widgets = [self.popup_window, self.output_window, self.osu_window]
 
 		self.check_osuPath()
@@ -67,6 +72,10 @@ class Window(QMainWindow):
 		self.osu_window.changesize()
 		self.popup_window.changesize()
 
+		progressbar_width,progressbar_height = self.width() - 20,40
+		progressbar_x,progressbar_y = 10,self.height()-progressbar_height-10
+
+		self.progressbar.changesize()
 		if self.popup_bool:
 			self.blur_function(True)
 		else:
@@ -119,7 +128,7 @@ class Window(QMainWindow):
 		print(replay)
 		if current_config["osu! path"] != "":
 			beatmap_path = find_beatmap_(current_config["osu! path"] + "/Replays/" + replay,
-			                             current_config["osu! path"])
+										 current_config["osu! path"])
 			current_config["Beatmap path"] = current_config["osu! path"] + "/Songs/" + beatmap_path
 			if beatmap_path != "":
 				self.mapsetpath.setText(beatmap_path)

@@ -12,5 +12,5 @@ class Logo(Button):
 		self.img_idle = "res/OsrLogo.png"
 		self.img_hover = "res/OsrLogo.png"
 		self.img_click = "res/OsrLogo.png"
-
+		self.img_shadow = "res/OsrLogo_Shadow.png"
 		super().setup()

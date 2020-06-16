@@ -28,6 +28,10 @@ class SkinDropDown(QComboBox):
 		self.main_window = parent
 		self.counter = 0
 		self.addItems(["Default Skin"])
+		self.setStyleSheet("""QComboBox:on { /* shift the text when the popup opens */
+    padding-top: 3px;
+    padding-left: 4px;
+}""")
 
 	def activated_(self, index):
 		current_config["Skin path"] = current_config["osu! path"] + "/Skins/" + self.itemText(index)
@@ -52,7 +56,5 @@ class SkinDropDown(QComboBox):
 				index2 = x.rfind("\\")
 				if index > index2:
 					self.addItems([x[index + 1:len(x)]])
-					print(x[index + 1:len(x)])
 				else:
 					self.addItems([x[index2 + 1:len(x)]])
-					print(x[index2 + 1:len(x)])

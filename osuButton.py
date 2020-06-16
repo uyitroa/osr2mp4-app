@@ -8,8 +8,8 @@ class osuButton(ButtonBrowse):
 	def __init__(self, parent):
 		super(osuButton, self).__init__(parent)
 
-		self.default_x = 400
-		self.default_y = 85
+		self.default_x = 389
+		self.default_y = 325
 		self.default_size = 3.35
 		self.file_type = "Folder"
 

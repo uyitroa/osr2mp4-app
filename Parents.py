@@ -144,7 +144,7 @@ class PathImage(Button):
 		self.img_idle = self.img_hover = self.img_click = None
 		self.text = QLabel(parent)
 		self.text.setText("")
-		self.default_fontsize = 200
+		self.default_fontsize = 150
 
 		self.offset = 115
 
