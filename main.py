@@ -1,6 +1,5 @@
 from PyQt5.QtWidgets import QMainWindow, QApplication
 import os, json, sys, glob, os.path
-from PyQt5 import QtWidgets
 from Logo import Logo
 from MapsetButton import MapsetButton
 from OsrButton import OsrButton
@@ -11,16 +10,18 @@ from SkinDropDown import SkinDropDown
 from StartButton import StartButton
 from osuButton import osuButton
 from find_beatmap import find_beatmap_
-from PyQt5 import QtGui, QtCore
+from PyQt5 import QtGui
 from config_data import current_config
 from progressbar_class import progress_bar
 from ScrollArea import Scroll_Class
+
+
 class Window(QMainWindow):
 	def __init__(self):
 		super().__init__()
 		self.setWindowIcon(QtGui.QIcon("icon.png"))
 		self.setWindowTitle("Subscribe to Raishin Aot")
-		self.setStyleSheet("background-color: grey;")
+		self.setStyleSheet("background-color: rgb(30, 30, 33);")
 
 		window_width, window_height = 832, 469
 		self.resize(window_width, window_height)
@@ -31,10 +32,6 @@ class Window(QMainWindow):
 
 		self.popup_bool = True
 
-		self.skin_dropdown = SkinDropDown(self)
-
- 
-
 		self.osrbutton = OsrButton(self)
 		self.mapsetbutton = MapsetButton(self)
 		self.startbutton = StartButton(self)
@@ -42,6 +39,7 @@ class Window(QMainWindow):
 		self.osrpath = OsrPath(self)
 		self.progressbar = progress_bar(self)
 		self.mapsetpath = MapSetPath(self)
+		self.skin_dropdown = SkinDropDown(self)
 		self.blurrable_widgets = [self.osrbutton, self.mapsetbutton, self.startbutton, self.logo, self.osrpath, self.mapsetpath]
 
 		
@@ -56,9 +54,6 @@ class Window(QMainWindow):
 		self.check_replay_map()
 		self.skin_dropdown.raise_()
 
-
-
-		
 		self.show()
 
 	def resizeEvent(self, event):
@@ -76,9 +71,7 @@ class Window(QMainWindow):
 		self.output_window.changesize()
 		self.osu_window.changesize()
 		self.popup_window.changesize()
-
-		progressbar_width,progressbar_height = self.width() - 20,40
-		progressbar_x,progressbar_y = 10,self.height()-progressbar_height-10
+		self.skin_dropdown.changesize()
 
 		self.progressbar.changesize()
 		if self.popup_bool:
