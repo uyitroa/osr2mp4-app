@@ -32,8 +32,7 @@ class Window(QMainWindow):
 		self.popup_bool = True
 
 		self.skin_dropdown = SkinDropDown(self)
-		self.skin_dropdown.setGeometry(50,100,220,30)
-		self.skin_dropdown.setIconSize(QtCore.QSize(220,30))
+
  
 
 		self.osrbutton = OsrButton(self)
@@ -111,6 +110,7 @@ class Window(QMainWindow):
 			current_config["Output path"] = data["Output path"] + "/output.avi"
 			current_config["osu! path"] = data["osu! path"]
 			self.skin_dropdown.get_configInfo(current_config["osu! path"])
+			print("F")
 			if data["Output path"] != "" and data["osu! path"] != "":
 				self.delete_popup()
 				self.popup_bool = False
