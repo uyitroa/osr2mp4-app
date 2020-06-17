@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QMainWindow, QApplication
 import os, json, sys, glob, os.path
-
+from PyQt5 import QtWidgets
 from Logo import Logo
 from MapsetButton import MapsetButton
 from OsrButton import OsrButton
@@ -14,6 +14,7 @@ from find_beatmap import find_beatmap_
 from PyQt5 import QtGui, QtCore
 from config_data import current_config
 from progressbar_class import progress_bar
+from ScrollArea import Scroll_Class
 class Window(QMainWindow):
 	def __init__(self):
 		super().__init__()
@@ -31,25 +32,6 @@ class Window(QMainWindow):
 		self.popup_bool = True
 
 		self.skin_dropdown = SkinDropDown(self)
-		self.skin_dropdown.setStyleSheet("""QComboBox
-{
-border-image : url(res/Drop_Scale.png);
-background:rgba(0,0,0,0);
-
-}
-QComboBox::drop-down
-{
-border-bottom-right-radius: 1px;
-}
-QListView
-{
-outline: none;
-
-color: white;
-font: bold;
-border-image : url(res/listview.png);	
-}
-""")
 		self.skin_dropdown.setGeometry(50,100,220,30)
 		self.skin_dropdown.setIconSize(QtCore.QSize(220,30))
  
@@ -67,13 +49,17 @@ border-image : url(res/listview.png);
 		self.popup_window = PopupWindow(self)
 		self.output_window = OutputButton(self)
 		self.osu_window = osuButton(self)
-
+		self.Setting_1 = Scroll_Class(self)
 		
 		self.popup_widgets = [self.popup_window, self.output_window, self.osu_window]
 
 		self.check_osuPath()
 		self.check_replay_map()
 		self.skin_dropdown.raise_()
+
+
+
+		
 		self.show()
 
 	def resizeEvent(self, event):
