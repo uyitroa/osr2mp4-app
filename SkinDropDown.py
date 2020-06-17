@@ -28,8 +28,8 @@ class SkinDropDown(QComboBox):
 		super(SkinDropDown, self).__init__(parent)
 
 
-		self.default_x = 50
-		self.default_y = 100
+		self.default_x = 500
+		self.default_y = 500
 		self.img_drop = "res/Drop_Scale.png"
 		self.img_listview = "res/listview.png"
 
@@ -96,4 +96,5 @@ class SkinDropDown(QComboBox):
 
 	def changesize(self):
 		changesize(self)
+		self.view().setIconSize(QtCore.QSize(0, 0))  # for linux machines otherwise texts got hidden
 

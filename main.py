@@ -12,7 +12,7 @@ from osuButton import osuButton
 from find_beatmap import find_beatmap_
 from PyQt5 import QtGui
 from config_data import current_config
-from progressbar_class import progress_bar
+from ProgressBar import ProgressBar
 from ScrollArea import Scroll_Class
 
 
@@ -37,7 +37,7 @@ class Window(QMainWindow):
 		self.startbutton = StartButton(self)
 		self.logo = Logo(self)
 		self.osrpath = OsrPath(self)
-		self.progressbar = progress_bar(self)
+		self.progressbar = ProgressBar(self)
 		self.mapsetpath = MapSetPath(self)
 		self.skin_dropdown = SkinDropDown(self)
 		self.blurrable_widgets = [self.osrbutton, self.mapsetbutton, self.startbutton, self.logo, self.osrpath, self.mapsetpath]
@@ -72,6 +72,7 @@ class Window(QMainWindow):
 		self.osu_window.changesize()
 		self.popup_window.changesize()
 		self.skin_dropdown.changesize()
+		self.Setting_1.changesize()
 
 		self.progressbar.changesize()
 		if self.popup_bool:
