@@ -24,7 +24,6 @@ class Window(QMainWindow):
 		self.setStyleSheet("background-color: rgb(30, 30, 33);")
 
 		window_width, window_height = 832, 469
-		self.resize(window_width, window_height)
 
 		self.minimum_resolution = [640, 360]
 		self.previous_resolution = [0, 0]
@@ -55,6 +54,7 @@ class Window(QMainWindow):
 		self.skin_dropdown.raise_()
 
 		self.show()
+		self.resize(window_width, window_height)
 
 	def resizeEvent(self, event):
 		height = self.width() * 9 / 16

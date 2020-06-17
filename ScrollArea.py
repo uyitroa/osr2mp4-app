@@ -1,5 +1,7 @@
 from PyQt5 import QtWidgets
 from PyQt5 import QtCore
+from PyQt5.QtWidgets import QScrollBar
+
 from GridLayout import GridLayout
 from QLabel import Titles, Small_Titles
 from Separator import Separator
@@ -56,7 +58,9 @@ class Scroll_Class:
 
 
 		for x in range(10):
-			self.gridLayout.addWidget(Small_Textbox(), rowcounter(), 0)
+			render_ = QtWidgets.QLabel("Render Options")
+			render_.setStyleSheet("""font: bold 24px;color:white;""")
+			self.gridLayout.addWidget(render_, rowcounter(), 0)
 
 		self.setScrollStyle()
 
@@ -71,7 +75,7 @@ class Scroll_Class:
 		styleSheet = """
 
 				QScrollBar:vertical {
-				width: %i px;
+				width: %ipx;
 				image: url('%s');
 				}
 
@@ -114,6 +118,7 @@ class Scroll_Class:
 		return self.resizehandle(filename, scaley)
 
 	def resizehandle(self, filename, scaley):
+		scaley = max(0.01, scaley)
 		img = cv2.resize(self.np_handle, (0, 0), fx=1, fy=scaley)
 		filename, ext = os.path.splitext(filename)
 		filename = filename + "1" + ext
@@ -131,13 +136,6 @@ class Scroll_Class:
 		height = scale * self.layout_height
 		self.layout.setGeometry(QtCore.QRect(x, y, width, height))
 
-		# reload scroll stylesheet
-		self.resizehandle(self.img_handle, scale * self.gridLayout.rowcounter[0] / self.scrollsize)
-		scrollbar = self.scrollArea.verticalScrollBar()
-		scrollbar.style().unpolish(scrollbar)
-		scrollbar.style().polish(scrollbar)
-		scrollbar.update()
-
 		for x in range(self.gridLayout.count()):
 			item = self.gridLayout.itemAt(x).widget()
 
@@ -148,3 +146,10 @@ class Scroll_Class:
 			height = item.default_height * scale
 			item.setFixedWidth(width)
 			item.setFixedHeight(height)
+
+		# reload scroll stylesheet
+		scrollbar = self.scrollArea.verticalScrollBar()
+		self.resizehandle(self.img_handle, scale * scrollbar.maximum() / 10 / self.scrollsize)
+		scrollbar.style().unpolish(scrollbar)
+		scrollbar.style().polish(scrollbar)
+		scrollbar.update()
