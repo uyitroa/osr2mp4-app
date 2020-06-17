@@ -40,6 +40,13 @@ class Button(QPushButton):
 			self.shadow = None
 
 		self.setIcon(QtGui.QIcon(self.img_idle))
+		self.setStyleSheet("""
+		QPushButton:flat
+		{
+			border: none;
+			background: none;
+		}""")
+
 
 		imgsize = getsize(self.img_idle)
 
@@ -65,6 +72,12 @@ class Button(QPushButton):
 
 		self.default_shadowwidth, self.default_shadowheight = width, height
 		self.shadow.setIcon(QtGui.QIcon(self.img_shadow))
+		self.shadow.setStyleSheet("""
+		QPushButton:flat
+		{
+			border: none;
+			background: none;
+		}""")
 		self.shadow.setIconSize(QtCore.QSize(width, height))
 		x, y = get_shadowpos(self, width, height)
 		self.shadow.setGeometry(x, y, width, height)
