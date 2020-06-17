@@ -4,6 +4,12 @@
 		"Output path": {"type": "Small_Textbox"},
 		"Start time - End time": {"type": "Slider"},
 		"Width": {"type": "Small_Textbox", "Column": 1},
-		"Height": {"type": "Small_Textbox", "Column": 1}
-  }
+		"Height": {"type": "Small_Textbox", "Column": 2},
+		"asdf": {"type": "Small_Textbox", "Column": 1}
+	},
+
+	"Visual options": {
+		"asdf": {"type": "Slider", "Column": 2},
+		"ok": {"type": "Slider"}
+	}
 }
