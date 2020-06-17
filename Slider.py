@@ -10,7 +10,7 @@ class Slider(QSlider):
 		self.setOrientation(QtCore.Qt.Horizontal)
 
 		self.img = "res/Slider_HD.png"
-		self.default_width, self.default_height = 200, 50
+		self.default_width, self.default_height = 200, 20
 
 		self.setStyleSheet("""
 		QSlider::handle:horizontal {

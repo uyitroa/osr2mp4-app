@@ -7,6 +7,9 @@ class ParentTextbox(QLineEdit):
 		self.default_width = 1
 		self.default_height = 1
 
+		# Do your setStylesheet here
+		self.setStyleSheet("font: bold 12px;color:white;")
+
 	def setFixedHeight(self, p_int):
 		pass
 
@@ -18,7 +21,6 @@ class Big_Textbox(ParentTextbox):
 		self.default_width = 200
 		self.default_height = 20
 
-		self.setStyleSheet("font: bold 12px;color:white;")
 		self.setFixedWidth(self.default_width)
 		QLineEdit().setFixedHeight(self.default_height)
 
@@ -30,6 +32,5 @@ class Small_Textbox(ParentTextbox):
 		self.default_width = 50
 		self.default_height = 20
 
-		self.setStyleSheet("font: bold 12px;color:white;")
 		self.setFixedWidth(self.default_width)
 		QLineEdit().setFixedHeight(self.default_height)

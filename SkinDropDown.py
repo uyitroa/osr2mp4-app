@@ -28,8 +28,8 @@ class SkinDropDown(QComboBox):
 		super(SkinDropDown, self).__init__(parent)
 
 
-		self.default_x = 500
-		self.default_y = 500
+		self.default_x = 600
+		self.default_y = 300
 		self.img_drop = "res/Drop_Scale.png"
 		self.img_listview = "res/listview.png"
 
