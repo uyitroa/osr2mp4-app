@@ -1,8 +1,9 @@
 from Parents import Button
 
-class progress_bar(Button):
+
+class ProgressBar(Button):
     def __init__(self, parent):
-        super(progress_bar, self).__init__(parent)
+        super(ProgressBar, self).__init__(parent)
 
         self.default_x = 20
         self.default_y = 430

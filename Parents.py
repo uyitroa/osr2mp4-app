@@ -1,12 +1,8 @@
 from PyQt5 import QtGui, QtCore
 from PyQt5.QtWidgets import QGraphicsBlurEffect, QPushButton, QFileDialog, QLabel
 from pathlib import Path
-import cv2
 
-
-def getsize(img):
-	a = cv2.imread(img, -1)
-	return a.shape[1]/10, a.shape[0]/10
+from helper import getsize, changesize
 
 
 def get_shadowpos(button, width, height):
@@ -50,8 +46,8 @@ class Button(QPushButton):
 
 		imgsize = getsize(self.img_idle)
 
-		width = self.default_size * imgsize[0]
-		height = self.default_size * imgsize[1]
+		width = self.default_size * imgsize[0]/10
+		height = self.default_size * imgsize[1]/10
 
 		self.default_width, self.default_height = width, height
 
@@ -67,8 +63,8 @@ class Button(QPushButton):
 	def setup_shadow(self):
 		imgsize = getsize(self.img_shadow)
 
-		width = self.default_size * imgsize[0] * 1.01
-		height = self.default_size * imgsize[1] * 1.01
+		width = self.default_size * imgsize[0]/10 * 1.01
+		height = self.default_size * imgsize[1]/10 * 1.01
 
 		self.default_shadowwidth, self.default_shadowheight = width, height
 		self.shadow.setIcon(QtGui.QIcon(self.img_shadow))
@@ -114,18 +110,10 @@ class Button(QPushButton):
 			self.shadow.setParent(parent)
 
 	def changesize(self):
-		scale = self.main_window.height() / self.main_window.default_height
-
-		x = self.default_x * scale
-		y = self.default_y * scale
-
-		width = self.default_width * scale
-		height = self.default_height * scale
-
-		self.setIconSize(QtCore.QSize(width, height))
-		self.setGeometry(x, y, width, height)
+		changesize(self)
 
 		if self.shadow is not None:
+			scale = self.main_window.height() / self.main_window.default_height
 			width = self.default_shadowwidth * scale
 			height = self.default_shadowheight * scale
 			self.shadow.setIconSize(QtCore.QSize(width, height))

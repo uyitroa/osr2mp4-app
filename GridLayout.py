@@ -6,10 +6,10 @@ from PyQt5.QtWidgets import QGridLayout
 class GridLayout(QGridLayout):
 	def __init__(self, QWidget):
 		super().__init__(QWidget)
-		self.maxwidth = 500
+		self.maxwidth = 300
 		self.maxheight = 500
-		self.colstart = 2
 		self.rowcounter = [0]
+		self.headerrow = 0
 
 	def smart_addWidget(self, QWidget, col):
 
@@ -17,7 +17,13 @@ class GridLayout(QGridLayout):
 		colspan = 1
 
 		while col + 1 > len(self.rowcounter):
-			self.rowcounter.append(self.colstart)
+			self.rowcounter.append(self.headerrow)
+
+		if type(QWidget).__name__ == "Separator":
+			self.headerrow = self.rowcounter[col] + 1
+			for x in range(len(self.rowcounter)):
+				self.rowcounter[x] = self.headerrow
+			self.rowcounter[col] -= 1
 
 		row = self.rowcounter[col]
 

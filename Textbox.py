@@ -1,15 +1,35 @@
 from PyQt5.QtWidgets import QLineEdit
 
 
-class Big_Textbox(QLineEdit):
-	def __init__(self, parent=None, jsondata=None):
+class ParentTextbox(QLineEdit):
+	def __init__(self):
 		super().__init__()
-		self.setStyleSheet("font: bold 12px;color:white;")
-		self.setFixedWidth(200)
+		self.default_width = 1
+		self.default_height = 1
+
+	def setFixedHeight(self, p_int):
+		pass
 
 
-class Small_Textbox(QLineEdit):
+class Big_Textbox(ParentTextbox):
 	def __init__(self, parent=None, jsondata=None):
 		super().__init__()
+
+		self.default_width = 200
+		self.default_height = 20
+
 		self.setStyleSheet("font: bold 12px;color:white;")
-		self.setFixedWidth(50)
+		self.setFixedWidth(self.default_width)
+		QLineEdit().setFixedHeight(self.default_height)
+
+
+class Small_Textbox(ParentTextbox):
+	def __init__(self, parent=None, jsondata=None):
+		super().__init__()
+
+		self.default_width = 50
+		self.default_height = 20
+
+		self.setStyleSheet("font: bold 12px;color:white;")
+		self.setFixedWidth(self.default_width)
+		QLineEdit().setFixedHeight(self.default_height)
