@@ -15,7 +15,7 @@ class Scroll_Class:
 
 		self.nelements = 10
 		self.layout_width, self.layout_height = 550, 450
-		self.scrollsize = 40
+		self.scrollsize = 30
 
 		layout = QtWidgets.QHBoxLayout(parent)
 		self.scrollArea = QtWidgets.QScrollArea(parent)
@@ -124,7 +124,7 @@ class Scroll_Class:
 
 	def fixsize(self, filename):
 		img = cv2.imread(filename, -1)
-		scaley = min(1.0, self.nelements / self.scrollsize)
+		scaley = self.nelements / self.scrollsize
 		print(scaley)
 		img = cv2.resize(img, (0, 0), fx=1, fy=scaley)
 		filename, ext = os.path.splitext(filename)
