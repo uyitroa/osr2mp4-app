@@ -92,6 +92,8 @@ class Scroll_Class:
 				self.gridLayout.addWidget(Small_Titles(titlesList[x]), RowsList[x], ColumnsList[x])
 			elif typesList[x] == "SmallTextBox":
 				self.gridLayout.addWidget(Small_Textbox(), RowsList[x], ColumnsList[x])
+			elif typesList[x] == "BigTextBox":
+				self.gridLayout.addWidget(Big_Textbox(), RowsList[x], ColumnsList[x])
 
 
 
