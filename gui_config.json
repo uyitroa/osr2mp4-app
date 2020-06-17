@@ -1,0 +1,8 @@
+{
+  "Settings_1": {
+  	"Render options": {"type": "Big_Titles", "Column": 0, "Row": 0},
+    "osu! path": {"type": "Small_Titles", "Column": 0, "Row": 1},
+   	"br": {"type": "SmallTextBox", "Column": 0, "Row": 2},
+    "Output path": {"type": "Small_Titles", "Column": 0, "Row": 3}
+  }
+}

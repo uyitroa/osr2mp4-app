@@ -1,12 +1,10 @@
-import sys
 from PyQt5 import QtWidgets
 from PyQt5 import QtCore
 from PyQt5 import QtGui
 from QLabel import Titles, Small_Titles
 from Textbox import Big_Textbox, Small_Textbox
 from Slider import Slider
-import cv2
-import os
+import os, json, cv2, sys
 
 
 class Scroll_Class:
@@ -21,6 +19,8 @@ class Scroll_Class:
 		self.scrollArea = QtWidgets.QScrollArea(parent)
 		self.scrollArea.setWidgetResizable(True)
 		scrollAreaWidgetContents = QtWidgets.QWidget()
+		scrollAreaWidgetContents.setStyleSheet("background: rgb(49, 45, 45);")
+
 		self.gridLayout = QtWidgets.QGridLayout(scrollAreaWidgetContents)
 		self.scrollArea.setWidget(scrollAreaWidgetContents)
 		layout.addWidget(self.scrollArea)
@@ -32,7 +32,7 @@ class Scroll_Class:
 		render_.setStyleSheet("""font: bold 24px;color:white;""")
 
 		# Vertical
-		separator = QtWidgets.QLabel()
+		'''separator = QtWidgets.QLabel()
 		separator_img = QtGui.QPixmap('res/Separator.png')
 		separator_img = separator_img.scaled(500, 10, QtCore.Qt.KeepAspectRatio)
 		separator.setPixmap(separator_img)
@@ -73,10 +73,35 @@ class Scroll_Class:
 		for x in range(len(horizontal_widgets)):
 			self.gridLayout.addWidget(horizontal_widgets[x], x + 2, 1)
 
-		self.nelements = len(vertical_widgets)
+		self.nelements = len(vertical_widgets)'''
+		data_header, typesList, titlesList, textList, ColumnsList, RowsList = [], [], [], [], [], []
+		with open('gui_config.json') as f:
+			data = json.load(f)	
+		for x in data:
+			data_header.append(x)
+		for header in data_header:
+			for titles in data[header]:
+				titlesList.append(titles)
+				typesList.append(data[header][titles]["type"])
+				ColumnsList.append(data[header][titles]["Column"])
+				RowsList.append(data[header][titles]["Row"])
+		for x in range(len(titlesList)):
+			if typesList[x] == "Big_Titles":
+				self.gridLayout.addWidget(Titles(titlesList[x]), RowsList[x], ColumnsList[x])
+			elif typesList[x] == "Small_Titles":
+				self.gridLayout.addWidget(Small_Titles(titlesList[x]), RowsList[x], ColumnsList[x])
+			elif typesList[x] == "SmallTextBox":
+				self.gridLayout.addWidget(Small_Textbox(), RowsList[x], ColumnsList[x])
+
+
+
+					
+		print(RowsList)
+		print(ColumnsList)
+		self.gridLayout.setRowStretch(100,1)
 		self.setScrollStyle()
 
-		print("settings")
+		
 
 	def setScrollStyle(self):
 		scroll_handle = "res/scroll_back.png"
@@ -100,6 +125,7 @@ class Scroll_Class:
 				}
 				
 				QScrollBar::add-line:vertical {
+
 					height: 1px;
 					subcontrol-position: bottom;
 					subcontrol-origin: margin;
