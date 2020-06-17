@@ -2,11 +2,14 @@ import sys
 from PyQt5 import QtWidgets
 from PyQt5 import QtCore
 import cv2
+import os
 
 
 class Scroll_Class():
 	def __init__(self, parent):
 		super().__init__()
+
+		self.nelements = 10
 
 		self.layout = QtWidgets.QHBoxLayout(parent)
 		self.scrollArea = QtWidgets.QScrollArea(parent)
@@ -20,13 +23,12 @@ class Scroll_Class():
 
 		self.layout.setGeometry(QtCore.QRect(20, 20, 400, 250))
 
-		self.nelements = 10
-
 		for i in range(self.nelements):
 			self.gridLayout.addWidget(QtWidgets.QPushButton(), i, 2)
 
 	def setScrollStyle(self):
 		scroll_handle = "res/scroll_back.png"
+		scroll_handle = self.fixsize(scroll_handle)
 		scroll_ball = "res/SliderBall_HD.png"
 
 		styleSheet = """
@@ -70,4 +72,9 @@ class Scroll_Class():
 
 	def fixsize(self, filename):
 		img = cv2.imread(filename, -1)
-		
+		scale = self.nelements/100
+		cv2.resize(img, (0, 0), fx=scale, fy=scale)
+		filename, ext = os.path.splitext(filename)
+		filename = filename + "1" + ext
+		cv2.imwrite(filename, img)
+		return filename
