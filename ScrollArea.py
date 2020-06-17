@@ -10,6 +10,7 @@ class Scroll_Class():
 		super().__init__()
 
 		self.nelements = 10
+		self.layout_width, self.layout_height = 400, 250
 
 		self.layout = QtWidgets.QHBoxLayout(parent)
 		self.scrollArea = QtWidgets.QScrollArea(parent)
@@ -21,7 +22,7 @@ class Scroll_Class():
 
 		self.setScrollStyle()
 
-		self.layout.setGeometry(QtCore.QRect(20, 20, 400, 250))
+		self.layout.setGeometry(QtCore.QRect(20, 20, self.layout_width, self.layout_height))
 
 		for i in range(self.nelements):
 			self.gridLayout.addWidget(QtWidgets.QPushButton(), i, 2)
@@ -30,6 +31,7 @@ class Scroll_Class():
 		scroll_handle = "res/scroll_back.png"
 		scroll_handle = self.fixsize(scroll_handle)
 		scroll_ball = "res/SliderBall_HD.png"
+		blank = "res/blank.png"
 
 		styleSheet = """
 
@@ -67,13 +69,13 @@ class Scroll_Class():
 				
 				QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
 					background: transparent;
-				}""" % (scroll_handle, scroll_ball, scroll_handle, scroll_handle)
+				}""" % (scroll_handle, scroll_ball, blank, blank)
 		self.scrollArea.verticalScrollBar().setStyleSheet(styleSheet)
 
 	def fixsize(self, filename):
 		img = cv2.imread(filename, -1)
-		scale = self.nelements/100
-		cv2.resize(img, (0, 0), fx=scale, fy=scale)
+		scale = self.nelements/22
+		img = cv2.resize(img, (0, 0), fx=0.5, fy=scale)
 		filename, ext = os.path.splitext(filename)
 		filename = filename + "1" + ext
 		cv2.imwrite(filename, img)
