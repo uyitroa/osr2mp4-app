@@ -11,6 +11,7 @@ class Scroll_Class():
 
 		self.nelements = 10
 		self.layout_width, self.layout_height = 400, 250
+		self.scrollsize = 20
 
 		self.layout = QtWidgets.QHBoxLayout(parent)
 		self.scrollArea = QtWidgets.QScrollArea(parent)
@@ -36,8 +37,7 @@ class Scroll_Class():
 		styleSheet = """
 
 				QScrollBar:vertical {
-				height: 100px;
-				width: 10px;
+				width: %i px;
 				image: url('%s');
 				}
 
@@ -69,13 +69,14 @@ class Scroll_Class():
 				
 				QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
 					background: transparent;
-				}""" % (scroll_handle, scroll_ball, blank, blank)
+				}""" % (self.scrollsize, scroll_handle, scroll_ball, blank, blank)
 		self.scrollArea.verticalScrollBar().setStyleSheet(styleSheet)
 
 	def fixsize(self, filename):
 		img = cv2.imread(filename, -1)
-		scale = self.nelements/22
-		img = cv2.resize(img, (0, 0), fx=0.5, fy=scale)
+		scaley = min(1, self.nelements/self.scrollsize)
+		scalex = max(0.4, self.scrollsize/self.nelements)
+		img = cv2.resize(img, (0, 0), fx=scalex, fy=scaley)
 		filename, ext = os.path.splitext(filename)
 		filename = filename + "1" + ext
 		cv2.imwrite(filename, img)
