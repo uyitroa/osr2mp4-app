@@ -1,6 +1,9 @@
 from PyQt5 import QtWidgets
 from PyQt5 import QtCore
+from PyQt5.QtCore import QUrl
+from PyQt5.QtQuickWidgets import QQuickWidget
 
+from DoubleSlider import DoubleSlider
 from GridLayout import GridLayout
 from QLabel import Titles, Small_Titles
 from Scrollbar import Scrollbar
@@ -22,7 +25,8 @@ class ScrollArea:
 
 		self.widgetlists = {"Big_Textbox": Big_Textbox, "Small_Textbox": Small_Textbox,
 		                    "Titles": Titles, "Small_Titles": Small_Titles,
-		                    "Slider": Slider, "CheckBox": CheckBox}
+		                    "Slider": Slider, "DoubleSlider": DoubleSlider,
+		                    "CheckBox": CheckBox}
 
 		self.layout = QtWidgets.QHBoxLayout(parent)
 		scrollAreaWidgetContents = QtWidgets.QWidget()
@@ -33,8 +37,8 @@ class ScrollArea:
 		self.scrollArea = Scrollbar(parent, self.gridLayout)
 		self.scrollArea.setWidget(scrollAreaWidgetContents)
 		self.layout.addWidget(self.scrollArea)
-		self.scrollArea.horizontalScrollBar().setEnabled(False);
-		self.scrollArea.horizontalScrollBar().setEnabled(True);
+		self.scrollArea.horizontalScrollBar().setEnabled(False)
+		self.scrollArea.horizontalScrollBar().setEnabled(True)
 
 	def setup(self):
 		self.layout.setGeometry(QtCore.QRect(self.default_x, self.default_y, self.default_width, self.default_height))
@@ -86,7 +90,6 @@ class ScrollArea:
 			render_.setStyleSheet("""font: bold 24px;color:white;""")
 			self.gridLayout.addWidget(render_, rowcounter(), 0)
 
-		
 		self.scrollArea.hide()
 		self.scrollArea.raise_()
 
@@ -97,3 +100,21 @@ def load_paths():
 			data = json.load(f)
 	if not data == None:
 		return data
+		print("settings")
+
+
+	def setup(self):
+		self.layout.setGeometry(QtCore.QRect(self.default_x, self.default_y, self.default_width, self.default_height))
+
+	def changesize(self):
+		scale = self.main_window.height() / self.main_window.default_height
+
+		self.gridLayout.changesize(scale)
+
+		x = scale * self.default_x
+		y = scale * self.default_y
+		width = scale * self.default_width
+		height = scale * self.default_height
+		self.layout.setGeometry(QtCore.QRect(x, y, width, height))
+
+
