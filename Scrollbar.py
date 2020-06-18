@@ -10,7 +10,6 @@ from PyQt5 import QtCore
 class CustomScrolbar(QSlider):
 	def __init__(self, parent=None, jsondata=None):
 		super().__init__(parent)
-		self.setOrientation(QtCore.Qt.Vertical)
 
 		self.default_width, self.default_height = 20, 400
 		self.default_x, self.default_y = 500, -100
@@ -26,20 +25,16 @@ class CustomScrolbar(QSlider):
 
 	def setScrollStyle(self):
 		self.setStyleSheet("""
-		QSlider::groove:vertical 
-		{
-			border-image: url(%s);
-		    height:%ipx;
-		}
+QSlider::groove:vertical {
+    border-image:url(%s);
+}
 
-		QSlider::handle:vertical 
-		{
-			image: url(%s);
-			margin: -6px 0;
-		}
+QSlider::handle:vertical {
+    image: url(%s);
+    height:30px;
+}
 
-
-		""" % (self.img_scroll, self.default_height, self.img_handle))
+		""" % (self.img_scroll, self.img_handle))
 
 
 class Scrollbar(QScrollArea):
