@@ -27,6 +27,7 @@ class Big_Textbox(ParentTextbox):
 QLineEdit {
  border: 2px solid white;
  border-radius: 6px;
+ color:white;
 }
 """
 			)
@@ -45,5 +46,7 @@ class Small_Textbox(ParentTextbox):
 QLineEdit {
  border: 2px solid white;
  border-radius: 6px;
+  color:white;
+
 }
 """)

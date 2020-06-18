@@ -39,8 +39,6 @@ class SkinDropDown(QComboBox):
 		self.setStyleSheet("""QComboBox
 			 {
 			 border-image : url(%s);
-			 background:rgba(0,0,0,0);
-			
 			 }
 			 QComboBox::drop-down
 			 {
@@ -49,29 +47,31 @@ class SkinDropDown(QComboBox):
 			 QListView
 			 {
 			 outline: none;
-			
 			 color: white;
 			 font: bold;
-			 border-image : url(%s);	
+			 border-image : url(%s);
 			 }
  QScrollBar:vertical {
-     width: 0px;
-     height: 0px;
+	 width: 0px;
+	 height: 0px;
  }
  QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical {
-     width: 0px;
-     height: 0px;
-     background: none;
+	 width: 0px;
+	 height: 0px;
+	 background: none;
  }
 
  QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
-     background: none;
+	 background: none;
  }
+ QTextEdit, QListView {
+    background-color: rgba(0, 0, 0, 0);
+    background-attachment: scroll;
+}
  
 			 """ % (self.img_drop, self.img_listview))
 
 		self.setup()
-
 	def setup(self):
 
 		self.default_width, self.default_height = getsize(self.img_drop)

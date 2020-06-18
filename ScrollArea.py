@@ -84,6 +84,7 @@ class ScrollArea:
 			render_.setStyleSheet("""font: bold 24px;color:white;""")
 			self.gridLayout.addWidget(render_, rowcounter(), 0)
 
+		
+		self.scrollArea.hide()
 		self.scrollArea.raise_()
-
 

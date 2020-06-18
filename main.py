@@ -11,10 +11,12 @@ from SkinDropDown import SkinDropDown
 from StartButton import StartButton
 from osuButton import osuButton
 from find_beatmap import find_beatmap_
-from PyQt5 import QtGui
+from PyQt5 import QtGui, QtCore
 from config_data import current_config
 from ProgressBar import ProgressBar
 from Options import Options
+from username_parser import get_configInfo
+from user_settings import settings_json
 class Window(QMainWindow):
 	def __init__(self):
 		super().__init__()
@@ -47,8 +49,9 @@ class Window(QMainWindow):
 
 		self.Options = Options(self)
 		self.settingspage = SettingsPage(self)
-		self.settingspage.setParent(None)
-
+		self.settingspage.load_settings()
+		self.settingspage.hide()
+		
 		self.popup_widgets = [self.popup_window, self.output_window, self.osu_window]
 
 		self.check_osuPath()
@@ -84,6 +87,16 @@ class Window(QMainWindow):
 		self.previous_resolution[0] = self.width()
 		self.previous_resolution[1] = self.height()
 
+
+	def keyPressEvent(self, event):
+	  if event.key() == QtCore.Qt.Key_Escape:
+	  	if self.settingspage.isVisible():
+	  		
+	  		self.settingspage.hide()
+
+	  		self.settingspage.settingsarea.scrollArea.hide()
+
+
 	def blur_function(self, blur):
 		if blur:
 			for x in self.blurrable_widgets:
@@ -105,11 +118,24 @@ class Window(QMainWindow):
 			current_config["Output path"] = data["Output path"] + "/output.avi"
 			current_config["osu! path"] = data["osu! path"]
 			self.skin_dropdown.get_configInfo(current_config["osu! path"])
-			print("F")
 			if data["Output path"] != "" and data["osu! path"] != "":
 				self.delete_popup()
 				self.popup_bool = False
-			print("Data loaded:\n{}\n{}".format(data["Output path"], data["osu! path"]))
+
+			settings = get_configInfo(current_config["osu! path"])
+			counter = 0
+			for x in settings_json:
+				print(counter)
+				settings_json[x] = settings[counter]
+				if counter >= 10:
+					break
+				counter+=1
+		
+		with open('settings.json', 'w+') as f:                
+			json.dump(settings_json, f, indent=4)                
+			f.close()  
+		print(settings_json)
+		#print("Data loaded:\n{}\n{}".format(data["Output path"], data["osu! path"]))
 
 	def find_latestReplay(self):
 		# current_config["osu! path"] = "/Users/yuitora./Documents/osu!.app/Contents/Resources/drive_c/osu!"

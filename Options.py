@@ -16,9 +16,8 @@ class Options(Button):
 		super().setup()
 
 	def mouseclicked(self):
-		self.parent.settingspage.setParent(self.parent)
-		self.parent.settingspage.load_settings()
 		self.parent.settingspage.show()
+		self.parent.settingspage.settingsarea.scrollArea.show()
 
 
 

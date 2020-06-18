@@ -16,8 +16,9 @@ class Scrollbar(QScrollArea):
 		self.scrollsize = 30
 
 		self.setWidgetResizable(True)
-		self.setScrollStyle()
+		
 		self.setStyleSheet("background: transparent;border: none;")
+		self.setScrollStyle()
 		self.show()
 
 
