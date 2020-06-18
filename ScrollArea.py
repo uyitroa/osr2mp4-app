@@ -8,6 +8,7 @@ from Separator import Separator
 from Textbox import Big_Textbox, Small_Textbox
 from Slider import Slider
 import json
+from CheckBox import CheckBox
 
 
 class ScrollArea:
@@ -21,7 +22,7 @@ class ScrollArea:
 
 		self.widgetlists = {"Big_Textbox": Big_Textbox, "Small_Textbox": Small_Textbox,
 		                    "Titles": Titles, "Small_Titles": Small_Titles,
-		                    "Slider": Slider}
+		                    "Slider": Slider, "CheckBox": CheckBox}
 
 		self.layout = QtWidgets.QHBoxLayout(parent)
 		scrollAreaWidgetContents = QtWidgets.QWidget()
@@ -32,7 +33,7 @@ class ScrollArea:
 		self.scrollArea = Scrollbar(parent, self.gridLayout)
 		self.scrollArea.setWidget(scrollAreaWidgetContents)
 		self.layout.addWidget(self.scrollArea)
-		
+		self.scrollArea.horizontalScrollBar().setEnabled(False);
 
 
 
@@ -64,11 +65,18 @@ class ScrollArea:
 			self.gridLayout.smart_addWidget(Separator(), 0)
 			for key in data[header]:
 				column = data[header][key].get("Column", 0)  # default to 0 if column is not specified
+				widgetname = data[header][key]["type"]
+				Widget = self.widgetlists[widgetname]
+
+				if widgetname == "CheckBox":
+					self.gridLayout.addWidget(CheckBox(key), self.gridLayout.rowcounter[column], column)
+					continue
 
 				self.gridLayout.smart_addWidget(Small_Titles(key), column)
 
-				widgetname = data[header][key]["type"]
-				Widget = self.widgetlists[widgetname]
+				
+				
+					
 				self.gridLayout.smart_addWidget(Widget(jsondata=data[header][key]), column)
 
 
@@ -76,7 +84,7 @@ class ScrollArea:
 			render_ = QtWidgets.QLabel("Render Options")
 			render_.setStyleSheet("""font: bold 24px;color:white;""")
 			self.gridLayout.addWidget(render_, rowcounter(), 0)
-			print("X")
+
 		self.scrollArea.raise_()
 
 

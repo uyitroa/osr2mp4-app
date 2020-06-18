@@ -5,7 +5,8 @@
 		"Start time - End time": {"type": "Slider"},
 		"Width": {"type": "Small_Textbox", "Column": 1},
 		"Height": {"type": "Small_Textbox", "Column": 2},
-		"asdf": {"type": "Small_Textbox", "Column": 1}
+		"asdf": {"type": "Small_Textbox", "Column": 1},
+		"fFFFFFFFFFFFFFF": { "type": "CheckBox", "Column": 1}
 	},
 
 	"Visual options": {
