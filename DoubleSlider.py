@@ -5,7 +5,7 @@ from RangeSlider import QRangeSlider
 
 
 class DoubleSlider(QWidget):
-	def __init__(self):
+	def __init__(self, jsondata=None):
 		super().__init__()
 
 		self.default_width = 300

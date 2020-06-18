@@ -24,7 +24,7 @@ class ScrollArea:
 
 		self.widgetlists = {"Big_Textbox": Big_Textbox, "Small_Textbox": Small_Textbox,
 		                    "Titles": Titles, "Small_Titles": Small_Titles,
-		                    "Slider": Slider}
+		                    "Slider": Slider, "DoubleSlider": DoubleSlider}
 
 		self.layout = QtWidgets.QHBoxLayout(parent)
 		scrollAreaWidgetContents = QtWidgets.QWidget()
@@ -59,7 +59,7 @@ class ScrollArea:
 			render_.setStyleSheet("""font: bold 24px;color:white;""")
 			self.gridLayout.addWidget(render_, rowcounter(), 0)
 
-		self.gridLayout.smart_addWidget(DoubleSlider(), 0)
+		# self.gridLayout.smart_addWidget(DoubleSlider(), 0)
 
 		print("settings")
 
