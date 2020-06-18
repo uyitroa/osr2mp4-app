@@ -51,6 +51,10 @@ QSlider::handle:vertical {
 
 	@QtCore.pyqtSlot(int)
 	def valueChanged(self, p_int):
+		if self.parent().fromscroll:
+			self.parent().fromscroll = False
+			return
+
 		try:
 			scrollbar = self.parent().verticalScrollBar()
 			val = scale(self.value(), (self.maximum(), self.minimum()), (scrollbar.minimum(), scrollbar.maximum()))
@@ -66,7 +70,6 @@ QSlider::handle:vertical {
 		width = self.default_width * scale
 		height = self.default_height * scale
 		self.setGeometry(x, y, width, height)
-		print(self.parent().verticalScrollBar().maximum())
 		if self.parent().verticalScrollBar().maximum() == 0:
 			self.hide()
 		else:
@@ -81,6 +84,7 @@ class Scrollbar(QScrollArea):
 		self.gridLayout = layout
 
 		self.scrollsize = 30
+		self.fromscroll = False
 		self.customscroll = CustomScrolbar(self)
 
 		self.setWidgetResizable(True)
@@ -133,6 +137,7 @@ class Scrollbar(QScrollArea):
 			scrollbar = self.verticalScrollBar()
 
 			val = scale(scrollbar.value(), (scrollbar.minimum(), scrollbar.maximum()), (self.customscroll.maximum(), self.customscroll.minimum()))
+			self.fromscroll = True
 			self.customscroll.setValue(val)
 		except AttributeError as e:
 			pass

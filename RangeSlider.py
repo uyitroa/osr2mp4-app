@@ -10,19 +10,20 @@ DEFAULT_CSS = """
 QRangeSlider * {
 	border: 0px;
 	padding: 0px;
+	height: 100px;
+	width: 100px;
 }
 
 QRangeSlider > QSplitter::handle {
 	background: transparent;
-	border-image: url(res/SliderBall1_Scale.png);
-	width: 10px;
-	height: 5px;
+	image: url(res/Sliderball2_Scale.png);
+	height:100px;
+	width:100px;
 }
 QRangeSlider > QSplitter::handle:pressed {
 	background: transparent;
-	broder-image: url(res/Sliderball2_Scale.png);
-	width: 5px;
-	height:3px;
+	image: url(res/Sliderball2_Scale.png);
+
 }
 """
 

@@ -13,9 +13,14 @@ class Slider(QSlider):
 		self.default_width, self.default_height = 300, 30
 
 		self.setStyleSheet("""
+QSlider {
+    min-height: 68px;
+    max-height: 68px;
+}
 QSlider::groove:horizontal 
 {
 	image: url(res/Slider_HD.png);
+
 }
 
 QSlider::handle:horizontal 

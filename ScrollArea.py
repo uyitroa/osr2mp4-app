@@ -1,8 +1,5 @@
 from PyQt5 import QtWidgets
 from PyQt5 import QtCore
-from PyQt5.QtCore import QUrl
-from PyQt5.QtQuickWidgets import QQuickWidget
-
 from DoubleSlider import DoubleSlider
 from GridLayout import GridLayout
 from QLabel import Titles, Small_Titles
@@ -12,6 +9,7 @@ from Textbox import Big_Textbox, Small_Textbox
 from Slider import Slider
 import json
 from CheckBox import CheckBox
+import os
 
 
 class ScrollArea:
@@ -56,9 +54,14 @@ class ScrollArea:
 
 		self.scrollArea.changesize()
 
-
 	def load_settings(self):
-		with open('gui_config.json') as f:
+		paths_config = load_paths()
+
+		data_config = load_config()
+
+		print(data_config)
+		previous_text = ""
+		with open('options_config.json') as f:
 			data = json.load(f)
 
 		rowcounter = self.gridLayout.count
@@ -70,17 +73,25 @@ class ScrollArea:
 				widgetname = data[header][key]["type"]
 				Widget = self.widgetlists[widgetname]
 
+
 				if widgetname == "CheckBox":
 					self.gridLayout.addWidget(CheckBox(key), self.gridLayout.rowcounter[column], column)
-					continue
-
-				self.gridLayout.smart_addWidget(Small_Titles(key), column)
-
 				
-				
-					
-				self.gridLayout.smart_addWidget(Widget(jsondata=data[header][key]), column)
+				else:
+					self.gridLayout.smart_addWidget(Small_Titles(key), column)
+					self.gridLayout.smart_addWidget(Widget(jsondata=data[header][key]), column)
 
+				if key[len(key)-1] == ":":	
+					key = key[0:len(key)-1]
+
+
+				if key in paths_config and bool(paths_config):
+					print("Key {} in {}".format(key,paths_config))
+					self.gridLayout.itemAtPosition(self.gridLayout.rowcounter[column] - 1, column).widget().setText(str(paths_config[key]))
+				
+
+				elif key in data_config and bool(data_config):
+					self.gridLayout.itemAtPosition(self.gridLayout.rowcounter[column] - 1, column).widget().setText(str(data_config[key]))
 
 		for x in range(10):
 			render_ = QtWidgets.QLabel("Render Options")
@@ -89,4 +100,23 @@ class ScrollArea:
 
 		self.scrollArea.hide()
 		self.scrollArea.raise_()
+
 		print("settings")
+
+
+def load_paths():
+	data = {}
+	if os.path.isfile("user_data.json"):
+		with open('user_data.json') as f:
+			data = json.load(f)
+	if not data == None:
+		return data
+
+
+def load_config():
+	data = {}
+	if os.path.isfile("config_data.json"):
+		with open('config_data.json') as f:
+			data = json.load(f)
+	if not data == None:
+		return data

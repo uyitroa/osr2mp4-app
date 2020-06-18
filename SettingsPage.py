@@ -35,6 +35,7 @@ class SettingsPage(Button):
 
 		self.settingsarea = self.settingsarea
 		self.hide()
+		self.load_settings()
 
 
 	def changesize(self):
