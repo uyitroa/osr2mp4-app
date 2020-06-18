@@ -1,6 +1,7 @@
 import sys
 
 from PyQt5 import QtCore
+from PyQt5.QtCore import QRect
 from PyQt5.QtWidgets import QGridLayout, QSplitter, QGroupBox, QWidget, QHBoxLayout, QApplication
 
 __all__ = ['QRangeSlider']
@@ -10,28 +11,18 @@ QRangeSlider * {
 	border: 0px;
 	padding: 0px;
 }
-QRangeSlider #Head {
-	background: transparent;
-}
-QRangeSlider #Span {
-	background: transparent;
-}
-QRangeSlider #Span:active {
-	background: transparent;
-}
-QRangeSlider #Tail {
-	background: #a7adba;
-}
+
 QRangeSlider > QSplitter::handle {
 	background: transparent;
-	border-image: url(res/SliderBall2_HD.png);
-}
-QRangeSlider > QSplitter::handle:vertical {
-	height: 4px;
+	border-image: url(res/SliderBall1_Scale.png);
+	width: 10px;
+	height: 5px;
 }
 QRangeSlider > QSplitter::handle:pressed {
 	background: transparent;
-	broder-image: url(res/SliderBall1_HD.png);
+	broder-image: url(res/Sliderball2_Scale.png);
+	width: 5px;
+	height:3px;
 }
 """
 
@@ -48,7 +39,7 @@ class Ui_Form(object):
 
 	def setupUi(self, Form):
 		Form.setObjectName("QRangeSlider")
-		Form.resize(Form.widgetparent.default_width * 0.8, Form.widgetparent.default_height * 0.8)
+		Form.resize(Form.widgetparent.default_width, Form.widgetparent.default_height)
 		Form.setStyleSheet(DEFAULT_CSS)
 		self.gridLayout = QGridLayout(Form)
 		self.gridLayout.setContentsMargins(0, 0, 0, 0)
@@ -207,6 +198,8 @@ class QRangeSlider(QWidget, Ui_Form):
 		self.widgetparent = parent
 		self.setupUi(self)
 		self.setMouseTracking(False)
+		# self.setFixedWidth(self.widgetparent.default_width * 0.7)
+		# self.setFixedHeight(self.widgetparent.default_height * 0.7)
 
 		self._splitter.splitterMoved.connect(self._handleMoveSplitter)
 

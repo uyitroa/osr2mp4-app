@@ -12,7 +12,15 @@ class DoubleSlider(QWidget):
 		self.default_height = 30
 
 		self.setStyleSheet("image: url(res/Slider_HD.png);")
-		self.setFixedWidth(self.default_width)
-		self.setFixedHeight(self.default_height)
+		super().setFixedWidth(self.default_width)
+		super().setFixedHeight(self.default_height)
 
 		self.rangeslider = QRangeSlider(self)
+
+	def setFixedHeight(self, p_int):
+		self.rangeslider.setFixedHeight(p_int)
+		super().setFixedHeight(p_int)
+
+	def setFixedWidth(self, p_int):
+		self.rangeslider.setFixedWidth(p_int)
+		super().setFixedWidth(p_int)
