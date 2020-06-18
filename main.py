@@ -124,7 +124,6 @@ class Window(QMainWindow):
 			settings = get_configInfo(current_config["osu! path"])
 			counter = 0
 			for x in settings_json:
-				print(counter)
 				settings_json[x] = settings[counter]
 				if counter >= 10:
 					break
@@ -135,7 +134,6 @@ class Window(QMainWindow):
 			f.close()  
 		if self.popup_bool == False:
 			self.settingspage.load_settings()
-			print("FFFFFFFF")
 		else:
 			self.settingspage.settingsarea.scrollArea.hide()
 		#print("Data loaded:\n{}\n{}".format(data["Output path"], data["osu! path"]))

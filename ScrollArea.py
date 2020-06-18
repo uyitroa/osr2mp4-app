@@ -13,7 +13,7 @@ from Slider import Slider
 import json
 from CheckBox import CheckBox
 import os
-
+from RangeSlider import QRangeSlider
 class ScrollArea:
 	def __init__(self, parent):
 		super().__init__()
@@ -58,8 +58,11 @@ class ScrollArea:
 		self.scrollArea.changesize()
 
 	def load_settings(self):
-		paths = ["osu! path", "Output path"]
 		paths_config = load_paths()
+
+		data_config = load_config()
+
+		print(data_config)
 		previous_text = ""
 		with open('options_config.json') as f:
 			data = json.load(f)
@@ -80,10 +83,18 @@ class ScrollArea:
 				else:
 					self.gridLayout.smart_addWidget(Small_Titles(key), column)
 					self.gridLayout.smart_addWidget(Widget(jsondata=data[header][key]), column)
-				if key in paths and bool(paths_config):
-					self.gridLayout.itemAtPosition(self.gridLayout.rowcounter[column] - 1, column).widget().setText(paths_config[key])
-					print(1)
 
+				if key[len(key)-1] == ":":	
+					key = key[0:len(key)-1]
+
+
+				if key in paths_config and bool(paths_config):
+					print("Key {} in {}".format(key,paths_config))
+					self.gridLayout.itemAtPosition(self.gridLayout.rowcounter[column] - 1, column).widget().setText(str(paths_config[key]))
+				
+
+				elif key in data_config and bool(data_config):
+					self.gridLayout.itemAtPosition(self.gridLayout.rowcounter[column] - 1, column).widget().setText(str(data_config[key]))
 
 		for x in range(10):
 			render_ = QtWidgets.QLabel("Render Options")
@@ -100,7 +111,15 @@ def load_paths():
 			data = json.load(f)
 	if not data == None:
 		return data
-		print("settings")
+
+def load_config():
+	data = {}
+	if os.path.isfile("config_data.json"):
+		with open('config_data.json') as f:
+			data = json.load(f)
+	if not data == None:
+		return data
+
 
 
 	def setup(self):
