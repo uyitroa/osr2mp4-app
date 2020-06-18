@@ -17,6 +17,8 @@ from ProgressBar import ProgressBar
 from Options import Options
 from username_parser import get_configInfo
 from user_settings import settings_json
+
+completed_settings = {}
 class Window(QMainWindow):
 	def __init__(self):
 		super().__init__()
@@ -135,6 +137,10 @@ class Window(QMainWindow):
 			self.settingspage.load_settings()
 		else:
 			self.settingspage.settingsarea.scrollArea.hide()
+
+		completed_settings = self.set_settings(settings)
+		print(completed_settings)
+		
 		#print("Data loaded:\n{}\n{}".format(data["Output path"], data["osu! path"]))
 
 	def find_latestReplay(self):
@@ -150,7 +156,17 @@ class Window(QMainWindow):
 				self.osrpath.setText(replay_name)
 
 			current_config[".osr path"] = replay
-
+	def set_settings(self, dict1):
+		if os.path.isfile("settings.json"):
+			with open('settings.json') as f:
+				data = json.load(f)
+			counter = 0
+			for x in data:
+				if counter > 10:
+					break
+				data[x] = dict1[counter]
+				counter+=1
+		return data
 	def find_latestMap(self, replay):
 		print(replay)
 		if current_config["osu! path"] != "":
