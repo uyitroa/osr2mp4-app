@@ -1,6 +1,9 @@
 from PyQt5 import QtWidgets
 from PyQt5 import QtCore
+from PyQt5.QtCore import QUrl
+from PyQt5.QtQuickWidgets import QQuickWidget
 
+from DoubleSlider import DoubleSlider
 from GridLayout import GridLayout
 from QLabel import Titles, Small_Titles
 from Scrollbar import Scrollbar
@@ -55,6 +58,8 @@ class ScrollArea:
 			render_ = QtWidgets.QLabel("Render Options")
 			render_.setStyleSheet("""font: bold 24px;color:white;""")
 			self.gridLayout.addWidget(render_, rowcounter(), 0)
+
+		self.gridLayout.smart_addWidget(DoubleSlider(), 0)
 
 		print("settings")
 
