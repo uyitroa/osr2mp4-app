@@ -28,7 +28,7 @@ class Scrollbar(QScrollArea):
 				QScrollBar:vertical {
 				background: transparent;
 				width: %ipx;
-				image: url('%s');
+				border-image: url('%s');
 				}
 
 
