@@ -57,27 +57,6 @@ class SkinDropDown(QComboBox):
  QScrollBar:vertical {
      width: 0px;
      height: 0px;
-     background: none;
- }
- }
- QScrollBar::handle:vertical {
-     width: 0px;
-     height: 0px;
-     background: none;
- }
- }
- QScrollBar::add-line:vertical {
-     width: 0px;
-     height: 0px;
-     background: none;
- }
- }
-
- QScrollBar::sub-line:vertical {
-     width: 0px;
-     height: 0px;
-     background: none;
- }
  }
  QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical {
      width: 0px;
