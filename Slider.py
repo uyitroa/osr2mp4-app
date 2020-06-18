@@ -30,3 +30,6 @@ QSlider::handle:horizontal
 
 		self.setFixedWidth(self.default_width)
 		self.setFixedHeight(self.default_height)
+	
+	def setFixedHeight(self, p_int):
+		pass

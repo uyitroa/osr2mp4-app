@@ -1,6 +1,7 @@
 from PyQt5 import QtWidgets
 from PyQt5 import QtCore
-from PyQt5.QtWidgets import QScrollBar
+from PyQt5.QtGui import QPainter
+from PyQt5.QtWidgets import QScrollBar, QCommonStyle
 
 from GridLayout import GridLayout
 from QLabel import Titles, Small_Titles
@@ -31,7 +32,6 @@ class Scroll_Class:
 		self.scrollArea = QtWidgets.QScrollArea(parent)
 		self.scrollArea.setWidgetResizable(True)
 		scrollAreaWidgetContents = QtWidgets.QWidget()
-		scrollAreaWidgetContents.setStyleSheet("background: rgb(49, 45, 45);")
 
 		self.gridLayout = GridLayout(scrollAreaWidgetContents)
 		self.scrollArea.setWidget(scrollAreaWidgetContents)
@@ -63,6 +63,9 @@ class Scroll_Class:
 			self.gridLayout.addWidget(render_, rowcounter(), 0)
 
 		self.setScrollStyle()
+		scrollAreaWidgetContents.setStyleSheet("background: transparent;")
+		self.scrollArea.setStyleSheet("background: transparent;")
+		self.scrollArea.verticalScrollBar().setStyle(QCommonStyle())
 
 		self.gridLayout.setSpacing(self.defaultspacing)
 
@@ -75,20 +78,24 @@ class Scroll_Class:
 		styleSheet = """
 
 				QScrollBar:vertical {
+				background-color: transparent;
+				border: none;
 				width: %ipx;
 				image: url('%s');
 				}
 
 
 				QScrollBar::handle:vertical {
-					background: transparent;
+					background-color: transparent;
+					border: none;
 					height: 1px;
 					image: url('%s');
 				
 				}
 				
 				QScrollBar::add-line:vertical {
-
+					background-color: transparent;
+					border: none;
 					height: 1px;
 					subcontrol-position: bottom;
 					subcontrol-origin: margin;
@@ -99,16 +106,19 @@ class Scroll_Class:
 					subcontrol-position: top left;
 					subcontrol-origin: margin;
 					position: absolute;
-					image: url('%s');
+					background: transparent;
+					border: none;
 				}
 				
 				QScrollBar:up-arrow:vertical, QScrollBar::down-arrow:vertical {
-					image: url('%s');
+					background-color: transparent;
+					border: none;
 				}
 				
 				QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
-					background: transparent;
-				}""" % (self.scrollsize, scroll_handle, self.img_scroll, blank, blank)
+					background-color: transparent;
+					border: none;
+				}""" % (self.scrollsize, scroll_handle, self.img_scroll)
 		self.scrollArea.verticalScrollBar().setStyleSheet(styleSheet)
 
 
