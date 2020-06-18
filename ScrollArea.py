@@ -10,15 +10,14 @@ from Slider import Slider
 import json
 
 
-class Scroll_Class:
+class ScrollArea:
 	def __init__(self, parent):
 		super().__init__()
 
 		self.main_window = parent
 
-		self.layout_width, self.layout_height = 550, 450
-		self.layout_x, self.layout_y = 20, 20
-		self.defaultspacing = 10
+		self.default_width, self.default_height = None, None
+		self.default_x, self.default_y = None, None
 
 		self.widgetlists = {"Big_Textbox": Big_Textbox, "Small_Textbox": Small_Textbox,
 		                    "Titles": Titles, "Small_Titles": Small_Titles,
@@ -26,7 +25,7 @@ class Scroll_Class:
 
 		self.layout = QtWidgets.QHBoxLayout(parent)
 		scrollAreaWidgetContents = QtWidgets.QWidget()
-		scrollAreaWidgetContents.setStyleSheet("background: transparent;")
+		scrollAreaWidgetContents.setStyleSheet("background: transparent;border: none;")
 
 		self.gridLayout = GridLayout(scrollAreaWidgetContents)
 
@@ -34,9 +33,6 @@ class Scroll_Class:
 		self.scrollArea.setWidget(scrollAreaWidgetContents)
 
 		self.layout.addWidget(self.scrollArea)
-
-		self.layout.setGeometry(QtCore.QRect(self.layout_x, self.layout_y, self.layout_width, self.layout_height))
-
 
 		with open('gui_config.json') as f:
 			data = json.load(f)
@@ -60,31 +56,22 @@ class Scroll_Class:
 			render_.setStyleSheet("""font: bold 24px;color:white;""")
 			self.gridLayout.addWidget(render_, rowcounter(), 0)
 
-		self.gridLayout.setSpacing(self.defaultspacing)
-
 		print("settings")
 
+
+	def setup(self):
+		self.layout.setGeometry(QtCore.QRect(self.default_x, self.default_y, self.default_width, self.default_height))
 
 	def changesize(self):
 		scale = self.main_window.height() / self.main_window.default_height
 
-		self.gridLayout.setSpacing(scale * self.defaultspacing)
+		self.gridLayout.changesize(scale)
 
-		x = scale * self.layout_x
-		y = scale * self.layout_y
-		width = scale * self.layout_width
-		height = scale * self.layout_height
+		x = scale * self.default_x
+		y = scale * self.default_y
+		width = scale * self.default_width
+		height = scale * self.default_height
 		self.layout.setGeometry(QtCore.QRect(x, y, width, height))
 
-		for x in range(self.gridLayout.count()):
-			item = self.gridLayout.itemAt(x).widget()
-
-			if type(item).__name__ == "QLabel":
-				continue
-
-			width = item.default_width * scale
-			height = item.default_height * scale
-			item.setFixedWidth(width)
-			item.setFixedHeight(height)
 
 		self.scrollArea.changesize()

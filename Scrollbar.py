@@ -17,7 +17,7 @@ class Scrollbar(QScrollArea):
 
 		self.setWidgetResizable(True)
 		self.setScrollStyle()
-		self.setStyleSheet("background: transparent;")
+		self.setStyleSheet("background: transparent;border: none;")
 
 
 	def setScrollStyle(self):
@@ -68,7 +68,7 @@ class Scrollbar(QScrollArea):
 
 		# reload scroll stylesheet
 		scrollbar = self.verticalScrollBar()
-		self.resizehandle(self.img_handle, scale * scrollbar.maximum() / 10 / self.scrollsize)
+		self.resizehandle(self.img_handle, scale * scrollbar.maximum() / 15 / self.scrollsize)
 		scrollbar.style().unpolish(scrollbar)
 		scrollbar.style().polish(scrollbar)
 		scrollbar.update()

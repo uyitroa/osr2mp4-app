@@ -6,6 +6,7 @@ from OsrButton import OsrButton
 from OutputButton import OutputButton
 from PathImage import OsrPath, MapSetPath
 from PopupWindow import PopupWindow
+from SettingsPage import SettingsPage
 from SkinDropDown import SkinDropDown
 from StartButton import StartButton
 from osuButton import osuButton
@@ -13,7 +14,7 @@ from find_beatmap import find_beatmap_
 from PyQt5 import QtGui
 from config_data import current_config
 from ProgressBar import ProgressBar
-from ScrollArea import Scroll_Class
+from ScrollArea import ScrollArea
 
 
 class Window(QMainWindow):
@@ -45,13 +46,12 @@ class Window(QMainWindow):
 		self.popup_window = PopupWindow(self)
 		self.output_window = OutputButton(self)
 		self.osu_window = osuButton(self)
-		self.settingspage = Scroll_Class(self)
+		self.settingspage = SettingsPage(self)
 		
 		self.popup_widgets = [self.popup_window, self.output_window, self.osu_window]
 
 		self.check_osuPath()
 		self.check_replay_map()
-		self.skin_dropdown.raise_()
 
 		self.show()
 		self.resize(window_width, window_height)
