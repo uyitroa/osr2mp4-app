@@ -10,19 +10,17 @@ class Slider(QSlider):
 		self.setOrientation(QtCore.Qt.Horizontal)
 
 		self.img = "res/Sliderball2_Scale.png"
-		self.default_width, self.default_height = 200, 20
+		self.default_width, self.default_height = 300, 30
 
 		self.setStyleSheet("""
 QSlider::groove:horizontal 
 {
-	border-image: url(res/Slider_HD.png);
-    height:10px;
+	image: url(res/Slider_HD.png);
 }
 
 QSlider::handle:horizontal 
 {
 	image: url(%s);
-	margin: -6px 0;
 }
 
 

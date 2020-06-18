@@ -1,14 +1,18 @@
-from PyQt5.QtCore import QUrl
-from PyQt5.QtQuickWidgets import QQuickWidget
+from PyQt5.QtGui import QPainter
+from PyQt5.QtWidgets import QWidget, QHBoxLayout
+
+from RangeSlider import QRangeSlider
 
 
-class DoubleSlider(QQuickWidget):
+class DoubleSlider(QWidget):
 	def __init__(self):
 		super().__init__()
 
-		self.default_width = 200
-		self.default_height = 300
+		self.default_width = 300
+		self.default_height = 30
 
-		self.setSource(QUrl('rangeslider.qml'))
+		self.setStyleSheet("image: url(res/Slider_HD.png);")
 		self.setFixedWidth(self.default_width)
 		self.setFixedHeight(self.default_height)
+
+		self.rangeslider = QRangeSlider(self)
