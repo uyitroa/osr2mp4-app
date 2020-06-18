@@ -17,6 +17,8 @@ from ProgressBar import ProgressBar
 from Options import Options
 from username_parser import get_configInfo
 from user_settings import settings_json
+
+completed_settings = {}
 class Window(QMainWindow):
 	def __init__(self):
 		super().__init__()
@@ -136,7 +138,9 @@ class Window(QMainWindow):
 			self.settingspage.load_settings()
 		else:
 			self.settingspage.settingsarea.scrollArea.hide()
-		complete_settings = self.set_settings(settings)
+
+		completed_settings = self.set_settings(settings)
+		print(completed_settings)
 		
 		#print("Data loaded:\n{}\n{}".format(data["Output path"], data["osu! path"]))
 
