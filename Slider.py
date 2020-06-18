@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import QSlider
 from PyQt5 import QtCore
 
-	from helper import getsize
+from helper import getsize
 
 
 class Slider(QSlider):
