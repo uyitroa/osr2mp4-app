@@ -23,6 +23,13 @@ class Big_Textbox(ParentTextbox):
 
 		self.setFixedWidth(self.default_width)
 		QLineEdit().setFixedHeight(self.default_height)
+		self.setStyleSheet("""
+QLineEdit {
+ border: 2px solid white;
+ border-radius: 6px;
+}
+"""
+			)
 
 
 class Small_Textbox(ParentTextbox):
@@ -34,3 +41,9 @@ class Small_Textbox(ParentTextbox):
 
 		self.setFixedWidth(self.default_width)
 		QLineEdit().setFixedHeight(self.default_height)
+		self.setStyleSheet("""
+QLineEdit {
+ border: 2px solid white;
+ border-radius: 6px;
+}
+""")

@@ -9,12 +9,12 @@ class Slider(QSlider):
 		super().__init__()
 		self.setOrientation(QtCore.Qt.Horizontal)
 
-		self.img = "res/Slider_HD.png"
+		self.img = "res/Sliderball2_Scale.png"
 		self.default_width, self.default_height = 200, 20
 
 		self.setStyleSheet("""
 		QSlider::handle:horizontal {
-		image: url(%s);}
+		background-image: url(%s);}
 """ % self.img)
 
 		self.setFixedWidth(self.default_width)

@@ -54,6 +54,41 @@ class SkinDropDown(QComboBox):
 			 font: bold;
 			 border-image : url(%s);	
 			 }
+ QScrollBar:vertical {
+     width: 0px;
+     height: 0px;
+     background: none;
+ }
+ }
+ QScrollBar::handle:vertical {
+     width: 0px;
+     height: 0px;
+     background: none;
+ }
+ }
+ QScrollBar::add-line:vertical {
+     width: 0px;
+     height: 0px;
+     background: none;
+ }
+ }
+
+ QScrollBar::sub-line:vertical {
+     width: 0px;
+     height: 0px;
+     background: none;
+ }
+ }
+ QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical {
+     width: 0px;
+     height: 0px;
+     background: none;
+ }
+
+ QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+     background: none;
+ }
+ 
 			 """ % (self.img_drop, self.img_listview))
 
 		self.setup()
