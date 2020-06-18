@@ -6,7 +6,7 @@ from PyQt5.QtWidgets import QGridLayout
 class GridLayout(QGridLayout):
 	def __init__(self, QWidget):
 		super().__init__(QWidget)
-		self.maxwidth = 1
+		self.maxwidth = 300
 		self.maxheight = 500
 		self.rowcounter = [0]
 		self.headerrow = 0

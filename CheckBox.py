@@ -17,8 +17,8 @@ QCheckBox::indicator:unchecked {
 QCheckBox::indicator:checked {
     image: url(res/Check_HD.png);
 }
+font: bold 14px;color:white
 			""")
 		self.setText(title)
-		self.setStyleSheet("font: bold 14px;color:white")
 
 		# Do your setStylesheet here

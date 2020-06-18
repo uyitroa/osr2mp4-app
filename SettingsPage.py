@@ -34,7 +34,6 @@ class SettingsPage(Button):
 		self.settingsarea.setup()
 
 		self.settingsarea = self.settingsarea
-
 	def changesize(self):
 		super().changesize()
 		self.settingsarea.changesize()

@@ -2,7 +2,7 @@ import os
 
 import cv2
 from PyQt5.QtWidgets import QScrollArea
-
+from PyQt5 import QtCore
 
 class Scrollbar(QScrollArea):
 	def __init__(self, parent, layout):
@@ -18,6 +18,7 @@ class Scrollbar(QScrollArea):
 		self.setWidgetResizable(True)
 		self.setScrollStyle()
 		self.setStyleSheet("background: transparent;border: none;")
+		self.show()
 
 
 	def setScrollStyle(self):
@@ -26,9 +27,9 @@ class Scrollbar(QScrollArea):
 		styleSheet = """
 
 				QScrollBar:vertical {
-				background: transparent;
 				width: %ipx;
-				border-image: url('%s');
+				image: url('%s');
+
 				}
 
 

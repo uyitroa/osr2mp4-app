@@ -34,8 +34,7 @@ class ScrollArea:
 		self.scrollArea.setWidget(scrollAreaWidgetContents)
 		self.layout.addWidget(self.scrollArea)
 		self.scrollArea.horizontalScrollBar().setEnabled(False);
-
-
+		self.scrollArea.horizontalScrollBar().setEnabled(True);
 
 	def setup(self):
 		self.layout.setGeometry(QtCore.QRect(self.default_x, self.default_y, self.default_width, self.default_height))
