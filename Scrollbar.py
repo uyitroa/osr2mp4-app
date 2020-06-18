@@ -3,6 +3,44 @@ import os
 import cv2
 from PyQt5.QtWidgets import QScrollArea
 
+from PyQt5.QtWidgets import QSlider
+from PyQt5 import QtCore
+
+
+class CustomScrolbar(QSlider):
+	def __init__(self, parent=None, jsondata=None):
+		super().__init__(parent)
+		self.setOrientation(QtCore.Qt.Vertical)
+
+		self.default_width, self.default_height = 20, 400
+		self.default_x, self.default_y = 500, -100
+
+		self.img_handle = "res/SliderBall_HD.png"
+		self.img_scroll = "res/scroll_back.png"
+
+		self.setScrollStyle()
+		self.setFixedWidth(self.default_width)
+		self.setFixedHeight(self.default_height)
+
+		self.setGeometry(self.default_x, self.default_y, self.default_width, self.default_height)
+
+	def setScrollStyle(self):
+		self.setStyleSheet("""
+		QSlider::groove:vertical 
+		{
+			border-image: url(%s);
+		    height:%ipx;
+		}
+
+		QSlider::handle:vertical 
+		{
+			image: url(%s);
+			margin: -6px 0;
+		}
+
+
+		""" % (self.img_scroll, self.default_height, self.img_handle))
+
 
 class Scrollbar(QScrollArea):
 	def __init__(self, parent, layout):
@@ -11,9 +49,8 @@ class Scrollbar(QScrollArea):
 		self.main_window = parent
 		self.gridLayout = layout
 
-		self.img_handle = "res/scroll_back.png"
-		self.img_scroll = "res/SliderBall_HD.png"
 		self.scrollsize = 30
+		self.customscroll = CustomScrolbar(self)
 
 		self.setWidgetResizable(True)
 		self.setScrollStyle()
@@ -21,57 +58,36 @@ class Scrollbar(QScrollArea):
 
 
 	def setScrollStyle(self):
-		scroll_handle = self.fixsize(self.img_handle)
+		# scroll_handle = self.fixsize(self.img_handle)
 
 		styleSheet = """
+ QScrollBar:vertical {
+     width: 0px;
+     height: 0px;
+ }
+ QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical {
+     width: 0px;
+     height: 0px;
+     background: none;
+ }
 
-				QScrollBar:vertical {
-				background: transparent;
-				width: %ipx;
-				image: url('%s');
-				}
-
-
-				QScrollBar::handle:vertical {
-					background: transparent;
-					height: 1px;
-					image: url('%s');
-
-				}
-
-				QScrollBar::add-line:vertical {
-					background: transparent;
-					height: 1px;
-					subcontrol-position: bottom;
-					subcontrol-origin: margin;
-				}
-
-				QScrollBar::sub-line:vertical {
-					height: 1px;
-					subcontrol-position: top left;
-					subcontrol-origin: margin;
-					position: absolute;
-					background: transparent;
-				}
-
-				QScrollBar:up-arrow:vertical, QScrollBar::down-arrow:vertical {
-					background: transparent;
-				}
-
-				QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
-					background: transparent;
-				}""" % (self.scrollsize, scroll_handle, self.img_scroll)
+ QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+     background: none;
+ }
+ """
 		self.verticalScrollBar().setStyleSheet(styleSheet)
+
+
 
 	def changesize(self):
 		scale = self.main_window.height() / self.main_window.default_height
 
 		# reload scroll stylesheet
-		scrollbar = self.verticalScrollBar()
-		self.resizehandle(self.img_handle, scale * scrollbar.maximum() / 15 / self.scrollsize)
-		scrollbar.style().unpolish(scrollbar)
-		scrollbar.style().polish(scrollbar)
-		scrollbar.update()
+		# scrollbar = self.verticalScrollBar()
+		# self.resizehandle(self.img_handle, scale * scrollbar.maximum() / 15 / self.scrollsize)
+		# scrollbar.style().unpolish(scrollbar)
+		# scrollbar.style().polish(scrollbar)
+		# scrollbar.update()
 
 	def fixsize(self, filename):
 		self.np_handle = cv2.imread(filename, -1)
