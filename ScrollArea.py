@@ -54,7 +54,6 @@ class ScrollArea:
 		height = scale * self.default_height
 		self.layout.setGeometry(QtCore.QRect(x, y, width, height))
 
-
 		self.scrollArea.changesize()
 
 
@@ -90,22 +89,4 @@ class ScrollArea:
 
 		self.scrollArea.hide()
 		self.scrollArea.raise_()
-
 		print("settings")
-
-
-	def setup(self):
-		self.layout.setGeometry(QtCore.QRect(self.default_x, self.default_y, self.default_width, self.default_height))
-
-	def changesize(self):
-		scale = self.main_window.height() / self.main_window.default_height
-
-		self.gridLayout.changesize(scale)
-
-		x = scale * self.default_x
-		y = scale * self.default_y
-		width = scale * self.default_width
-		height = scale * self.default_height
-		self.layout.setGeometry(QtCore.QRect(x, y, width, height))
-
-

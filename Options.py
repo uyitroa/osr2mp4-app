@@ -18,6 +18,7 @@ class Options(Button):
 	def mouseclicked(self):
 		self.parent.settingspage.show()
 		self.parent.settingspage.settingsarea.scrollArea.show()
+		self.parent.settingspage.settingsarea.scrollArea.changesize()
 
 
 
