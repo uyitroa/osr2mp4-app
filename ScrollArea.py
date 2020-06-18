@@ -31,9 +31,30 @@ class ScrollArea:
 
 		self.scrollArea = Scrollbar(parent, self.gridLayout)
 		self.scrollArea.setWidget(scrollAreaWidgetContents)
-
 		self.layout.addWidget(self.scrollArea)
+		
 
+
+
+	def setup(self):
+		self.layout.setGeometry(QtCore.QRect(self.default_x, self.default_y, self.default_width, self.default_height))
+
+	def changesize(self):
+		scale = self.main_window.height() / self.main_window.default_height
+
+		self.gridLayout.changesize(scale)
+
+		x = scale * self.default_x
+		y = scale * self.default_y
+		width = scale * self.default_width
+		height = scale * self.default_height
+		self.layout.setGeometry(QtCore.QRect(x, y, width, height))
+
+
+		self.scrollArea.changesize()
+
+
+	def load_settings(self):
 		with open('gui_config.json') as f:
 			data = json.load(f)
 
@@ -55,23 +76,7 @@ class ScrollArea:
 			render_ = QtWidgets.QLabel("Render Options")
 			render_.setStyleSheet("""font: bold 24px;color:white;""")
 			self.gridLayout.addWidget(render_, rowcounter(), 0)
-
-		print("settings")
-
-
-	def setup(self):
-		self.layout.setGeometry(QtCore.QRect(self.default_x, self.default_y, self.default_width, self.default_height))
-
-	def changesize(self):
-		scale = self.main_window.height() / self.main_window.default_height
-
-		self.gridLayout.changesize(scale)
-
-		x = scale * self.default_x
-		y = scale * self.default_y
-		width = scale * self.default_width
-		height = scale * self.default_height
-		self.layout.setGeometry(QtCore.QRect(x, y, width, height))
+			print("X")
+		self.scrollArea.raise_()
 
 
-		self.scrollArea.changesize()

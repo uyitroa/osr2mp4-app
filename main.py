@@ -14,9 +14,7 @@ from find_beatmap import find_beatmap_
 from PyQt5 import QtGui
 from config_data import current_config
 from ProgressBar import ProgressBar
-from ScrollArea import ScrollArea
-
-
+from Options import Options
 class Window(QMainWindow):
 	def __init__(self):
 		super().__init__()
@@ -46,8 +44,11 @@ class Window(QMainWindow):
 		self.popup_window = PopupWindow(self)
 		self.output_window = OutputButton(self)
 		self.osu_window = osuButton(self)
+
+		self.Options = Options(self)
 		self.settingspage = SettingsPage(self)
-		
+		self.settingspage.setParent(None)
+
 		self.popup_widgets = [self.popup_window, self.output_window, self.osu_window]
 
 		self.check_osuPath()
@@ -73,7 +74,7 @@ class Window(QMainWindow):
 		self.popup_window.changesize()
 		self.skin_dropdown.changesize()
 		self.settingspage.changesize()
-
+		self.Options.changesize()
 		self.progressbar.changesize()
 		if self.popup_bool:
 			self.blur_function(True)

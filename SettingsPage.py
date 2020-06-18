@@ -29,13 +29,17 @@ class SettingsPage(Button):
 
 		super().setup()
 
-		settingsarea = ScrollArea(parent)
-		settingsarea.default_x, settingsarea.default_y, settingsarea.default_width, settingsarea.default_height = get_arearect(self)
-		settingsarea.setup()
+		self.settingsarea = ScrollArea(parent)
+		self.settingsarea.default_x, self.settingsarea.default_y, self.settingsarea.default_width, self.settingsarea.default_height = get_arearect(self)
+		self.settingsarea.setup()
 
-		self.settingsarea = settingsarea
+		self.settingsarea = self.settingsarea
 
 	def changesize(self):
 		super().changesize()
 		self.settingsarea.changesize()
+
+	def load_settings(self):
+		self.settingsarea.load_settings()
+
 
