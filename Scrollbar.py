@@ -1,25 +1,37 @@
 import os
 
 import cv2
+from PyQt5 import QtCore
 from PyQt5.QtWidgets import QScrollArea
 
 from PyQt5.QtWidgets import QSlider
-from PyQt5 import QtCore
+
+
+def scale(val, src, dst):
+	"""
+	Scale the given value from the scale of src to the scale of dst.
+	"""
+	return int(((val - src[0]) / float(src[1]-src[0])) * (dst[1]-dst[0]) + dst[0])
+
 
 
 class CustomScrolbar(QSlider):
 	def __init__(self, parent=None, jsondata=None):
 		super().__init__(parent)
 
-		self.default_width, self.default_height = 20, 400
-		self.default_x, self.default_y = 500, -100
+		super().valueChanged.connect(self.valueChanged)
+
+		self.default_width, self.default_height = 20, 350
+		self.default_x, self.default_y = 625, 10
 
 		self.img_handle = "res/SliderBall_HD.png"
 		self.img_scroll = "res/scroll_back.png"
 
 		self.setScrollStyle()
-		self.setFixedWidth(self.default_width)
-		self.setFixedHeight(self.default_height)
+		self.setTracking(True)
+
+		self.setMaximum(0)
+		self.setMinimum(-50)
 
 		self.setGeometry(self.default_x, self.default_y, self.default_width, self.default_height)
 
@@ -35,6 +47,30 @@ QSlider::handle:vertical {
 }
 
 		""" % (self.img_scroll, self.img_handle))
+
+	@QtCore.pyqtSlot(int)
+	def valueChanged(self, p_int):
+		try:
+			scrollbar = self.parent().verticalScrollBar()
+			print("HI")
+			val = scale(self.value(), (self.maximum(), self.minimum()), (scrollbar.minimum(), scrollbar.maximum()))
+			scrollbar.setValue(val)
+		except AttributeError as e:
+			print(e)
+		except ZeroDivisionError as e:
+			pass
+
+	def changesize(self, scale):
+		x = self.default_x * scale
+		y = self.default_y * scale
+		width = self.default_width * scale
+		height = self.default_height * scale
+		self.setGeometry(x, y, width, height)
+
+		if self.parent().verticalScrollBar().maximum() == 0:
+			self.hide()
+		else:
+			self.show()
 
 
 class Scrollbar(QScrollArea):
@@ -77,12 +113,7 @@ class Scrollbar(QScrollArea):
 	def changesize(self):
 		scale = self.main_window.height() / self.main_window.default_height
 
-		# reload scroll stylesheet
-		# scrollbar = self.verticalScrollBar()
-		# self.resizehandle(self.img_handle, scale * scrollbar.maximum() / 15 / self.scrollsize)
-		# scrollbar.style().unpolish(scrollbar)
-		# scrollbar.style().polish(scrollbar)
-		# scrollbar.update()
+		self.customscroll.changesize(scale)
 
 	def fixsize(self, filename):
 		self.np_handle = cv2.imread(filename, -1)
@@ -96,4 +127,18 @@ class Scrollbar(QScrollArea):
 		filename = filename + "1" + ext
 		cv2.imwrite(filename, img)
 		return filename
+
+	def wheelEvent(self, QWheelEvent):
+
+		try:
+			scrollbar = self.verticalScrollBar()
+
+			val = scale(scrollbar.value(), (scrollbar.minimum(), scrollbar.maximum()), (self.customscroll.maximum(), self.customscroll.minimum()))
+			self.customscroll.setValue(val)
+		except AttributeError as e:
+			pass
+		except ZeroDivisionError as e:
+			pass
+
+		return super().wheelEvent(QWheelEvent)
 
