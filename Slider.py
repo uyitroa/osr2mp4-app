@@ -13,8 +13,19 @@ class Slider(QSlider):
 		self.default_width, self.default_height = 200, 20
 
 		self.setStyleSheet("""
-		QSlider::handle:horizontal {
-		background-image: url(%s);}
+QSlider::groove:horizontal 
+{
+	border-image: url(res/Slider_HD.png);
+    height:10px;
+}
+
+QSlider::handle:horizontal 
+{
+	image: url(%s);
+	margin: -6px 0;
+}
+
+
 """ % self.img)
 
 		self.setFixedWidth(self.default_width)
