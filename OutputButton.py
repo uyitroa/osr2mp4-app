@@ -16,7 +16,7 @@ class OutputButton(ButtonBrowse):
 		self.img_idle = "res/OutputFolder_Idle.png"
 		self.img_hover = "res/OutputFolder_Hover.png"
 		self.img_click = "res/OutputFolder_Click.png"
-
+		self.parent = parent
 		super().setup()
 
 	def afteropenfile(self, filename):
@@ -35,3 +35,4 @@ class OutputButton(ButtonBrowse):
 			with open('user_data.json', 'w+') as f:
 				json.dump(user_data, f, indent=4)
 				f.close()
+			self.parent.settingspage.load_settings()

@@ -9,7 +9,7 @@ from Textbox import Big_Textbox, Small_Textbox
 from Slider import Slider
 import json
 from CheckBox import CheckBox
-
+import os
 
 class ScrollArea:
 	def __init__(self, parent):
@@ -53,9 +53,11 @@ class ScrollArea:
 
 		self.scrollArea.changesize()
 
-
 	def load_settings(self):
-		with open('gui_config.json') as f:
+		paths = ["osu! path", "Output path"]
+		paths_config = load_paths()
+		previous_text = ""
+		with open('options_config.json') as f:
 			data = json.load(f)
 
 		rowcounter = self.gridLayout.count
@@ -67,16 +69,16 @@ class ScrollArea:
 				widgetname = data[header][key]["type"]
 				Widget = self.widgetlists[widgetname]
 
+
 				if widgetname == "CheckBox":
 					self.gridLayout.addWidget(CheckBox(key), self.gridLayout.rowcounter[column], column)
-					continue
-
-				self.gridLayout.smart_addWidget(Small_Titles(key), column)
-
 				
-				
-					
-				self.gridLayout.smart_addWidget(Widget(jsondata=data[header][key]), column)
+				else:
+					self.gridLayout.smart_addWidget(Small_Titles(key), column)
+					self.gridLayout.smart_addWidget(Widget(jsondata=data[header][key]), column)
+				if key in paths and bool(paths_config):
+					self.gridLayout.itemAtPosition(self.gridLayout.rowcounter[column] - 1, column).widget().setText(paths_config[key])
+					print(1)
 
 
 		for x in range(10):
@@ -88,3 +90,10 @@ class ScrollArea:
 		self.scrollArea.hide()
 		self.scrollArea.raise_()
 
+def load_paths():
+	data = {}
+	if os.path.isfile("user_data.json"):
+		with open('user_data.json') as f:
+			data = json.load(f)
+	if not data == None:
+		return data

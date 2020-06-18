@@ -49,7 +49,6 @@ class Window(QMainWindow):
 
 		self.Options = Options(self)
 		self.settingspage = SettingsPage(self)
-		self.settingspage.load_settings()
 		self.settingspage.hide()
 		
 		self.popup_widgets = [self.popup_window, self.output_window, self.osu_window]
@@ -134,7 +133,11 @@ class Window(QMainWindow):
 		with open('settings.json', 'w+') as f:                
 			json.dump(settings_json, f, indent=4)                
 			f.close()  
-		print(settings_json)
+		if self.popup_bool == False:
+			self.settingspage.load_settings()
+			print("FFFFFFFF")
+		else:
+			self.settingspage.settingsarea.scrollArea.hide()
 		#print("Data loaded:\n{}\n{}".format(data["Output path"], data["osu! path"]))
 
 	def find_latestReplay(self):
