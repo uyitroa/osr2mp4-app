@@ -34,4 +34,4 @@ class StartButton(Button):
 			f.close()
 
 
-		self.proc = subprocess.Popen(["python3", "run_osu.py"], shell=False)
+		self.proc = subprocess.Popen(["python", "run_osu.py"], shell=False)

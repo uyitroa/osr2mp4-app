@@ -43,6 +43,7 @@ class SkinDropDown(QComboBox):
 		self.setStyleSheet("""QComboBox
 			 {
 			 border-image : url(%s);
+			 color: white;
 			 }
 			 QComboBox::drop-down
 			 {
