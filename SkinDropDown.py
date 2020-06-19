@@ -7,7 +7,7 @@ from PyQt5 import QtCore
 from PyQt5.QtWidgets import QComboBox
 from config_data import current_config
 from helper import getsize, changesize
-
+from PyQt5.QtGui import QColor
 
 def read_properties_file(file_path):
 	with open(file_path) as f:
@@ -73,7 +73,9 @@ class SkinDropDown(QComboBox):
 }
  
 			 """ % (self.img_drop, self.img_listview))
-
+		self.setItemData( 0, QColor( QtCore.Qt.transparent ), QtCore.Qt.BackgroundRole )
+		self.setItemData( 1, QColor(QtCore.Qt.transparent ),QtCore.Qt.BackgroundRole )
+		self.setItemData( 2, QColor(QtCore.Qt.transparent ),QtCore.Qt.BackgroundRole )
 		self.setup()
 
 	def addEmptyItem(self, index):

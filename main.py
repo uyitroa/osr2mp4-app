@@ -48,7 +48,7 @@ class Window(QMainWindow):
 		self.blurrable_widgets = [self.osrbutton, self.mapsetbutton, self.startbutton, self.logo, self.osrpath,
 		                          self.mapsetpath]
 
-		self.popup_window = PopupWindow(self)
+		self.popup_window = PopupWindow(self)	
 		self.output_window = OutputButton(self)
 		self.osu_window = osuButton(self)
 
@@ -93,6 +93,7 @@ class Window(QMainWindow):
 	def keyPressEvent(self, event):
 		if event.key() == QtCore.Qt.Key_Escape:
 			self.hidesettings()
+			
 
 	def mousePressEvent(self, QMouseEvent):
 		if not self.clicked_inside:
@@ -111,7 +112,6 @@ class Window(QMainWindow):
 			with open('config.json', 'w+') as f:
 				json.dump(current_config, f, indent=4)
 				f.close()
-
 	def blur_function(self, blur):
 		if blur:
 			for x in self.blurrable_widgets:
