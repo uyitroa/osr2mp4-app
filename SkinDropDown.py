@@ -4,9 +4,7 @@ import io
 import os
 
 from PyQt5 import QtCore
-from PyQt5.QtWidgets import QComboBox, QAbstractItemView, QScrollBar
-
-from Scrollbar import Scrollbar, CustomScrolbar
+from PyQt5.QtWidgets import QComboBox
 from config_data import current_config
 from helper import getsize, changesize
 
