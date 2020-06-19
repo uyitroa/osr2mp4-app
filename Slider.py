@@ -100,7 +100,8 @@ class StartTimeSlider(Slider):
 		cls.map_length /= 1000
 
 	def setFixedHeight(self, p_int):
-		self.setMaximum(self.map_length * 1000)
+		if self.map_length is not None:
+			self.setMaximum(self.map_length * 1000)
 		super().setFixedHeight(p_int)
 
 
