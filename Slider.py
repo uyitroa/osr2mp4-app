@@ -14,7 +14,7 @@ class Slider(QSlider):
 
 		self.img = "res/Sliderball2_Scale.png"
 		self.default_width, self.default_height = 250, 20
-
+		self.value_ = 0
 		self.setStyleSheet("""
 QSlider::groove:horizontal 
 {
@@ -73,12 +73,13 @@ color: white;
 
 		self.current_data[self.key] = round(self.value() / 1000, self.precision)
 
-		show = round(self.value() / 1000, self.precision)
-		if show == int(show):
-			show = int(show)
-		QToolTip.showText(QtGui.QCursor.pos(), str(show), self)
+		self.show = round(self.value() / 1000, self.precision)
+		if self.show == int(self.show):
+			self.show = int(self.show)
+		QToolTip.showText(QtGui.QCursor.pos(), str(self.show), self)
 
-
+	def enterEvent(self, QEvent):
+		QToolTip.showText(QtGui.QCursor.pos(), str(self.show), self)
 class Map:
 	length = None
 	name = None
