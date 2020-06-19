@@ -156,7 +156,7 @@ class Window(QMainWindow):
 			current_config[".osr path"] = replay
 
 	def set_settings(self, dict1):
-		if os.path.isfile("settings.json"):
+		if os.path.isfile("settings.json"):	
 			with open('settings.json') as f:
 				data = json.load(f)
 			counter = 0

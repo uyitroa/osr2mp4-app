@@ -10,8 +10,11 @@ class GridLayout(QGridLayout):
 		self.maxheight = 500
 		self.rowcounter = [0]
 		self.headerrow = 0
-		self.defaultspacing = 10
-		self.setSpacing(self.defaultspacing)
+		self.vertical_spacing = 3
+		self.horizontal_spacing = 100
+		self.setHorizontalSpacing(self.horizontal_spacing)
+		self.setVerticalSpacing(self.vertical_spacing)
+		
 
 	def smart_addWidget(self, QWidget, col):
 
@@ -47,7 +50,7 @@ class GridLayout(QGridLayout):
 		super().addWidget(QWidget, row, col, rowspan, colspan)
 
 	def changesize(self, scale):
-		self.setSpacing(scale * self.defaultspacing)
+		
 
 		for x in range(self.count()):
 			item = self.itemAt(x).widget()
