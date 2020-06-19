@@ -6,10 +6,12 @@ from QLabel import Titles, Small_Titles
 from Scrollbar import Scrollbar
 from Separator import Separator
 from Textbox import Big_Textbox, Small_Textbox
-from Slider import Slider
+from Slider import Slider, EndTimeSlider, StartTimeSlider
 import json
 from CheckBox import CheckBox
 import os
+
+from config_data import current_settings, current_config
 
 
 class ScrollArea:
@@ -18,12 +20,13 @@ class ScrollArea:
 
 		self.main_window = parent
 
+		self.loaded = False
 		self.default_width, self.default_height = None, None
 		self.default_x, self.default_y = None, None
 
 		self.widgetlists = {"Big_Textbox": Big_Textbox, "Small_Textbox": Small_Textbox,
 		                    "Titles": Titles, "Small_Titles": Small_Titles,
-		                    "Slider": Slider, "DoubleSlider": DoubleSlider,
+		                    "Slider": Slider, "DoubleSlider": DoubleSlider, "StartTimeSlider": StartTimeSlider, "EndTimeSlider": EndTimeSlider,
 		                    "CheckBox": CheckBox}
 
 		self.layout = QtWidgets.QHBoxLayout(parent)
@@ -36,7 +39,8 @@ class ScrollArea:
 		self.scrollArea.setWidget(scrollAreaWidgetContents)
 		self.layout.addWidget(self.scrollArea)
 		self.scrollArea.horizontalScrollBar().setEnabled(False)
-		self.scrollArea.horizontalScrollBar().setEnabled(True)
+		# self.scrollArea.horizontalScrollBar().setEnabled(True)
+
 
 	def setup(self):
 		self.layout.setGeometry(QtCore.QRect(self.default_x, self.default_y, self.default_width, self.default_height))
@@ -55,53 +59,46 @@ class ScrollArea:
 		self.scrollArea.changesize()
 
 	def load_settings(self):
-		paths_config = load_paths()
+		if self.loaded:
+			return
+		self.loaded = True
 
-		data_config = load_config()
+		data_config = {"config": current_config, "settings": current_settings}
 
 		print(data_config)
-		previous_text = ""
 		with open('options_config.json') as f:
 			data = json.load(f)
 
-		rowcounter = self.gridLayout.count
 		for header in data:
 			self.gridLayout.smart_addWidget(Titles(header), 0)
 			self.gridLayout.smart_addWidget(Separator(), 0)
 			for key in data[header]:
 				column = data[header][key].get("Column", 0)  # default to 0 if column is not specified
 				widgetname = data[header][key]["type"]
-				Widget = self.widgetlists[widgetname]
+
+
+				jsondata = {"option_config": data[header][key], "data": data_config, "key": key}
+				widget = self.widgetlists[widgetname](jsondata=jsondata)
 
 
 				if widgetname == "CheckBox":
-					self.gridLayout.addWidget(CheckBox(key), self.gridLayout.rowcounter[column], column)
-				
+					self.gridLayout.smart_addWidget(CheckBox(jsondata=jsondata), column)
 				else:
-					self.gridLayout.smart_addWidget(Small_Titles(key), column)
-					self.gridLayout.smart_addWidget(Widget(jsondata=data[header][key]), column)
-
-				if key[len(key)-1] == ":":	
-					key = key[0:len(key)-1]
+					self.gridLayout.smart_addWidget(Small_Titles(key + ":"), column)
+					self.gridLayout.smart_addWidget(widget, column)
+			self.gridLayout.smart_addWidget(Titles(" "), 0)
 
 
-				if key in paths_config and bool(paths_config):
-					print("Key {} in {}".format(key,paths_config))
-					self.gridLayout.itemAtPosition(self.gridLayout.rowcounter[column] - 1, column).widget().setText(str(paths_config[key]))
-				
 
-				elif key in data_config and bool(data_config):
-					self.gridLayout.itemAtPosition(self.gridLayout.rowcounter[column] - 1, column).widget().setText(str(data_config[key]))
-
-		for x in range(10):
-			render_ = QtWidgets.QLabel("Render Options")
-			render_.setStyleSheet("""font: bold 24px;color:white;""")
-			self.gridLayout.addWidget(render_, rowcounter(), 0)
 
 		self.scrollArea.hide()
 		self.scrollArea.raise_()
 
 		print("settings")
+
+	def reload_settings(self):
+		self.loaded = False
+		self.load_settings()
 
 
 def load_paths():
@@ -109,14 +106,6 @@ def load_paths():
 	if os.path.isfile("user_data.json"):
 		with open('user_data.json') as f:
 			data = json.load(f)
-	if not data == None:
+	if data is not None:
 		return data
 
-
-def load_config():
-	data = {}
-	if os.path.isfile("config_data.json"):
-		with open('config_data.json') as f:
-			data = json.load(f)
-	if not data == None:
-		return data

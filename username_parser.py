@@ -16,6 +16,8 @@ settings = {
 	"IgnoreBeatmapSamples": "",
 	"SkinSamples": ""
 }
+
+
 def read_properties_file(file_path):
 	with open(file_path) as f:
 		config = io.StringIO()
@@ -27,6 +29,7 @@ def read_properties_file(file_path):
 		cp.readfp(config)
 
 		return dict(cp.items('dummy_section'))
+
 
 def get_configInfo(path):
 	settings_result = []

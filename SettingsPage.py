@@ -33,10 +33,8 @@ class SettingsPage(Button):
 		self.settingsarea.default_x, self.settingsarea.default_y, self.settingsarea.default_width, self.settingsarea.default_height = get_arearect(self)
 		self.settingsarea.setup()
 
-		self.settingsarea = self.settingsarea
 		self.hide()
 		self.load_settings()
-
 
 	def changesize(self):
 		super().changesize()

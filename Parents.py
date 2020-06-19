@@ -1,8 +1,12 @@
+import json
+
 from PyQt5 import QtGui, QtCore
 from PyQt5.QtWidgets import QGraphicsBlurEffect, QPushButton, QFileDialog, QLabel
 from pathlib import Path
 
+from config_data import current_config, user_data, current_settings
 from helper import getsize, changesize
+from username_parser import get_configInfo
 
 
 def get_shadowpos(button, width, height):
@@ -156,7 +160,7 @@ class PathImage(Button):
 		super().setup()
 
 	def setText(self, text):
-		text = text[:45]  # max 45 characters
+		text = text[:57]  # character limit
 		self.text.setText(text)
 
 	def changesize(self):
@@ -171,3 +175,31 @@ class PathImage(Button):
 		self.text.setStyleSheet("font-size: {}pt; font-weight: bold; color: white; background-color: rgba(0,0,0,0%)".format(fontsize))
 		self.text.setGeometry(x, y, self.width(), self.height())
 
+
+class PopupButton(ButtonBrowse):
+	def afteropenfile(self, filename):
+		if filename == "":  # if user cancel select
+			return
+		current_config["osu! path"] = filename
+
+		if current_config["Output path"] != "" and current_config["osu! path"] != "":
+			self.main_window.delete_popup()
+			self.main_window.popup_bool = False
+
+			user_data["Output path"], user_data["osu! path"] = current_config["Output path"], current_config[
+				"osu! path"]
+			self.main_window.check_replay_map()
+			self.main_window.resizeEvent(True)
+			self.main_window.skin_dropdown.get_configInfo(current_config["osu! path"])
+			with open('user_data.json', 'w+') as f:
+				json.dump(user_data, f, indent=4)
+				f.close()
+			self.main_window.settingspage.load_settings()
+
+			settings = get_configInfo(current_config["osu! path"])
+			counter = 0
+			for x in current_settings:
+				current_settings[x] = float(settings[counter])
+				if counter >= 10:
+					break
+				counter += 1

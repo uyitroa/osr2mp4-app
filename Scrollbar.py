@@ -113,35 +113,25 @@ class Scrollbar(QScrollArea):
 		self.verticalScrollBar().setStyleSheet(styleSheet)
 
 
-
 	def changesize(self):
 		scale = self.main_window.height() / self.main_window.default_height
 		self.customscroll.changesize(scale)
 
-	def fixsize(self, filename):
-		self.np_handle = cv2.imread(filename, -1)
-		scaley = self.gridLayout.rowcounter[0] / self.scrollsize
-		return self.resizehandle(filename, scaley)
-
-	def resizehandle(self, filename, scaley):
-		scaley = max(0.01, scaley)
-		img = cv2.resize(self.np_handle, (0, 0), fx=1, fy=scaley)
-		filename, ext = os.path.splitext(filename)
-		filename = filename + "1" + ext
-		cv2.imwrite(filename, img)
-		return filename
-
 	def wheelEvent(self, QWheelEvent):
-
 		try:
 			scrollbar = self.verticalScrollBar()
 
 			val = scale(scrollbar.value(), (scrollbar.minimum(), scrollbar.maximum()), (self.customscroll.maximum(), self.customscroll.minimum()))
 			self.fromscroll = True
 			self.customscroll.setValue(val)
+			self.fromscroll = False
 		except AttributeError as e:
 			pass
 		except ZeroDivisionError as e:
 			pass
 
 		return super().wheelEvent(QWheelEvent)
+
+	def mousePressEvent(self, QEvent):
+		self.main_window.clicked_inside = True
+

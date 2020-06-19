@@ -12,13 +12,14 @@ from StartButton import StartButton
 from osuButton import osuButton
 from find_beatmap import find_beatmap_
 from PyQt5 import QtGui, QtCore
-from config_data import current_config
+from config_data import current_config, current_settings
 from ProgressBar import ProgressBar
 from Options import Options
 from username_parser import get_configInfo
-from user_settings import settings_json
 
 completed_settings = {}
+
+
 class Window(QMainWindow):
 	def __init__(self):
 		super().__init__()
@@ -33,6 +34,7 @@ class Window(QMainWindow):
 		self.default_width, self.default_height = window_width, window_height
 
 		self.popup_bool = True
+		self.clicked_inside = False
 
 		self.osrbutton = OsrButton(self)
 		self.mapsetbutton = MapsetButton(self)
@@ -42,16 +44,16 @@ class Window(QMainWindow):
 		self.progressbar = ProgressBar(self)
 		self.mapsetpath = MapSetPath(self)
 		self.skin_dropdown = SkinDropDown(self)
-		self.blurrable_widgets = [self.osrbutton, self.mapsetbutton, self.startbutton, self.logo, self.osrpath, self.mapsetpath]
+		self.blurrable_widgets = [self.osrbutton, self.mapsetbutton, self.startbutton, self.logo, self.osrpath,
+		                          self.mapsetpath]
 
-		
 		self.popup_window = PopupWindow(self)
 		self.output_window = OutputButton(self)
 		self.osu_window = osuButton(self)
 
 		self.Options = Options(self)
 		self.settingspage = SettingsPage(self)
-		
+
 		self.popup_widgets = [self.popup_window, self.output_window, self.osu_window]
 
 		self.check_osuPath()
@@ -87,15 +89,27 @@ class Window(QMainWindow):
 		self.previous_resolution[0] = self.width()
 		self.previous_resolution[1] = self.height()
 
-
 	def keyPressEvent(self, event):
-	  if event.key() == QtCore.Qt.Key_Escape:
-	  	if self.settingspage.isVisible():
-	  		
-	  		self.settingspage.hide()
+		if event.key() == QtCore.Qt.Key_Escape:
+			self.hidesettings()
 
-	  		self.settingspage.settingsarea.scrollArea.hide()
+	def mousePressEvent(self, QMouseEvent):
+		if not self.clicked_inside:
+			self.hidesettings()
+		self.clicked_inside = False
 
+	def hidesettings(self):
+		if self.settingspage.isVisible():
+			self.settingspage.hide()
+			self.settingspage.settingsarea.scrollArea.hide()
+
+			with open('settings.json', 'w+') as f:
+				json.dump(current_settings, f, indent=4)
+				f.close()
+
+			with open('config.json', 'w+') as f:
+				json.dump(current_config, f, indent=4)
+				f.close()
 
 	def blur_function(self, blur):
 		if blur:
@@ -122,26 +136,17 @@ class Window(QMainWindow):
 				self.delete_popup()
 				self.popup_bool = False
 
-			settings = get_configInfo(current_config["osu! path"])
-			counter = 0
-			for x in settings_json:
-				settings_json[x] = settings[counter]
-				if counter >= 10:
-					break
-				counter+=1
-		
-		with open('settings.json', 'w+') as f:                
-			json.dump(settings_json, f, indent=4)                
-			f.close()  
-		if self.popup_bool == False:
+
+		with open('settings.json', 'w+') as f:
+			json.dump(current_settings, f, indent=4)
+			f.close()
+
+		if not self.popup_bool:
 			self.settingspage.load_settings()
 		else:
 			self.settingspage.settingsarea.scrollArea.hide()
 
-		completed_settings = self.set_settings(settings)
-		print(completed_settings)
-		
-		#print("Data loaded:\n{}\n{}".format(data["Output path"], data["osu! path"]))
+	# print("Data loaded:\n{}\n{}".format(data["Output path"], data["osu! path"]))
 
 	def find_latestReplay(self):
 		# current_config["osu! path"] = "/Users/yuitora./Documents/osu!.app/Contents/Resources/drive_c/osu!"
@@ -156,6 +161,7 @@ class Window(QMainWindow):
 				self.osrpath.setText(replay_name)
 
 			current_config[".osr path"] = replay
+
 	def set_settings(self, dict1):
 		if os.path.isfile("settings.json"):
 			with open('settings.json') as f:
@@ -164,14 +170,15 @@ class Window(QMainWindow):
 			for x in data:
 				if counter > 10:
 					break
-				data[x] = dict1[counter]
-				counter+=1
+				data[x] = float(dict1[counter])
+				counter += 1
 		return data
+
 	def find_latestMap(self, replay):
 		print(replay)
 		if current_config["osu! path"] != "":
 			beatmap_path = find_beatmap_(current_config["osu! path"] + "/Replays/" + replay,
-										 current_config["osu! path"])
+			                             current_config["osu! path"])
 			current_config["Beatmap path"] = current_config["osu! path"] + "/Songs/" + beatmap_path
 			if beatmap_path != "":
 				self.mapsetpath.setText(beatmap_path)
@@ -180,7 +187,6 @@ class Window(QMainWindow):
 
 	def check_replay_map(self):
 		self.find_latestReplay()
-
 
 
 App = QApplication(sys.argv)

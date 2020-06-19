@@ -15,25 +15,21 @@ class ParentTitle(QLabel):
 	def height(self):
 		return self.fontMetrics().boundingRect(self.text).height()
 
-	def setFixedWidth(self, p_int):
-		# scale = p_int / self.default_width
-		# self.setStyleSheet("font: bold %f; color: white;" % scale * self.default_fontsize)
-		# super().setFixedHeight(p_int)
-		pass
-
 	def setFixedHeight(self, p_int):
-		# scale = p_int / self.default_height
-		# self.setStyleSheet("font: bold %f; color: white;" % scale * self.default_fontsize)
-		# super().setFixedHeight(p_int)
-		pass
+		scale = p_int / self.default_height
+		self.setStyleSheet("font-size: %ipx; font-weight: bold; color: white;" % int(scale * self.default_fontsize))
+		super().setFixedHeight(p_int)
 
 
 class Titles(ParentTitle):
 	def __init__(self, title, pixmap=None, parent=None):
 		self.default_fontsize = 24
 		super().__init__(self.default_fontsize)
-		self.text = title
+		self.text = title + "   "
 		self.setText(title)
+		font = self.font()
+		font.setPointSize(100)
+		self.setFont(font)
 
 		self.default_width = super().width()
 		self.default_height = super().height()
@@ -42,9 +38,9 @@ class Titles(ParentTitle):
 
 class Small_Titles(ParentTitle):
 	def __init__(self, title, parent=None):
-		self.default_fontsize = 12
+		self.default_fontsize = 14
 		super().__init__(self.default_fontsize)
-		self.text = title
+		self.text = title + "   "
 		self.setText(title)
 
 		self.default_width = super().width()
