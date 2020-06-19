@@ -10,7 +10,7 @@ class GridLayout(QGridLayout):
 		self.maxheight = 500
 		self.rowcounter = [0]
 		self.headerrow = 0
-		self.defaultspacing = 19
+		self.defaultspacing = 10
 		self.setSpacing(self.defaultspacing)
 
 	def smart_addWidget(self, QWidget, col):
