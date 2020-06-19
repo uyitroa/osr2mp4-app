@@ -20,7 +20,7 @@ else:
 		"Global leaderboard": False,
 		"Mods leaderboard": "*",
 		"api key": "",
-		"Rotate sliderbal1l": False
+		"Rotate sliderball": False
 	}
 
 if os.path.isfile("config.json"):
