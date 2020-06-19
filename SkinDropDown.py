@@ -37,11 +37,8 @@ class SkinDropDown(QComboBox):
 		self.activated.connect(self.activated_)
 		self.main_window = parent
 
-		self.addItems([""])
-		model = self.model()
-		firstindex = model.index(0, self.modelColumn())
-		firstItem = model.itemFromIndex(firstindex)
-		firstItem.setSelectable(False)
+		self.addEmptyItem(0)
+		self.addEmptyItem(self.count()-1)
 
 		self.addItems(["Default Skin"])
 		self.setStyleSheet("""QComboBox
@@ -80,6 +77,13 @@ class SkinDropDown(QComboBox):
 			 """ % (self.img_drop, self.img_listview))
 
 		self.setup()
+
+	def addEmptyItem(self, index):
+		self.addItems([""])
+		model = self.model()
+		index = model.index(index, self.modelColumn())
+		item = model.itemFromIndex(index)
+		item.setSelectable(False)
 
 	def setup(self):
 
@@ -121,3 +125,6 @@ class SkinDropDown(QComboBox):
 		changesize(self)
 		self.view().setIconSize(QtCore.QSize(0, 0))  # for linux machines otherwise texts got hidden
 
+
+	def addItems(self, Iterable, p_str=None):
+		super().insertItems(self.count()-1, Iterable)
