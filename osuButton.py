@@ -1,4 +1,5 @@
 from Parents import PopupButton
+from config_data import current_config
 
 
 class osuButton(PopupButton):
@@ -15,5 +16,9 @@ class osuButton(PopupButton):
 		self.img_click = "res/osu!Folder_Click.png"
 		self.parent = parent
 		super().setup()
+
+	def afteropenfile(self, filename):
+		current_config["osu! path"] = filename
+		super().afteropenfile(filename)
 
 

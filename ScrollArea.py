@@ -99,13 +99,3 @@ class ScrollArea:
 	def reload_settings(self):
 		self.loaded = False
 		self.load_settings()
-
-
-def load_paths():
-	data = {}
-	if os.path.isfile("user_data.json"):
-		with open('user_data.json') as f:
-			data = json.load(f)
-	if data is not None:
-		return data
-

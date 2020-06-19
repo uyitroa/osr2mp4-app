@@ -22,3 +22,4 @@ class MapsetButton(ButtonBrowse):
 		if filename == "":  # if user cancel select
 			return
 		current_config["Beatmap path"] = filename
+		self.main_window.mapsetpath.setText(filename)

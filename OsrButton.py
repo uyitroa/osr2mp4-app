@@ -22,6 +22,7 @@ class OsrButton(ButtonBrowse):
 		if filename == "":  # if user cancel select
 			return
 		current_config[".osr path"] = filename
+		self.main_window.osrpath.setText(filename)
 
 		try:
 			self.main_window.find_latestMap(filename)

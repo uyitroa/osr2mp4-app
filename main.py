@@ -8,6 +8,7 @@ from PathImage import OsrPath, MapSetPath
 from PopupWindow import PopupWindow
 from SettingsPage import SettingsPage
 from SkinDropDown import SkinDropDown
+from Slider import StartTimeSlider
 from StartButton import StartButton
 from osuButton import osuButton
 from find_beatmap import find_beatmap_
@@ -126,16 +127,11 @@ class Window(QMainWindow):
 			x.setParent(None)
 
 	def check_osuPath(self):
-		if os.path.isfile("user_data.json"):
-			with open('user_data.json') as f:
-				data = json.load(f)
-			current_config["Output path"] = data["Output path"] + "/output.avi"
-			current_config["osu! path"] = data["osu! path"]
+		if os.path.isfile("config.json"):
 			self.skin_dropdown.get_configInfo(current_config["osu! path"])
-			if data["Output path"] != "" and data["osu! path"] != "":
+			if current_config["Output path"] != "" and current_config["osu! path"] != "":
 				self.delete_popup()
 				self.popup_bool = False
-
 
 		with open('settings.json', 'w+') as f:
 			json.dump(current_settings, f, indent=4)
@@ -146,10 +142,7 @@ class Window(QMainWindow):
 		else:
 			self.settingspage.settingsarea.scrollArea.hide()
 
-	# print("Data loaded:\n{}\n{}".format(data["Output path"], data["osu! path"]))
-
 	def find_latestReplay(self):
-		# current_config["osu! path"] = "/Users/yuitora./Documents/osu!.app/Contents/Resources/drive_c/osu!"
 		if current_config["osu! path"] != "":
 			path = current_config["osu! path"] + "/Replays/*.osr"
 			list_of_files = glob.glob(path)

@@ -61,6 +61,7 @@ QSlider::handle:horizontal
 class StartTimeSlider(Slider):
 
 	map_length = None
+	map_name = None
 
 	def __init__(self, parent=None, jsondata=None):
 
@@ -68,14 +69,23 @@ class StartTimeSlider(Slider):
 		jsondata["option_config"]["step"] = 1
 
 		if self.map_length is None:
-			self.get_maplength(jsondata)
+			try:
+				self.get_maplength(jsondata)
+			except FileNotFoundError:
+				print("replay not specified yet")
+				self.map_length = 1
 
 		jsondata["option_config"]["max"] = self.map_length
 
 		super().__init__(parent=parent, jsondata=jsondata)
 
+	@classmethod
+	def get_maplength(cls, jsondata):
 
-	def get_maplength(self, jsondata):
+		if cls.map_name == jsondata["data"]["config"][".osr path"]:
+			return
+		cls.map_name = jsondata["data"]["config"][".osr path"]
+
 		replay_data = osrparse.parse_replay_file(jsondata["data"]["config"][".osr path"])
 
 		laststring = jsondata["data"]["config"]["Beatmap path"][-1]
@@ -86,8 +96,12 @@ class StartTimeSlider(Slider):
 		color = {"ComboNumber": 1}
 		osudata = osuparser.read_file(mappath, 1, color, False)
 
-		self.map_length = osudata.hitobjects[-1]["end time"] - osudata.hitobjects[0]["time"]
-		self.map_length /= 1000
+		cls.map_length = osudata.hitobjects[-1]["end time"] - osudata.hitobjects[0]["time"]
+		cls.map_length /= 1000
+
+	def setFixedHeight(self, p_int):
+		self.setMaximum(self.map_length * 1000)
+		super().setFixedHeight(p_int)
 
 
 class EndTimeSlider(StartTimeSlider):

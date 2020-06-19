@@ -1,4 +1,5 @@
 import json
+import os
 import threading
 
 from Parents import Button
@@ -27,6 +28,9 @@ class StartButton(Button):
 		converter.joinall()
 
 	def mouseclicked(self):
+		if os.path.isdir(current_config["Output path"]):
+			current_config["Output path"] = os.path.join(current_config["Output path"], "output.avi")
+
 		with open('config.json', 'w+') as f:
 			json.dump(current_config, f, indent=4)
 			f.close()

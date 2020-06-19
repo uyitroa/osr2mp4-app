@@ -43,5 +43,3 @@ else:
 		"Process": 0,
 		"ffmpeg path": "ffmpeg"
 	}
-
-user_data = {"osu! path": "", "Output path": ""}

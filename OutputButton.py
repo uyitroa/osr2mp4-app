@@ -1,4 +1,5 @@
 from Parents import PopupButton
+from config_data import current_config
 
 
 class OutputButton(PopupButton):
@@ -15,3 +16,7 @@ class OutputButton(PopupButton):
 		self.img_click = "res/OutputFolder_Click.png"
 		self.parent = parent
 		super().setup()
+
+	def afteropenfile(self, filename):
+		current_config["Output path"] = filename
+		super().afteropenfile(filename)
