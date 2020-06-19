@@ -3,8 +3,8 @@ from ScrollArea import ScrollArea
 
 
 def get_arearect(settings):
-	area_width = settings.default_width * 0.9
-	area_height = settings.default_height * 0.9
+	area_width = settings.default_width
+	area_height = settings.default_height
 
 	middle_x = settings.default_x + settings.default_width/2
 	middle_y = settings.default_y + settings.default_height/2
@@ -12,7 +12,7 @@ def get_arearect(settings):
 	area_x = middle_x - area_width/2
 	area_y = middle_y - area_height/2
 
-	return area_x, area_y, area_width, area_height
+	return 0, 0, area_width, area_height
 
 
 class SettingsPage(Button):
@@ -29,9 +29,9 @@ class SettingsPage(Button):
 
 		super().setup()
 
-		self.settingsarea = ScrollArea(parent)
-		self.settingsarea.default_x, self.settingsarea.default_y, self.settingsarea.default_width, self.settingsarea.default_height = get_arearect(self)
-		self.settingsarea.setup()
+		self.settingsarea = ScrollArea(self, parent)
+		# self.settingsarea.default_x, self.settingsarea.default_y, self.settingsarea.default_width, self.settingsarea.default_height = get_arearect(self)
+		# self.settingsarea.setup()
 
 		self.hide()
 		self.load_settings()

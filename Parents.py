@@ -50,6 +50,9 @@ class Button(QPushButton):
 
 		imgsize = getsize(self.img_idle)
 
+		self.setMaximumWidth(imgsize[0])
+		self.setMaximumHeight(imgsize[1])
+
 		width = self.default_size * imgsize[0]/10
 		height = self.default_size * imgsize[1]/10
 

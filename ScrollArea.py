@@ -15,14 +15,14 @@ from config_data import current_settings, current_config
 
 
 class ScrollArea:
-	def __init__(self, parent):
+	def __init__(self, parent, main_window):
 		super().__init__()
 
 		self.main_window = parent
 
 		self.loaded = False
-		self.default_width, self.default_height = None, None
-		self.default_x, self.default_y = None, None
+		self.default_width, self.default_height = parent.default_width, parent.default_height * 0.94
+		self.default_x, self.default_y = 15, 15
 
 		self.widgetlists = {"Big_Textbox": Big_Textbox, "Small_Textbox": Small_Textbox,
 		                    "Titles": Titles, "Small_Titles": Small_Titles,
@@ -52,8 +52,9 @@ class ScrollArea:
 
 		x = scale * self.default_x
 		y = scale * self.default_y
-		width = scale * self.default_width
-		height = scale * self.default_height
+		width = self.main_window.width()
+		height = self.main_window.height() * 0.93
+		print(width, height)
 		self.layout.setGeometry(QtCore.QRect(x, y, width, height))
 
 		self.scrollArea.changesize()
