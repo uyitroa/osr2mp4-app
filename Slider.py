@@ -1,5 +1,6 @@
-from PyQt5.QtWidgets import QSlider
+from PyQt5.QtWidgets import QSlider, QToolTip
 from PyQt5 import QtCore
+from PyQt5 import QtGui
 from osr2mp4.Parser import osuparser
 from osr2mp4.Utils.HashBeatmap import get_osu
 from osr2mp4.Parser import osuparser
@@ -12,12 +13,10 @@ class Slider(QSlider):
 		self.setOrientation(QtCore.Qt.Horizontal)
 
 		self.img = "res/Sliderball2_Scale.png"
-		self.default_width, self.default_height = 300, 10
+		self.default_width, self.default_height = 250, 10
 
 		self.setStyleSheet("""
 QSlider {
-    min-height: 30px;
-    max-height: 30px;
 }
 QSlider::groove:horizontal 
 {
@@ -29,8 +28,10 @@ QSlider::handle:horizontal
 {
 	image: url(%s);
 }
-
-
+QToolTip { 
+background-color:rgba(0, 0, 255, 127);
+color: white; 
+}
 """ % self.img)
 
 		self.setFixedWidth(self.default_width)
@@ -57,6 +58,7 @@ QSlider::handle:horizontal
 	@QtCore.pyqtSlot(int)
 	def valueChanged(self, p_int):
 		self.current_data[self.key] = p_int / 1000
+		QToolTip.showText(QtGui.QCursor.pos(), str(p_int/1000), self)
 
 
 class Map:
@@ -125,3 +127,4 @@ class EndTimeSlider(StartTimeSlider):
 		if p_int == self.maximum():
 			p_int = -1000
 		self.current_data[self.key] = p_int / 1000
+		QToolTip.showText(QtGui.QCursor.pos(), str(p_int/1000), self)
