@@ -83,7 +83,7 @@ class Scrollbar(QScrollArea):
 		self.gridLayout = layout
 
 		self.scrollsize = 30
-
+		self.fromscroll = False
 		self.customscroll = CustomScrolbar(self)
 
 		self.setWidgetResizable(True)

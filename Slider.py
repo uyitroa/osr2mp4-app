@@ -13,11 +13,9 @@ class Slider(QSlider):
 		self.setOrientation(QtCore.Qt.Horizontal)
 
 		self.img = "res/Sliderball2_Scale.png"
-		self.default_width, self.default_height = 250, 10
+		self.default_width, self.default_height = 250, 20
 
 		self.setStyleSheet("""
-QSlider {
-}
 QSlider::groove:horizontal 
 {
 	image: url(res/Slider_HD.png);
@@ -29,17 +27,27 @@ QSlider::handle:horizontal
 	image: url(%s);
 }
 QToolTip { 
-background-color:rgba(0, 0, 255, 127);
+background-color:rgb(10, 14, 13);
+opacity: 150;
 color: white; 
 }
 """ % self.img)
 
+		self.default_min = jsondata["option_config"]["min"] * 1000
+		self.default_max = jsondata["option_config"]["max"] * 1000
+
+		self.bordersize = self.cursize = (self.default_max - self.default_min) * 0.0125
+
 		self.setFixedWidth(self.default_width)
 		self.setFixedHeight(self.default_height)
 
-		self.setMinimum(jsondata["option_config"]["min"] * 1000)
-		self.setMaximum(jsondata["option_config"]["max"] * 1000)
+		self.setMinimum(self.default_min - self.bordersize)
+		self.setMaximum(self.default_max + self.bordersize)
 		self.setSingleStep(jsondata["option_config"]["step"] * 1000)
+
+
+		step = jsondata["option_config"]["step"]
+		self.precision = len(str(step-int(step))[1:])
 
 		self.key = jsondata["key"]
 
@@ -49,16 +57,26 @@ color: white;
 			self.current_data = jsondata["data"]["settings"]
 
 		super().valueChanged.connect(self.valueChanged)
-		print(self.current_data, self.key)
 		self.setValue(self.current_data[self.key] * 1000)
 
 	def setFixedHeight(self, p_int):
-		pass
+		super().setFixedHeight(p_int)
+		size = self.cursize = self.bordersize * (p_int/self.default_height)
+		self.setMinimum(self.default_min - size)
+		self.setMaximum(self.default_max + size)
 
 	@QtCore.pyqtSlot(int)
 	def valueChanged(self, p_int):
-		self.current_data[self.key] = p_int / 1000
-		QToolTip.showText(QtGui.QCursor.pos(), str(p_int/1000), self)
+		val = max(self.minimum() + self.cursize, self.sliderPosition())
+		val = min(self.maximum() - self.cursize, val)
+		self.setSliderPosition(val)
+
+		self.current_data[self.key] = round(self.value() / 1000, self.precision)
+
+		show = round(self.value() / 1000, self.precision)
+		if show == int(show):
+			show = int(show)
+		QToolTip.showText(QtGui.QCursor.pos(), str(show), self)
 
 
 class Map:
@@ -108,14 +126,17 @@ class StartTimeSlider(Slider):
 	def setFixedHeight(self, p_int):
 		if Map.length is not None:
 			self.setMaximum(Map.length * 1000)
+			self.default_max = Map.length * 1000
+			self.bordersize = (self.default_max - self.default_min) * 0.0125
 		super().setFixedHeight(p_int)
+
 
 
 class EndTimeSlider(StartTimeSlider):
 	def __init__(self, parent=None, jsondata=None):
+		endtime = jsondata["data"]["config"]["End time"]
 		super().__init__(parent=parent, jsondata=jsondata)
-
-		if self.current_data[self.key] == -1:
+		if endtime == -1:
 			val = self.maximum()
 		else:
 			val = self.current_data[self.key] * 1000
@@ -124,7 +145,7 @@ class EndTimeSlider(StartTimeSlider):
 
 	@QtCore.pyqtSlot(int)
 	def valueChanged(self, p_int):
-		if p_int == self.maximum():
-			p_int = -1000
-		self.current_data[self.key] = p_int / 1000
-		QToolTip.showText(QtGui.QCursor.pos(), str(p_int/1000), self)
+		super().valueChanged(p_int)
+		if p_int >= self.maximum() - self.cursize:
+			self.current_data[self.key] = -1
+

@@ -4,7 +4,8 @@ import io
 import os
 
 from PyQt5 import QtCore
-from PyQt5.QtWidgets import QComboBox
+from PyQt5.QtGui import QPalette
+from PyQt5.QtWidgets import QComboBox, QAbstractItemView
 from config_data import current_config
 from helper import getsize, changesize
 from PyQt5.QtGui import QColor
@@ -42,6 +43,7 @@ class SkinDropDown(QComboBox):
 		self.setStyleSheet("""QComboBox
 			 {
 			 border-image : url(%s);
+			 color: white;
 			 }
 			 QComboBox::drop-down
 			 {
@@ -94,6 +96,7 @@ class SkinDropDown(QComboBox):
 		self.setGeometry(self.default_x, self.default_y, self.default_width, self.default_height)
 		self.setIconSize(QtCore.QSize(self.default_width, self.default_height))
 		self.view().setIconSize(QtCore.QSize(0, 0))  # for linux machines otherwise texts got hidden
+		self.setMaxVisibleItems(7)
 
 	def activated_(self, index):
 		current_config["Skin path"] = current_config["osu! path"] + "/Skins/" + self.itemText(index)
@@ -109,8 +112,6 @@ class SkinDropDown(QComboBox):
 			props = read_properties_file(cfg[1])
 			name = props['skin']
 
-			self.setCurrentIndex(self.findText(name))
-
 			current_config["Skin path"] = current_config["osu! path"] + "/Skins/" + name
 			skin_list = [f for f in glob.glob(current_config["osu! path"] + "/Skins/*", recursive=True)]
 			for x in skin_list:
@@ -120,6 +121,7 @@ class SkinDropDown(QComboBox):
 					self.addItems([x[index + 1:len(x)]])
 				else:
 					self.addItems([x[index2 + 1:len(x)]])
+			self.setCurrentIndex(self.findText(name))
 
 	def changesize(self):
 		changesize(self)
