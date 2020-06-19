@@ -1,3 +1,4 @@
+import psutil
 from PyQt5.QtWidgets import QMainWindow, QApplication
 import os, json, sys, glob, os.path
 from Logo import Logo
@@ -46,7 +47,7 @@ class Window(QMainWindow):
 		self.mapsetpath = MapSetPath(self)
 		self.skin_dropdown = SkinDropDown(self)
 		self.blurrable_widgets = [self.osrbutton, self.mapsetbutton, self.startbutton, self.logo, self.osrpath,
-		                          self.mapsetpath]
+								  self.mapsetpath]
 
 		self.popup_window = PopupWindow(self)
 		self.output_window = OutputButton(self)
@@ -171,7 +172,7 @@ class Window(QMainWindow):
 		print(replay)
 		if current_config["osu! path"] != "":
 			beatmap_path = find_beatmap_(current_config["osu! path"] + "/Replays/" + replay,
-			                             current_config["osu! path"])
+										 current_config["osu! path"])
 			current_config["Beatmap path"] = current_config["osu! path"] + "/Songs/" + beatmap_path
 			if beatmap_path != "":
 				self.mapsetpath.setText(beatmap_path)
@@ -182,6 +183,16 @@ class Window(QMainWindow):
 		self.find_latestReplay()
 
 
+def kill(proc_pid):
+	process = psutil.Process(proc_pid)
+	for proc in process.children(recursive=True):
+		proc.kill()
+	process.kill()
+
+
+
 App = QApplication(sys.argv)
 window = Window()
-sys.exit(App.exec())
+App.exec()
+if window.startbutton.proc is not None:
+	kill(window.startbutton.proc.pid)
