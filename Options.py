@@ -1,5 +1,5 @@
 from Parents import Button
-from Slider import StartTimeSlider
+from Slider import StartTimeSlider, Map
 from config_data import current_config
 
 
@@ -20,7 +20,7 @@ class Options(Button):
 
 	def mouseclicked(self):
 		StartTimeSlider.get_maplength({"data": {"config": current_config}, "option_config": {}})
-		print(StartTimeSlider.map_length)
+		print(Map.length)
 		self.parent.settingspage.show()
 		self.parent.settingspage.settingsarea.scrollArea.show()
 		self.parent.resizeEvent(True)
