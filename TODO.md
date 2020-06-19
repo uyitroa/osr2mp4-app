@@ -1,5 +1,4 @@
 # DO 
-- Using multithread to run_osu doesn't work for process > 0 pls retry using subprocess
 - Fix slider handle size, too big
 - Fix spacing kthanks
 - Show slider value when user hover to slider

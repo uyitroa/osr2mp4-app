@@ -4,7 +4,8 @@ import io
 import os
 
 from PyQt5 import QtCore
-from PyQt5.QtWidgets import QComboBox
+from PyQt5.QtGui import QPalette
+from PyQt5.QtWidgets import QComboBox, QAbstractItemView
 from config_data import current_config
 from helper import getsize, changesize
 
@@ -92,6 +93,7 @@ class SkinDropDown(QComboBox):
 		self.setGeometry(self.default_x, self.default_y, self.default_width, self.default_height)
 		self.setIconSize(QtCore.QSize(self.default_width, self.default_height))
 		self.view().setIconSize(QtCore.QSize(0, 0))  # for linux machines otherwise texts got hidden
+		self.setMaxVisibleItems(7)
 
 	def activated_(self, index):
 		current_config["Skin path"] = current_config["osu! path"] + "/Skins/" + self.itemText(index)
