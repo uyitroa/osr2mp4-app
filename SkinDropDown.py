@@ -4,8 +4,9 @@ import io
 import os
 
 from PyQt5 import QtCore
-from PyQt5.QtWidgets import QComboBox
+from PyQt5.QtWidgets import QComboBox, QAbstractItemView, QScrollBar
 
+from Scrollbar import Scrollbar, CustomScrolbar
 from config_data import current_config
 from helper import getsize, changesize
 
@@ -35,6 +36,13 @@ class SkinDropDown(QComboBox):
 
 		self.activated.connect(self.activated_)
 		self.main_window = parent
+
+		self.addItems([""])
+		model = self.model()
+		firstindex = model.index(0, self.modelColumn())
+		firstItem = model.itemFromIndex(firstindex)
+		firstItem.setSelectable(False)
+
 		self.addItems(["Default Skin"])
 		self.setStyleSheet("""QComboBox
 			 {
@@ -72,6 +80,7 @@ class SkinDropDown(QComboBox):
 			 """ % (self.img_drop, self.img_listview))
 
 		self.setup()
+
 	def setup(self):
 
 		self.default_width, self.default_height = getsize(self.img_drop)

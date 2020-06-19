@@ -1,6 +1,3 @@
-import os
-
-import cv2
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import QScrollArea
 
@@ -21,8 +18,10 @@ class CustomScrolbar(QSlider):
 
 		super().valueChanged.connect(self.valueChanged)
 
-		self.default_width, self.default_height = 20, 350
-		self.default_x, self.default_y = 625, 10
+		self.default_width = parent.main_window.default_width * 0.05
+		self.default_height = parent.main_window.default_height * 0.8
+		self.default_x = parent.main_window.default_width * 0.95 - self.default_width
+		self.default_y = parent.main_window.default_height * 0.05
 		self.resized = False
 
 		self.img_handle = "res/SliderBall_HD.png"
@@ -84,7 +83,7 @@ class Scrollbar(QScrollArea):
 		self.gridLayout = layout
 
 		self.scrollsize = 30
-		self.fromscroll = False
+
 		self.customscroll = CustomScrolbar(self)
 
 		self.setWidgetResizable(True)

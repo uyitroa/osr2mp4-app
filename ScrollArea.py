@@ -9,7 +9,6 @@ from Textbox import Big_Textbox, Small_Textbox
 from Slider import Slider, EndTimeSlider, StartTimeSlider
 import json
 from CheckBox import CheckBox
-import os
 
 from config_data import current_settings, current_config
 
