@@ -1,3 +1,5 @@
+import os
+
 from Parents import ButtonBrowse
 from config_data import current_config
 
@@ -21,10 +23,11 @@ class OsrButton(ButtonBrowse):
 	def afteropenfile(self, filename):
 		if filename == "":  # if user cancel select
 			return
+		replay_name = os.path.split(filename)[-1]
 		current_config[".osr path"] = filename
-		self.main_window.osrpath.setText(filename)
+		self.main_window.osrpath.setText(replay_name)
 
 		try:
-			self.main_window.find_latestMap(filename)
-		except:
-			pass
+			self.main_window.find_latestMap(replay_name)
+		except Exception as e:
+			print(e)

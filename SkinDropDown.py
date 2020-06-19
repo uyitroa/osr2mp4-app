@@ -109,8 +109,6 @@ class SkinDropDown(QComboBox):
 			props = read_properties_file(cfg[1])
 			name = props['skin']
 
-			self.setCurrentIndex(self.findText(name))
-
 			current_config["Skin path"] = current_config["osu! path"] + "/Skins/" + name
 			skin_list = [f for f in glob.glob(current_config["osu! path"] + "/Skins/*", recursive=True)]
 			for x in skin_list:
@@ -120,6 +118,7 @@ class SkinDropDown(QComboBox):
 					self.addItems([x[index + 1:len(x)]])
 				else:
 					self.addItems([x[index2 + 1:len(x)]])
+			self.setCurrentIndex(self.findText(name))
 
 	def changesize(self):
 		changesize(self)

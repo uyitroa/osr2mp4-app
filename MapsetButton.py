@@ -1,3 +1,5 @@
+import os
+
 from Parents import ButtonBrowse
 from config_data import current_config
 
@@ -22,4 +24,5 @@ class MapsetButton(ButtonBrowse):
 		if filename == "":  # if user cancel select
 			return
 		current_config["Beatmap path"] = filename
-		self.main_window.mapsetpath.setText(filename)
+		mapname = os.path.split(filename)[-1]
+		self.main_window.mapsetpath.setText(mapname)
