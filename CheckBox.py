@@ -50,10 +50,10 @@ class CheckBox(QCheckBox):
 		    height: %fpx;
 		}
 		QCheckBox::indicator:unchecked {
-		    image: url(res/Uncheck_HD.png);
+		    border-image: url(res/Uncheck_HD.png);
 		}
 		QCheckBox::indicator:checked {
-		    image: url(res/Check_HD.png);
+		    border-image: url(res/Check_HD.png);
 		}
 					""" % (self.box_width * scale, self.box_height * scale))
 

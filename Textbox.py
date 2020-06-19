@@ -24,8 +24,8 @@ class ParentTextbox(QLineEdit):
 			self.current_data = jsondata["data"]["settings"]
 
 		self.setText(str(self.current_data[self.key]))
-
 		super().textChanged.connect(self.textChanged)
+		self.raise_()
 
 	def setFixedHeight(self, p_int):
 		pass

@@ -18,11 +18,18 @@ class ProgressBar(Button):
 
 		super().setup()
 
-		watcher = QFileSystemWatcher()
+		'''watcher = QFileSystemWatcher()
 		watcher.addPath("progress.txt")
-		watcher.directoryChanged.connect(self.directoryChanged)
+		watcher.directoryChanged.connect(self.directoryChanged)'''
+
+		watcher = QtCore.QFileSystemWatcher(['progress.txt'])
+		watcher.directoryChanged.connect(directory_changed)
+		watcher.fileChanged.connect(file_changed)
 
 
-	@QtCore.pyqtSlot(str)
-	def directoryChanged(self, p_str):
-		print("Hi", p_str)
+
+def directory_changed(path):
+    print('Directory Changed:', path)
+
+def file_changed(path):
+    print('File Changed: ',  path)

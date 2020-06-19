@@ -13,7 +13,7 @@ from CheckBox import CheckBox
 from config_data import current_settings, current_config
 
 
-class ScrollArea:
+class ScrollArea(QtWidgets.QScrollArea):
 	def __init__(self, parent, main_window):
 		super().__init__()
 
@@ -38,13 +38,13 @@ class ScrollArea:
 		self.scrollArea.setWidget(scrollAreaWidgetContents)
 		self.layout.addWidget(self.scrollArea)
 		self.scrollArea.horizontalScrollBar().setEnabled(False)
-		# self.scrollArea.horizontalScrollBar().setEnabled(True)
-
+		self.setWidgetResizable(False)
 
 	def setup(self):
 		self.layout.setGeometry(QtCore.QRect(self.default_x, self.default_y, self.default_width, self.default_height))
 
 	def changesize(self):
+
 		scale = self.main_window.height() / self.main_window.default_height
 
 		self.gridLayout.changesize(scale)
@@ -55,7 +55,6 @@ class ScrollArea:
 		height = self.main_window.height() * 0.93
 		print(width, height)
 		self.layout.setGeometry(QtCore.QRect(x, y, width, height))
-
 		self.scrollArea.changesize()
 
 	def load_settings(self):
