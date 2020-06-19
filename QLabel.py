@@ -10,10 +10,10 @@ class ParentTitle(QLabel):
 		self.setStyleSheet("font: bold %ipx;color:white;" % self.default_fontsize)
 
 	def width(self):
-		return self.fontMetrics().boundingRect(self.text).width()
+		return self.fontMetrics().boundingRect(self.text).width() * 2
 
 	def height(self):
-		return self.fontMetrics().boundingRect(self.text).height()
+		return self.fontMetrics().boundingRect(self.text).height() * 2
 
 	def setFixedHeight(self, p_int):
 		scale = p_int / self.default_height

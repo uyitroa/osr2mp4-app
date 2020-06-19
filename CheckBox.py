@@ -32,10 +32,10 @@ class CheckBox(QCheckBox):
 		super().stateChanged.connect(self.stateChanged)
 
 	def textwidth(self):
-		return self.fontMetrics().boundingRect(self.text).width()
+		return self.fontMetrics().boundingRect(self.text).width() * 2
 
 	def textheight(self):
-		return self.fontMetrics().boundingRect(self.text).height()
+		return self.fontMetrics().boundingRect(self.text).height() * 2
 
 	def setFixedWidth(self, p_int):
 		scale = p_int / self.default_width
@@ -43,6 +43,7 @@ class CheckBox(QCheckBox):
 		self.setStyleSheet("""
 		QCheckBox {
 			font-weight: bold;
+			color: white;
 		}
 		QCheckBox::indicator {
 		    width: %fpx;

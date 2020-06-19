@@ -48,6 +48,7 @@ QSlider::handle:horizontal
 			self.current_data = jsondata["data"]["settings"]
 
 		super().valueChanged.connect(self.valueChanged)
+		print(self.current_data, self.key)
 		self.setValue(self.current_data[self.key] * 1000)
 
 	def setFixedHeight(self, p_int):
