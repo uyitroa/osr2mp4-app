@@ -148,8 +148,7 @@ class Window(QMainWindow):
 			path = current_config["osu! path"] + "/Replays/*.osr"
 			list_of_files = glob.glob(path)
 			replay = max(list_of_files, key=os.path.getctime)
-			slash, backslash = replay.rfind("/"), replay.rfind("\\")  # find_lastIndex
-			replay_name = replay[max(slash, backslash) + 1:len(replay)]
+			replay_name = os.path.split(replay)[-1]
 			self.find_latestMap(replay_name)
 			if replay_name != "":
 				self.osrpath.setText(replay_name)
