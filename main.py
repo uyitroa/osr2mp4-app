@@ -81,7 +81,7 @@ class Window(QMainWindow):
 		self.skin_dropdown.changesize()
 		self.settingspage.changesize()
 		self.Options.changesize()
-		self.progressbar.changesize()
+		#self.progressbar.changesize()
 		if self.popup_bool:
 			self.blur_function(True)
 		else:
@@ -179,13 +179,6 @@ class Window(QMainWindow):
 
 	def check_replay_map(self):
 		self.find_latestReplay()
-
-	def directory_changed(self, path):
-		print('Directory Changed:', path)
-
-
-	def file_changed(self, path):
-		print('File Changed: ', path)
 
 
 def kill(proc_pid):
