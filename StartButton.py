@@ -4,7 +4,7 @@ import subprocess
 
 from Parents import Button
 from config_data import current_config, current_settings
-from PyQt5 import QtCore
+
 
 class StartButton(Button):
 	def __init__(self, parent):
@@ -33,6 +33,6 @@ class StartButton(Button):
 			json.dump(current_settings, f, indent=4)
 			f.close()
 
-
-		self.proc = subprocess.Popen(["python", "run_osu.py"], shell=False)
-
+		if self.proc is None or self.proc.poll() is not None:
+			self.proc = subprocess.Popen(["python3", "run_osu.py"], shell=False)
+			self.main_window.progressbar.show()

@@ -29,7 +29,7 @@ class SkinDropDown(QComboBox):
 
 
 		self.default_x = 600
-		self.default_y = 300
+		self.default_y = 245
 		self.img_drop = "res/Drop_Scale.png"
 		self.img_listview = "res/listview.png"
 
