@@ -25,6 +25,8 @@ completed_settings = {}
 class Window(QMainWindow):
 	def __init__(self):
 		super().__init__()
+		self.setFocus()
+		App.focusChanged.connect(self.on_focusChanged)
 		self.setWindowIcon(QtGui.QIcon("icon.png"))
 		self.setWindowTitle("Subscribe to Raishin Aot")
 		self.setStyleSheet("background-color: rgb(30, 30, 33);")
@@ -63,6 +65,11 @@ class Window(QMainWindow):
 		self.show()
 		self.resize(window_width, window_height)
 
+	def on_focusChanged(self):
+		if self.isActiveWindow():
+			print("gf's priority is you")
+		else:
+			print("u dont have a gf")
 	def resizeEvent(self, event):
 		height = self.width() * 9 / 16
 		self.resize(self.width(), height)
