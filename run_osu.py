@@ -3,11 +3,11 @@ import time
 
 
 def run():
-	for x in range(100):
+	for x in range(101):
 	  b = open("progress.txt", "w")
 	  b.write(str(x))
 	  b.close()
-	  time.sleep(1)	
+	  time.sleep(0.1)
 	'''fprogress = open("progress.txt", "w")
 				fprogress.seek(0)
 				fprogress.write("0")
@@ -35,7 +35,7 @@ def run():
 				converter.joinall()'''
 
 
-	fprogress = open("progress.txt", "w")
+	'''fprogress = open("progress.txt", "w")
 	fprogress.write("0")
 	fprogress.close()
 
@@ -57,8 +57,8 @@ def run():
 		fprogress.write(str(curprogress))
 		fprogress.close()
 		print(curprogress)
-		time.sleep(2)
-	converter.joinall()
+		time.sleep(0.2)
+	converter.joinall()'''
 
 if __name__ == "__main__":
 	run()
