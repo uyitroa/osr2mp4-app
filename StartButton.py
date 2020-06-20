@@ -4,7 +4,7 @@ import subprocess
 
 from Parents import Button
 from config_data import current_config, current_settings
-
+from PyQt5 import QtCore
 
 class StartButton(Button):
 	def __init__(self, parent):
@@ -34,4 +34,4 @@ class StartButton(Button):
 			f.close()
 
 
-		self.proc = subprocess.Popen(["python3", "run_osu.py"], shell=False)
+		self.proc = subprocess.Popen(["python", "run_osu.py"], shell=False)

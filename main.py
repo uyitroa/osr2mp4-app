@@ -48,7 +48,7 @@ class Window(QMainWindow):
 		self.skin_dropdown = SkinDropDown(self)
 		self.Options = Options(self)
 		self.blurrable_widgets = [self.osrbutton, self.mapsetbutton, self.startbutton, self.logo, self.osrpath,
-		                          self.mapsetpath, self.Options]
+								  self.mapsetpath, self.Options]
 
 		self.popup_window = PopupWindow(self)
 		self.output_window = OutputButton(self)
@@ -170,7 +170,7 @@ class Window(QMainWindow):
 		print(replay)
 		if current_config["osu! path"] != "":
 			beatmap_path = find_beatmap_(current_config["osu! path"] + "/Replays/" + replay,
-			                             current_config["osu! path"])
+										 current_config["osu! path"])
 			current_config["Beatmap path"] = current_config["osu! path"] + "/Songs/" + beatmap_path
 			if beatmap_path != "":
 				self.mapsetpath.setText(beatmap_path)
@@ -180,6 +180,13 @@ class Window(QMainWindow):
 	def check_replay_map(self):
 		self.find_latestReplay()
 
+	def directory_changed(self, path):
+		print('Directory Changed:', path)
+
+
+	def file_changed(self, path):
+		print('File Changed: ', path)
+
 
 def kill(proc_pid):
 	process = psutil.Process(proc_pid)
@@ -188,8 +195,15 @@ def kill(proc_pid):
 	process.kill()
 
 
+
+
+
+
 App = QApplication(sys.argv)
 window = Window()
+watcher = QtCore.QFileSystemWatcher(['progress.txt'])
+watcher.directoryChanged.connect(window.progressbar.directory_changed)
+watcher.fileChanged.connect(window.progressbar.file_changed)
 App.exec()
 if window.startbutton.proc is not None:
 	kill(window.startbutton.proc.pid)
