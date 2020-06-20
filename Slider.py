@@ -1,10 +1,13 @@
 from PyQt5.QtWidgets import QSlider, QToolTip
 from PyQt5 import QtCore
 from PyQt5 import QtGui
+from osr2mp4.Exceptions import BeatmapNotFound
 from osr2mp4.Parser import osuparser
 from osr2mp4.Utils.HashBeatmap import get_osu
 from osr2mp4.Parser import osuparser
 import osrparse
+
+from config_data import current_config
 
 
 class Slider(QSlider):
@@ -79,7 +82,12 @@ color: white;
 		QToolTip.showText(QtGui.QCursor.pos(), str(self.show), self)
 
 	def enterEvent(self, QEvent):
+		self.show = round(self.value() / 1000, self.precision)
+		if self.show == int(self.show):
+			self.show = int(self.show)
 		QToolTip.showText(QtGui.QCursor.pos(), str(self.show), self)
+
+
 class Map:
 	length = None
 	name = None
@@ -87,19 +95,16 @@ class Map:
 
 class StartTimeSlider(Slider):
 
-	def __init__(self, parent=None, jsondata=None):
+	objs = []
 
+	def __init__(self, parent=None, jsondata=None):
+		StartTimeSlider.objs.append(self)
 		jsondata["option_config"]["min"] = 0
 		jsondata["option_config"]["step"] = 1
 
 		if Map.length is None:
-			try:
-				self.get_maplength(jsondata)
-			except FileNotFoundError:
-				print("replay not specified yet")
-				Map.length = 1
-				Map.name = None
-		print(Map.length)
+			self.get_maplength(jsondata)
+
 		jsondata["option_config"]["max"] = Map.length
 
 		super().__init__(parent=parent, jsondata=jsondata)
@@ -111,30 +116,47 @@ class StartTimeSlider(Slider):
 			return
 		Map.name = jsondata["data"]["config"][".osr path"]
 
-		replay_data = osrparse.parse_replay_file(jsondata["data"]["config"][".osr path"])
+		try:
+			replay_data = osrparse.parse_replay_file(jsondata["data"]["config"][".osr path"])
+		except FileNotFoundError:
+			print("replay not specified yet")
+			Map.length = 1
+			Map.name = None
+			return
 
 		laststring = jsondata["data"]["config"]["Beatmap path"][-1]
 		if laststring != "/" and laststring != "\\":
 			jsondata["data"]["config"]["Beatmap path"] += "/"
 
-		mappath = get_osu(jsondata["data"]["config"]["Beatmap path"], replay_data.beatmap_hash)
+		try:
+			mappath = get_osu(jsondata["data"]["config"]["Beatmap path"], replay_data.beatmap_hash)
+		except BeatmapNotFound:
+			print("replay not specified yet")
+			Map.length = 1
+			Map.name = None
+			return
+
 		color = {"ComboNumber": 1}
 		osudata = osuparser.read_file(mappath, 1, color, False)
 
 		Map.length = osudata.hitobjects[-1]["end time"] - osudata.hitobjects[0]["time"]
 		Map.length /= 1000
 
-	def setFixedHeight(self, p_int):
-		if Map.length is not None:
-			self.setMaximum(Map.length * 1000)
-			self.default_max = Map.length * 1000
-			self.bordersize = (self.default_max - self.default_min) * 0.0125
-		super().setFixedHeight(p_int)
-
+	@classmethod
+	def updatevalue(cls):
+		cls.get_maplength({"data": {"config": current_config}, "option_config": {}})
+		for self in cls.objs:
+			if Map.length is not None:
+				self.setMaximum(Map.length * 1000)
+				self.default_max = Map.length * 1000
+				self.bordersize = (self.default_max - self.default_min) * 0.0125
 
 
 class EndTimeSlider(StartTimeSlider):
+	objs = []
+
 	def __init__(self, parent=None, jsondata=None):
+		EndTimeSlider.objs.append(self)
 		endtime = jsondata["data"]["config"]["End time"]
 		super().__init__(parent=parent, jsondata=jsondata)
 		if endtime == -1:
@@ -150,3 +172,11 @@ class EndTimeSlider(StartTimeSlider):
 		if p_int >= self.maximum() - self.cursize:
 			self.current_data[self.key] = -1
 
+	def setFixedHeight(self, p_int):
+		super().setFixedHeight(p_int)
+
+	@classmethod
+	def updatevalue(cls):
+		for self in cls.objs:
+			if self.current_data[self.key] == -1:
+				self.setValue(self.maximum())

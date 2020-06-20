@@ -17,10 +17,10 @@ else:
 		"Effect volume": 85.0,
 		"Ignore beatmap hitsounds": 0.0,
 		"Use skin's sound samples": 1.0,
-		"Global leaderboard": False,
+		"Global leaderboard": 0,
 		"Mods leaderboard": "*",
 		"api key": "",
-		"Rotate sliderball": False
+		"Rotate sliderball": 0
 	}
 
 if os.path.isfile("config.json"):
@@ -40,6 +40,6 @@ else:
 		"Start time": 0,
 		"End time": -1,
 		"Video codec": "XVID",
-		"Process": 0,
+		"Process": 2,
 		"ffmpeg path": "ffmpeg"
 	}

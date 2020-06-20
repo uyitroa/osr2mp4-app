@@ -9,7 +9,6 @@ from PathImage import OsrPath, MapSetPath
 from PopupWindow import PopupWindow
 from SettingsPage import SettingsPage
 from SkinDropDown import SkinDropDown
-from Slider import StartTimeSlider
 from StartButton import StartButton
 from osuButton import osuButton
 from find_beatmap import find_beatmap_
@@ -17,7 +16,6 @@ from PyQt5 import QtGui, QtCore
 from config_data import current_config, current_settings
 from ProgressBar import ProgressBar
 from Options import Options
-from username_parser import get_configInfo
 
 completed_settings = {}
 
@@ -26,7 +24,7 @@ class Window(QMainWindow):
 	def __init__(self):
 		super().__init__()
 		self.setFocus()
-		App.applicationStateChanged .connect(self.applicationStateChanged)
+		App.applicationStateChanged.connect(self.applicationStateChanged)
 		self.setWindowIcon(QtGui.QIcon("icon.png"))
 		self.setWindowTitle("Subscribe to Raishin Aot")
 		self.setStyleSheet("background-color: rgb(30, 30, 33);")
@@ -49,7 +47,7 @@ class Window(QMainWindow):
 		self.skin_dropdown = SkinDropDown(self)
 		self.options = Options(self)
 		self.blurrable_widgets = [self.osrbutton, self.mapsetbutton, self.startbutton, self.logo, self.osrpath,
-								  self.mapsetpath, self.options]
+		                          self.mapsetpath, self.options, self.skin_dropdown]
 
 		self.popup_window = PopupWindow(self)
 		self.output_window = OutputButton(self)
@@ -62,7 +60,7 @@ class Window(QMainWindow):
 		self.progressbar.hide()
 
 		self.check_osuPath()
-		#self.check_replay_map()
+		# self.check_replay_map()
 
 		self.show()
 		self.resize(window_width, window_height)
@@ -81,7 +79,6 @@ class Window(QMainWindow):
 			print("gf's priority is you\n")
 		else:
 			print("u dont have a gf\n")
-
 
 	def resizeEvent(self, event):
 		height = self.width() * 9 / 16
@@ -166,6 +163,8 @@ class Window(QMainWindow):
 		if current_config["osu! path"] != "":
 			path = current_config["osu! path"] + "/Replays/*.osr"
 			list_of_files = glob.glob(path)
+			if not list_of_files:
+				return
 			replay = max(list_of_files, key=os.path.getctime)
 			replay_name = os.path.split(replay)[-1]
 			self.find_latestMap(replay_name)
@@ -189,11 +188,10 @@ class Window(QMainWindow):
 	def find_latestMap(self, replay):
 		if current_config["osu! path"] != "":
 			beatmap_path = find_beatmap_(current_config["osu! path"] + "/Replays/" + replay,
-										 current_config["osu! path"])
+			                             current_config["osu! path"])
 			current_config["Beatmap path"] = current_config["osu! path"] + "/Songs/" + beatmap_path
 			if beatmap_path != "":
 				self.mapsetpath.setText(beatmap_path)
-
 
 	def check_replay_map(self):
 		self.find_latestReplay()
@@ -204,10 +202,6 @@ def kill(proc_pid):
 	for proc in process.children(recursive=True):
 		proc.kill()
 	process.kill()
-
-
-
-
 
 
 App = QApplication(sys.argv)

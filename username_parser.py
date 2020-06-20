@@ -4,7 +4,7 @@ import os, json
 import configparser
 
 settings = {
-	"CursorSize" : "",
+	"CursorSize": "",
 	"ShowInterface": "",
 	"ScoreboardVisible": "",
 	"DimLevel": "",
@@ -32,12 +32,30 @@ def read_properties_file(file_path):
 
 
 def get_configInfo(path):
-	settings_result = []
-	if path != "":
-		cfg = glob.glob(path + "/*.cfg")
-		props = read_properties_file(cfg[1])
-		for x in settings:
-			settings_result.append(props[x.lower()])
-	return settings_result
-
-
+	try:
+		settings_result = []
+		if path != "":
+			cfg = glob.glob(path + "/*.cfg")
+			props = read_properties_file(cfg[1])
+			for x in settings:
+				settings_result.append(props[x.lower()])
+		return settings_result
+	except Exception as e:
+		print(e)
+		return {
+			"CursorSize": 1,
+			"ShowInterface": 1,
+			"ScoreboardVisible": 1,
+			"DimLevel": 100.0,
+			"KeyOverlay": 1,
+			"AutomaticCursorSizing": 0,
+			"ScoreMeterScale": 1,
+			"VolumeMusic": 100,
+			"VolumeEffect": 100,
+			"IgnoreBeatmapSamples": 0,
+			"SkinSamples": 1,
+			"Global leaderboard": 0,
+			"Mods leaderboard": "*",
+			"api key": "",
+			"Rotate sliderball": 0
+		}

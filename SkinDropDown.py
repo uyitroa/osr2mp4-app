@@ -5,10 +5,11 @@ import os
 
 from PyQt5 import QtCore
 from PyQt5.QtGui import QPalette
-from PyQt5.QtWidgets import QComboBox, QAbstractItemView
+from PyQt5.QtWidgets import QComboBox, QAbstractItemView, QGraphicsBlurEffect
 from config_data import current_config
 from helper import getsize, changesize
 from PyQt5.QtGui import QColor
+
 
 def read_properties_file(file_path):
 	with open(file_path) as f:
@@ -27,7 +28,6 @@ class SkinDropDown(QComboBox):
 	def __init__(self, parent):
 		super(SkinDropDown, self).__init__(parent)
 
-
 		self.default_x = 600
 		self.default_y = 245
 		self.img_drop = "res/Drop_Scale.png"
@@ -37,7 +37,7 @@ class SkinDropDown(QComboBox):
 		self.main_window = parent
 
 		self.addEmptyItem(0)
-		self.addEmptyItem(self.count()-1)
+		self.addEmptyItem(self.count() - 1)
 
 		self.addItems(["Default Skin"])
 		self.setStyleSheet("""QComboBox
@@ -75,9 +75,9 @@ class SkinDropDown(QComboBox):
 }
  
 			 """ % (self.img_drop, self.img_listview))
-		self.setItemData( 0, QColor( QtCore.Qt.transparent ), QtCore.Qt.BackgroundRole )
-		self.setItemData( 1, QColor(QtCore.Qt.transparent ),QtCore.Qt.BackgroundRole )
-		self.setItemData( 2, QColor(QtCore.Qt.transparent ),QtCore.Qt.BackgroundRole )
+		self.setItemData(0, QColor(QtCore.Qt.transparent), QtCore.Qt.BackgroundRole)
+		self.setItemData(1, QColor(QtCore.Qt.transparent), QtCore.Qt.BackgroundRole)
+		self.setItemData(2, QColor(QtCore.Qt.transparent), QtCore.Qt.BackgroundRole)
 		self.setup()
 
 	def addEmptyItem(self, index):
@@ -98,6 +98,10 @@ class SkinDropDown(QComboBox):
 		self.view().setIconSize(QtCore.QSize(0, 0))  # for linux machines otherwise texts got hidden
 		self.setMaxVisibleItems(7)
 
+		self.blur_effect = QGraphicsBlurEffect()
+		self.blur_effect.setBlurRadius(0)
+		self.setGraphicsEffect(self.blur_effect)
+
 	def activated_(self, index):
 		current_config["Skin path"] = current_config["osu! path"] + "/Skins/" + self.itemText(index)
 		print(current_config["Skin path"])
@@ -109,6 +113,8 @@ class SkinDropDown(QComboBox):
 	def get_configInfo(self, path):
 		if path != "":
 			cfg = glob.glob(path + "/*.cfg")
+			if not cfg:
+				return
 			props = read_properties_file(cfg[1])
 			name = props['skin']
 
@@ -127,6 +133,11 @@ class SkinDropDown(QComboBox):
 		changesize(self)
 		self.view().setIconSize(QtCore.QSize(0, 0))  # for linux machines otherwise texts got hidden
 
-
 	def addItems(self, Iterable, p_str=None):
-		super().insertItems(self.count()-1, Iterable)
+		super().insertItems(self.count() - 1, Iterable)
+
+	def blur_me(self, blur):
+		if blur:
+			self.blur_effect.setBlurRadius(25)
+		else:
+			self.blur_effect.setBlurRadius(0)

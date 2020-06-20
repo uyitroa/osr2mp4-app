@@ -197,6 +197,7 @@ class PopupButton(ButtonBrowse):
 			settings = get_configInfo(current_config["osu! path"])
 			counter = 0
 			for x in current_settings:
+				print(settings)
 				current_settings[x] = float(settings[counter])
 				if counter >= 10:
 					break
