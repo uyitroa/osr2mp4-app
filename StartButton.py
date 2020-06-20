@@ -34,5 +34,5 @@ class StartButton(Button):
 			f.close()
 
 		if self.proc is None or self.proc.poll() is not None:
-			self.proc = subprocess.Popen(["python3", "run_osu.py"], shell=False)
+			self.proc = subprocess.Popen(["python", "run_osu.py"], shell=False)
 			self.main_window.progressbar.show()
