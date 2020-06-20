@@ -26,7 +26,7 @@ class Window(QMainWindow):
 	def __init__(self):
 		super().__init__()
 		self.setFocus()
-		App.focusChanged.connect(self.on_focusChanged)
+		App.applicationStateChanged .connect(self.applicationStateChanged)
 		self.setWindowIcon(QtGui.QIcon("icon.png"))
 		self.setWindowTitle("Subscribe to Raishin Aot")
 		self.setStyleSheet("background-color: rgb(30, 30, 33);")
@@ -73,12 +73,12 @@ class Window(QMainWindow):
 		else:
 			print("u dont have a gf\n")
 
-	'''def changeEvent(self, event):
-		if event != None and event.type() == QtCore.QEvent.WindowStateChange:
-			if self.windowState() & QtCore.Qt.WindowMinimized:
-				print("u dont even have a gf")
-		elif self.isActiveWindow():
-			print ( "priority")'''
+	def applicationStateChanged(self, state):
+		if state == 4:
+			self.check_replay_map()
+			print("gf's priority is you\n")
+		else:
+			print("u dont have a gf\n")
 
 
 	def resizeEvent(self, event):
