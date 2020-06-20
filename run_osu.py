@@ -60,5 +60,5 @@ def run():
 		time.sleep(2)
 	converter.joinall()
 
-
-run()
+if __name__ == "__main__":
+	run()
