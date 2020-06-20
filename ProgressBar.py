@@ -27,9 +27,9 @@ class ProgressBar(Button):
 		watcher.fileChanged.connect(file_changed)
 
 
-
 def directory_changed(path):
-    print('Directory Changed:', path)
+	print('Directory Changed:', path)
+
 
 def file_changed(path):
-    print('File Changed: ',  path)
+	print('File Changed: ', path)

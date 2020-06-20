@@ -62,7 +62,6 @@ class Button(QPushButton):
 		self.setGeometry(self.default_x, self.default_y, width, height)
 		self.setFlat(True)
 
-
 		self.blur_effect = QGraphicsBlurEffect()
 		self.blur_effect.setBlurRadius(0)
 		self.setGraphicsEffect(self.blur_effect)

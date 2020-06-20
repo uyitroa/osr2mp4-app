@@ -1,21 +1,21 @@
-from PyQt5 import QtCore
-from PyQt5.QtWidgets import QCheckBox
+from PyQt5 import QtCore, QtGui
+from PyQt5.QtWidgets import QCheckBox, QPushButton
 
 
-class CheckBox(QCheckBox):
+class CheckBox(QPushButton):
 	def __init__(self, jsondata=None):
 		super().__init__()
 
-		self.box_width = 20
-		self.box_height = 20
+		self.box_width = self.default_box_width = 20
+		self.box_height = self.default_box_height = 20
 		self.default_fontsize = 14
 
-		self.text = "  " + jsondata["key"] + "     "
+		self.text = "  " + jsondata["key"]
 		self.setText(self.text)
 		self.curfont = self.font()
 
-		self.default_width = self.box_width * 1.1 + self.textwidth()
-		self.default_height = self.box_height * 1.1
+		self.default_width = self.box_width + self.textwidth()
+		self.default_height = self.box_height
 
 		self.key = jsondata["key"]
 
@@ -24,48 +24,37 @@ class CheckBox(QCheckBox):
 		else:
 			self.current_data = jsondata["data"]["settings"]
 
-		if bool(self.current_data[self.key]):
-			self.setCheckState(QtCore.Qt.Checked)
-		else:
-			self.setCheckState(QtCore.Qt.Unchecked)
-
-		super().stateChanged.connect(self.stateChanged)
+		self.img_checked = "res/Check_HD.png"
+		self.img_unchecked = "res/Uncheck_HD.png"
+		self.setIcon(QtGui.QIcon(self.img_unchecked))
+		self.state = bool(self.current_data[self.key])
+		self.updateState()
 
 	def textwidth(self):
-		return self.fontMetrics().boundingRect(self.text).width() * 2
+		return self.fontMetrics().boundingRect(self.text).width()
 
 	def textheight(self):
-		return self.fontMetrics().boundingRect(self.text).height() * 2
+		return self.fontMetrics().boundingRect(self.text).height()
 
 	def setFixedWidth(self, p_int):
 		scale = p_int / self.default_width
 
-		self.setStyleSheet("""
-		QCheckBox {
-			font-weight: bold;
-			color: white;
-		}
-		QCheckBox::indicator {
-		    width: %fpx;
-		    height: %fpx;
-		}
-		QCheckBox::indicator:unchecked {
-		    border-image: url(res/Uncheck_HD.png);
-		}
-		QCheckBox::indicator:checked {
-		    border-image: url(res/Check_HD.png);
-		}
-					""" % (self.box_width * scale, self.box_height * scale))
-
 		self.curfont.setPointSize(self.default_fontsize * scale)
 		self.setFont(self.curfont)
 
+		self.box_width = self.default_box_width * scale
+		self.box_height = self.default_box_height * scale
+		self.setIconSize(QtCore.QSize(self.box_width, self.box_height))
+		# self.setGeometry(QtCore.QRect(0, 0, p_int, self.default_height * scale))
 		super().setFixedWidth(p_int)
 
-
-	@QtCore.pyqtSlot(int)
-	def stateChanged(self, p_int):
-		if p_int == 2:
-			self.current_data[self.key] = True
+	def updateState(self):
+		if self.state:
+			self.setIcon(QtGui.QIcon(self.img_checked))
 		else:
-			self.current_data[self.key] = False
+			self.setIcon(QtGui.QIcon(self.img_unchecked))
+
+	def mousePressEvent(self, QMouseEvent):
+		self.state = (self.state + 1) % 2
+		self.current_data[self.key] = bool(self.state)
+		self.updateState()

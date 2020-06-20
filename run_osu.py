@@ -4,9 +4,8 @@ import time
 
 def run():
 	fprogress = open("progress.txt", "w")
-	fprogress.seek(0)
 	fprogress.write("0")
-	fprogress.truncate()
+	fprogress.close()
 
 	converter = Osr2mp4(filedata="config.json", filesettings="settings.json")
 	converter.startall()
@@ -22,9 +21,9 @@ def run():
 		if not a:
 			curprogress = 100
 
-		fprogress.seek(0)
+		fprogress = open("progress.txt", "w")
 		fprogress.write(str(curprogress))
-		fprogress.truncate()
+		fprogress.close()
 		print(curprogress)
 		time.sleep(2)
 	converter.joinall()
