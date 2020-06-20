@@ -18,6 +18,8 @@ class MapsetButton(ButtonBrowse):
 		self.img_click = "res/B2_Click.png"
 		self.img_shadow = "res/B2_Shadow.png"
 
+		self.browsepath = os.path.join(current_config["osu! path"], "Songs/")
+
 		super().setup()
 
 	def afteropenfile(self, filename):

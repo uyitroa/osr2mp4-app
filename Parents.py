@@ -130,15 +130,14 @@ class Button(QPushButton):
 class ButtonBrowse(Button):
 	def __init__(self, parent):
 		super(ButtonBrowse, self).__init__(parent)
+		self.browsepath = str(Path.home())
 
 	def mouseclicked(self):
 		file_name = ""
 		if self.file_type == "Folder":
-			home_dir = str(Path.home())
-			file_name = QFileDialog.getExistingDirectory(None, "Select Directory", home_dir)
+			file_name = QFileDialog.getExistingDirectory(None, "Select Directory", self.browsepath)
 		else:
-			home_dir = str(Path.home())
-			file_name = QFileDialog.getOpenFileName(self, 'Open file', home_dir, "{} files (*{})".format(self.file_type, self.file_type))[0]
+			file_name = QFileDialog.getOpenFileName(self, 'Open file', self.browsepath, "{} files (*{})".format(self.file_type, self.file_type))[0]
 
 		self.afteropenfile(file_name)
 

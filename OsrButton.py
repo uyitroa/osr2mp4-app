@@ -18,6 +18,8 @@ class OsrButton(ButtonBrowse):
 		self.img_click = "res/B1_Click.png"
 		self.img_shadow = "res/B1_Shadow.png"
 
+		self.browsepath = os.path.join(current_config["osu! path"], "Replays/")
+
 		super().setup()
 
 	def afteropenfile(self, filename):
