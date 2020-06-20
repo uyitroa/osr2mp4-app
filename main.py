@@ -45,12 +45,11 @@ class Window(QMainWindow):
 		self.startbutton = StartButton(self)
 		self.logo = Logo(self)
 		self.osrpath = OsrPath(self)
-		self.progressbar = ProgressBar(self)
 		self.mapsetpath = MapSetPath(self)
 		self.skin_dropdown = SkinDropDown(self)
-		self.Options = Options(self)
+		self.options = Options(self)
 		self.blurrable_widgets = [self.osrbutton, self.mapsetbutton, self.startbutton, self.logo, self.osrpath,
-								  self.mapsetpath, self.Options]
+								  self.mapsetpath, self.options]
 
 		self.popup_window = PopupWindow(self)
 		self.output_window = OutputButton(self)
@@ -58,6 +57,9 @@ class Window(QMainWindow):
 		self.settingspage = SettingsPage(self)
 
 		self.popup_widgets = [self.popup_window, self.output_window, self.osu_window]
+
+		self.progressbar = ProgressBar(self)
+		self.progressbar.hide()
 
 		self.check_osuPath()
 		#self.check_replay_map()
@@ -98,8 +100,8 @@ class Window(QMainWindow):
 		self.popup_window.changesize()
 		self.skin_dropdown.changesize()
 		self.settingspage.changesize()
-		self.Options.changesize()
-		#self.progressbar.changesize()
+		self.options.changesize()
+		self.progressbar.changesize()
 		if self.popup_bool:
 			self.blur_function(True)
 		else:
@@ -216,5 +218,5 @@ watcher = QtCore.QFileSystemWatcher(['progress.txt'])
 watcher.directoryChanged.connect(window.progressbar.directory_changed)
 watcher.fileChanged.connect(window.progressbar.file_changed)
 App.exec()
-if window.startbutton.proc is not None:
+if window.startbutton.proc is not None and window.startbutton.proc.poll() is None:
 	kill(window.startbutton.proc.pid)
