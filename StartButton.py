@@ -19,7 +19,7 @@ class StartButton(Button):
 		self.img_click = "res/Start_Click.png"
 		self.img_shadow = "res/Start_Shadow.png"
 		self.proc = None
-
+		self.parent = parent
 		super().setup()
 
 	def mouseclicked(self):
@@ -35,3 +35,4 @@ class StartButton(Button):
 
 
 		self.proc = subprocess.Popen(["python", "run_osu.py"], shell=False)
+

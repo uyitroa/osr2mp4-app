@@ -210,6 +210,8 @@ def kill(proc_pid):
 
 App = QApplication(sys.argv)
 window = Window()
+b = open("progress.txt", "w")
+b.close()
 watcher = QtCore.QFileSystemWatcher(['progress.txt'])
 watcher.directoryChanged.connect(window.progressbar.directory_changed)
 watcher.fileChanged.connect(window.progressbar.file_changed)

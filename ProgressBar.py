@@ -26,7 +26,6 @@ QProgressBar::chunk {
 
 
 
-
 	def directory_changed(self, path):
 		print('Directory Changed:', path)
 		
@@ -39,4 +38,3 @@ QProgressBar::chunk {
 			self.parent.startbutton.default_y = 360
 			self.parent.Options.default_y = 360
 			self.setParent(None)
-			print("chanfed")
