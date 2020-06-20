@@ -60,16 +60,27 @@ class Window(QMainWindow):
 		self.popup_widgets = [self.popup_window, self.output_window, self.osu_window]
 
 		self.check_osuPath()
-		self.check_replay_map()
+		#self.check_replay_map()
 
 		self.show()
 		self.resize(window_width, window_height)
 
 	def on_focusChanged(self):
 		if self.isActiveWindow():
-			print("gf's priority is you")
+			self.check_replay_map()
+			print("Checking latest map")
+			print("gf's priority is you\n")
 		else:
-			print("u dont have a gf")
+			print("u dont have a gf\n")
+
+	'''def changeEvent(self, event):
+		if event != None and event.type() == QtCore.QEvent.WindowStateChange:
+			if self.windowState() & QtCore.Qt.WindowMinimized:
+				print("u dont even have a gf")
+		elif self.isActiveWindow():
+			print ( "priority")'''
+
+
 	def resizeEvent(self, event):
 		height = self.width() * 9 / 16
 		self.resize(self.width(), height)
@@ -174,7 +185,6 @@ class Window(QMainWindow):
 		return data
 
 	def find_latestMap(self, replay):
-		print(replay)
 		if current_config["osu! path"] != "":
 			beatmap_path = find_beatmap_(current_config["osu! path"] + "/Replays/" + replay,
 										 current_config["osu! path"])
@@ -182,7 +192,6 @@ class Window(QMainWindow):
 			if beatmap_path != "":
 				self.mapsetpath.setText(beatmap_path)
 
-			print(beatmap_path)
 
 	def check_replay_map(self):
 		self.find_latestReplay()
