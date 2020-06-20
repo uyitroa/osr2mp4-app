@@ -46,14 +46,13 @@ class Window(QMainWindow):
 		self.progressbar = ProgressBar(self)
 		self.mapsetpath = MapSetPath(self)
 		self.skin_dropdown = SkinDropDown(self)
+		self.Options = Options(self)
 		self.blurrable_widgets = [self.osrbutton, self.mapsetbutton, self.startbutton, self.logo, self.osrpath,
-								  self.mapsetpath]
+		                          self.mapsetpath, self.Options]
 
-		self.popup_window = PopupWindow(self)	
+		self.popup_window = PopupWindow(self)
 		self.output_window = OutputButton(self)
 		self.osu_window = osuButton(self)
-
-		self.Options = Options(self)
 		self.settingspage = SettingsPage(self)
 
 		self.popup_widgets = [self.popup_window, self.output_window, self.osu_window]
@@ -94,7 +93,6 @@ class Window(QMainWindow):
 	def keyPressEvent(self, event):
 		if event.key() == QtCore.Qt.Key_Escape:
 			self.hidesettings()
-			
 
 	def mousePressEvent(self, QMouseEvent):
 		if not self.clicked_inside:
@@ -113,6 +111,7 @@ class Window(QMainWindow):
 			with open('config.json', 'w+') as f:
 				json.dump(current_config, f, indent=4)
 				f.close()
+
 	def blur_function(self, blur):
 		if blur:
 			for x in self.blurrable_widgets:
@@ -156,7 +155,7 @@ class Window(QMainWindow):
 			current_config[".osr path"] = replay
 
 	def set_settings(self, dict1):
-		if os.path.isfile("settings.json"):	
+		if os.path.isfile("settings.json"):
 			with open('settings.json') as f:
 				data = json.load(f)
 			counter = 0
@@ -171,7 +170,7 @@ class Window(QMainWindow):
 		print(replay)
 		if current_config["osu! path"] != "":
 			beatmap_path = find_beatmap_(current_config["osu! path"] + "/Replays/" + replay,
-										 current_config["osu! path"])
+			                             current_config["osu! path"])
 			current_config["Beatmap path"] = current_config["osu! path"] + "/Songs/" + beatmap_path
 			if beatmap_path != "":
 				self.mapsetpath.setText(beatmap_path)
@@ -187,7 +186,6 @@ def kill(proc_pid):
 	for proc in process.children(recursive=True):
 		proc.kill()
 	process.kill()
-
 
 
 App = QApplication(sys.argv)
