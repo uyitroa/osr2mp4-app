@@ -3,6 +3,11 @@ import time
 
 
 def run():
+	# for x in range(101):
+	# 	b = open("progress.txt", "w")
+	# 	b.write(str(x))
+	# 	b.close()
+	# 	time.sleep(0.1)
 	fprogress = open("progress.txt", "w")
 	fprogress.write("0")
 	fprogress.close()
