@@ -8,29 +8,21 @@ from PyQt5.QtWidgets import QProgressBar
 class ProgressBar(QProgressBar):
 	def __init__(self, parent):
 		super(ProgressBar, self).__init__(parent)
-		self.setGeometry(200, 100, 400, 60) 
+		self.setGeometry(0, 420, 830, 40) 
   
 		self.setAlignment(QtCore.Qt.AlignCenter) 
 
 		self.setStyleSheet("""
 QProgressBar {
-    border: 2px solid grey;
-    border-radius: 5px;
+	border: 2px solid white;
+	border-radius: 5px;
+	color:white;	
 }
 
 QProgressBar::chunk {
-    background-color: #05B8CC;
-    width: 20px;
+	background-color: rgba(226, 107, 167, 255);
 }""")
-		'''self.default_x = 20
-		self.default_y = 430
-		self.default_size = 4.2
 
-		self.img_idle = "res/progressbar.png"
-		self.img_hover = "res/progressbar.png"
-		self.img_click = "res/progressbar.png"
-
-		super().setup()'''
 
 
 
@@ -40,7 +32,6 @@ QProgressBar::chunk {
 
 	def file_changed(self, path):
 		f = open(path, "r")
-		a = f.readline()
-		self.setValue(int(a))
+		self.setValue(max(self.value(), float("0" + f.readline())))
 		f.close()
 		
