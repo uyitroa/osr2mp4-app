@@ -1,7 +1,7 @@
 import json
 import os
 import subprocess
-
+import sys
 from Parents import Button
 from config_data import current_config, current_settings
 
@@ -34,5 +34,5 @@ class StartButton(Button):
 			f.close()
 
 		if self.proc is None or self.proc.poll() is not None:
-			self.proc = subprocess.Popen(["python", "run_osu.py"], shell=False)
+			self.proc = subprocess.Popen([sys.executable, "run_osu.py"], shell=False)
 			self.main_window.progressbar.show()
