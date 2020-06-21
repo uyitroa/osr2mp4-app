@@ -1,9 +1,11 @@
 import json
+import os
 
 from PyQt5 import QtGui, QtCore
 from PyQt5.QtWidgets import QGraphicsBlurEffect, QPushButton, QFileDialog, QLabel
 from pathlib import Path
 
+from abspath import abspath
 from config_data import current_config, current_settings
 from helper import getsize, changesize
 from username_parser import get_configInfo
@@ -32,6 +34,10 @@ class Button(QPushButton):
 		self.img_shadow = None
 
 	def setup(self):
+
+		self.img_idle = os.path.join(abspath, self.img_idle)
+		self.img_hover = os.path.join(abspath, self.img_hover)
+		self.img_click = os.path.join(abspath, self.img_click)
 
 		if self.img_shadow is not None:
 			self.setup_shadow()
@@ -67,6 +73,9 @@ class Button(QPushButton):
 		self.setGraphicsEffect(self.blur_effect)
 
 	def setup_shadow(self):
+
+		self.img_shadow = os.path.join(abspath, self.img_shadow)
+
 		imgsize = getsize(self.img_shadow)
 
 		width = self.default_size * imgsize[0]/10 * 1.01

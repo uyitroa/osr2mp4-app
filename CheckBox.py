@@ -1,10 +1,17 @@
+import os
+
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import QCheckBox
+
+from abspath import abspath
 
 
 class CheckBox(QCheckBox):
 	def __init__(self, jsondata=None):
 		super().__init__()
+
+		self.img_uncheck = os.path.join(abspath, "res/Uncheck_HD.png")
+		self.img_check = os.path.join(abspath, "res/Check_HD.png")
 
 		self.box_width = 20
 		self.box_height = 20
@@ -54,12 +61,12 @@ class CheckBox(QCheckBox):
 		    height: %fpx;
 		}
 		QCheckBox::indicator:unchecked {
-		    border-image: url(res/Uncheck_HD.png);
+		    border-image: url(%s);
 		}
 		QCheckBox::indicator:checked {
-		    border-image: url(res/Check_HD.png);
+		    border-image: url(%s);
 		}
-					""" % (self.box_width * scale, self.box_height * scale))
+					""" % (self.box_width * scale, self.box_height * scale, self.img_uncheck, self.img_check))
 
 		self.curfont.setPointSize(self.default_fontsize * scale)
 		self.setFont(self.curfont)

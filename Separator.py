@@ -1,5 +1,9 @@
+import os
+
 from PyQt5 import QtGui, QtCore
 from PyQt5.QtWidgets import QLabel
+
+from abspath import abspath
 
 
 class Separator(QLabel):
@@ -8,7 +12,7 @@ class Separator(QLabel):
 
 		self.default_width = 500
 		self.default_height = 10
-		self.img = "res/Separator.png"
+		self.img = os.path.join(abspath, "res/Separator.png")
 		self.load(1)
 
 	def load(self, scale):

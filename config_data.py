@@ -1,8 +1,10 @@
 import json
 import os
 
-if os.path.isfile("settings.json"):
-	with open('settings.json') as f:
+from abspath import abspath
+
+if os.path.isfile(os.path.join(abspath, "settings.json")):
+	with open(os.path.join(abspath, "settings.json")) as f:
 		current_settings = json.load(f)
 else:
 	current_settings = {
@@ -23,8 +25,8 @@ else:
 		"Rotate sliderball": 0
 	}
 
-if os.path.isfile("config.json"):
-	with open('config.json') as f:
+if os.path.isfile(os.path.join(abspath, "config.json")):
+	with open(os.path.join(abspath, 'config.json')) as f:
 		current_config = json.load(f)
 else:
 	current_config = {

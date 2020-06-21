@@ -6,10 +6,11 @@ from MapsetButton import MapsetButton
 from OsrButton import OsrButton
 from OutputButton import OutputButton
 from PathImage import OsrPath, MapSetPath
-from PopupWindow import PopupWindow
+from PopupWindow import PopupWindow, CustomTextWindow
 from SettingsPage import SettingsPage
 from SkinDropDown import SkinDropDown
 from StartButton import StartButton
+from abspath import abspath
 from osuButton import osuButton
 from find_beatmap import find_beatmap_
 from PyQt5 import QtGui, QtCore
@@ -52,6 +53,9 @@ class Window(QMainWindow):
 		self.popup_window = PopupWindow(self)
 		self.output_window = OutputButton(self)
 		self.osu_window = osuButton(self)
+
+		self.customwindow = CustomTextWindow(self)
+		self.customwindow.hide()
 		self.settingspage = SettingsPage(self)
 
 		self.popup_widgets = [self.popup_window, self.output_window, self.osu_window]
@@ -99,6 +103,7 @@ class Window(QMainWindow):
 		self.settingspage.changesize()
 		self.options.changesize()
 		self.progressbar.changesize()
+		self.customwindow.changesize()
 		if self.popup_bool:
 			self.blur_function(True)
 		else:
@@ -112,22 +117,23 @@ class Window(QMainWindow):
 			self.hidesettings()
 
 	def mousePressEvent(self, QMouseEvent):
-		if not self.clicked_inside:
-			self.hidesettings()
-		self.clicked_inside = False
+		self.hidesettings()
 
 	def hidesettings(self):
 		if self.settingspage.isVisible():
 			self.settingspage.hide()
 			self.settingspage.settingsarea.scrollArea.hide()
 
-			with open('settings.json', 'w+') as f:
+			with open(os.path.join(abspath, 'settings.json'), 'w+') as f:
 				json.dump(current_settings, f, indent=4)
 				f.close()
 
-			with open('config.json', 'w+') as f:
+			with open(os.path.join(abspath, 'config.json'), 'w+') as f:
 				json.dump(current_config, f, indent=4)
 				f.close()
+
+		if self.customwindow.isVisible():
+			self.customwindow.hide()
 
 	def blur_function(self, blur):
 		if blur:
@@ -144,7 +150,7 @@ class Window(QMainWindow):
 			x.setParent(None)
 
 	def check_osuPath(self):
-		if os.path.isfile("config.json"):
+		if os.path.isfile(os.path.join(abspath, "config.json")):
 			self.skin_dropdown.get_configInfo(current_config["osu! path"])
 			if current_config["Output path"] != "" and current_config["osu! path"] != "":
 				self.delete_popup()
@@ -161,7 +167,7 @@ class Window(QMainWindow):
 
 	def find_latestReplay(self):
 		if current_config["osu! path"] != "":
-			path = current_config["osu! path"] + "/Replays/*.osr"
+			path = os.path.join(current_config["osu! path"], "Replays/*.osr")
 			list_of_files = glob.glob(path)
 			if not list_of_files:
 				return
@@ -174,7 +180,7 @@ class Window(QMainWindow):
 			current_config[".osr path"] = replay
 
 	def set_settings(self, dict1):
-		if os.path.isfile("settings.json"):
+		if os.path.isfile(os.path.join(abspath, "settings.json")):
 			with open('settings.json') as f:
 				data = json.load(f)
 			counter = 0
@@ -187,9 +193,9 @@ class Window(QMainWindow):
 
 	def find_latestMap(self, replay):
 		if current_config["osu! path"] != "":
-			beatmap_path = find_beatmap_(current_config["osu! path"] + "/Replays/" + replay,
+			beatmap_path = find_beatmap_(os.path.join(current_config["osu! path"], "Replays", replay),
 			                             current_config["osu! path"])
-			current_config["Beatmap path"] = current_config["osu! path"] + "/Songs/" + beatmap_path
+			current_config["Beatmap path"] = os.path.join(current_config["osu! path"], "Songs", beatmap_path)
 			if beatmap_path != "":
 				self.mapsetpath.setText(beatmap_path)
 
@@ -206,11 +212,18 @@ def kill(proc_pid):
 
 App = QApplication(sys.argv)
 window = Window()
-b = open("progress.txt", "w")
+b = open(os.path.join(abspath, "progress.txt"), "w")
 b.close()
-watcher = QtCore.QFileSystemWatcher(['progress.txt'])
+watcher = QtCore.QFileSystemWatcher([os.path.join(abspath, 'progress.txt')])
 watcher.directoryChanged.connect(window.progressbar.directory_changed)
 watcher.fileChanged.connect(window.progressbar.file_changed)
+
+b = open(os.path.join(abspath, "error.txt"), "w")
+b.close()
+errorwatcher = QtCore.QFileSystemWatcher([os.path.join(abspath, 'error.txt')])
+errorwatcher.directoryChanged.connect(window.customwindow.directory_changed)
+errorwatcher.fileChanged.connect(window.customwindow.file_changed)
+
 App.exec()
 if window.startbutton.proc is not None and window.startbutton.proc.poll() is None:
 	kill(window.startbutton.proc.pid)

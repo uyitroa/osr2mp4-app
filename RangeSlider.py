@@ -1,10 +1,15 @@
+import os
 import sys
 
 from PyQt5 import QtCore
 from PyQt5.QtCore import QRect
 from PyQt5.QtWidgets import QGridLayout, QSplitter, QGroupBox, QWidget, QHBoxLayout, QApplication
 
+from abspath import abspath
+
 __all__ = ['QRangeSlider']
+
+sliderball = os.path.join(abspath, "res/Sliderball2_Scale.png")
 
 DEFAULT_CSS = """
 QRangeSlider * {
@@ -16,16 +21,16 @@ QRangeSlider * {
 
 QRangeSlider > QSplitter::handle {
 	background: transparent;
-	image: url(res/Sliderball2_Scale.png);
+	image: url(%s);
 	height:100px;
 	width:100px;
 }
 QRangeSlider > QSplitter::handle:pressed {
 	background: transparent;
-	image: url(res/Sliderball2_Scale.png);
+	image: url(%s);
 
 }
-"""
+""" % (sliderball, sliderball)
 
 
 def scale(val, src, dst):

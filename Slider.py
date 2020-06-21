@@ -1,12 +1,14 @@
+import os
+
 from PyQt5.QtWidgets import QSlider, QToolTip
 from PyQt5 import QtCore
 from PyQt5 import QtGui
 from osr2mp4.Exceptions import BeatmapNotFound
-from osr2mp4.Parser import osuparser
 from osr2mp4.Utils.HashBeatmap import get_osu
 from osr2mp4.Parser import osuparser
 import osrparse
 
+from abspath import abspath
 from config_data import current_config
 
 
@@ -15,13 +17,14 @@ class Slider(QSlider):
 		super().__init__()
 		self.setOrientation(QtCore.Qt.Horizontal)
 
-		self.img = "res/Sliderball2_Scale.png"
+		self.img_handle = os.path.join(abspath, "res/Sliderball2_Scale.png")
+		self.img_groove = os.path.join(abspath, "res/Slider_HD.png")
 		self.default_width, self.default_height = 250, 20
 		self.value_ = 0
 		self.setStyleSheet("""
 QSlider::groove:horizontal 
 {
-	image: url(res/Slider_HD.png);
+	image: url(%s);
 
 }
 
@@ -34,7 +37,7 @@ background-color:rgb(10, 14, 13);
 opacity: 150;
 color: white; 
 }
-""" % self.img)
+""" % (self.img_groove, self.img_handle))
 
 		self.default_min = jsondata["option_config"]["min"] * 1000
 		self.default_max = jsondata["option_config"]["max"] * 1000

@@ -1,7 +1,11 @@
+import os
+
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import QScrollArea
 
 from PyQt5.QtWidgets import QSlider
+
+from abspath import abspath
 
 
 def scale(val, src, dst):
@@ -24,8 +28,8 @@ class CustomScrolbar(QSlider):
 		self.default_y = parent.main_window.default_height * 0.05
 		self.resized = False
 
-		self.img_handle = "res/SliderBall_HD.png"
-		self.img_scroll = "res/scroll_back.png"
+		self.img_handle = os.path.join(abspath, "res/SliderBall_HD.png")
+		self.img_scroll = os.path.join(abspath, "res/scroll_back.png")
 
 		self.setScrollStyle()
 		self.setTracking(True)

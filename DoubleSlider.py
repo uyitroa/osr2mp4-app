@@ -2,6 +2,7 @@ from PyQt5.QtGui import QPainter
 from PyQt5.QtWidgets import QWidget, QHBoxLayout
 
 from RangeSlider import QRangeSlider
+from abspath import abspath
 
 
 class DoubleSlider(QWidget):
@@ -11,7 +12,9 @@ class DoubleSlider(QWidget):
 		self.default_width = 300
 		self.default_height = 30
 
-		self.setStyleSheet("image: url(res/Slider_HD.png);")
+		self.img_slider = os.path.join(abspath, "res/Slider_HD.png")
+
+		self.setStyleSheet("image: url(%s);" % self.img_slider)
 		super().setFixedWidth(self.default_width)
 		super().setFixedHeight(self.default_height)
 
