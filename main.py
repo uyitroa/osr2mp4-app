@@ -156,7 +156,7 @@ class Window(QMainWindow):
 				self.delete_popup()
 				self.popup_bool = False
 
-		with open('settings.json', 'w+') as f:
+		with open(os.path.join(abspath, 'settings.json'), 'w+') as f:
 			json.dump(current_settings, f, indent=4)
 			f.close()
 
@@ -181,7 +181,7 @@ class Window(QMainWindow):
 
 	def set_settings(self, dict1):
 		if os.path.isfile(os.path.join(abspath, "settings.json")):
-			with open('settings.json') as f:
+			with open(os.path.join(abspath, 'settings.json')) as f:
 				data = json.load(f)
 			counter = 0
 			for x in data:
