@@ -34,7 +34,7 @@ class CustomScrolbar(QSlider):
 		self.setMinimum(-50)
 
 		self.setGeometry(self.default_x, self.default_y, self.default_width, self.default_height)
-
+		self.parent().horizontalScrollBar().hide()
 	def setScrollStyle(self):
 		self.setStyleSheet("""
 QSlider::groove:vertical {
