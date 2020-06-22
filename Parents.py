@@ -51,6 +51,7 @@ class Button(QPushButton):
 		{
 			border: none;
 			background: none;
+                        outline: none;
 		}""")
 
 
@@ -88,6 +89,7 @@ class Button(QPushButton):
 		{
 			border: none;
 			background: none;
+                        outline: none;
 		}""")
 		self.shadow.setIconSize(QtCore.QSize(width, height))
 		x, y = get_shadowpos(self, width, height)
@@ -137,12 +139,15 @@ class Button(QPushButton):
 
 
 class ButtonBrowse(Button):
+	browsing = False
+
 	def __init__(self, parent):
 		super(ButtonBrowse, self).__init__(parent)
 		self.browsepath = str(Path.home())
 
 	def mouseclicked(self):
 		file_name = ""
+		self.browsing = True
 		if self.file_type == "Folder":
 			file_name = QFileDialog.getExistingDirectory(None, "Select Directory", self.browsepath)
 		else:

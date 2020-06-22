@@ -153,6 +153,8 @@ class StartTimeSlider(Slider):
 				self.setMaximum(Map.length * 1000)
 				self.default_max = Map.length * 1000
 				self.bordersize = (self.default_max - self.default_min) * 0.0125
+				self.current_data[self.key] = 0
+				self.setValue(self.minimum())
 
 
 class EndTimeSlider(StartTimeSlider):
@@ -181,5 +183,8 @@ class EndTimeSlider(StartTimeSlider):
 	@classmethod
 	def updatevalue(cls):
 		for self in cls.objs:
-			if self.current_data[self.key] == -1:
-				self.setValue(self.maximum())
+			# if self.current_data[self.key] == -1:
+			# 	self.setValue(self.maximum())
+			self.current_data[self.key] = -1
+			print(self.maximum())
+			self.setValue(self.maximum())
