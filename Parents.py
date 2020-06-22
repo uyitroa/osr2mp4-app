@@ -51,6 +51,7 @@ class Button(QPushButton):
 		{
 			border: none;
 			background: none;
+                        outline: none;
 		}""")
 
 
@@ -88,6 +89,7 @@ class Button(QPushButton):
 		{
 			border: none;
 			background: none;
+                        outline: none;
 		}""")
 		self.shadow.setIconSize(QtCore.QSize(width, height))
 		x, y = get_shadowpos(self, width, height)
