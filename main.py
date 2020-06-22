@@ -5,6 +5,7 @@ from Logo import Logo
 from MapsetButton import MapsetButton
 from OsrButton import OsrButton
 from OutputButton import OutputButton
+from Parents import ButtonBrowse
 from PathImage import OsrPath, MapSetPath
 from PopupWindow import PopupWindow, CustomTextWindow
 from SettingsPage import SettingsPage
@@ -38,6 +39,7 @@ class Window(QMainWindow):
 
 		self.popup_bool = True
 		self.clicked_inside = False
+		self.prevreplay = ""
 
 		self.osrbutton = OsrButton(self)
 		self.mapsetbutton = MapsetButton(self)
@@ -70,6 +72,9 @@ class Window(QMainWindow):
 		self.resize(window_width, window_height)
 
 	def on_focusChanged(self):
+		if ButtonBrowse.browsing:
+			ButtonBrowse.browsing = False
+			return
 		if self.isActiveWindow():
 			self.check_replay_map()
 			print("Checking latest map")
@@ -78,6 +83,9 @@ class Window(QMainWindow):
 			print("u dont have a gf\n")
 
 	def applicationStateChanged(self, state):
+		if ButtonBrowse.browsing:
+			ButtonBrowse.browsing = False
+			return
 		if state == 4:
 			self.check_replay_map()
 			print("gf's priority is you\n")
@@ -172,6 +180,10 @@ class Window(QMainWindow):
 			if not list_of_files:
 				return
 			replay = max(list_of_files, key=os.path.getctime)
+			if self.prevreplay == replay:
+				return
+
+			self.prevreplay = replay
 			replay_name = os.path.split(replay)[-1]
 			self.find_latestMap(replay_name)
 			if replay_name != "":
@@ -193,8 +205,7 @@ class Window(QMainWindow):
 
 	def find_latestMap(self, replay):
 		if current_config["osu! path"] != "":
-			beatmap_path = find_beatmap_(os.path.join(current_config["osu! path"], "Replays", replay),
-			                             current_config["osu! path"])
+			beatmap_path = find_beatmap_(os.path.join(current_config["osu! path"], "Replays", replay), current_config["osu! path"])
 			current_config["Beatmap path"] = os.path.join(current_config["osu! path"], "Songs", beatmap_path)
 			if beatmap_path != "":
 				self.mapsetpath.setText(beatmap_path)
