@@ -1,8 +1,7 @@
 import json
 from struct import unpack_from
 import osrparse
-
-
+import logging
 def parseNum(db, offset, length):
     typeMap = {1:'B', 2:'H', 4:'I', 8:'Q'}
     numType = typeMap[length]
@@ -171,5 +170,6 @@ def find_beatmap_(replay_path,osu_path):
     osuDb = open(osu_path + '/osu!.db', "rb")
     beatmap = getMapInfo(osuDb.read(), replayfile.beatmap_hash)
     osuDb.close()
+    logging.info("Loaded beatmap folder {}".format(beatmap["folder_name"]))
     return beatmap["folder_name"]
 

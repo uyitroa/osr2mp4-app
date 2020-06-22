@@ -18,6 +18,8 @@ from PyQt5 import QtGui, QtCore
 from config_data import current_config, current_settings
 from ProgressBar import ProgressBar
 from Options import Options
+import logging
+
 
 completed_settings = {}
 
@@ -25,9 +27,14 @@ completed_settings = {}
 class Window(QMainWindow):
 	def __init__(self):
 		super().__init__()
+
+
+		logging.basicConfig(level=logging.DEBUG, stream=open("file.log", "w+"), format="%(asctime)s:%(levelname)s:%(name)s:%(funcName)s:%(message)s")
+
+
 		self.setFocus()
 		App.applicationStateChanged.connect(self.applicationStateChanged)
-		self.setWindowIcon(QtGui.QIcon("icon.png"))
+		self.setWindowIcon(QtGui.QIcon("res/OsrLogo.png"))
 		self.setWindowTitle("Subscribe to Raishin Aot")
 		self.setStyleSheet("background-color: rgb(30, 30, 33);")
 
@@ -70,7 +77,6 @@ class Window(QMainWindow):
 
 		self.show()
 		self.resize(window_width, window_height)
-
 	def on_focusChanged(self):
 		if ButtonBrowse.browsing:
 			ButtonBrowse.browsing = False
@@ -190,6 +196,7 @@ class Window(QMainWindow):
 				self.osrpath.setText(replay_name)
 
 			current_config[".osr path"] = replay
+			logging.info("Updated replay path to: {}".format(replay))
 
 	def set_settings(self, dict1):
 		if os.path.isfile(os.path.join(abspath, "settings.json")):
@@ -201,6 +208,7 @@ class Window(QMainWindow):
 					break
 				data[x] = float(dict1[counter])
 				counter += 1
+		logging.info("Settings data loaded: ", data)
 		return data
 
 	def find_latestMap(self, replay):
@@ -209,6 +217,8 @@ class Window(QMainWindow):
 			current_config["Beatmap path"] = os.path.join(current_config["osu! path"], "Songs", beatmap_path)
 			if beatmap_path != "":
 				self.mapsetpath.setText(beatmap_path)
+				print("press F")
+				logging.info("Updated beatmap path to: {}".format(beatmap_path))
 
 	def check_replay_map(self):
 		self.find_latestReplay()

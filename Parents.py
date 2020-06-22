@@ -2,13 +2,16 @@ import json
 import os
 
 from PyQt5 import QtGui, QtCore
-from PyQt5.QtWidgets import QGraphicsBlurEffect, QPushButton, QFileDialog, QLabel
+from PyQt5.QtWidgets import QGraphicsBlurEffect, QPushButton, QFileDialog, QLabel, QToolTip
 from pathlib import Path
 
 from abspath import abspath
 from config_data import current_config, current_settings
 from helper import getsize, changesize
 from username_parser import get_configInfo
+import logging
+
+logging.basicConfig(level=logging.DEBUG, stream=open("file.log", "w+"), format="%(asctime)s:%(levelname)s:%(name)s:%(funcName)s:%(message)s")
 
 
 def get_shadowpos(button, width, height):
@@ -24,14 +27,16 @@ def get_shadowpos(button, width, height):
 class Button(QPushButton):
 	def __init__(self, parent):
 		self.main_window = parent
+
 		self.shadow = QPushButton(self.main_window)
 		super(Button, self).__init__(parent)
-
 		self.blur_effect = None
 		self.clickable = True
 		self.default_width, self.default_height = None, None
 		self.default_shadowwidth, self.default_shadowheight = None, None
 		self.img_shadow = None
+
+
 
 	def setup(self):
 
@@ -152,7 +157,7 @@ class ButtonBrowse(Button):
 			file_name = QFileDialog.getExistingDirectory(None, "Select Directory", self.browsepath)
 		else:
 			file_name = QFileDialog.getOpenFileName(self, 'Open file', self.browsepath, "{} files (*{})".format(self.file_type, self.file_type))[0]
-
+		logging.info("Updated: {}".format(current_config))
 		self.afteropenfile(file_name)
 
 	def afteropenfile(self, filename):
@@ -166,16 +171,20 @@ class PathImage(Button):
 		self.text = QLabel(parent)
 		self.text.setText("")
 		self.default_fontsize = 150
-
 		self.offset = 115
-		
+		self.setStyleSheet("QToolTip { background-color:white;color: black; }")
+
+
 	def setup(self):
 		self.img_idle = self.img_hover = self.img_click = self.img
 
 		super().setup()
 
 	def setText(self, text):
-		text = text[:57]  # character limit
+		#set stylesheet doesnt work for self.text qtoooltip so who cares./. night
+		self.text.setToolTip("<span style=\"color:green;\">{}</span>".format(text))
+		self.setToolTip(text)
+		#text = text[:57]  # commented cause u ask me to remove. i dont like following ur oders
 		self.text.setText(text)
 
 	def changesize(self):
