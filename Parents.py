@@ -137,12 +137,15 @@ class Button(QPushButton):
 
 
 class ButtonBrowse(Button):
+	browsing = False
+
 	def __init__(self, parent):
 		super(ButtonBrowse, self).__init__(parent)
 		self.browsepath = str(Path.home())
 
 	def mouseclicked(self):
 		file_name = ""
+		self.browsing = True
 		if self.file_type == "Folder":
 			file_name = QFileDialog.getExistingDirectory(None, "Select Directory", self.browsepath)
 		else:
