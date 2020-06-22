@@ -3,5 +3,3 @@
 - Set opacity for listview skindropdown - impossibru
 - Add logs
 - Set window icon
-- fix auto search replay background
-	
