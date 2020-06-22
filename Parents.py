@@ -183,7 +183,7 @@ class PathImage(Button):
 
 		fontsize = scale * self.default_fontsize
 		self.text.setStyleSheet("font-size: {}pt; font-weight: bold; color: white; background-color: rgba(0,0,0,0%)".format(fontsize))
-		self.text.setGeometry(x, y, self.width(), self.height())
+		self.text.setGeometry(x, y, self.width() * 0.3, self.height())
 
 
 class PopupButton(ButtonBrowse):
