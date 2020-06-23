@@ -284,11 +284,6 @@ def main(execpath="."):
 		kill(window.startbutton.proc.pid)
 
 
-<<<<<<< HEAD
 if __name__ == "__main__":
 	main()
-=======
-App.exec()
-if window.startbutton.proc is not None and window.startbutton.proc.poll() is None:
-	kill(window.startbutton.proc.pid)
->>>>>>> 748768b1717bf2b6ee7ea7a12eb58932810bca50
+
