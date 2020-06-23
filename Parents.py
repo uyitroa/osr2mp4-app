@@ -11,15 +11,16 @@ from helper import getsize, changesize
 from username_parser import get_configInfo
 import logging
 
-logging.basicConfig(level=logging.DEBUG, stream=open("file.log", "w+"), format="%(asctime)s:%(levelname)s:%(name)s:%(funcName)s:%(message)s")
+logging.basicConfig(level=logging.DEBUG, stream=open("file.log", "w+"),
+                    format="%(asctime)s:%(levelname)s:%(name)s:%(funcName)s:%(message)s")
 
 
 def get_shadowpos(button, width, height):
-	middle_x = button.x() + button.width()/2
-	middle_y = button.y() + button.height()/2
+	middle_x = button.x() + button.width() / 2
+	middle_y = button.y() + button.height() / 2
 
-	shadow_x = middle_x - width/2
-	shadow_y = middle_y - height/2
+	shadow_x = middle_x - width / 2
+	shadow_y = middle_y - height / 2
 
 	return shadow_x, shadow_y
 
@@ -35,8 +36,6 @@ class Button(QPushButton):
 		self.default_width, self.default_height = None, None
 		self.default_shadowwidth, self.default_shadowheight = None, None
 		self.img_shadow = None
-
-
 
 	def setup(self):
 
@@ -56,17 +55,16 @@ class Button(QPushButton):
 		{
 			border: none;
 			background: none;
-                        outline: none;
+			outline: none;
 		}""")
-
 
 		imgsize = getsize(self.img_idle)
 
 		self.setMaximumWidth(imgsize[0])
 		self.setMaximumHeight(imgsize[1])
 
-		width = self.default_size * imgsize[0]/10
-		height = self.default_size * imgsize[1]/10
+		width = self.default_size * imgsize[0] / 10
+		height = self.default_size * imgsize[1] / 10
 
 		self.default_width, self.default_height = width, height
 
@@ -84,8 +82,8 @@ class Button(QPushButton):
 
 		imgsize = getsize(self.img_shadow)
 
-		width = self.default_size * imgsize[0]/10 * 1.01
-		height = self.default_size * imgsize[1]/10 * 1.01
+		width = self.default_size * imgsize[0] / 10 * 1.01
+		height = self.default_size * imgsize[1] / 10 * 1.01
 
 		self.default_shadowwidth, self.default_shadowheight = width, height
 		self.shadow.setIcon(QtGui.QIcon(self.img_shadow))
@@ -156,7 +154,8 @@ class ButtonBrowse(Button):
 		if self.file_type == "Folder":
 			file_name = QFileDialog.getExistingDirectory(None, "Select Directory", self.browsepath)
 		else:
-			file_name = QFileDialog.getOpenFileName(self, 'Open file', self.browsepath, "{} files (*{})".format(self.file_type, self.file_type))[0]
+			file_name = QFileDialog.getOpenFileName(self, 'Open file', self.browsepath,
+			                                        "{} files (*{})".format(self.file_type, self.file_type))[0]
 		logging.info("Updated: {}".format(current_config))
 		self.afteropenfile(file_name)
 
@@ -172,8 +171,7 @@ class PathImage(Button):
 		self.text.setText("")
 		self.default_fontsize = 150
 		self.offset = 115
-		self.setStyleSheet("QToolTip { background-color:white;color: black; }")
-		
+
 
 	def setup(self):
 		self.img_idle = self.img_hover = self.img_click = self.img
@@ -181,25 +179,26 @@ class PathImage(Button):
 		super().setup()
 
 	def setText(self, text):
-		#set stylesheet doesnt work for self.text qtoooltip so who cares./. night
-		#self.text.setToolTip("<span style=\"color:green;\">{}</span>".format(text))
-		self.setToolTip(text)
+
 		self.text.setToolTip(text)
-		#text = text[:57]  # commented cause u ask me to remove. i dont like following ur oders
+		self.setToolTip(text)
+
 		self.text.setText(text)
 
 	def changesize(self):
 		super().changesize()
 
-		scale = self.height()/self.main_window.default_height
+		scale = self.height() / self.main_window.default_height
 
 		x = self.x() + scale * self.offset
 		y = self.y() + scale * self.offset
 
 		fontsize = scale * self.default_fontsize
-		self.text.setStyleSheet("font-size: {}pt; font-weight: bold; color: white; background-color: rgba(0,0,0,0%)".format(fontsize))
+		self.text.setStyleSheet("QLabel{background-color:transparent;}QToolTip { background-color:transparent;color: green; }")
 		self.text.setGeometry(x, y, self.width() * 0.3, self.height())
-		self.text.setStyleSheet("QLabel{background-color:transparent;color:white;}QToolTip { background-color:white;color: black; }")
+		self.text.setStyleSheet(
+			"QToolTip { background-color:transparent;color: green; } ")
+		self.text.setGeometry(x, y, self.width() * 0.95, self.height())
 
 class PopupButton(ButtonBrowse):
 	def afteropenfile(self, filename):

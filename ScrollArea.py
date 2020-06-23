@@ -2,6 +2,7 @@ import os
 
 from PyQt5 import QtWidgets
 from PyQt5 import QtCore
+
 from DoubleSlider import DoubleSlider
 from GridLayout import GridLayout
 from QLabel import Titles, Small_Titles
