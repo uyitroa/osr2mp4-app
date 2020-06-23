@@ -57,7 +57,6 @@ class ScrollArea(QtWidgets.QScrollArea):
 		y = scale * self.default_y
 		width = self.main_window.width()
 		height = self.main_window.height() * 0.93
-		print(width, height)
 		self.layout.setGeometry(QtCore.QRect(x, y, width, height))
 		self.scrollArea.changesize()
 
@@ -68,7 +67,6 @@ class ScrollArea(QtWidgets.QScrollArea):
 
 		data_config = {"config": current_config, "settings": current_settings}
 
-		print(data_config)
 		with open(os.path.join(abspath, 'options_config.json')) as f:
 			data = json.load(f)
 
