@@ -1,6 +1,8 @@
 import psutil
 from PyQt5.QtWidgets import QMainWindow, QApplication
 import os, json, sys, glob, os.path
+
+from UpdateButton import UpdateButton
 from Logo import Logo
 from MapsetButton import MapsetButton
 from OsrButton import OsrButton
@@ -19,7 +21,6 @@ from config_data import current_config, current_settings
 from ProgressBar import ProgressBar
 from Options import Options
 import logging
-
 
 completed_settings = {}
 
@@ -56,8 +57,9 @@ class Window(QMainWindow):
 		self.mapsetpath = MapSetPath(self)
 		self.skin_dropdown = SkinDropDown(self)
 		self.options = Options(self)
+		self.updatebutton = UpdateButton(self)
 		self.blurrable_widgets = [self.osrbutton, self.mapsetbutton, self.startbutton, self.logo, self.osrpath,
-		                          self.mapsetpath, self.options, self.skin_dropdown]
+		                          self.mapsetpath, self.options, self.skin_dropdown, self.updatebutton]
 
 		self.popup_window = PopupWindow(self)
 		self.output_window = OutputButton(self)
@@ -77,6 +79,7 @@ class Window(QMainWindow):
 
 		self.show()
 		self.resize(window_width, window_height)
+
 	def on_focusChanged(self):
 		if ButtonBrowse.browsing:
 			ButtonBrowse.browsing = False
@@ -118,6 +121,7 @@ class Window(QMainWindow):
 		self.options.changesize()
 		self.progressbar.changesize()
 		self.customwindow.changesize()
+		self.updatebutton.changesize()
 		if self.popup_bool:
 			self.blur_function(True)
 		else:
