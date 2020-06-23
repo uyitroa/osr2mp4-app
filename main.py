@@ -61,7 +61,7 @@ class Window(QMainWindow):
 		self.mapsetpath = MapSetPath(self)
 		self.skin_dropdown = SkinDropDown(self)
 		self.options = Options(self)
-		self.updatebutton = UpdateButton(self)
+		self.updatebutton = UpdateButton(self)	
 		self.blurrable_widgets = [self.osrbutton, self.mapsetbutton, self.startbutton, self.logo, self.osrpath,
 
 								  self.mapsetpath, self.options, self.skin_dropdown,
@@ -92,7 +92,7 @@ class Window(QMainWindow):
 		if ButtonBrowse.browsing:
 			ButtonBrowse.browsing = False
 			return
-		if self.isActiveWindow():	
+		if self.isActiveWindow():
 			self.check_replay_map()
 			print("Checking latest map")
 			print("gf's priority is you\n")
