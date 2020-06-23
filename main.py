@@ -13,7 +13,7 @@ from PopupWindow import PopupWindow, CustomTextWindow
 from SettingsPage import SettingsPage
 from SkinDropDown import SkinDropDown
 from StartButton import StartButton
-from abspath import abspath
+from abspath import abspath, settingspath, configpath, Log
 from osuButton import osuButton
 from find_beatmap import find_beatmap_
 from PyQt5 import QtGui, QtCore
@@ -26,12 +26,14 @@ completed_settings = {}
 
 
 class Window(QMainWindow):
-	def __init__(self):
+	def __init__(self, App, execpath):
 		super().__init__()
 
+		logging.basicConfig(level=logging.DEBUG, filename=Log.apppath, filemode="w", format="%(asctime)s:%(levelname)s:%(name)s:%(funcName)s:%(message)s")
+		logging.basicConfig(level=logging.INFO)
 
-		logging.basicConfig(level=logging.DEBUG, stream=open("file.log", "w+"), format="%(asctime)s:%(levelname)s:%(name)s:%(funcName)s:%(message)s")
-
+		logging.info("Current settings is updated to: {}".format(current_settings))
+		logging.info("Current config is updated to: {}".format(current_config))
 
 		self.setFocus()
 		App.applicationStateChanged.connect(self.applicationStateChanged)
@@ -41,6 +43,7 @@ class Window(QMainWindow):
 
 		window_width, window_height = 832, 469
 
+		self.execpath = execpath
 		self.minimum_resolution = [640, 360]
 		self.previous_resolution = [0, 0]
 		self.default_width, self.default_height = window_width, window_height
@@ -58,6 +61,9 @@ class Window(QMainWindow):
 		self.skin_dropdown = SkinDropDown(self)
 		self.options = Options(self)
 		self.updatebutton = UpdateButton(self)
+
+		logging.info("Loaded Buttons")
+
 		self.blurrable_widgets = [self.osrbutton, self.mapsetbutton, self.startbutton, self.logo, self.osrpath,
 		                          self.mapsetpath, self.options, self.skin_dropdown, self.updatebutton]
 
@@ -67,7 +73,11 @@ class Window(QMainWindow):
 
 		self.customwindow = CustomTextWindow(self)
 		self.customwindow.hide()
+
+		logging.info("Loaded Popupwindow output button and osu button")
 		self.settingspage = SettingsPage(self)
+
+		logging.info("Loaded settings page")
 
 		self.popup_widgets = [self.popup_window, self.output_window, self.osu_window]
 
@@ -142,11 +152,11 @@ class Window(QMainWindow):
 			self.settingspage.hide()
 			self.settingspage.settingsarea.scrollArea.hide()
 
-			with open(os.path.join(abspath, 'settings.json'), 'w+') as f:
+			with open(settingspath, 'w+') as f:
 				json.dump(current_settings, f, indent=4)
 				f.close()
 
-			with open(os.path.join(abspath, 'config.json'), 'w+') as f:
+			with open(configpath, 'w+') as f:
 				json.dump(current_config, f, indent=4)
 				f.close()
 
@@ -168,13 +178,13 @@ class Window(QMainWindow):
 			x.setParent(None)
 
 	def check_osuPath(self):
-		if os.path.isfile(os.path.join(abspath, "config.json")):
+		if os.path.isfile(configpath):
 			self.skin_dropdown.get_configInfo(current_config["osu! path"])
 			if current_config["Output path"] != "" and current_config["osu! path"] != "":
 				self.delete_popup()
 				self.popup_bool = False
 
-		with open(os.path.join(abspath, 'settings.json'), 'w+') as f:
+		with open(settingspath, 'w+') as f:
 			json.dump(current_settings, f, indent=4)
 			f.close()
 
@@ -203,8 +213,8 @@ class Window(QMainWindow):
 			logging.info("Updated replay path to: {}".format(replay))
 
 	def set_settings(self, dict1):
-		if os.path.isfile(os.path.join(abspath, "settings.json")):
-			with open(os.path.join(abspath, 'settings.json')) as f:
+		if os.path.isfile(settingspath):
+			with open(settingspath) as f:
 				data = json.load(f)
 			counter = 0
 			for x in data:
@@ -235,20 +245,39 @@ def kill(proc_pid):
 	process.kill()
 
 
-App = QApplication(sys.argv)
-window = Window()
-b = open(os.path.join(abspath, "progress.txt"), "w")
-b.close()
-watcher = QtCore.QFileSystemWatcher([os.path.join(abspath, 'progress.txt')])
-watcher.directoryChanged.connect(window.progressbar.directory_changed)
-watcher.fileChanged.connect(window.progressbar.file_changed)
+def main(execpath="."):
+	floop = open(os.path.join(execpath, "exit.txt"), "w")
+	floop.write("0")
+	floop.close()
 
-b = open(os.path.join(abspath, "error.txt"), "w")
-b.close()
-errorwatcher = QtCore.QFileSystemWatcher([os.path.join(abspath, 'error.txt')])
-errorwatcher.directoryChanged.connect(window.customwindow.directory_changed)
-errorwatcher.fileChanged.connect(window.customwindow.file_changed)
+	execpath = os.path.abspath(execpath)
 
-App.exec()
-if window.startbutton.proc is not None and window.startbutton.proc.poll() is None:
-	kill(window.startbutton.proc.pid)
+	if not os.path.isdir(os.path.join(execpath, "Logs")):
+		os.mkdir(os.path.join(execpath, "Logs"))
+
+	Log.apppath = os.path.join(execpath, "Logs", Log.apppath)
+	Log.runosupath = os.path.join(execpath, "Logs", Log.runosupath)
+
+	print(Log.apppath, Log.runosupath)
+
+	App = QApplication(sys.argv)
+	window = Window(App, execpath)
+	b = open(os.path.join(abspath, "progress.txt"), "w")
+	b.close()
+	watcher = QtCore.QFileSystemWatcher([os.path.join(abspath, 'progress.txt')])
+	watcher.directoryChanged.connect(window.progressbar.directory_changed)
+	watcher.fileChanged.connect(window.progressbar.file_changed)
+
+	b = open(os.path.join(abspath, "error.txt"), "w")
+	b.close()
+	errorwatcher = QtCore.QFileSystemWatcher([os.path.join(abspath, 'error.txt')])
+	errorwatcher.directoryChanged.connect(window.customwindow.directory_changed)
+	errorwatcher.fileChanged.connect(window.customwindow.file_changed)
+
+	App.exec()
+	if window.startbutton.proc is not None and window.startbutton.proc.poll() is None:
+		kill(window.startbutton.proc.pid)
+
+
+if __name__ == "__main__":
+	main()

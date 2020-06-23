@@ -1,3 +1,4 @@
+import os
 import subprocess
 import sys
 
@@ -26,7 +27,10 @@ class UpdateButton(Button):
 		self.text.setText("Update")
 
 	def mouseclicked(self):
-		proc = subprocess.Popen([sys.executable, "updater.py"])
+		# proc = subprocess.Popen([sys.executable, "updater.py"])
+		fupdate = open(os.path.join(self.main_window.execpath, "exit.txt"), "w")
+		fupdate.write("1")
+		fupdate.close()
 		sys.exit(0)
 
 	def changesize(self):

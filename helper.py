@@ -1,7 +1,10 @@
 import cv2
 from PyQt5 import QtCore
 import logging
-logging.basicConfig(level=logging.DEBUG, stream=open("file.log", "a+"), format="%(asctime)s:%(levelname)s:%(name)s:%(funcName)s:%(message)s")
+
+
+# logging.basicConfig(level=logging.DEBUG, stream=open(Log.apppath, "a+"), format="%(asctime)s:%(levelname)s:%(name)s:%(funcName)s:%(message)s")
+
 
 def getsize(img):
 	a = cv2.imread(img, -1)

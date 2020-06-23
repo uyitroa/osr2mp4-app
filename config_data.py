@@ -1,16 +1,13 @@
 import json
 import os
-from abspath import abspath
-import logging
+from abspath import abspath, configpath, settingspath
+# import logging
 
 
-logging.basicConfig(level=logging.DEBUG, stream=open("file.log", "a+"), format="%(asctime)s:%(levelname)s:%(name)s:%(funcName)s:%(message)s")
-
-
-if os.path.isfile(os.path.join(abspath, "settings.json")):
-	with open(os.path.join(abspath, "settings.json")) as f:
+if os.path.isfile(settingspath):
+	with open(settingspath) as f:
 		current_settings = json.load(f)
-		logging.info("Current settings is updated to: {}".format(current_settings))
+		# logging.info("Current settings is updated to: {}".format(current_settings))
 else:
 	current_settings = {
 		"Cursor size": 1.0,
@@ -29,12 +26,12 @@ else:
 		"api key": "",
 		"Rotate sliderball": 0
 	}
-	logging.info("Current settings is set to default")
+	# logging.info("Current settings is set to default")
 
-if os.path.isfile(os.path.join(abspath, "config.json")):
-	with open(os.path.join(abspath, 'config.json')) as f:
+if os.path.isfile(configpath):
+	with open(configpath) as f:
 		current_config = json.load(f)
-		logging.info("Current config is updated to: {}".format(current_settings))
+		# logging.info("Current config is updated to: {}".format(current_settings))
 else:
 	current_config = {
 		"osu! path": "",
@@ -52,4 +49,4 @@ else:
 		"Process": 2,
 		"ffmpeg path": "ffmpeg"
 	}
-	logging.info("Current config is set to default")
+	# logging.info("Current config is set to default")

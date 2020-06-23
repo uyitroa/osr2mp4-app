@@ -5,14 +5,11 @@ from PyQt5 import QtGui, QtCore
 from PyQt5.QtWidgets import QGraphicsBlurEffect, QPushButton, QFileDialog, QLabel, QToolTip
 from pathlib import Path
 
-from abspath import abspath
+from abspath import abspath, configpath
 from config_data import current_config, current_settings
 from helper import getsize, changesize
 from username_parser import get_configInfo
 import logging
-
-logging.basicConfig(level=logging.DEBUG, stream=open("file.log", "w+"),
-                    format="%(asctime)s:%(levelname)s:%(name)s:%(funcName)s:%(message)s")
 
 
 def get_shadowpos(button, width, height):
@@ -211,7 +208,7 @@ class PopupButton(ButtonBrowse):
 			self.main_window.check_replay_map()
 			self.main_window.resizeEvent(True)
 			self.main_window.skin_dropdown.get_configInfo(current_config["osu! path"])
-			with open('config.json', 'w+') as f:
+			with open(configpath, 'w+') as f:
 				json.dump(current_config, f, indent=4)
 				f.close()
 			self.main_window.settingspage.load_settings()

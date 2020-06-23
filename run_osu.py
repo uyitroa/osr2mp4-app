@@ -1,6 +1,6 @@
 import inspect
 import os
-
+import sys
 from osr2mp4.osr2mp4 import Osr2mp4
 import time
 
@@ -10,12 +10,14 @@ class Dummy: pass
 
 def run():
 	abspath = os.path.dirname(os.path.abspath(inspect.getsourcefile(Dummy)))
+	execpath = sys.argv[1]
+	logpath = os.path.join(execpath, "Logs/")
 
 	fprogress = open(os.path.join(abspath, "progress.txt"), "w")
 	fprogress.write("0")
 	fprogress.close()
 
-	logpath = os.path.join(abspath, "core.log")
+	logpath = os.path.join(logpath, "core.log")
 	config = os.path.join(abspath, "config.json")
 	settings = os.path.join(abspath, "settings.json")
 
@@ -38,6 +40,9 @@ def run():
 				raise ValueError(f'a process exited with code {p.exitcode}')
 			if converter.drawers[i].exitcode is not None and converter.drawers[i].exitcode != 0:
 				raise ValueError(f'a process exited with code {p.exitcode}')
+			if converter.audio is not None:
+				if converter.audio.exitcode is not None and converter.audio.exitcode != 0:
+					raise ValueError(f'a process exited with code {p.exitcode}')
 		if not a:
 			curprogress = 99
 

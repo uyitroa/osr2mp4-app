@@ -12,7 +12,7 @@ from Textbox import Big_Textbox, Small_Textbox
 from Slider import Slider, EndTimeSlider, StartTimeSlider
 import json
 from CheckBox import CheckBox
-from abspath import abspath
+from abspath import abspath, optionconfigpath
 
 from config_data import current_settings, current_config
 
@@ -69,7 +69,7 @@ class ScrollArea(QtWidgets.QScrollArea):
 		data_config = {"config": current_config, "settings": current_settings}
 
 		print(data_config)
-		with open(os.path.join(abspath, 'options_config.json')) as f:
+		with open(optionconfigpath) as f:
 			data = json.load(f)
 
 		for header in data:

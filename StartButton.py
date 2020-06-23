@@ -3,7 +3,7 @@ import os
 import subprocess
 import sys
 from Parents import Button
-from abspath import abspath
+from abspath import abspath, configpath, settingspath, Log
 from config_data import current_config, current_settings
 
 
@@ -27,13 +27,14 @@ class StartButton(Button):
 		if os.path.isdir(current_config["Output path"]):
 			current_config["Output path"] = os.path.join(current_config["Output path"], "output.avi")
 
-		with open(os.path.join(abspath, 'config.json'), 'w+') as f:
+		with open(configpath, 'w+') as f:
 			json.dump(current_config, f, indent=4)
 			f.close()
-		with open(os.path.join(abspath, 'settings.json'), 'w+') as f:
+		with open(settingspath, 'w+') as f:
 			json.dump(current_settings, f, indent=4)
 			f.close()
 
 		if self.proc is None or self.proc.poll() is not None:
-			self.proc = subprocess.Popen([sys.executable, os.path.join(abspath, "run_osu.py")], shell=False)
+			outputfile = open(Log.runosupath, "w")
+			self.proc = subprocess.Popen([sys.executable, os.path.join(abspath, "run_osu.py"), self.main_window.execpath], stdout=outputfile, stderr=outputfile)
 			self.main_window.progressbar.show()

@@ -93,7 +93,7 @@ def parseFastBeatmap(db, offset):
     offset += 4
     offset += 4
     offset += 4
-    
+
     numPoints, offset = parseNum(db, offset, 4)
     offset += 17 * numPoints
     # for i in range(0, numPoints):
@@ -157,7 +157,7 @@ def getMapInfo(db, hash):
     data['name'], offset = parseString(db, offset)
     data['num_beatmaps'], offset = parseNum(db, offset, 4)
 
-    data['beatmaps'] = {} 
+    data['beatmaps'] = {}
     for i in range(0, data['num_beatmaps']):
         beatmap, offset = parseFastBeatmap(db, offset)
         if beatmap['file_md5'] == hash:
