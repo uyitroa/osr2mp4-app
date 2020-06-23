@@ -167,8 +167,8 @@ class PathImage(Button):
 		self.text = QLabel(parent)
 		self.text.setText("")
 		self.default_fontsize = 150
-		self.offset = 115
-		self.setStyleSheet("QToolTip { background-color:white;color: black; }")
+		self.offset = 225
+		
 
 	def setup(self):
 		self.img_idle = self.img_hover = self.img_click = self.img
@@ -177,7 +177,7 @@ class PathImage(Button):
 
 	def setText(self, text):
 		# set stylesheet doesnt work for self.text qtoooltip so who cares./. night
-		self.text.setToolTip("<span style=\"color:green;\">{}</span>".format(text))
+		self.text.setToolTip(text)
 		self.setToolTip(text)
 		# text = text[:57]  # commented cause u ask me to remove. i dont like following ur oders
 		self.text.setText(text)
@@ -192,8 +192,8 @@ class PathImage(Button):
 
 		fontsize = scale * self.default_fontsize
 		self.text.setStyleSheet(
-			"font-size: {}pt; font-weight: bold; color: white; background-color: rgba(0,0,0,0%)".format(fontsize))
-		self.text.setGeometry(x, y, self.width() * 0.95, self.height())
+			"QLabel{font-size: %ipt; font-weight: bold; color: white; background-color: transparent;}QToolTip { background-color:white;color: black; }" % (fontsize))
+		self.text.setGeometry(x, y, self.width() * 0.95, self.height() * 0.5)
 
 
 class PopupButton(ButtonBrowse):

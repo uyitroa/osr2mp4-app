@@ -57,7 +57,6 @@ class ScrollArea(QtWidgets.QScrollArea):
 		y = scale * self.default_y
 		width = self.main_window.width()
 		height = self.main_window.height() * 0.93
-		print(width, height)
 		self.layout.setGeometry(QtCore.QRect(x, y, width, height))
 		self.scrollArea.changesize()
 

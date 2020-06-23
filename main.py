@@ -22,6 +22,10 @@ from ProgressBar import ProgressBar
 from Options import Options
 import logging
 
+# from PyQt5.QtWinExtras import QWinTaskbarButton
+
+import time
+
 completed_settings = {}
 
 
@@ -65,7 +69,7 @@ class Window(QMainWindow):
 		logging.info("Loaded Buttons")
 
 		self.blurrable_widgets = [self.osrbutton, self.mapsetbutton, self.startbutton, self.logo, self.osrpath,
-		                          self.mapsetpath, self.options, self.skin_dropdown, self.updatebutton]
+								  self.mapsetpath, self.options, self.skin_dropdown, self.updatebutton]
 
 		self.popup_window = PopupWindow(self)
 		self.output_window = OutputButton(self)
@@ -238,6 +242,7 @@ class Window(QMainWindow):
 		self.find_latestReplay()
 
 
+
 def kill(proc_pid):
 	process = psutil.Process(proc_pid)
 	for proc in process.children(recursive=True):
@@ -279,5 +284,11 @@ def main(execpath="."):
 		kill(window.startbutton.proc.pid)
 
 
+<<<<<<< HEAD
 if __name__ == "__main__":
 	main()
+=======
+App.exec()
+if window.startbutton.proc is not None and window.startbutton.proc.poll() is None:
+	kill(window.startbutton.proc.pid)
+>>>>>>> 748768b1717bf2b6ee7ea7a12eb58932810bca50
