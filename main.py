@@ -19,7 +19,7 @@ from config_data import current_config, current_settings
 from ProgressBar import ProgressBar
 from Options import Options
 import logging
-
+from PyQt5.QtWinExtras import QWinTaskbarButton
 
 completed_settings = {}
 
@@ -57,7 +57,7 @@ class Window(QMainWindow):
 		self.skin_dropdown = SkinDropDown(self)
 		self.options = Options(self)
 		self.blurrable_widgets = [self.osrbutton, self.mapsetbutton, self.startbutton, self.logo, self.osrpath,
-		                          self.mapsetpath, self.options, self.skin_dropdown]
+								  self.mapsetpath, self.options, self.skin_dropdown]
 
 		self.popup_window = PopupWindow(self)
 		self.output_window = OutputButton(self)
@@ -71,12 +71,13 @@ class Window(QMainWindow):
 
 		self.progressbar = ProgressBar(self)
 		self.progressbar.hide()
-
 		self.check_osuPath()
 		# self.check_replay_map()
 
 		self.show()
 		self.resize(window_width, window_height)
+
+
 	def on_focusChanged(self):
 		if ButtonBrowse.browsing:
 			ButtonBrowse.browsing = False
