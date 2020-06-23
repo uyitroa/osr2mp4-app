@@ -37,12 +37,12 @@ def run():
 			if converter.writers[i].is_alive():
 				a = True
 			if converter.writers[i].exitcode is not None and converter.writers[i].exitcode != 0:
-				raise ValueError(f'a process exited with code {p.exitcode}')
+				raise ValueError(f'a process exited with code {converter.writers[i].exitcode}')
 			if converter.drawers[i].exitcode is not None and converter.drawers[i].exitcode != 0:
-				raise ValueError(f'a process exited with code {p.exitcode}')
+				raise ValueError(f'a process exited with code {converter.drawers[i].exitcode}')
 			if converter.audio is not None:
 				if converter.audio.exitcode is not None and converter.audio.exitcode != 0:
-					raise ValueError(f'a process exited with code {p.exitcode}')
+					raise ValueError(f'a process exited with code {converter.audio.exitcode}')
 		if not a:
 			curprogress = 99
 
