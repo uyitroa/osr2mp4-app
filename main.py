@@ -41,7 +41,7 @@ class Window(QMainWindow):
 
 		self.setFocus()
 		App.applicationStateChanged.connect(self.applicationStateChanged)
-		self.setWindowIcon(QtGui.QIcon("res/OsrLogo.png"))
+		self.setWindowIcon(QtGui.QIcon(os.path.join(abspath, "res/OsrLogo.png")))
 		self.setWindowTitle("Subscribe to Raishin Aot")
 		self.setStyleSheet("background-color: rgb(30, 30, 33);")
 
