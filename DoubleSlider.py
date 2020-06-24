@@ -1,3 +1,5 @@
+import os
+
 from PyQt5.QtGui import QPainter
 from PyQt5.QtWidgets import QWidget, QHBoxLayout
 
@@ -27,3 +29,6 @@ class DoubleSlider(QWidget):
 	def setFixedWidth(self, p_int):
 		self.rangeslider.setFixedWidth(p_int)
 		super().setFixedWidth(p_int)
+
+	def updatevalue(self):
+		pass

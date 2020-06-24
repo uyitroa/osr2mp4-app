@@ -26,3 +26,6 @@ class Separator(QLabel):
 
 	def setFixedHeight(self, p_int):
 		pass
+
+	def updatevalue(self):
+		pass

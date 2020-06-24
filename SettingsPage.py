@@ -43,4 +43,6 @@ class SettingsPage(Button):
 	def load_settings(self):
 		self.settingsarea.load_settings()
 
+	def updatevalue(self):
+		self.settingsarea.gridLayout.updatevalue()
 

@@ -44,6 +44,12 @@ class CheckBox(QCheckBox):
 	def textheight(self):
 		return self.fontMetrics().boundingRect(self.text).height() * 2
 
+	def updatevalue(self):
+		if bool(self.current_data[self.key]):
+			self.setCheckState(QtCore.Qt.Checked)
+		else:
+			self.setCheckState(QtCore.Qt.Unchecked)
+
 	def setFixedWidth(self, p_int):
 		scale = p_int / self.default_width
 

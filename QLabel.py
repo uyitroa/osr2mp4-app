@@ -20,6 +20,9 @@ class ParentTitle(QLabel):
 		self.setStyleSheet("font-size: %ipx; font-weight: bold; color: white;" % int(scale * self.default_fontsize))
 		super().setFixedHeight(p_int)
 
+	def updatevalue(self):
+		pass
+
 
 class Titles(ParentTitle):
 	def __init__(self, title, pixmap=None, parent=None):
@@ -33,7 +36,6 @@ class Titles(ParentTitle):
 
 		self.default_width = super().width()
 		self.default_height = super().height()
-
 
 
 class Small_Titles(ParentTitle):

@@ -1,5 +1,4 @@
 import os
-import subprocess
 import sys
 
 from PyQt5.QtWidgets import QLabel
@@ -11,9 +10,9 @@ class UpdateButton(Button):
 	def __init__(self, parent):
 		super(UpdateButton, self).__init__(parent)
 
-		self.default_x = 10
+		self.default_x = 20
 		self.default_y = 430
-		self.default_size = 0.8
+		self.default_size = 0.5
 		self.text_x = 500
 		self.text_y = -10
 		self.default_fontsize = 300

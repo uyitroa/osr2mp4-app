@@ -50,8 +50,6 @@ class GridLayout(QGridLayout):
 		super().addWidget(QWidget, row, col, rowspan, colspan)
 
 	def changesize(self, scale):
-		
-
 		for x in range(self.count()):
 			item = self.itemAt(x).widget()
 
@@ -62,3 +60,12 @@ class GridLayout(QGridLayout):
 			height = item.default_height * scale
 			item.setFixedWidth(width)
 			item.setFixedHeight(height)
+
+	def updatevalue(self):
+		for x in range(self.count()):
+			item = self.itemAt(x).widget()
+
+			if type(item).__name__ == "QLabel":
+				continue
+
+			item.updatevalue()

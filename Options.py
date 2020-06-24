@@ -15,15 +15,14 @@ class Options(Button):
 		self.img_hover = "res/options_hover.png"
 		self.img_click = "res/Options_Click.png"
 		self.img_shadow = "res/Options_Shadow.png"
-		self.parent = parent
+		# self.parent = parent
 		super().setup()
 
 	def mouseclicked(self):
-		StartTimeSlider.updatevalue()
-		EndTimeSlider.updatevalue()
-		self.parent.settingspage.show()
-		self.parent.settingspage.settingsarea.scrollArea.show()
-		self.parent.resizeEvent(True)
+		self.main_window.settingspage.updatevalue()
+		self.main_window.settingspage.show()
+		self.main_window.settingspage.settingsarea.scrollArea.show()
+		self.main_window.resizeEvent(True)
 
 
 

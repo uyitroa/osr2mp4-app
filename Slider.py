@@ -77,12 +77,17 @@ color: white;
 		val = min(self.maximum() - self.cursize, val)
 		self.setSliderPosition(val)
 
+		# print(val)
+
 		self.current_data[self.key] = round(self.value() / 1000, self.precision)
 
 		self.show = round(self.value() / 1000, self.precision)
 		if self.show == int(self.show):
 			self.show = int(self.show)
 		QToolTip.showText(QtGui.QCursor.pos(), str(self.show), self)
+
+	def updatevalue(self):
+		self.setValue(self.current_data[self.key] * 1000)
 
 	def enterEvent(self, QEvent):
 		self.show = round(self.value() / 1000, self.precision)
@@ -110,11 +115,12 @@ class StartTimeSlider(Slider):
 
 		jsondata["option_config"]["max"] = Map.length
 
+		self.mapname = Map.name
+
 		super().__init__(parent=parent, jsondata=jsondata)
 
-	@classmethod
-	def get_maplength(cls, jsondata):
-
+	# @classmethod
+	def get_maplength(self, jsondata):
 		if Map.name == jsondata["data"]["config"][".osr path"]:
 			return
 		Map.name = jsondata["data"]["config"][".osr path"]
@@ -145,16 +151,26 @@ class StartTimeSlider(Slider):
 		Map.length = osudata.hitobjects[-1]["end time"] - osudata.hitobjects[0]["time"]
 		Map.length /= 1000
 
-	@classmethod
-	def updatevalue(cls):
-		cls.get_maplength({"data": {"config": current_config}, "option_config": {}})
-		for self in cls.objs:
-			if Map.length is not None:
-				self.setMaximum(Map.length * 1000)
-				self.default_max = Map.length * 1000
-				self.bordersize = (self.default_max - self.default_min) * 0.0125
-				self.current_data[self.key] = 0
-				self.setValue(self.minimum())
+	# @classmethod
+	def updatevalue(self):
+		self.get_maplength({"data": {"config": current_config}, "option_config": {}})
+		# for self in cls.objs:
+		if self.mapname != Map.name:
+			self.mapname = Map.name
+			self.default_max = Map.length * 1000
+			tmp = self.bordersize
+			self.bordersize = (self.default_max - self.default_min) * 0.0125
+			self.cursize = self.cursize * self.bordersize/tmp
+
+			self.setMaximum(self.default_max + self.cursize)
+			self.setMinimum(self.default_min - self.cursize)
+
+			self.current_data[self.key] = 0
+			self.setValue(self.minimum())
+
+	# def setFixedHeight(self, p_int):
+	# 	super().setFixedHeight(p_int)
+	# 	print("from height", self.cursize, self.bordersize)
 
 
 class EndTimeSlider(StartTimeSlider):
@@ -180,11 +196,14 @@ class EndTimeSlider(StartTimeSlider):
 	def setFixedHeight(self, p_int):
 		super().setFixedHeight(p_int)
 
-	@classmethod
-	def updatevalue(cls):
-		for self in cls.objs:
+	# @classmethod
+	def updatevalue(self):
+		mapname = self.mapname
+		super().updatevalue()
+		# for self in cls.objs:
 			# if self.current_data[self.key] == -1:
 			# 	self.setValue(self.maximum())
+		if mapname != Map.name:
 			self.current_data[self.key] = -1
 			print(self.maximum())
 			self.setValue(self.maximum())

@@ -23,9 +23,11 @@ class ParentTextbox(QLineEdit):
 		else:
 			self.current_data = jsondata["data"]["settings"]
 
-		self.setText(str(self.current_data[self.key]))
 		super().textChanged.connect(self.textChanged)
 		self.raise_()
+
+	def updatevalue(self):
+		self.setText(str(self.current_data[self.key]))
 
 	def setFixedHeight(self, p_int):
 		pass
@@ -35,7 +37,6 @@ class ParentTextbox(QLineEdit):
 		if p_str.isdigit():
 			p_str = int(p_str)
 		self.current_data[self.key] = p_str
-
 
 
 class Big_Textbox(ParentTextbox):
