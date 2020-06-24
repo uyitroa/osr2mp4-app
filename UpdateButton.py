@@ -41,5 +41,5 @@ class UpdateButton(Button):
 		y = scale * self.text_y
 
 		fontsize = scale * self.default_fontsize
-		self.text.setStyleSheet("font-size: %ipt; font-weight: bold; color: white; background-color: transparent;QToolTip { background-color:white;color: black; }" % fontsize)
+		self.text.setStyleSheet("QLabel{font-size: %ipt; font-weight: bold; color: white; background-color: transparent;}QToolTip { background-color:white;color: black; }" % fontsize)
 		self.text.setGeometry(x, y, self.width(), self.height())
