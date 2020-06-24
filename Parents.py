@@ -222,3 +222,5 @@ class PopupButton(ButtonBrowse):
 					break
 				counter += 1
 
+			self.main_window.osrbutton.browsepath = os.path.join(current_config["osu! path"], "Replays/")
+			self.main_window.mapsetbutton.browsepath = os.path.join(current_config["osu! path"], "Songs/")

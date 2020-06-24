@@ -15,7 +15,7 @@ class UpdateButton(Button):
 		self.default_size = 0.5
 		self.text_x = 500
 		self.text_y = -10
-		self.default_fontsize = 300
+		self.default_fontsize = 250
 
 		self.img_idle = "res/SmallText_HD.png"
 		self.img_hover = "res/SmallText_HD.png"
@@ -24,6 +24,7 @@ class UpdateButton(Button):
 
 		self.text = QLabel(self)
 		self.text.setText("Update")
+		self.text.setToolTip("Version 5")
 
 	def mouseclicked(self):
 		# proc = subprocess.Popen([sys.executable, "updater.py"])
