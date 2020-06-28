@@ -114,10 +114,13 @@ class SkinDropDown(QComboBox):
 
 	def get_configInfo(self, path):
 		if path != "":
-			cfg = glob.glob(path + "/*.cfg")
-			if not cfg:
+			c = glob.glob(path + "/*.cfg")
+			print(c)
+			if not c:
 				return
-			props = read_properties_file(cfg[1])
+			cfg = [ x for x in c if "osu!.cfg" not in x ]
+			print(cfg)
+			props = read_properties_file(cfg[0])
 			name = props['skin']
 
 			current_config["Skin path"] = os.path.join(current_config["osu! path"], "Skins", name)

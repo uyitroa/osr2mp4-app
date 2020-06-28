@@ -168,7 +168,6 @@ class PathImage(Button):
 		self.text.setText("")
 		self.default_fontsize = 150
 		self.offset = 225
-		
 
 	def setup(self):
 		self.img_idle = self.img_hover = self.img_click = self.img

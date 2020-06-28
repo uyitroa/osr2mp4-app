@@ -1,5 +1,5 @@
 import psutil
-from PyQt5.QtWidgets import QMainWindow, QApplication
+from PyQt5.QtWidgets import QMainWindow, QApplication, QSizePolicy
 import os, json, sys, glob, os.path
 
 from UpdateButton import UpdateButton
@@ -66,10 +66,12 @@ class Window(QMainWindow):
 		self.options = Options(self)
 		self.updatebutton = UpdateButton(self)
 
+		self.setFixedSize(window_width, window_height)
+
 		logging.info("Loaded Buttons")
 
 		self.blurrable_widgets = [self.osrbutton, self.mapsetbutton, self.startbutton, self.logo, self.osrpath,
-								  self.mapsetpath, self.options, self.skin_dropdown, self.updatebutton]
+								  self.mapsetpath, self.options, self.skin_dropdown]
 
 		self.popup_window = PopupWindow(self)
 		self.output_window = OutputButton(self)
@@ -118,6 +120,7 @@ class Window(QMainWindow):
 	def resizeEvent(self, event):
 		height = self.width() * 9 / 16
 		self.resize(self.width(), height)
+		print("HI")
 		if self.width() < self.minimum_resolution[0] and self.height() < self.minimum_resolution[1]:
 			self.resize(self.previous_resolution[0], self.previous_resolution[1])
 

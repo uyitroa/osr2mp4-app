@@ -1,7 +1,7 @@
 import sys
 import subprocess
 import threading
-from PyQt5.QtWidgets import QLabel, QApplication, QMainWindow
+from PyQt5.QtWidgets import QLabel, QApplication, QMainWindow, QSizePolicy
 
 
 class Window(QMainWindow):
@@ -12,6 +12,7 @@ class Window(QMainWindow):
 		self.text.setText("Updating...")
 		self.text.setGeometry(0, -100, 300, 300)
 		self.upgradelist = ["osr2mp4", "osr2mp4app"]
+		self.setSizePolicy(QSizePolicy(QSizePolicy.Ignored, QSizePolicy.Ignored))
 		self.a = threading.Thread(target=self.install)
 		self.show()
 
