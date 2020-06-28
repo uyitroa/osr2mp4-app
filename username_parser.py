@@ -19,14 +19,11 @@ settings = {
 
 
 def read_properties_file(file_path):
-	with open(file_path) as f:
-		config = io.StringIO()
-		config.write('[dummy_section]\n')
-		config.write(f.read().replace('%', '%%'))
-		config.seek(0, os.SEEK_SET)
+	with open(file_path, encoding="utf-8") as f:
 
-		cp = configparser.ConfigParser()
-		cp.readfp(config)
+		config = "[dummy_section]\n#" + f.read().replace('%', '%%')
+		cp = configparser.SafeConfigParser()
+		cp.read_string(config)
 
 		return dict(cp.items('dummy_section'))
 
