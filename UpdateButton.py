@@ -2,7 +2,7 @@ import os
 import sys
 
 from PyQt5.QtWidgets import QLabel
-
+import logging
 from Parents import Button
 
 
@@ -24,7 +24,8 @@ class UpdateButton(Button):
 
 		self.text = QLabel(self)
 		self.text.setText("Update")
-		self.text.setToolTip("Version Alpha 1")
+		self.text.setToolTip("Version Alpha 4")
+		logging.info("Version Alpha 4")
 
 	def mouseclicked(self):
 		# proc = subprocess.Popen([sys.executable, "updater.py"])

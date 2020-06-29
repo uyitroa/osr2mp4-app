@@ -104,7 +104,7 @@ class SkinDropDown(QComboBox):
 
 	def activated_(self, index):
 		current_config["Skin path"] = os.path.join(current_config["osu! path"], "Skins", self.itemText(index))
-		print(current_config["Skin path"])
+		logging.info(current_config["Skin path"])
 
 	def get_skins(self, path):
 		self.addItems(self.main_window.skins_directory)

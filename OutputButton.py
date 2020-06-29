@@ -1,3 +1,5 @@
+import os
+
 from Parents import PopupButton
 from config_data import current_config
 
@@ -18,5 +20,7 @@ class OutputButton(PopupButton):
 		super().setup()
 
 	def afteropenfile(self, filename):
+		if os.path.isdir(filename):
+			filename = os.path.join(filename, "output.avi")
 		current_config["Output path"] = filename
 		super().afteropenfile(filename)
