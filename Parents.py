@@ -199,8 +199,10 @@ class PopupButton(ButtonBrowse):
 	def afteropenfile(self, filename):
 		if filename == "":  # if user cancel select
 			return
-
+		logging.info("after open file popupbutton")
+		logging.info(filename)
 		if current_config["Output path"] != "" and current_config["osu! path"] != "":
+			logging.info("entering output")
 			self.main_window.delete_popup()
 			self.main_window.popup_bool = False
 
