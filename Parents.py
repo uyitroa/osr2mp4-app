@@ -206,18 +206,26 @@ class PopupButton(ButtonBrowse):
 			self.main_window.delete_popup()
 			self.main_window.popup_bool = False
 
+			logging.info("searching for replay")
+
 			self.main_window.check_replay_map()
 			self.main_window.resizeEvent(True)
+
+			logging.info("get cfg info skin")
 			self.main_window.skin_dropdown.get_configInfo(current_config["osu! path"])
 			with open(configpath, 'w+') as f:
 				json.dump(current_config, f, indent=4)
 				f.close()
+			logging.info(configpath)
+			logging.info("loading settings page")
 			self.main_window.settingspage.load_settings()
 
 			settings = get_configInfo(current_config["osu! path"])
 			counter = 0
+
+			logging.info(current_settings)
+			logging.info(settings)
 			for x in current_settings:
-				print(settings)
 				current_settings[x] = float(settings[counter])
 				if counter >= 10:
 					break

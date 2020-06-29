@@ -2,6 +2,8 @@ import glob
 import io
 import os, json
 import configparser
+import logging
+
 
 settings = {
 	"CursorSize": "",
@@ -32,8 +34,13 @@ def get_configInfo(path):
 	try:
 		settings_result = []
 		if path != "":
-			cfg = glob.glob(path + "/*.cfg")
-			props = read_properties_file(cfg[1])
+			c = glob.glob(path + "/*.cfg")
+			logging.info(c)
+			if not c:
+				return
+			cfg = [ x for x in c if "osu!.cfg" not in x ]
+			logging.info(cfg)
+			props = read_properties_file(cfg[0])
 			for x in settings:
 				settings_result.append(props[x.lower()])
 		return settings_result

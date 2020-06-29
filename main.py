@@ -7,7 +7,7 @@ from Logo import Logo
 from MapsetButton import MapsetButton
 from OsrButton import OsrButton
 from OutputButton import OutputButton
-from Parents import ButtonBrowse
+from Parents import ButtonBrowse, PopupButton
 from PathImage import OsrPath, MapSetPath
 from PopupWindow import PopupWindow, CustomTextWindow
 from SettingsPage import SettingsPage
@@ -21,6 +21,8 @@ from config_data import current_config, current_settings
 from ProgressBar import ProgressBar
 from Options import Options
 import logging
+import traceback
+
 
 # from PyQt5.QtWinExtras import QWinTaskbarButton
 
@@ -97,8 +99,9 @@ class Window(QMainWindow):
 		self.resize(window_width, window_height)
 
 	def on_focusChanged(self):
-		if ButtonBrowse.browsing:
+		if ButtonBrowse.browsing or PopupButton.browsing:
 			ButtonBrowse.browsing = False
+			PopupButton.browsing = False
 			return
 		if self.isActiveWindow():
 			self.check_replay_map()
@@ -108,8 +111,9 @@ class Window(QMainWindow):
 			print("u dont have a gf\n")
 
 	def applicationStateChanged(self, state):
-		if ButtonBrowse.browsing:
+		if ButtonBrowse.browsing or PopupButton.browsing:
 			ButtonBrowse.browsing = False
+			PopupButton.browsing = False
 			return
 		if state == 4:
 			self.check_replay_map()
@@ -253,7 +257,15 @@ def kill(proc_pid):
 	process.kill()
 
 
+def excepthook(exc_type, exc_value, exc_tb):
+	tb = "".join(traceback.format_exception(exc_type, exc_value, exc_tb))
+	logging.exception(tb)
+	print(tb)
+	QApplication.quit()
+
+
 def main(execpath="."):
+	sys.excepthook = excepthook
 	floop = open(os.path.join(execpath, "exit.txt"), "w")
 	floop.write("0")
 	floop.close()
@@ -282,10 +294,11 @@ def main(execpath="."):
 	errorwatcher.directoryChanged.connect(window.customwindow.directory_changed)
 	errorwatcher.fileChanged.connect(window.customwindow.file_changed)
 
-	App.exec()
+	ret = App.exec_()
 	if window.startbutton.proc is not None and window.startbutton.proc.poll() is None:
 		kill(window.startbutton.proc.pid)
 
+	sys.exit(ret)
 
 if __name__ == "__main__":
 	main()

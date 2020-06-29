@@ -11,6 +11,7 @@ from abspath import abspath
 from config_data import current_config
 from helper import getsize, changesize
 from PyQt5.QtGui import QColor
+import logging
 
 
 def read_properties_file(file_path):
@@ -112,11 +113,11 @@ class SkinDropDown(QComboBox):
 	def get_configInfo(self, path):
 		if path != "":
 			c = glob.glob(path + "/*.cfg")
-			print(c)
+			logging.info(c)
 			if not c:
 				return
 			cfg = [ x for x in c if "osu!.cfg" not in x ]
-			print(cfg)
+			logging.info(cfg)
 			props = read_properties_file(cfg[0])
 			name = props['skin']
 
