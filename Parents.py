@@ -5,10 +5,12 @@ from PyQt5 import QtGui, QtCore
 from PyQt5.QtWidgets import QGraphicsBlurEffect, QPushButton, QFileDialog, QLabel, QToolTip
 from pathlib import Path
 
+from autologging import traced, logged
+
 from abspath import abspath, configpath
 from config_data import current_config, current_settings
 from helper import getsize, changesize
-from username_parser import get_configInfo
+from username_parser import get_configInfo, settings_translator
 import logging
 
 
@@ -195,41 +197,43 @@ class PathImage(Button):
 		self.text.setGeometry(x, y, self.width() * 0.95, self.height() * 0.5)
 
 
+@logged(logging.getLogger(__name__))
+@traced
 class PopupButton(ButtonBrowse):
 	def afteropenfile(self, filename):
 		if filename == "":  # if user cancel select
 			return
-		logging.info("after open file popupbutton")
-		logging.info(filename)
 		if current_config["Output path"] != "" and current_config["osu! path"] != "":
 			logging.info("entering output")
 			self.main_window.delete_popup()
 			self.main_window.popup_bool = False
 
-			logging.info("searching for replay")
-
 			self.main_window.check_replay_map()
 			self.main_window.resizeEvent(True)
 
-			logging.info("get cfg info skin")
 			self.main_window.skin_dropdown.get_configInfo(current_config["osu! path"])
 			with open(configpath, 'w+') as f:
 				json.dump(current_config, f, indent=4)
 				f.close()
 			logging.info(configpath)
-			logging.info("loading settings page")
+
 			self.main_window.settingspage.load_settings()
 
-			settings = get_configInfo(current_config["osu! path"])
-			counter = 0
+			osusettings = get_configInfo(current_config["osu! path"])
 
-			logging.info(current_settings)
-			logging.info(settings)
-			for x in current_settings:
-				current_settings[x] = float(settings[counter])
-				if counter >= 10:
-					break
-				counter += 1
+			self.set_settings(osusettings)
 
 			self.main_window.osrbutton.browsepath = os.path.join(current_config["osu! path"], "Replays/")
 			self.main_window.mapsetbutton.browsepath = os.path.join(current_config["osu! path"], "Songs/")
+
+	def set_settings(self, osusettings):
+		logging.info(current_settings)
+		logging.info(osusettings)
+		for osukey in osusettings:
+			mykey = settings_translator[osukey]
+			try:
+				setting = float(osusettings[osukey])
+			except ValueError:
+				setting = osusettings[osukey]
+
+			current_settings[mykey] = setting
