@@ -1,7 +1,9 @@
+import logging
 import os
 
 from PyQt5 import QtWidgets
 from PyQt5 import QtCore
+from autologging import traced, logged
 
 from DoubleSlider import DoubleSlider
 from GridLayout import GridLayout
@@ -17,6 +19,8 @@ from abspath import abspath, optionconfigpath
 from config_data import current_settings, current_config
 
 
+@logged(logging.getLogger(__name__))
+@traced("changesize", exclude=True)
 class ScrollArea(QtWidgets.QScrollArea):
 	def __init__(self, parent, main_window):
 		super().__init__()

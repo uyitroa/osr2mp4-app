@@ -22,6 +22,7 @@ from ProgressBar import ProgressBar
 from Options import Options
 import logging
 import traceback
+from autologging import traced, logged, TRACE
 
 
 # from PyQt5.QtWinExtras import QWinTaskbarButton
@@ -29,14 +30,16 @@ import traceback
 import time
 
 completed_settings = {}
+excl = ("resizeEvent", "keyPressEvent", "mousePressEvent", "delete_popup", "blur_function", "applicationStateChanged", "on_focusChanged")
 
 
+@logged(logging.getLogger(__name__))
+@traced(*excl, exclude=True)
 class Window(QMainWindow):
 	def __init__(self, App, execpath):
 		super().__init__()
 
-		logging.basicConfig(level=logging.DEBUG, filename=Log.apppath, filemode="w", format="%(asctime)s:%(levelname)s:%(name)s:%(funcName)s:%(message)s")
-		logging.basicConfig(level=logging.INFO)
+		logging.basicConfig(level=TRACE, filename=Log.apppath, filemode="w", format="%(asctime)s:%(levelname)s:%(name)s:%(funcName)s:%(message)s")
 
 		logging.info("Current settings is updated to: {}".format(current_settings))
 		logging.info("Current config is updated to: {}".format(current_config))
@@ -68,7 +71,7 @@ class Window(QMainWindow):
 		self.options = Options(self)
 		self.updatebutton = UpdateButton(self)
 
-		self.setFixedSize(window_width, window_height)
+		# self.setFixedSize(window_width, window_height)
 
 		logging.info("Loaded Buttons")
 
@@ -223,19 +226,6 @@ class Window(QMainWindow):
 			current_config[".osr path"] = replay
 			logging.info("Updated replay path to: {}".format(replay))
 
-	def set_settings(self, dict1):
-		if os.path.isfile(settingspath):
-			with open(settingspath) as f:
-				data = json.load(f)
-			counter = 0
-			for x in data:
-				if counter > 10:
-					break
-				data[x] = float(dict1[counter])
-				counter += 1
-		logging.info("Settings data loaded: ", data)
-		return data
-
 	def find_latestMap(self, replay):
 		if current_config["osu! path"] != "":
 			beatmap_path = find_beatmap_(os.path.join(current_config["osu! path"], "Replays", replay), current_config["osu! path"])
@@ -247,7 +237,6 @@ class Window(QMainWindow):
 
 	def check_replay_map(self):
 		self.find_latestReplay()
-
 
 
 def kill(proc_pid):
@@ -299,6 +288,7 @@ def main(execpath="."):
 		kill(window.startbutton.proc.pid)
 
 	sys.exit(ret)
+
 
 if __name__ == "__main__":
 	main()

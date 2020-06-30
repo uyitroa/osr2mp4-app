@@ -6,6 +6,7 @@ import os
 from PyQt5 import QtCore
 from PyQt5.QtGui import QPalette
 from PyQt5.QtWidgets import QComboBox, QAbstractItemView, QGraphicsBlurEffect
+from autologging import traced, logged
 
 from abspath import abspath
 from config_data import current_config
@@ -24,6 +25,8 @@ def read_properties_file(file_path):
 		return dict(cp.items('dummy_section'))
 
 
+@logged(logging.getLogger(__name__))
+@traced("changesize", "blur_me", exclude=True)
 class SkinDropDown(QComboBox):
 	def __init__(self, parent):
 		super(SkinDropDown, self).__init__(parent)

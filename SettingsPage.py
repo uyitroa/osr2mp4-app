@@ -1,3 +1,5 @@
+import logging
+
 from Parents import Button
 from ScrollArea import ScrollArea
 
