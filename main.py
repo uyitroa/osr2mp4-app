@@ -23,6 +23,7 @@ from Options import Options
 import logging
 import traceback
 from autologging import traced, logged, TRACE
+import PyQt5
 
 
 # from PyQt5.QtWinExtras import QWinTaskbarButton
@@ -268,6 +269,11 @@ def main(execpath="."):
 	Log.runosupath = os.path.join(execpath, "Logs", Log.runosupath)
 
 	print(Log.apppath, Log.runosupath)
+
+	qtpath = os.path.dirname(PyQt5.__file__)
+	pluginpath = os.path.join(qtpath, "Qt/plugins")
+	os.environ['QT_QPA_PLATFORM_PLUGIN_PATH'] = pluginpath
+
 
 	App = QApplication(sys.argv)
 	window = Window(App, execpath)
