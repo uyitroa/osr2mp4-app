@@ -3,7 +3,7 @@ import configparser
 import logging
 
 settings_translator = {
-	"CursorSize": "Cursor Size",
+	"CursorSize": "Cursor size",
 	"ShowInterface": "In-game interface",
 	"ScoreboardVisible": "Show scoreboard",
 	"DimLevel": "Background dim",

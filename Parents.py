@@ -227,8 +227,8 @@ class PopupButton(ButtonBrowse):
 			self.main_window.mapsetbutton.browsepath = os.path.join(current_config["osu! path"], "Songs/")
 
 	def set_settings(self, osusettings):
-		logging.info(current_settings)
-		logging.info(osusettings)
+		logging.info(f"current settings {current_settings}")
+		logging.info(f"osu settings {osusettings}")
 		for osukey in osusettings:
 			mykey = settings_translator[osukey]
 			try:
@@ -237,3 +237,5 @@ class PopupButton(ButtonBrowse):
 				setting = osusettings[osukey]
 
 			current_settings[mykey] = setting
+
+		logging.info(f"current settings after set {current_settings}")
