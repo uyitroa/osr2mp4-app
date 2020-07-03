@@ -70,7 +70,6 @@ class Button(QPushButton):
 		self.setIconSize(QtCore.QSize(width, height))
 		self.setGeometry(self.default_x, self.default_y, width, height)
 		self.setFlat(True)
-
 		self.blur_effect = QGraphicsBlurEffect()
 		self.blur_effect.setBlurRadius(0)
 		self.setGraphicsEffect(self.blur_effect)
@@ -173,8 +172,17 @@ class PathImage(Button):
 
 	def setup(self):
 		self.img_idle = self.img_hover = self.img_click = self.img
-
 		super().setup()
+		self.textblur_effect = QGraphicsBlurEffect()
+		self.textblur_effect.setBlurRadius(0)
+		self.text.setGraphicsEffect(self.textblur_effect)
+	
+	def blur_me(self, blur):
+		super().blur_me(blur)
+		if blur:
+			self.textblur_effect.setBlurRadius(10)
+		else:
+			self.textblur_effect.setBlurRadius(0)
 
 	def setText(self, text):
 		# set stylesheet doesnt work for self.text qtoooltip so who cares./. night
