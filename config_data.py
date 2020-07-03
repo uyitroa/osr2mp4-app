@@ -16,7 +16,7 @@ else:
 		"Background dim": 100.0,
 		"Always show key overlay": 1.0,
 		"Automatic cursor size": 0.0,
-		"Score meter size": 1.28,
+		"Score meter size": 1,
 		"Song volume": 100.0,
 		"Effect volume": 85.0,
 		"Ignore beatmap hitsounds": 0.0,
