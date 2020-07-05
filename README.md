@@ -6,7 +6,9 @@
  ![](images/settings.png)
  
  This is actually just the gui version of the converter
- Checkout the actualy converter here: https://github.com/uyitroa/osr2mp4-core
+ 
+ Checkout the actual converter here: https://github.com/uyitroa/osr2mp4-core
+ 
  Sample video: https://www.youtube.com/watch?v=5ugu_9yDSg0
 
  
