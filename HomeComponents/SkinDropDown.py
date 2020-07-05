@@ -1,16 +1,14 @@
 import configparser
 import glob
-import io
 import os
 
 from PyQt5 import QtCore
-from PyQt5.QtGui import QPalette
-from PyQt5.QtWidgets import QComboBox, QAbstractItemView, QGraphicsBlurEffect
+from PyQt5.QtWidgets import QComboBox, QGraphicsBlurEffect
 from autologging import traced, logged
 
 from abspath import abspath
 from config_data import current_config
-from helper import getsize, changesize
+from helper.helper import getsize, changesize
 from PyQt5.QtGui import QColor
 import logging
 

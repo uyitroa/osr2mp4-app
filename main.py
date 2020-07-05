@@ -1,25 +1,25 @@
 import psutil
-from PyQt5.QtWidgets import QMainWindow, QApplication, QSizePolicy
+from PyQt5.QtWidgets import QMainWindow, QApplication
 import os, json, sys, glob, os.path
 
-from UpdateButton import UpdateButton
-from Logo import Logo
-from MapsetButton import MapsetButton
-from OsrButton import OsrButton
-from OutputButton import OutputButton
+from HomeComponents.Buttons.UpdateButton import UpdateButton
+from HomeComponents.Logo import Logo
+from HomeComponents.Buttons.MapsetButton import MapsetButton
+from HomeComponents.Buttons.OsrButton import OsrButton
+from HomeComponents.Buttons.OutputButton import OutputButton
 from Parents import ButtonBrowse, PopupButton
-from PathImage import OsrPath, MapSetPath
-from PopupWindow import PopupWindow, CustomTextWindow
-from SettingsPage import SettingsPage
-from SkinDropDown import SkinDropDown
-from StartButton import StartButton
+from HomeComponents.PathImage import OsrPath, MapSetPath
+from HomeComponents.PopupWindow import PopupWindow, CustomTextWindow
+from SettingComponents.Layouts.SettingsPage import SettingsPage
+from HomeComponents.SkinDropDown import SkinDropDown
+from HomeComponents.Buttons.StartButton import StartButton
 from abspath import abspath, settingspath, configpath, Log
-from osuButton import osuButton
-from find_beatmap import find_beatmap_
+from HomeComponents.Buttons.osuButton import osuButton
+from helper.find_beatmap import find_beatmap_
 from PyQt5 import QtGui, QtCore
 from config_data import current_config, current_settings
-from ProgressBar import ProgressBar
-from Options import Options
+from HomeComponents.ProgressBar import ProgressBar
+from HomeComponents.Options import Options
 import logging
 import traceback
 from autologging import traced, logged, TRACE
@@ -27,8 +27,6 @@ import PyQt5
 
 
 # from PyQt5.QtWinExtras import QWinTaskbarButton
-
-import time
 
 completed_settings = {}
 excl = ("resizeEvent", "keyPressEvent", "mousePressEvent", "delete_popup", "blur_function", "applicationStateChanged", "on_focusChanged")

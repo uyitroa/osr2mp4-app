@@ -2,15 +2,15 @@ import json
 import os
 
 from PyQt5 import QtGui, QtCore
-from PyQt5.QtWidgets import QGraphicsBlurEffect, QPushButton, QFileDialog, QLabel, QToolTip
+from PyQt5.QtWidgets import QGraphicsBlurEffect, QPushButton, QFileDialog, QLabel
 from pathlib import Path
 
 from autologging import traced, logged
 
 from abspath import abspath, configpath
 from config_data import current_config, current_settings
-from helper import getsize, changesize
-from username_parser import get_configInfo, settings_translator
+from helper.helper import getsize, changesize
+from helper.username_parser import get_configInfo, settings_translator
 import logging
 
 

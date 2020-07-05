@@ -1,9 +1,8 @@
 import os
 
-from PyQt5.QtGui import QPainter
-from PyQt5.QtWidgets import QWidget, QHBoxLayout
+from PyQt5.QtWidgets import QWidget
 
-from RangeSlider import QRangeSlider
+from SettingComponents.Components.RangeSlider import QRangeSlider
 from abspath import abspath
 
 

@@ -1,6 +1,4 @@
 from Parents import Button
-from Slider import StartTimeSlider, Map, EndTimeSlider
-from config_data import current_config
 
 
 class Options(Button):

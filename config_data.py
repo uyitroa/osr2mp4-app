@@ -1,6 +1,6 @@
 import json
 import os
-from abspath import abspath, configpath, settingspath
+from abspath import configpath, settingspath
 # import logging
 
 

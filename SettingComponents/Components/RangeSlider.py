@@ -1,9 +1,7 @@
 import os
-import sys
 
 from PyQt5 import QtCore
-from PyQt5.QtCore import QRect
-from PyQt5.QtWidgets import QGridLayout, QSplitter, QGroupBox, QWidget, QHBoxLayout, QApplication
+from PyQt5.QtWidgets import QGridLayout, QSplitter, QGroupBox, QWidget, QHBoxLayout
 
 from abspath import abspath
 

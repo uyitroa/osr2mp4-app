@@ -24,8 +24,8 @@ class UpdateButton(Button):
 
 		self.text = QLabel(self)
 		self.text.setText("Update")
-		self.text.setToolTip("Version Alpha 5")
-		logging.info("Version Alpha 5")
+		self.text.setToolTip("0.0.1a9")
+		logging.info("0.0.1a9")
 
 	def mouseclicked(self):
 		# proc = subprocess.Popen([sys.executable, "updater.py"])

@@ -1,20 +1,19 @@
 import logging
-import os
 
 from PyQt5 import QtWidgets
 from PyQt5 import QtCore
 from autologging import traced, logged
 
-from DoubleSlider import DoubleSlider
-from GridLayout import GridLayout
-from QLabel import Titles, Small_Titles
-from Scrollbar import Scrollbar
-from Separator import Separator
-from Textbox import Big_Textbox, Small_Textbox
-from Slider import Slider, EndTimeSlider, StartTimeSlider
+from SettingComponents.Components.DoubleSlider import DoubleSlider
+from SettingComponents.Layouts.GridLayout import GridLayout
+from SettingComponents.Components.QLabel import Titles, Small_Titles
+from SettingComponents.Components.Scrollbar import Scrollbar
+from SettingComponents.Components.Separator import Separator
+from SettingComponents.Components.Textbox import Big_Textbox, Small_Textbox
+from SettingComponents.Components.Slider import Slider, EndTimeSlider, StartTimeSlider
 import json
-from CheckBox import CheckBox
-from abspath import abspath, optionconfigpath
+from SettingComponents.Components.CheckBox import CheckBox
+from abspath import optionconfigpath
 
 from config_data import current_settings, current_config
 

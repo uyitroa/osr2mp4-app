@@ -1,7 +1,5 @@
-import logging
-
 from Parents import Button
-from ScrollArea import ScrollArea
+from SettingComponents.Layouts.ScrollArea import ScrollArea
 
 
 def get_arearect(settings):
