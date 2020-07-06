@@ -5,13 +5,15 @@
  Settings page:
  ![](images/settings.png)
  
- This is actually just the gui version of the converter
+ This is actually just the gui version of the converter.
  
  Checkout the actual converter here: https://github.com/uyitroa/osr2mp4-core
  
  Sample video: https://www.youtube.com/watch?v=5ugu_9yDSg0
 
+ Special thanks to [-freez](https://osu.ppy.sh/users/9141169) for the big brain design.
  
+
 ### Additional notes
 + Automatically search for the latest replay file in the Replays folder. So you just need to press F2 to export the replay then alt tab to the app.
 + Automatically search for the beatmap. So most of the time you just need to select the replay file.
