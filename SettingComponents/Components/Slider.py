@@ -7,6 +7,7 @@ from osr2mp4.Exceptions import BeatmapNotFound
 from osr2mp4.Utils.HashBeatmap import get_osu
 from osr2mp4.Parser import osuparser
 import osrparse
+from osrparse.enums import Mod
 
 from abspath import abspath
 from config_data import current_config
@@ -133,6 +134,13 @@ class StartTimeSlider(Slider):
 			Map.name = None
 			return
 
+		if Mod.DoubleTime in replay_data.mod_combination or Mod.Nightcore in replay_data.mod_combination:
+			time_frame = 1500
+		elif Mod.HalfTime in replay_data.mod_combination:
+			time_frame = 750
+		else:
+			time_frame = 1000
+
 		laststring = jsondata["data"]["config"]["Beatmap path"][-1]
 		if laststring != "/" and laststring != "\\":
 			jsondata["data"]["config"]["Beatmap path"] += "/"
@@ -149,7 +157,7 @@ class StartTimeSlider(Slider):
 		osudata = osuparser.read_file(mappath, 1, color, False)
 
 		Map.length = osudata.hitobjects[-1]["end time"] - osudata.hitobjects[0]["time"]
-		Map.length /= 1000
+		Map.length /= time_frame
 
 	# @classmethod
 	def updatevalue(self):
