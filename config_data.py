@@ -10,7 +10,11 @@ from osr2mp4.osr2mp4 import defaultsettings
 if os.path.isfile(settingspath):
 	with open(settingspath) as f:
 		current_settings = json.load(f)
-		# logging.info("Current settings is updated to: {}".format(current_settings))
+
+	for key in defaultsettings:
+		if key not in current_settings:
+			current_settings[key] = defaultsettings[key]
+
 else:
 	current_settings = copy(defaultsettings)
 
