@@ -1,7 +1,10 @@
 import json
 import os
+from copy import copy
+
 from abspath import configpath, settingspath
 # import logging
+from osr2mp4.osr2mp4 import defaultsettings
 
 
 if os.path.isfile(settingspath):
@@ -9,24 +12,7 @@ if os.path.isfile(settingspath):
 		current_settings = json.load(f)
 		# logging.info("Current settings is updated to: {}".format(current_settings))
 else:
-	current_settings = {
-		"Cursor size": 1.0,
-		"In-game interface": 1.0,
-		"Show scoreboard": 1.0,
-		"Background dim": 100.0,
-		"Always show key overlay": 1.0,
-		"Automatic cursor size": 0.0,
-		"Score meter size": 1,
-		"Song volume": 100.0,
-		"Effect volume": 85.0,
-		"Ignore beatmap hitsounds": 0.0,
-		"Use skin's sound samples": 1.0,
-		"Global leaderboard": 0,
-		"Mods leaderboard": "*",
-		"api key": "",
-		"Rotate sliderball": 0
-	}
-	# logging.info("Current settings is set to default")
+	current_settings = copy(defaultsettings)
 
 if os.path.isfile(configpath):
 	with open(configpath) as f:

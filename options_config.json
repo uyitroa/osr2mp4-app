@@ -20,6 +20,7 @@
 		"Automatic cursor size": {"type": "CheckBox"},
 		"Score meter size": {"type": "Slider", "min": 0.5, "max": 5, "step": 0.1},
 		"Rotate sliderball": {"type": "CheckBox"},
+		"Enable PP counter": {"type": "CheckBox"},
 		"Global leaderboard": {"type": "CheckBox"},
 		"Mods leaderboard": {"type": "Small_Textbox"},
 		"api key": {"type": "Big_Textbox"}
@@ -31,4 +32,5 @@
 		"Ignore beatmap hitsounds": {"type": "CheckBox"},
 		"Use skin's sound samples": {"type": "CheckBox"}
 	}
+
 }

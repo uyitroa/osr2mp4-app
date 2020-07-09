@@ -56,6 +56,7 @@ def run():
 	fprogress = open(os.path.join(abspath, "progress.txt"), "w")
 	fprogress.write("100")
 	fprogress.close()
+	time.sleep(0.5)
 
 
 if __name__ == "__main__":
@@ -66,3 +67,8 @@ if __name__ == "__main__":
 		ferror = open(os.path.join(abspath, "error.txt"), "w")
 		ferror.write(repr(e) + str(e))
 		ferror.close()
+
+	abspath = os.path.dirname(os.path.abspath(inspect.getsourcefile(Dummy)))
+	fprogress = open(os.path.join(abspath, "progress.txt"), "w")
+	fprogress.write("0")
+	fprogress.close()
