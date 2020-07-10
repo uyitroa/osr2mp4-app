@@ -19,7 +19,7 @@ from helper.find_beatmap import find_beatmap_
 from PyQt5 import QtGui, QtCore
 from config_data import current_config, current_settings
 from HomeComponents.ProgressBar import ProgressBar
-from HomeComponents.Options import Options
+from HomeComponents.Buttons.Options import Options
 import logging
 import traceback
 from autologging import traced, logged, TRACE

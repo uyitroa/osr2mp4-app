@@ -190,6 +190,7 @@ class PathImage(Button):
 		self.setToolTip(text)
 		# text = text[:57]  # commented cause u ask me to remove. i dont like following ur oders
 		self.text.setText(text)
+		self.main_window.settingspage.updatevalue()
 
 	def changesize(self):
 		super().changesize()
