@@ -70,5 +70,5 @@ if __name__ == "__main__":
 
 	abspath = os.path.dirname(os.path.abspath(inspect.getsourcefile(Dummy)))
 	fprogress = open(os.path.join(abspath, "progress.txt"), "w")
-	fprogress.write("0")
+	fprogress.write("done")
 	fprogress.close()

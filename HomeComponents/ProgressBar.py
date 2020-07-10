@@ -35,7 +35,13 @@ QProgressBar::chunk {
 
 	def file_changed(self, path):
 		f = open(path, "r")
-		self.setValue(max(self.value(), float("0" + f.read())))
+		content = f.read()
+		if content == "done":
+			self.hide()
+			self.setValue(0)
+			return
+
+		self.setValue(max(self.value(), float("0" + content)))
 		f.close()
 		if self.value() >= 100:
 			self.hide()
