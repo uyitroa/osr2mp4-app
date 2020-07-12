@@ -174,6 +174,5 @@ def find_beatmap_(replay_path,osu_path):
     try:
         logging.info("Loaded beatmap folder {}".format(beatmap["folder_name"]))
         return beatmap["folder_name"]
-    except TypeError:
-        return ""
-
+    except Exception as e:
+        logging.error(repr(e))

@@ -2,6 +2,7 @@ import os
 
 from Parents import ButtonBrowse
 from config_data import current_config
+import logging
 
 
 class OsrButton(ButtonBrowse):
@@ -27,9 +28,13 @@ class OsrButton(ButtonBrowse):
 			return
 		replay_name = os.path.split(filename)[-1]
 		current_config[".osr path"] = filename
-		self.main_window.osrpath.setText(replay_name)
+		try:
+			self.main_window.osrpath.setText(replay_name)
+		except Exception as e:
+			#print('error {}'.format(e))
+			logging.error(repr(e))
 
 		try:
 			self.main_window.find_latestMap(replay_name)
 		except Exception as e:
-			print(e)
+			logging.error(repr(e))

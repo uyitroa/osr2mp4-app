@@ -207,25 +207,30 @@ class Window(QMainWindow):
 			self.settingspage.settingsarea.scrollArea.hide()
 
 	def find_latestReplay(self):
-		if current_config["osu! path"] != "":
-			path = os.path.join(current_config["osu! path"], "Replays/*.osr")
-			list_of_files = glob.glob(path)
-			if not list_of_files:
-				return
-			replay = max(list_of_files, key=os.path.getctime)
-			if self.prevreplay == replay:
-				return
+		try:
+			if current_config["osu! path"] != "":
+				path = os.path.join(current_config["osu! path"], "Replays/*.osr")
+				list_of_files = glob.glob(path)
+				if not list_of_files:
+					return
+				replay = max(list_of_files, key=os.path.getctime)
+				if self.prevreplay == replay:
+					return
 
-			self.prevreplay = replay
-			replay_name = os.path.split(replay)[-1]
-			self.find_latestMap(replay_name)
-			if replay_name != "":
-				self.osrpath.setText(replay_name)
+				self.prevreplay = replay
+				replay_name = os.path.split(replay)[-1]
+				self.find_latestMap(replay_name)
+				if replay_name != "":
+					self.osrpath.setText(replay_name)
 
-			current_config[".osr path"] = replay
-			logging.info("Updated replay path to: {}".format(replay))
+				current_config[".osr path"] = replay
+				logging.info("Updated replay path to: {}".format(replay))
+		except Exception as e:
+			print("Error: {}".format(e))
+			logging.error(repr(e))
 
 	def find_latestMap(self, replay):
+
 		if current_config["osu! path"] != "":
 			beatmap_path = find_beatmap_(os.path.join(current_config["osu! path"], "Replays", replay), current_config["osu! path"])
 			current_config["Beatmap path"] = os.path.join(current_config["osu! path"], "Songs", beatmap_path)
