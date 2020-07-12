@@ -31,6 +31,10 @@
 		"Effect volume": {"type": "Slider", "min": 0, "max": 100, "step":1},
 		"Ignore beatmap hitsounds": {"type": "CheckBox"},
 		"Use skin's sound samples": {"type": "CheckBox"}
+	},
+
+	"Advanced options": {
+		"Use opencv resize": {"type": "CheckBox"}
 	}
 
 }
