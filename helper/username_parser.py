@@ -1,6 +1,7 @@
 import glob
 import configparser
 import logging
+import os
 
 settings_translator = {
 	"CursorSize": "Cursor size",
@@ -30,7 +31,7 @@ def get_configInfo(path):
 	try:
 		settings_result = {}
 		if path != "":
-			c = glob.glob(path + "/*.cfg")
+			c = glob.glob(os.path.join(path, "osu!.*.cfg"))
 			logging.info(c)
 			if not c:
 				raise Exception
@@ -41,6 +42,7 @@ def get_configInfo(path):
 				settings_result[x] = props[x.lower()]
 		return settings_result
 	except Exception as e:
+		print(repr(e))
 		logging.error(repr(e))
 		return {
 			"CursorSize": 1,

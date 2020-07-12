@@ -12,15 +12,7 @@ from helper.helper import getsize, changesize
 from PyQt5.QtGui import QColor
 import logging
 
-
-def read_properties_file(file_path):
-	with open(file_path, encoding="utf-8") as f:
-
-		config = "[dummy_section]\n#" + f.read().replace('%', '%%')
-		cp = configparser.SafeConfigParser()
-		cp.read_string(config)
-
-		return dict(cp.items('dummy_section'))
+from helper.username_parser import read_properties_file
 
 
 @logged(logging.getLogger(__name__))
@@ -113,7 +105,7 @@ class SkinDropDown(QComboBox):
 
 	def get_configInfo(self, path):
 		if path != "":
-			c = glob.glob(path + "/*.cfg")
+			c = glob.glob(os.path.join(path, "osu!.*.cfg"))
 			logging.info(c)
 			if not c:
 				return
