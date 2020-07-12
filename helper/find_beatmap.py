@@ -171,6 +171,9 @@ def find_beatmap_(replay_path,osu_path):
     osuDb = open(osu_path + '/osu!.db', "rb")
     beatmap = getMapInfo(osuDb.read(), replayfile.beatmap_hash)
     osuDb.close()
-    logging.info("Loaded beatmap folder {}".format(beatmap["folder_name"]))
-    return beatmap["folder_name"]
+    try:
+        logging.info("Loaded beatmap folder {}".format(beatmap["folder_name"]))
+        return beatmap["folder_name"]
+    except TypeError:
+        return ""
 
