@@ -24,10 +24,7 @@ import logging
 import traceback
 from autologging import traced, logged, TRACE
 import PyQt5
-import pkg_resources
-import subprocess as sp
-import io
-from multiprocessing.pool import ThreadPool
+
 
 
 
@@ -80,8 +77,6 @@ class Window(QMainWindow):
 		self.options = Options(self)
 		self.updatebutton = UpdateButton(self)
 
-		pool = ThreadPool(processes=1)
-		async_result = pool.apply_async(self.updatebutton.check_updates)
 
 		# self.setFixedSize(window_width, window_height)
 
