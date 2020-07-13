@@ -35,6 +35,6 @@ class OsrButton(ButtonBrowse):
 			logging.error(repr(e))
 
 		try:
-			self.main_window.find_latestMap(replay_name)
+			self.main_window.find_latestMap(filename)
 		except Exception as e:
 			logging.error(repr(e))

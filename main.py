@@ -219,7 +219,7 @@ class Window(QMainWindow):
 
 				self.prevreplay = replay
 				replay_name = os.path.split(replay)[-1]
-				self.find_latestMap(replay_name)
+				self.find_latestMap(replay)
 				if replay_name != "":
 					self.osrpath.setText(replay_name)
 
@@ -232,7 +232,7 @@ class Window(QMainWindow):
 	def find_latestMap(self, replay):
 
 		if current_config["osu! path"] != "":
-			beatmap_path = find_beatmap_(os.path.join(current_config["osu! path"], "Replays", replay), current_config["osu! path"])
+			beatmap_path = find_beatmap_(replay, current_config["osu! path"])
 			current_config["Beatmap path"] = os.path.join(current_config["osu! path"], "Songs", beatmap_path)
 			if beatmap_path != "":
 				self.mapsetpath.setText(beatmap_path)
