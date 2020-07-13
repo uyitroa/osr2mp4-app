@@ -5,6 +5,9 @@ from PyQt5.QtWidgets import QLabel
 import logging
 from Parents import Button
 
+import pkg_resources
+import subprocess as sp
+import io
 
 class UpdateButton(Button):
 	def __init__(self, parent):
@@ -44,3 +47,20 @@ class UpdateButton(Button):
 		fontsize = scale * self.default_fontsize
 		self.text.setStyleSheet("QLabel{font-size: %ipt; font-weight: bold; color: white; background-color: transparent;}QToolTip { background-color:white;color: black; }" % fontsize)
 		self.text.setGeometry(x, y, self.width(), self.height())
+
+	def check_updates(self):
+		process = sp.Popen(['pip', 'search', 'osr2mp4'], stdout=sp.PIPE)
+		stdout = str(process.communicate()[0]).split(":")
+		for x in range(len(stdout)):
+			if "LATEST" in stdout[x]:
+				latest_version = stdout[x+1]
+				break
+
+		current_version = pkg_resources.get_distribution("osr2mp4").version
+		print("version:", current_version)
+		if current_version == latest_version.strip().split(" ")[0]:
+			print("updated")
+			self.hide()
+		else:
+			print("outdated")
+			

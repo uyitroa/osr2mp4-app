@@ -1,7 +1,7 @@
 import psutil
 from PyQt5.QtWidgets import QMainWindow, QApplication
 import os, json, sys, glob, os.path
-
+import time
 from HomeComponents.Buttons.UpdateButton import UpdateButton
 from HomeComponents.Logo import Logo
 from HomeComponents.Buttons.MapsetButton import MapsetButton
@@ -24,6 +24,11 @@ import logging
 import traceback
 from autologging import traced, logged, TRACE
 import PyQt5
+import pkg_resources
+import subprocess as sp
+import io
+from multiprocessing.pool import ThreadPool
+
 
 
 # from PyQt5.QtWinExtras import QWinTaskbarButton
@@ -32,11 +37,16 @@ completed_settings = {}
 excl = ("resizeEvent", "keyPressEvent", "mousePressEvent", "delete_popup", "blur_function", "applicationStateChanged", "on_focusChanged")
 
 
+
 @logged(logging.getLogger(__name__))
 @traced(*excl, exclude=True)
 class Window(QMainWindow):
 	def __init__(self, App, execpath):
 		super().__init__()
+		import osr2mp4
+
+		start = time.time()
+		
 
 		logging.basicConfig(level=TRACE, filename=Log.apppath, filemode="w", format="%(asctime)s:%(levelname)s:%(name)s:%(funcName)s:%(message)s")
 
@@ -70,6 +80,9 @@ class Window(QMainWindow):
 		self.options = Options(self)
 		self.updatebutton = UpdateButton(self)
 
+		pool = ThreadPool(processes=1)
+		async_result = pool.apply_async(self.updatebutton.check_updates)
+
 		# self.setFixedSize(window_width, window_height)
 
 		logging.info("Loaded Buttons")
@@ -99,7 +112,8 @@ class Window(QMainWindow):
 
 		self.show()
 		self.resize(window_width, window_height)
-
+		end = time.time()
+		print("Time: {}".format(end-start))
 	def on_focusChanged(self):
 		if ButtonBrowse.browsing or PopupButton.browsing:
 			ButtonBrowse.browsing = False
@@ -126,7 +140,6 @@ class Window(QMainWindow):
 	def resizeEvent(self, event):
 		height = self.width() * 9 / 16
 		self.resize(self.width(), height)
-		print("HI")
 		if self.width() < self.minimum_resolution[0] and self.height() < self.minimum_resolution[1]:
 			self.resize(self.previous_resolution[0], self.previous_resolution[1])
 
