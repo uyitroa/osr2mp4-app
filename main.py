@@ -286,9 +286,9 @@ def main(execpath="."):
 	watcher.directoryChanged.connect(window.progressbar.directory_changed)
 	watcher.fileChanged.connect(window.progressbar.file_changed)
 
-	b = open(os.path.join(abspath, "error.txt"), "w")
+	b = open("error.txt", "w")  # remove abspath for temporary fix
 	b.close()
-	errorwatcher = QtCore.QFileSystemWatcher([os.path.join(abspath, 'error.txt')])
+	errorwatcher = QtCore.QFileSystemWatcher(['error.txt'])
 	errorwatcher.directoryChanged.connect(window.customwindow.directory_changed)
 	errorwatcher.fileChanged.connect(window.customwindow.file_changed)
 
