@@ -14,15 +14,16 @@ class Buttons(QPushButton):
 
 		self.default_x = 20
 		self.default_y = 20
-		self.default_width, self.default_height = 1, 1
+		self.default_width, self.default_height = 100, 10
 
 		self.default_fontsize = 1
 
 		self.img_icon = "res/SmallText_HD.png"
 		self.setIcon(QtGui.QIcon(self.img_icon))
 
+		self.text = QLabel(self)
+		self.text.setText(jsondata["key"])
 
-		self.setText(jsondata["key"])
 		'''self.text.setToolTip("0.0.2a3")
 								logging.info("0.0.2a3")
 						'''
@@ -41,7 +42,6 @@ class Buttons(QPushButton):
 		y = scale * self.text_y
 
 		fontsize = scale * self.default_fontsize
-		self.text.setStyleSheet("QLabel{font-size: %ipt; font-weight: bold; color: white; background-color: transparent;}QToolTip { background-color:white;color: black; }" % fontsize)
 		self.text.setGeometry(x, y, self.width(), self.height())
 
 	def setFixedHeight(self, p_int):
@@ -53,8 +53,9 @@ class Small_Buttons(Buttons):
 		super().__init__(jsondata=jsondata)
 		self.default_x = 20
 		self.default_y = 430
-		self.default_width, self.default_height = 50, 10
+		self.default_width, self.default_height = 100, 10
 		
 		self.default_fontsize = 100
 
 		self.setFixedWidth(self.default_width)
+		self.setFixedHeight(self.default_width)

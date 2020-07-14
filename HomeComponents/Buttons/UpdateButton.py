@@ -8,10 +8,14 @@ from Parents import Button
 import pkg_resources
 import subprocess as sp
 import io
+from multiprocessing.pool import ThreadPool
 
 class UpdateButton(Button):
 	def __init__(self, parent):
 		super(UpdateButton, self).__init__(parent)
+
+		pool = ThreadPool(processes=1)
+		async_result = pool.apply_async(self.check_updates)
 
 		self.default_x = 20
 		self.default_y = 430
@@ -23,12 +27,14 @@ class UpdateButton(Button):
 		self.img_idle = "res/SmallText_HD.png"
 		self.img_hover = "res/SmallText_HD.png"
 		self.img_click = "res/SmallText_HD.png"
+		self.osr2mp4_currentVer = pkg_resources.get_distribution("osr2mp4").version
+		self.osr2mp4app_currentVer = pkg_resources.get_distribution("osr2mp4app").version
 		super().setup()
 
 		self.text = QLabel(self)
 		self.text.setText("Update")
-		self.text.setToolTip("0.0.2a3")
-		logging.info("0.0.2a3")
+		self.text.setToolTip("{} | {}".format(self.osr2mp4_currentVer, self.osr2mp4app_currentVer))
+		logging.info("{} | {}".format(self.osr2mp4_currentVer, self.osr2mp4app_currentVer))
 
 	def mouseclicked(self):
 		# proc = subprocess.Popen([sys.executable, "updater.py"])
@@ -50,17 +56,26 @@ class UpdateButton(Button):
 
 	def check_updates(self):
 		process = sp.Popen(['pip', 'search', 'osr2mp4'], stdout=sp.PIPE)
-		stdout = str(process.communicate()[0]).split(":")
-		for x in range(len(stdout)):
-			if "LATEST" in stdout[x]:
-				latest_version = stdout[x+1]
-				break
+		process2 = sp.Popen(['pip', 'search', 'osr2mp4app'], stdout=sp.PIPE)
 
-		current_version = pkg_resources.get_distribution("osr2mp4").version
-		print("version:", current_version)
-		if current_version == latest_version.strip().split(" ")[0]:
+		stdout = str(process.communicate()[0]).split(":")
+		stdout2 = str(process2.communicate()[0]).split(":")
+
+		osr2mp4_latestVer = get_version(stdout)
+		osr2mp4app_latestVer = get_version(stdout2)
+
+
+		print(osr2mp4_latestVer)
+		print(osr2mp4app_latestVer)
+		if self.osr2mp4_currentVer == osr2mp4_latestVer and self.osr2mp4app_currentVer == osr2mp4app_latestVer:
 			print("updated")
 			self.hide()
 		else:
 			print("outdated")
-			
+
+def get_version(stdout):
+	for x in range(len(stdout)):
+		if "LATEST" in stdout[x]:
+			latest_ver = stdout[x+1]
+			break
+	return latest_ver.strip().split(" ")[0]
