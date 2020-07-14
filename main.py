@@ -40,7 +40,11 @@ class Window(QMainWindow):
 
 		logging.basicConfig(level=TRACE, filename=Log.apppath, filemode="w", format="%(asctime)s:%(levelname)s:%(name)s:%(funcName)s:%(message)s")
 
+		apikey = current_settings["api key"]
+		current_settings["api key"] = None  # avoid logging api key
 		logging.info("Current settings is updated to: {}".format(current_settings))
+		current_settings["api key"] = apikey
+
 		logging.info("Current config is updated to: {}".format(current_config))
 
 		self.setFocus()
