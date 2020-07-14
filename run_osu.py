@@ -37,12 +37,12 @@ def run():
 			if converter.writers[i].is_alive():
 				a = True
 			if converter.writers[i].exitcode is not None and converter.writers[i].exitcode != 0:
-				raise ValueError('Problem with video writer')
+				return
 			if converter.drawers[i].exitcode is not None and converter.drawers[i].exitcode != 0:
-				raise ValueError('Problem with video drawer')
+				return
 			if converter.audio is not None:
 				if converter.audio.exitcode is not None and converter.audio.exitcode != 0:
-					raise ValueError('Problem with audio')
+					return
 		if not a:
 			curprogress = 99
 
@@ -64,7 +64,7 @@ if __name__ == "__main__":
 		run()
 	except Exception as e:
 		abspath = os.path.dirname(os.path.abspath(inspect.getsourcefile(Dummy)))
-		ferror = open(os.path.join(abspath, "error.txt"), "w")
+		ferror = open(os.path.join( "error.txt"), "w")
 		ferror.write(repr(e) + str(e))
 		ferror.close()
 

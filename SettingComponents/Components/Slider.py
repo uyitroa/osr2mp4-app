@@ -8,7 +8,7 @@ from osr2mp4.Utils.HashBeatmap import get_osu
 from osr2mp4.Parser import osuparser
 import osrparse
 from osrparse.enums import Mod
-
+import logging
 from abspath import abspath
 from config_data import current_config
 
@@ -128,8 +128,8 @@ class StartTimeSlider(Slider):
 
 		try:
 			replay_data = osrparse.parse_replay_file(jsondata["data"]["config"][".osr path"])
-		except FileNotFoundError:
-			print("replay not specified yet")
+		except Exception as e:
+			logging.error(repr(e))
 			Map.length = 1
 			Map.name = None
 			return

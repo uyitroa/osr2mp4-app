@@ -1,1 +1,7 @@
+autologging
+PyQt5
+psutil
 configparser
+osrparse
+osr2mp4
+Pillow-SIMD
