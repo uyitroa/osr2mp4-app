@@ -118,6 +118,10 @@ Proceed to Configuring and Running PyEnv and osr2mp4 to continue.
 
 ```
 
-6. Now install dependencies for osr2mp4: `pip install -r requirements.txt`.
+6. Now we'll remove some packages and install dependencies for osr2mp4: 
 
-You should now be able to run osr2mp4. Make sure you are in the osr2mp4 file that you cloned from the repo and run `python osr2mp4`. If this returns `No module XXXX` then you need to run `pip install XXXX` and try again.
+```
+pip uninstall PIL Pillow
+pip install -r requirements.txt.
+```
+You should now be able to run osr2mp4. Make sure you are in the osr2mp4 file that you cloned from the repo and run `python main.py`. If this returns `No module XXXX` then you need to run `pip install XXXX` and try again.
