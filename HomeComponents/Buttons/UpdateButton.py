@@ -9,10 +9,15 @@ import pkg_resources
 import subprocess as sp
 import io
 from multiprocessing.pool import ThreadPool
-
+import json
+import sys
+from urllib import request    
+from pkg_resources import parse_version 
 class UpdateButton(Button):
 	def __init__(self, parent):
 		super(UpdateButton, self).__init__(parent)
+		self.osr2mp4_current_ver = pkg_resources.get_distribution("osr2mp4").version
+		self.osr2mp4app_current_ver = pkg_resources.get_distribution("osr2mp4app").version
 
 		pool = ThreadPool(processes=1)
 		async_result = pool.apply_async(self.check_updates)
@@ -27,14 +32,13 @@ class UpdateButton(Button):
 		self.img_idle = "res/SmallText_HD.png"
 		self.img_hover = "res/SmallText_HD.png"
 		self.img_click = "res/SmallText_HD.png"
-		self.osr2mp4_currentVer = pkg_resources.get_distribution("osr2mp4").version
-		self.osr2mp4app_currentVer = pkg_resources.get_distribution("osr2mp4app").version
+
 		super().setup()
 
 		self.text = QLabel(self)
 		self.text.setText("Update")
-		self.text.setToolTip("{} | {}".format(self.osr2mp4_currentVer, self.osr2mp4app_currentVer))
-		logging.info("{} | {}".format(self.osr2mp4_currentVer, self.osr2mp4app_currentVer))
+		self.text.setToolTip("{} | {}".format(self.osr2mp4_current_ver, self.osr2mp4app_current_ver))
+		logging.info("{} | {}".format(self.osr2mp4_current_ver, self.osr2mp4app_current_ver))
 
 	def mouseclicked(self):
 		# proc = subprocess.Popen([sys.executable, "updater.py"])
@@ -55,27 +59,26 @@ class UpdateButton(Button):
 		self.text.setGeometry(x, y, self.width(), self.height())
 
 	def check_updates(self):
-		process = sp.Popen(['pip', 'search', 'osr2mp4'], stdout=sp.PIPE)
-		process2 = sp.Popen(['pip', 'search', 'osr2mp4app'], stdout=sp.PIPE)
+		print("p")
+		osr2mp4_latest_ver = get_version('osr2mp4')
+		print("d")
+		osr2mp4app_latest_ver = get_version('osr2mp4app')
+		print("c")
 
-		stdout = str(process.communicate()[0]).split(":")
-		stdout2 = str(process2.communicate()[0]).split(":")
-
-		osr2mp4_latestVer = get_version(stdout)
-		osr2mp4app_latestVer = get_version(stdout2)
-
-
-		print(osr2mp4_latestVer)
-		print(osr2mp4app_latestVer)
-		if self.osr2mp4_currentVer == osr2mp4_latestVer and self.osr2mp4app_currentVer == osr2mp4app_latestVer:
+		print(osr2mp4_latest_ver[0])
+		print("B")
+		print(osr2mp4app_latest_ver[0])
+		print("A")
+		if self.osr2mp4_current_ver == osr2mp4_latest_ver[0] and self.osr2mp4app_current_ver == osr2mp4app_latest_ver[0]:
 			print("updated")
 			self.hide()
 		else:
 			print("outdated")
 
-def get_version(stdout):
-	for x in range(len(stdout)):
-		if "LATEST" in stdout[x]:
-			latest_ver = stdout[x+1]
-			break
-	return latest_ver.strip().split(" ")[0]
+def get_version(pkg_name):
+	print("Z")
+	url = f'https://pypi.python.org/pypi/{pkg_name}/json'
+	print("Y")
+	releases = json.loads(request.urlopen(url).read())['releases']
+	print("BB")
+	return sorted(releases, key=parse_version, reverse=True)  

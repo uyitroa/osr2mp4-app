@@ -1,7 +1,6 @@
 import psutil
 from PyQt5.QtWidgets import QMainWindow, QApplication
 import os, json, sys, glob, os.path
-import time
 from HomeComponents.Buttons.UpdateButton import UpdateButton
 from HomeComponents.Logo import Logo
 from HomeComponents.Buttons.MapsetButton import MapsetButton
@@ -42,7 +41,6 @@ class Window(QMainWindow):
 		super().__init__()
 		import osr2mp4
 
-		start = time.time()
 		
 
 		logging.basicConfig(level=TRACE, filename=Log.apppath, filemode="w", format="%(asctime)s:%(levelname)s:%(name)s:%(funcName)s:%(message)s")
@@ -107,8 +105,6 @@ class Window(QMainWindow):
 
 		self.show()
 		self.resize(window_width, window_height)
-		end = time.time()
-		print("Time: {}".format(end-start))
 	def on_focusChanged(self):
 		if ButtonBrowse.browsing or PopupButton.browsing:
 			ButtonBrowse.browsing = False
