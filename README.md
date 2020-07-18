@@ -20,6 +20,6 @@
 + To enable global leaderboard, you need to enter the api key in the settings. To get the api key: https://osu.ppy.sh/p/api/
 + If you want to include all mods plays in the leaderboard, put * in the Mods leaderboard textbox. If you want to include only Hidden play, put HD. If you want to include HDHR and HR, put (HD)HR, HR will be a required mod and HD is an optional mod.
 ![](images/mods.png)
-+ Check [here](osr2mp4-app/MacOSLinuxInstall.md) for information on installing in Linux or MacOS
++ Check [here](MacOSLinuxInstall.md) for information on installing in Linux or MacOS
 
 
