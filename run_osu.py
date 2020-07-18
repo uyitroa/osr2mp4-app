@@ -1,14 +1,23 @@
 import inspect
 import os
 import sys
-from osr2mp4.osr2mp4 import Osr2mp4
 import time
 
 
 class Dummy: pass
 
+#
+# def fixpath():
+# 	newpath = ['']
+# 	for i in sys.path:
+# 		if os.path.dirname(sys.executable) in i:
+# 			newpath.append(i)
+# 	print(sys.path, "\n", newpath)
+# 	return newpath
+
 
 def run():
+	from osr2mp4.osr2mp4 import Osr2mp4
 	abspath = os.path.dirname(os.path.abspath(inspect.getsourcefile(Dummy)))
 	execpath = sys.argv[1]
 	logpath = os.path.join(execpath, "Logs/")
@@ -20,8 +29,9 @@ def run():
 	logpath = os.path.join(logpath, "core.log")
 	config = os.path.join(abspath, "config.json")
 	settings = os.path.join(abspath, "settings.json")
+	ppsettings = os.path.join(abspath, "ppsettings.json")
 
-	converter = Osr2mp4(filedata=config, filesettings=settings, logtofile=True, logpath=logpath)
+	converter = Osr2mp4(filedata=config, filesettings=settings, filepp=ppsettings, logtofile=True, logpath=logpath)
 	converter.startall()
 
 	curprogress = 0
@@ -61,6 +71,7 @@ def run():
 
 if __name__ == "__main__":
 	try:
+		# sys.path = fixpath()
 		run()
 	except Exception as e:
 		abspath = os.path.dirname(os.path.abspath(inspect.getsourcefile(Dummy)))

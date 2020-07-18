@@ -2,10 +2,16 @@ import json
 import os
 from copy import copy
 
-from abspath import configpath, settingspath
+from abspath import configpath, settingspath, pppath
 # import logging
-from osr2mp4.osr2mp4 import defaultsettings
+from osr2mp4.osr2mp4 import defaultsettings, defaultppconfig
 
+
+if os.path.isfile(pppath):
+	with open(pppath) as f:
+		current_ppsettings = json.load(f)
+else:
+	current_ppsettings = copy(defaultppconfig)
 
 if os.path.isfile(settingspath):
 	with open(settingspath) as f:
