@@ -60,13 +60,13 @@ class PPTextBox(QPlainTextEdit):
 		width = windowwidth - imagewidth - 10
 		self.setGeometry(imagewidth + 5, 10, width, windowheight * 0.9)
 		self.setPlainText(json.dumps(ppoption, indent=4))
+		self.setStyleSheet("color: (0, 0, 0);")
 
 
 class SaveButton(QPushButton):
 	def __init__(self, parent):
 		super().__init__(parent)
 		self.parent = parent
-		windowwidth = parent.windowwidth
 		windowheight = parent.windowheight
 		imagewidth = parent.ppsample.settings.width
 
@@ -85,9 +85,9 @@ class SaveButton(QPushButton):
 			f.close()
 
 
-class Window(QMainWindow):
-	def __init__(self):
-		super().__init__()
+class PPwindow(QMainWindow):
+	def __init__(self, parent=None):
+		super().__init__(parent)
 		self.setWindowTitle("PP option")
 		self.windowwidth = 1270
 		self.windowheight = 600
@@ -110,5 +110,5 @@ class Window(QMainWindow):
 
 
 app = QApplication([])
-window = Window()
+window = PPwindow()
 app.exec_()
