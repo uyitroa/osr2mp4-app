@@ -13,15 +13,16 @@ import json
 import sys
 from urllib import request    
 from pkg_resources import parse_version 
+import threading
+
 class UpdateButton(Button):
 	def __init__(self, parent):
 		super(UpdateButton, self).__init__(parent)
 		self.osr2mp4_current_ver = pkg_resources.get_distribution("osr2mp4").version
 		self.osr2mp4app_current_ver = pkg_resources.get_distribution("osr2mp4app").version
-
-		pool = ThreadPool(processes=1)
-		async_result = pool.apply_async(self.check_updates)
-
+		x = threading.Thread(target=self.check_updates)
+		x.start()
+		x.join()
 		self.default_x = 20
 		self.default_y = 430
 		self.default_size = 0.5
@@ -59,16 +60,14 @@ class UpdateButton(Button):
 		self.text.setGeometry(x, y, self.width(), self.height())
 
 	def check_updates(self):
-		print("p")
 		osr2mp4_latest_ver = get_version('osr2mp4')
-		print("d")
 		osr2mp4app_latest_ver = get_version('osr2mp4app')
-		print("c")
 
-		print(osr2mp4_latest_ver[0])
-		print("B")
-		print(osr2mp4app_latest_ver[0])
-		print("A")
+		print("Latest Version of osr2mp4: ", osr2mp4_latest_ver[0])
+		print("Latest Version of osr2mp4app: ", osr2mp4app_latest_ver[0])
+
+		print("Current Version of osr2mp4: ", self.osr2mp4_current_ver)
+		print("Current Version of osr2mp4app: ", self.osr2mp4app_current_ver)
 		if self.osr2mp4_current_ver == osr2mp4_latest_ver[0] and self.osr2mp4app_current_ver == osr2mp4app_latest_ver[0]:
 			print("updated")
 			self.hide()
@@ -76,9 +75,6 @@ class UpdateButton(Button):
 			print("outdated")
 
 def get_version(pkg_name):
-	print("Z")
 	url = f'https://pypi.python.org/pypi/{pkg_name}/json'
-	print("Y")
 	releases = json.loads(request.urlopen(url).read())['releases']
-	print("BB")
 	return sorted(releases, key=parse_version, reverse=True)  
