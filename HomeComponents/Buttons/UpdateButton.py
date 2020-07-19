@@ -18,6 +18,7 @@ import threading
 class UpdateButton(Button):
 	def __init__(self, parent):
 		super(UpdateButton, self).__init__(parent)
+		self.main_window = parent
 		self.osr2mp4_current_ver = pkg_resources.get_distribution("osr2mp4").version
 		self.osr2mp4app_current_ver = pkg_resources.get_distribution("osr2mp4app").version
 		x = threading.Thread(target=self.check_updates)
@@ -59,21 +60,30 @@ class UpdateButton(Button):
 		self.text.setGeometry(x, y, self.width(), self.height())
 
 	def check_updates(self):
+		print("motherfucker x1")
 		osr2mp4_latest_ver = get_version('osr2mp4')
+		print("motherfucker x2")
 		osr2mp4app_latest_ver = get_version('osr2mp4app')
-
-		logging.info("Latest Version of osr2mp4: ", osr2mp4_latest_ver[0])
-		logging.info("Latest Version of osr2mp4app: ", osr2mp4app_latest_ver[0])
-		logging.info("Current Version of osr2mp4: ", self.osr2mp4_current_ver)
-		logging.info("Current Version of osr2mp4app: ", self.osr2mp4app_current_ver)
+		print("bitch")
+		'''logging.info("Latest Version of osr2mp4: {}".format(osr2mp4_latest_ver[0]))
+								logging.info("Latest Version of osr2mp4app: {}".format(osr2mp4app_latest_ver[0]))
+								logging.info("Current Version of osr2mp4: {}".format(self.osr2mp4_current_ver))
+								logging.info("Current Version of osr2mp4app: {}".format(self.osr2mp4app_current_ver))'''
 
 		if self.osr2mp4_current_ver == osr2mp4_latest_ver[0] and self.osr2mp4app_current_ver == osr2mp4app_latest_ver[0]:
-			logging.info("Updated!")
+			#logging.info("Updated!")
+			print("Updated")
+			self.hide()
+			self.main_window.options.move(self.main_window.options.x(), self.y())
+			self.main_window.options.shadow.move(self.main_window.options.x(), self.y())
 		else:
-			logging.info("Outdated")
+			print("Outdated")
+			#logging.info("Outdated")
 			self.show()
-
+		print("ass")
 def get_version(pkg_name):
+	print("motherfucker x3")
 	url = f'https://pypi.python.org/pypi/{pkg_name}/json'
 	releases = json.loads(request.urlopen(url).read())['releases']
+	print("Asshole1")
 	return sorted(releases, key=parse_version, reverse=True)  
