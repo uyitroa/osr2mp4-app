@@ -5,6 +5,7 @@ import sys
 from Parents import Button
 from abspath import abspath, configpath, settingspath, Log
 from config_data import current_config, current_settings
+from helper.helper import save, loadname
 
 
 class StartButton(Button):
@@ -24,15 +25,8 @@ class StartButton(Button):
 		super().setup()
 
 	def mouseclicked(self):
-		if os.path.isdir(current_config["Output path"]):
-			current_config["Output path"] = os.path.join(current_config["Output path"], "output.avi")
-
-		with open(configpath, 'w+') as f:
-			json.dump(current_config, f, indent=4)
-			f.close()
-		with open(settingspath, 'w+') as f:
-			json.dump(current_settings, f, indent=4)
-			f.close()
+		filename = loadname(current_config)
+		save(filename)
 
 		if self.proc is None or self.proc.poll() is not None:
 			outputfile = open(Log.runosupath, "w")

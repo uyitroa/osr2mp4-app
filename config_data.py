@@ -6,6 +6,7 @@ from abspath import configpath, settingspath, pppath
 # import logging
 from osr2mp4.osr2mp4 import defaultsettings, defaultppconfig
 
+from helper.helper import loadsettings
 
 if os.path.isfile(pppath):
 	with open(pppath) as f:
@@ -30,7 +31,8 @@ else:
 if os.path.isfile(configpath):
 	with open(configpath) as f:
 		current_config = json.load(f)
-		# logging.info("Current config is updated to: {}".format(current_settings))
+	outputpath = current_config["Output path"]
+
 else:
 	current_config = {
 		"osu! path": "",
@@ -39,6 +41,7 @@ else:
 		".osr path": "",
 		"Default skin path": "",
 		"Output path": "",
+		"Output name": "",
 		"Width": 1280,
 		"Height": 720,
 		"FPS": 60,
@@ -49,3 +52,5 @@ else:
 		"ffmpeg path": "ffmpeg"
 	}
 	# logging.info("Current config is set to default")
+
+loadsettings(current_config, current_settings)

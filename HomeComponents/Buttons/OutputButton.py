@@ -20,7 +20,7 @@ class OutputButton(PopupButton):
 		super().setup()
 
 	def afteropenfile(self, filename):
-		if os.path.isdir(filename):
-			filename = os.path.join(filename, "output.avi")
 		current_config["Output path"] = filename
+		if current_config["Output name"] == "":
+			current_config["Output name"] = "output.avi"
 		super().afteropenfile(filename)

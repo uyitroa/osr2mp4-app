@@ -28,6 +28,7 @@ import PyQt5
 
 
 # from PyQt5.QtWinExtras import QWinTaskbarButton
+from helper.helper import save
 
 completed_settings = {}
 excl = ("resizeEvent", "keyPressEvent", "mousePressEvent", "delete_popup", "blur_function", "applicationStateChanged", "on_focusChanged")
@@ -171,13 +172,7 @@ class Window(QMainWindow):
 			self.settingspage.hide()
 			self.settingspage.settingsarea.scrollArea.hide()
 
-			with open(settingspath, 'w+') as f:
-				json.dump(current_settings, f, indent=4)
-				f.close()
-
-			with open(configpath, 'w+') as f:
-				json.dump(current_config, f, indent=4)
-				f.close()
+			save()
 
 		if self.customwindow.isVisible():
 			self.customwindow.hide()
@@ -203,9 +198,7 @@ class Window(QMainWindow):
 				self.delete_popup()
 				self.popup_bool = False
 
-		with open(settingspath, 'w+') as f:
-			json.dump(current_settings, f, indent=4)
-			f.close()
+		save()
 
 		if not self.popup_bool:
 			self.settingspage.load_settings()

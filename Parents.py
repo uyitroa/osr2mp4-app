@@ -9,7 +9,7 @@ from autologging import traced, logged
 
 from abspath import abspath, configpath
 from config_data import current_config, current_settings
-from helper.helper import getsize, changesize
+from helper.helper import getsize, changesize, save
 from helper.username_parser import get_configInfo, settings_translator
 import logging
 
@@ -145,6 +145,7 @@ class ButtonBrowse(Button):
 	def __init__(self, parent):
 		super(ButtonBrowse, self).__init__(parent)
 		self.browsepath = str(Path.home())
+		self.file_type = ""
 
 	def mouseclicked(self):
 		file_name = ""
@@ -221,9 +222,6 @@ class PopupButton(ButtonBrowse):
 			self.main_window.resizeEvent(True)
 
 			self.main_window.skin_dropdown.get_configInfo(current_config["osu! path"])
-			with open(configpath, 'w+') as f:
-				json.dump(current_config, f, indent=4)
-				f.close()
 			logging.info(configpath)
 
 			self.main_window.settingspage.load_settings()
@@ -231,6 +229,8 @@ class PopupButton(ButtonBrowse):
 			osusettings = get_configInfo(current_config["osu! path"])
 
 			self.set_settings(osusettings)
+
+			save()
 
 			self.main_window.osrbutton.browsepath = os.path.join(current_config["osu! path"], "Replays/")
 			self.main_window.mapsetbutton.browsepath = os.path.join(current_config["osu! path"], "Songs/")
