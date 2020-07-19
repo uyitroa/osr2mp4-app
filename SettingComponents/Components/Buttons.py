@@ -2,6 +2,8 @@ import os
 import sys
 from PyQt5.QtWidgets import QLabel
 
+from Parents import ButtonBrowse
+from SettingComponents.Components.Textbox import Big_Textbox
 from abspath import abspath
 
 
@@ -27,3 +29,21 @@ class UpdateButton(QLabel):
 
 	def updatevalue(self):
 		pass
+
+
+class SettingsBrowse(ButtonBrowse):
+	def __init__(self, parent):
+		super().__init__(parent)
+
+		self.default_x = parent.default_width - 60
+		self.default_y = parent.default_height * 0.5
+		self.default_size = 1
+
+		self.img_idle = "res/Browse.png"
+		self.img_hover = "res/Browse hover.png"
+		self.img_click = "res/Browse click.png"
+
+		super().setup()
+
+	def afteropenfile(self, filename):
+		self.main_window.afteropenfile(filename)

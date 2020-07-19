@@ -1,10 +1,11 @@
 {
 	"Render options": {
-		"osu! path": {"type": "Big_Textbox"},
-		"Output path": {"type": "Big_Textbox"},
+		"osu! path": {"type": "PathBox", "filetype": "Folder"},
+		"Output path": {"type": "PathBox", "filetype": "Folder"},
+		"Output name": {"type": "Big_Textbox"},
 		"Start time": {"type": "StartTimeSlider"},
 		"End time": {"type": "EndTimeSlider"},
-		"Process": {"type": "Small_Textbox"},
+		"Process": {"type": "Small_Textbox", "Column": 1},
 		"Width": {"type": "Small_Textbox", "Column": 1},
 		"Height": {"type": "Small_Textbox", "Column": 1},
 		"FPS": {"type": "Small_Textbox", "Column": 1},
@@ -30,7 +31,8 @@
 		"Song volume": {"type": "Slider", "min": 0, "max": 100, "step": 1},
 		"Effect volume": {"type": "Slider", "min": 0, "max": 100, "step":1},
 		"Ignore beatmap hitsounds": {"type": "CheckBox"},
-		"Use skin's sound samples": {"type": "CheckBox"}
+		"Use skin's sound samples": {"type": "CheckBox"},
+        "Song delay": {"type": "Slider", "min": -1000, "max": 1000, "step": 1}
 	},
 
 	"Maintenance": {

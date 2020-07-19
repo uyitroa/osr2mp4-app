@@ -1,45 +1,39 @@
+import glob
+import logging
+import os
+import os.path
+import sys
+import traceback
+
+import PyQt5
 import psutil
+from PyQt5 import QtGui, QtCore
 from PyQt5.QtWidgets import QMainWindow, QApplication
-import os, json, sys, glob, os.path
-from HomeComponents.Buttons.UpdateButton import UpdateButton
-from HomeComponents.Logo import Logo
+from autologging import TRACE
+
 from HomeComponents.Buttons.MapsetButton import MapsetButton
+from HomeComponents.Buttons.Options import Options
 from HomeComponents.Buttons.OsrButton import OsrButton
 from HomeComponents.Buttons.OutputButton import OutputButton
-from Parents import ButtonBrowse, PopupButton
+from HomeComponents.Buttons.StartButton import StartButton
+from HomeComponents.Buttons.UpdateButton import UpdateButton
+from HomeComponents.Buttons.osuButton import osuButton
+from HomeComponents.Logo import Logo
 from HomeComponents.PathImage import OsrPath, MapSetPath
 from HomeComponents.PopupWindow import PopupWindow, CustomTextWindow
-from SettingComponents.Layouts.SettingsPage import SettingsPage
-from HomeComponents.SkinDropDown import SkinDropDown
-from HomeComponents.Buttons.StartButton import StartButton
-from abspath import abspath, settingspath, configpath, Log
-from HomeComponents.Buttons.osuButton import osuButton
-from helper.find_beatmap import find_beatmap_
-from PyQt5 import QtGui, QtCore
-from config_data import current_config, current_settings
 from HomeComponents.ProgressBar import ProgressBar
-from HomeComponents.Buttons.Options import Options
-import logging
-import traceback
-from autologging import traced, logged, TRACE
-import PyQt5
+from HomeComponents.SkinDropDown import SkinDropDown
+from Parents import ButtonBrowse, PopupButton
+from SettingComponents.Layouts.SettingsPage import SettingsPage
+from abspath import abspath, configpath, Log
+from config_data import current_config, current_settings
+from helper.find_beatmap import find_beatmap_
+from helper.helper import save
 
 
-
-
-# from PyQt5.QtWinExtras import QWinTaskbarButton
-
-completed_settings = {}
-excl = ("resizeEvent", "keyPressEvent", "mousePressEvent", "delete_popup", "blur_function", "applicationStateChanged", "on_focusChanged")
-
-
-
-@logged(logging.getLogger(__name__))
-@traced(*excl, exclude=True)
 class Window(QMainWindow):
 	def __init__(self, App, execpath):
 		super().__init__()
-		
 
 		logging.basicConfig(level=TRACE, filename=Log.apppath, filemode="w", format="%(asctime)s:%(levelname)s:%(name)s:%(funcName)s:%(message)s")
 
@@ -76,9 +70,6 @@ class Window(QMainWindow):
 		self.skin_dropdown = SkinDropDown(self)
 		self.options = Options(self)
 		self.updatebutton = UpdateButton(self)
-
-
-		# self.setFixedSize(window_width, window_height)
 
 		logging.info("Loaded Buttons")
 
@@ -171,13 +162,7 @@ class Window(QMainWindow):
 			self.settingspage.hide()
 			self.settingspage.settingsarea.scrollArea.hide()
 
-			with open(settingspath, 'w+') as f:
-				json.dump(current_settings, f, indent=4)
-				f.close()
-
-			with open(configpath, 'w+') as f:
-				json.dump(current_config, f, indent=4)
-				f.close()
+			save()
 
 		if self.customwindow.isVisible():
 			self.customwindow.hide()
@@ -203,9 +188,7 @@ class Window(QMainWindow):
 				self.delete_popup()
 				self.popup_bool = False
 
-		with open(settingspath, 'w+') as f:
-			json.dump(current_settings, f, indent=4)
-			f.close()
+		save()
 
 		if not self.popup_bool:
 			self.settingspage.load_settings()

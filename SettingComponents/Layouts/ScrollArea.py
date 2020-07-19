@@ -6,6 +6,7 @@ from autologging import traced, logged
 
 from SettingComponents.Components.Buttons import UpdateButton
 from SettingComponents.Components.DoubleSlider import DoubleSlider
+from SettingComponents.Components.Pathbox import PathBox
 from SettingComponents.Layouts.GridLayout import GridLayout
 from SettingComponents.Components.QLabel import Titles, Small_Titles
 from SettingComponents.Components.Scrollbar import Scrollbar
@@ -32,9 +33,10 @@ class ScrollArea(QtWidgets.QScrollArea):
 		self.default_x, self.default_y = 15, 15
 
 		self.widgetlists = {"Big_Textbox": Big_Textbox, "Small_Textbox": Small_Textbox,
-		                    "Titles": Titles, "Small_Titles": Small_Titles,
-		                    "Slider": Slider, "DoubleSlider": DoubleSlider, "StartTimeSlider": StartTimeSlider, "EndTimeSlider": EndTimeSlider,
-		                    "CheckBox": CheckBox, "UpdateButton": UpdateButton}
+							"Titles": Titles, "Small_Titles": Small_Titles,
+							"Slider": Slider, "DoubleSlider": DoubleSlider, "StartTimeSlider": StartTimeSlider,
+							"EndTimeSlider": EndTimeSlider,
+							"CheckBox": CheckBox, "UpdateButton": UpdateButton, "PathBox": PathBox}
 
 		self.layout = QtWidgets.QHBoxLayout(parent)
 		scrollAreaWidgetContents = QtWidgets.QWidget()
