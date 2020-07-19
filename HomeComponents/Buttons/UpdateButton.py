@@ -22,7 +22,6 @@ class UpdateButton(Button):
 		self.osr2mp4app_current_ver = pkg_resources.get_distribution("osr2mp4app").version
 		x = threading.Thread(target=self.check_updates)
 		x.start()
-		x.join()
 		self.default_x = 20
 		self.default_y = 430
 		self.default_size = 0.5
@@ -63,16 +62,16 @@ class UpdateButton(Button):
 		osr2mp4_latest_ver = get_version('osr2mp4')
 		osr2mp4app_latest_ver = get_version('osr2mp4app')
 
-		print("Latest Version of osr2mp4: ", osr2mp4_latest_ver[0])
-		print("Latest Version of osr2mp4app: ", osr2mp4app_latest_ver[0])
+		logging.info("Latest Version of osr2mp4: ", osr2mp4_latest_ver[0])
+		logging.info("Latest Version of osr2mp4app: ", osr2mp4app_latest_ver[0])
+		logging.info("Current Version of osr2mp4: ", self.osr2mp4_current_ver)
+		logging.info("Current Version of osr2mp4app: ", self.osr2mp4app_current_ver)
 
-		print("Current Version of osr2mp4: ", self.osr2mp4_current_ver)
-		print("Current Version of osr2mp4app: ", self.osr2mp4app_current_ver)
 		if self.osr2mp4_current_ver == osr2mp4_latest_ver[0] and self.osr2mp4app_current_ver == osr2mp4app_latest_ver[0]:
-			print("updated")
-			self.hide()
+			logging.info("Updated!")
 		else:
-			print("outdated")
+			logging.info("Outdated")
+			self.show()
 
 def get_version(pkg_name):
 	url = f'https://pypi.python.org/pypi/{pkg_name}/json'

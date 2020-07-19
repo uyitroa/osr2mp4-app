@@ -39,8 +39,6 @@ excl = ("resizeEvent", "keyPressEvent", "mousePressEvent", "delete_popup", "blur
 class Window(QMainWindow):
 	def __init__(self, App, execpath):
 		super().__init__()
-		import osr2mp4
-
 		
 
 		logging.basicConfig(level=TRACE, filename=Log.apppath, filemode="w", format="%(asctime)s:%(levelname)s:%(name)s:%(funcName)s:%(message)s")
