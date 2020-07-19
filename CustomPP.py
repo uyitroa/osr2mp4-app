@@ -80,7 +80,12 @@ class SaveButton(QPushButton):
 		self.setText("Save")
 
 	def mousePressEvent(self, event):
-		ppsettings = json.loads(self.parent.hugetextbox.toPlainText())
+		try:
+			ppsettings = json.loads(self.parent.hugetextbox.toPlainText())
+		except Exception as e:
+			logging.error(repr(e))
+			return
+
 		for k in ppsettings.keys():
 			current_ppsettings[k] = ppsettings[k]
 		self.parent.ppsample.ppcounter.loadsettings(current_ppsettings)
