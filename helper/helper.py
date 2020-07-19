@@ -31,6 +31,7 @@ def changesize(widget):
 def loadname(config):
 	from osr2mp4.osrparse import parse_replay_file
 	import datetime
+	import re
 
 	custom = {}
 	custom["Map"] = os.path.basename(os.path.normpath(config["Beatmap path"]))
@@ -48,6 +49,7 @@ def loadname(config):
 		template = "{" + name + "}"
 		filename = filename.replace(template, custom[name])
 
+	filename = re.sub('[^0-9a-zA-Z.]+', ' ', filename)
 	return filename
 
 
