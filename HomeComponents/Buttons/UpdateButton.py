@@ -24,7 +24,7 @@ class UpdateButton(Button):
 		self.default_x = 20
 		self.default_y = 400
 		self.default_size = 0.5
-		self.text_x = 620
+		self.text_x = 500
 		self.text_y = -10
 		self.default_fontsize = 250
 
@@ -59,15 +59,12 @@ class UpdateButton(Button):
 		self.text.setGeometry(x, y, self.width(), self.height())
 
 	def check_updates(self):
-		print("motherfucker x1")
 		osr2mp4_latest_ver = get_version('osr2mp4')
-		print("motherfucker x2")
 		osr2mp4app_latest_ver = get_version('osr2mp4app')
-		print("bitch")
-		'''logging.info("Latest Version of osr2mp4: {}".format(osr2mp4_latest_ver[0]))
-								logging.info("Latest Version of osr2mp4app: {}".format(osr2mp4app_latest_ver[0]))
-								logging.info("Current Version of osr2mp4: {}".format(self.osr2mp4_current_ver))
-								logging.info("Current Version of osr2mp4app: {}".format(self.osr2mp4app_current_ver))'''
+		logging.info("Latest Version of osr2mp4: {}".format(osr2mp4_latest_ver[0]))
+		logging.info("Latest Version of osr2mp4app: {}".format(osr2mp4app_latest_ver[0]))
+		logging.info("Current Version of osr2mp4: {}".format(self.osr2mp4_current_ver))
+		logging.info("Current Version of osr2mp4app: {}".format(self.osr2mp4app_current_ver))
 
 		if self.osr2mp4_current_ver == osr2mp4_latest_ver[0] and self.osr2mp4app_current_ver == osr2mp4app_latest_ver[0]:
 			print("Updated")
@@ -75,12 +72,9 @@ class UpdateButton(Button):
 		else:
 			print("Outdated")
 			self.show()
-		print("ass")
 
 
 def get_version(pkg_name):
-	print("motherfucker x3")
 	url = f'https://pypi.python.org/pypi/{pkg_name}/json'
 	releases = json.loads(request.urlopen(url).read())['releases']
-	print("Asshole1")
 	return sorted(releases, key=parse_version, reverse=True)
