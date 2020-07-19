@@ -120,10 +120,10 @@ class SkinDropDown(QComboBox):
 				index = x.rfind("/")  # find_lastIndex
 				index2 = x.rfind("\\")
 				if index > index2:
-					self.addItems([x[index + 1:len(x)]])
+					self.addItems([" ".join(x[index + 1:len(x)].split())])
 				else:
-					self.addItems([x[index2 + 1:len(x)]])
-			self.setCurrentIndex(self.findText(name))
+					self.addItems([" ".join(x[index2 + 1:len(x)].split())])
+			self.setCurrentIndex(self.findText(" ".join(name.split())))
 
 	def changesize(self):
 		changesize(self)

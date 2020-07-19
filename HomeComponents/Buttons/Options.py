@@ -6,7 +6,7 @@ class Options(Button):
 		super(Options, self).__init__(parent)
 
 		self.default_x = 20
-		self.default_y = 360
+		self.default_y = 390
 		self.default_size = 3.5
 
 		self.img_idle = "res/Options_Idle.png"

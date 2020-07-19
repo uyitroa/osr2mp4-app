@@ -4,6 +4,7 @@ from PyQt5 import QtWidgets
 from PyQt5 import QtCore
 from autologging import traced, logged
 
+from SettingComponents.Components.Buttons import UpdateButton
 from SettingComponents.Components.DoubleSlider import DoubleSlider
 from SettingComponents.Layouts.GridLayout import GridLayout
 from SettingComponents.Components.QLabel import Titles, Small_Titles
@@ -33,7 +34,7 @@ class ScrollArea(QtWidgets.QScrollArea):
 		self.widgetlists = {"Big_Textbox": Big_Textbox, "Small_Textbox": Small_Textbox,
 		                    "Titles": Titles, "Small_Titles": Small_Titles,
 		                    "Slider": Slider, "DoubleSlider": DoubleSlider, "StartTimeSlider": StartTimeSlider, "EndTimeSlider": EndTimeSlider,
-		                    "CheckBox": CheckBox}
+		                    "CheckBox": CheckBox, "UpdateButton": UpdateButton}
 
 		self.layout = QtWidgets.QHBoxLayout(parent)
 		scrollAreaWidgetContents = QtWidgets.QWidget()
@@ -83,15 +84,12 @@ class ScrollArea(QtWidgets.QScrollArea):
 				jsondata = {"option_config": data[header][key], "data": data_config, "key": key}
 				widget = self.widgetlists[widgetname](jsondata=jsondata)
 
-				if widgetname == "CheckBox":
-					self.gridLayout.smart_addWidget(CheckBox(jsondata=jsondata), column)
+				if widgetname == "CheckBox" or widgetname == "UpdateButton":
+					self.gridLayout.smart_addWidget(widget, column)
 				else:
 					self.gridLayout.smart_addWidget(Small_Titles(key + ":"), column)
 					self.gridLayout.smart_addWidget(widget, column)
 			self.gridLayout.smart_addWidget(Titles(" "), 0)
-
-
-
 
 		self.scrollArea.hide()
 		self.scrollArea.raise_()

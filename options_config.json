@@ -33,8 +33,8 @@
 		"Use skin's sound samples": {"type": "CheckBox"}
 	},
 
-	"Advanced options": {
-		"Use opencv resize": {"type": "CheckBox"}
+	"Maintenance": {
+		"Update": {"type": "UpdateButton"}
 	}
 
 }
