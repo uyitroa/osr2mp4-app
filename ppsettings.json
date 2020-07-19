@@ -1,13 +1,25 @@
 {
-    "x": 1000,
-    "y": 500,
-    "size": 30,
-    "rgb": [
+    "x": 1240,
+    "y": 100,
+    "Size": 25,
+    "Rgb": [
         255,
-        10,
+        255,
         255
     ],
-    "alpha": 1,
-    "Font": "Arial",
-    "gap": 0
+    "Alpha": 1,
+    "Font": "Arial.ttf",
+    "Background": "/usr/local/lib/python3.7/site-packages/osr2mp4/res/pptemplate.png",
+    "Hitresult x": 50,
+    "Hitresult y": 150,
+    "Hitresult Size": 16,
+    "Hitresult Rgb": [
+        255,
+        255,
+        255
+    ],
+    "Hitresult Alpha": 1,
+    "Hitresult Font": "Arial.ttf",
+    "Hitresult Background": "/usr/local/lib/python3.7/site-packages/osr2mp4/res/hitresulttemplate.png",
+    "Hitresult Gap": 50
 }

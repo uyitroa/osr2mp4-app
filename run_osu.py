@@ -30,6 +30,8 @@ def run():
 	config = os.path.join(abspath, "config.json")
 	settings = os.path.join(abspath, "settings.json")
 	ppsettings = os.path.join(abspath, "ppsettings.json")
+	if not os.path.isfile(ppsettings):
+		ppsettings = None
 
 	converter = Osr2mp4(filedata=config, filesettings=settings, filepp=ppsettings, logtofile=True, logpath=logpath)
 	converter.startall()

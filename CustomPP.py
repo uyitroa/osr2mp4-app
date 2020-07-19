@@ -5,22 +5,23 @@ from PIL import Image
 from PyQt5.QtCore import QSize
 from PyQt5.QtGui import QPixmap
 from osr2mp4.ImageProcess.Objects.Scores.PPCounter import PPCounter
+from osr2mp4.ImageProcess.Objects.Scores.HitresultCounter import HitresultCounter
 from osr2mp4.Utils.Resolution import get_screensize
 from osr2mp4.global_var import Settings
 from PyQt5.QtWidgets import QLabel, QMainWindow, QApplication, QPlainTextEdit, QPushButton
 import os
 
-from abspath import pppath
+from abspath import pppath, abspath
 from config_data import current_ppsettings
 
 
 class PPSample:
 	def __init__(self, height, ppsettings):
-		self.background = Image.open("res/pppp.png")
+		self.background = Image.open(os.path.join(abspath, "res/pppp.png"))
 		ratio = self.background.size[0]/self.background.size[1]
 		newwidth = int(height * ratio)
 		self.background = self.background.resize((newwidth, height), Image.ANTIALIAS)
-		self.outputpath = "ppsample.png"
+		self.outputpath = os.path.join(abspath, "ppsample.png")
 
 		settings = Settings()
 		settings.path = os.path.dirname(osr2mp4.__file__) + "/"
@@ -32,12 +33,16 @@ class PPSample:
 		settings.settings["Enable PP counter"] = True
 		settings.ppsettings = ppsettings
 		self.ppcounter = PPCounter(settings)
-		self.ppcounter.set_pp(727.27)
+		self.ppcounter.set(727.27)
+
+		self.hitresultcounter = HitresultCounter(settings)
+		self.hitresultcounter.set({100: 17, 50: 70, 0: 13})
 		self.settings = settings
 
 	def draw(self):
 		background = self.background.copy()
 		self.ppcounter.add_to_frame(background)
+		self.hitresultcounter.add_to_frame(background)
 		background.save(self.outputpath)
 
 
@@ -49,7 +54,6 @@ class PPTextBox(QPlainTextEdit):
 		QPlainTextEdit {
 		 border: 2px solid white;
 		 border-radius: 6px;
-		 color:white;
 		}
 		""")
 
@@ -60,7 +64,6 @@ class PPTextBox(QPlainTextEdit):
 		width = windowwidth - imagewidth - 10
 		self.setGeometry(imagewidth + 5, 10, width, windowheight * 0.9)
 		self.setPlainText(json.dumps(ppoption, indent=4))
-		self.setStyleSheet("color: (0, 0, 0);")
 
 
 class SaveButton(QPushButton):
@@ -79,6 +82,8 @@ class SaveButton(QPushButton):
 			current_ppsettings[k] = ppsettings[k]
 		self.parent.ppsample.ppcounter.loadsettings(current_ppsettings)
 		self.parent.ppsample.ppcounter.loadimg()
+		self.parent.ppsample.hitresultcounter.loadsettings(current_ppsettings)
+		self.parent.ppsample.hitresultcounter.loadimg()
 		self.parent.updatepp()
 		with open(pppath, 'w+') as f:
 			json.dump(current_ppsettings, f, indent=4)

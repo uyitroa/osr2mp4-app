@@ -10,6 +10,9 @@ from osr2mp4.osr2mp4 import defaultsettings, defaultppconfig
 if os.path.isfile(pppath):
 	with open(pppath) as f:
 		current_ppsettings = json.load(f)
+	for key in defaultppconfig:
+		if key not in current_ppsettings:
+			current_ppsettings[key] = defaultppconfig[key]
 else:
 	current_ppsettings = copy(defaultppconfig)
 
