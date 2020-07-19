@@ -1,4 +1,6 @@
 import json
+import sys
+import traceback
 
 import osr2mp4
 from PIL import Image
@@ -10,9 +12,10 @@ from osr2mp4.Utils.Resolution import get_screensize
 from osr2mp4.global_var import Settings
 from PyQt5.QtWidgets import QLabel, QMainWindow, QApplication, QPlainTextEdit, QPushButton
 import os
-
+from osr2mp4.osr2mp4 import defaultppconfig
 from abspath import pppath, abspath
 from config_data import current_ppsettings
+import logging
 
 
 class PPSample:
@@ -90,6 +93,31 @@ class SaveButton(QPushButton):
 			f.close()
 
 
+class Reset(QPushButton):
+	def __init__(self, parent):
+		super().__init__(parent)
+		self.parent = parent
+		windowheight = parent.windowheight
+		imagewidth = parent.ppsample.settings.width
+
+		self.setGeometry(imagewidth + 100, windowheight * 0.92, 100, 50)
+		self.setText("Reset")
+
+	def mousePressEvent(self, event):
+		ppsettings = defaultppconfig
+		for k in ppsettings.keys():
+			current_ppsettings[k] = ppsettings[k]
+		self.parent.ppsample.ppcounter.loadsettings(current_ppsettings)
+		self.parent.ppsample.ppcounter.loadimg()
+		self.parent.ppsample.hitresultcounter.loadsettings(current_ppsettings)
+		self.parent.ppsample.hitresultcounter.loadimg()
+		self.parent.hugetextbox.setPlainText(json.dumps(current_ppsettings, indent=4))
+		self.parent.updatepp()
+		with open(pppath, 'w+') as f:
+			json.dump(current_ppsettings, f, indent=4)
+			f.close()
+
+
 class PPwindow(QMainWindow):
 	def __init__(self, parent=None):
 		super().__init__(parent)
@@ -105,6 +133,7 @@ class PPwindow(QMainWindow):
 
 		self.hugetextbox = PPTextBox(self, current_ppsettings)
 		self.savebutton = SaveButton(self)
+		self.reset = Reset(self)
 
 		self.show()
 
@@ -114,6 +143,24 @@ class PPwindow(QMainWindow):
 		self.label.setPixmap(pixmap)
 
 
-app = QApplication([])
-window = PPwindow()
-app.exec_()
+def excepthook(exc_type, exc_value, exc_tb):
+	tb = "".join(traceback.format_exception(exc_type, exc_value, exc_tb))
+	logging.exception(tb)
+	print(tb)
+	QApplication.quit()
+
+
+def main(execpath="."):
+	sys.excepthook = excepthook
+
+	logpath = os.path.join(execpath, "Logs", "custompp.log")
+	logging.basicConfig(level=logging.DEBUG, filename=logpath, filemode="w",
+	                    format="%(asctime)s:%(levelname)s:%(name)s:%(funcName)s:%(message)s")
+
+	app = QApplication([])
+	window = PPwindow()
+	app.exec_()
+
+
+if __name__ == "__main__":
+	main()
