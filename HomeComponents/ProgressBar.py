@@ -49,15 +49,15 @@ QProgressBar::chunk {
 
 	def hide(self):
 		self.main_window.startbutton.default_y = 370
-		self.main_window.options.default_y = 400
-		self.main_window.updatebutton.default_y = 430
+		self.main_window.options.default_y = 430
+		self.main_window.updatebutton.default_y = 400
 		self.main_window.resizeEvent(True)
 		super().hide()
 
 	def show(self):
 		self.main_window.startbutton.default_y = 330
-		self.main_window.options.default_y = 360
-		self.main_window.updatebutton.default_y = 390
+		self.main_window.options.default_y = 390
+		self.main_window.updatebutton.default_y = 360
 		self.main_window.resizeEvent(True)
 		super().show()
 

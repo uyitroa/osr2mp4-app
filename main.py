@@ -279,7 +279,6 @@ def main(execpath="."):
 	pluginpath = os.path.join(qtpath, "Qt/plugins")
 	os.environ['QT_QPA_PLATFORM_PLUGIN_PATH'] = pluginpath
 
-
 	App = QApplication(sys.argv)
 	window = Window(App, execpath)
 	b = open(os.path.join(abspath, "progress.txt"), "w")

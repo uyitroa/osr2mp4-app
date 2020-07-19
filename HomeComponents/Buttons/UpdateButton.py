@@ -6,14 +6,12 @@ import logging
 from Parents import Button
 
 import pkg_resources
-import subprocess as sp
-import io
-from multiprocessing.pool import ThreadPool
 import json
 import sys
 from urllib import request    
 from pkg_resources import parse_version 
 import threading
+
 
 class UpdateButton(Button):
 	def __init__(self, parent):
@@ -24,9 +22,9 @@ class UpdateButton(Button):
 		x = threading.Thread(target=self.check_updates)
 		x.start()
 		self.default_x = 20
-		self.default_y = 430
+		self.default_y = 400
 		self.default_size = 0.5
-		self.text_x = 500
+		self.text_x = 620
 		self.text_y = -10
 		self.default_fontsize = 250
 
@@ -40,6 +38,7 @@ class UpdateButton(Button):
 		self.text.setText("Update")
 		self.text.setToolTip("{} | {}".format(self.osr2mp4_current_ver, self.osr2mp4app_current_ver))
 		logging.info("{} | {}".format(self.osr2mp4_current_ver, self.osr2mp4app_current_ver))
+		self.hide()
 
 	def mouseclicked(self):
 		# proc = subprocess.Popen([sys.executable, "updater.py"])
@@ -71,19 +70,17 @@ class UpdateButton(Button):
 								logging.info("Current Version of osr2mp4app: {}".format(self.osr2mp4app_current_ver))'''
 
 		if self.osr2mp4_current_ver == osr2mp4_latest_ver[0] and self.osr2mp4app_current_ver == osr2mp4app_latest_ver[0]:
-			#logging.info("Updated!")
 			print("Updated")
 			self.hide()
-			self.main_window.options.move(self.main_window.options.x(), self.y())
-			self.main_window.options.shadow.move(self.main_window.options.x(), self.y())
 		else:
 			print("Outdated")
-			#logging.info("Outdated")
 			self.show()
 		print("ass")
+
+
 def get_version(pkg_name):
 	print("motherfucker x3")
 	url = f'https://pypi.python.org/pypi/{pkg_name}/json'
 	releases = json.loads(request.urlopen(url).read())['releases']
 	print("Asshole1")
-	return sorted(releases, key=parse_version, reverse=True)  
+	return sorted(releases, key=parse_version, reverse=True)
