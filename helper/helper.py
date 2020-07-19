@@ -57,7 +57,7 @@ def save(filename=None):
 	from config_data import current_config, current_settings
 
 	if filename is None:
-		filename = current_config["Output name"]
+		filename = loadname(current_config)
 
 	config = copy(current_config)
 	config["Output path"] = os.path.join(config["Output path"], filename)
