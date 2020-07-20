@@ -36,6 +36,11 @@ class ParentTextbox(QLineEdit):
 	def textChanged(self, p_str):
 		if p_str.isdigit():
 			p_str = int(p_str)
+		else:
+			try:
+				p_str = float(p_str)
+			except ValueError:
+				pass
 		self.current_data[self.key] = p_str
 
 

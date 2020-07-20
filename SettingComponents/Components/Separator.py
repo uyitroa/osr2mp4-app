@@ -7,10 +7,10 @@ from abspath import abspath
 
 
 class Separator(QLabel):
-	def __init__(self):
+	def __init__(self, width=500):
 		super().__init__()
 
-		self.default_width = 500
+		self.default_width = width
 		self.default_height = 10
 		self.img = os.path.join(abspath, "res/Separator.png")
 		self.load(1)

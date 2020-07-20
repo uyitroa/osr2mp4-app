@@ -4,14 +4,14 @@ from PyQt5.QtWidgets import QGridLayout
 
 
 class GridLayout(QGridLayout):
-	def __init__(self, QWidget):
+	def __init__(self, QWidget, vspacing=3, hspacing=100):
 		super().__init__(QWidget)
 		self.maxwidth = 300
 		self.maxheight = 500
 		self.rowcounter = [0]
 		self.headerrow = 0
-		self.vertical_spacing = 3
-		self.horizontal_spacing = 100
+		self.vertical_spacing = vspacing
+		self.horizontal_spacing = hspacing
 		self.setHorizontalSpacing(self.horizontal_spacing)
 		self.setVerticalSpacing(self.vertical_spacing)
 		

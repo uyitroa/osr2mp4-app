@@ -10,20 +10,22 @@ from osr2mp4.ImageProcess.Objects.Scores.PPCounter import PPCounter
 from osr2mp4.ImageProcess.Objects.Scores.HitresultCounter import HitresultCounter
 from osr2mp4.Utils.Resolution import get_screensize
 from osr2mp4.global_var import Settings
-from PyQt5.QtWidgets import QLabel, QMainWindow, QApplication, QPlainTextEdit, QPushButton
+from PyQt5.QtWidgets import QLabel, QMainWindow, QApplication, QMenuBar
 import os
-from osr2mp4.osr2mp4 import defaultppconfig
+
+from PPComponents.Layout import PPLayout
+from PPComponents.Menu import PPMenu
 from abspath import pppath, abspath
 from config_data import current_ppsettings
 import logging
 
 
 class PPSample:
-	def __init__(self, height, ppsettings):
+	def __init__(self, width, ppsettings):
 		self.background = Image.open(os.path.join(abspath, "res/pppp.png"))
-		ratio = self.background.size[0]/self.background.size[1]
-		newwidth = int(height * ratio)
-		self.background = self.background.resize((newwidth, height), Image.ANTIALIAS)
+		ratio = self.background.size[1]/self.background.size[0]
+		newheight = int(width * ratio)
+		self.background = self.background.resize((width, newheight), Image.ANTIALIAS)
 		self.outputpath = os.path.join(abspath, "ppsample.png")
 
 		settings = Settings()
@@ -49,96 +51,28 @@ class PPSample:
 		background.save(self.outputpath)
 
 
-class PPTextBox(QPlainTextEdit):
-	def __init__(self, parent, ppoption):
-		super().__init__(parent)
-
-		self.setStyleSheet("""
-		QPlainTextEdit {
-		 border: 2px solid white;
-		 border-radius: 6px;
-		}
-		""")
-
-		windowwidth = parent.windowwidth
-		windowheight = parent.windowheight
-		imagewidth = parent.ppsample.settings.width
-
-		width = windowwidth - imagewidth - 10
-		self.setGeometry(imagewidth + 5, 10, width, windowheight * 0.9)
-		self.setPlainText(json.dumps(ppoption, indent=4))
-
-
-class SaveButton(QPushButton):
-	def __init__(self, parent):
-		super().__init__(parent)
-		self.parent = parent
-		windowheight = parent.windowheight
-		imagewidth = parent.ppsample.settings.width
-
-		self.setGeometry(imagewidth, windowheight * 0.92, 100, 50)
-		self.setText("Save")
-
-	def mousePressEvent(self, event):
-		try:
-			ppsettings = json.loads(self.parent.hugetextbox.toPlainText())
-		except Exception as e:
-			logging.error(repr(e))
-			return
-
-		for k in ppsettings.keys():
-			current_ppsettings[k] = ppsettings[k]
-		self.parent.ppsample.ppcounter.loadsettings(current_ppsettings)
-		self.parent.ppsample.ppcounter.loadimg()
-		self.parent.ppsample.hitresultcounter.loadsettings(current_ppsettings)
-		self.parent.ppsample.hitresultcounter.loadimg()
-		self.parent.updatepp()
-		with open(pppath, 'w+') as f:
-			json.dump(current_ppsettings, f, indent=4)
-			f.close()
-
-
-class Reset(QPushButton):
-	def __init__(self, parent):
-		super().__init__(parent)
-		self.parent = parent
-		windowheight = parent.windowheight
-		imagewidth = parent.ppsample.settings.width
-
-		self.setGeometry(imagewidth + 100, windowheight * 0.92, 100, 50)
-		self.setText("Reset")
-
-	def mousePressEvent(self, event):
-		ppsettings = defaultppconfig
-		for k in ppsettings.keys():
-			current_ppsettings[k] = ppsettings[k]
-		self.parent.ppsample.ppcounter.loadsettings(current_ppsettings)
-		self.parent.ppsample.ppcounter.loadimg()
-		self.parent.ppsample.hitresultcounter.loadsettings(current_ppsettings)
-		self.parent.ppsample.hitresultcounter.loadimg()
-		self.parent.hugetextbox.setPlainText(json.dumps(current_ppsettings, indent=4))
-		self.parent.updatepp()
-		with open(pppath, 'w+') as f:
-			json.dump(current_ppsettings, f, indent=4)
-			f.close()
-
-
 class PPwindow(QMainWindow):
 	def __init__(self, parent=None):
 		super().__init__(parent)
 		self.setWindowTitle("PP option")
-		self.windowwidth = 1270
-		self.windowheight = 600
+		self.windowwidth = self.default_width = 800
+		self.windowheight = self.default_height = 720
 		self.setFixedSize(QSize(self.windowwidth, self.windowheight))
-		self.ppsample = PPSample(self.windowheight, current_ppsettings)
+		self.ppsample = PPSample(self.windowwidth, current_ppsettings)
+		self.optionpath = os.path.join(os.path.dirname(__file__), "ppoptions_config.json")
+
+		self.label = QLabel(self)
+
+		self.pplayout = PPLayout(self, self)
+		self.pplayout.load_settings(current_ppsettings)
+		# self.savebutton = SaveButton(self)
+		# self.reset = Reset(self)
 
 		self.label = QLabel(self)
 		self.updatepp()
 		self.label.setGeometry(0, 0, self.ppsample.settings.width, self.ppsample.settings.height)
 
-		self.hugetextbox = PPTextBox(self, current_ppsettings)
-		self.savebutton = SaveButton(self)
-		self.reset = Reset(self)
+		self.menu = PPMenu(self)
 
 		self.show()
 
