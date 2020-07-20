@@ -12,8 +12,7 @@ def scale(val, src, dst):
 	"""
 	Scale the given value from the scale of src to the scale of dst.
 	"""
-	return int(((val - src[0]) / float(src[1]-src[0])) * (dst[1]-dst[0]) + dst[0])
-
+	return int(((val - src[0]) / float(src[1] - src[0])) * (dst[1] - dst[0]) + dst[0])
 
 
 class CustomScrolbar(QSlider):
@@ -39,6 +38,7 @@ class CustomScrolbar(QSlider):
 
 		self.setGeometry(self.default_x, self.default_y, self.default_width, self.default_height)
 		self.parent().horizontalScrollBar().hide()
+
 	def setScrollStyle(self):
 		self.setStyleSheet("""
 QSlider::groove:vertical {
@@ -94,7 +94,6 @@ class Scrollbar(QScrollArea):
 		self.setScrollStyle()
 		self.setStyleSheet("background: transparent;border: none;")
 
-
 	def setScrollStyle(self):
 		# scroll_handle = self.fixsize(self.img_handle)
 
@@ -115,16 +114,17 @@ class Scrollbar(QScrollArea):
  """
 		self.verticalScrollBar().setStyleSheet(styleSheet)
 
-
 	def changesize(self):
 		scale = self.main_window.height() / self.main_window.default_height
 		self.customscroll.changesize(scale)
 
 	def wheelEvent(self, QWheelEvent):
+		result = super().wheelEvent(QWheelEvent)
 		try:
 			scrollbar = self.verticalScrollBar()
 
-			val = scale(scrollbar.value(), (scrollbar.minimum(), scrollbar.maximum()), (self.customscroll.maximum(), self.customscroll.minimum()))
+			val = scale(scrollbar.value(), (scrollbar.minimum(), scrollbar.maximum()),
+			            (self.customscroll.maximum(), self.customscroll.minimum()))
 			self.fromscroll = True
 			self.customscroll.setValue(val)
 			self.fromscroll = False
@@ -133,8 +133,7 @@ class Scrollbar(QScrollArea):
 		except ZeroDivisionError as e:
 			pass
 
-		return super().wheelEvent(QWheelEvent)
+		return result
 
 	def mousePressEvent(self, QEvent):
 		self.main_window.clicked_inside = True
-

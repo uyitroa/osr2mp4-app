@@ -1,18 +1,18 @@
-import json
 import sys
 import traceback
 
 import osr2mp4
 from PIL import Image
 from PyQt5.QtCore import QSize
-from PyQt5.QtGui import QPixmap
+from PyQt5.QtGui import QPixmap, QKeySequence
 from osr2mp4.ImageProcess.Objects.Scores.PPCounter import PPCounter
 from osr2mp4.ImageProcess.Objects.Scores.HitresultCounter import HitresultCounter
 from osr2mp4.Utils.Resolution import get_screensize
 from osr2mp4.global_var import Settings
-from PyQt5.QtWidgets import QLabel, QMainWindow, QApplication, QMenuBar
+from PyQt5.QtWidgets import QLabel, QMainWindow, QApplication, QMenuBar, QAction
 import os
 
+from PPComponents.Buttons import SaveButton, Reset
 from PPComponents.Layout import PPLayout
 from PPComponents.Menu import PPMenu
 from abspath import pppath, abspath
@@ -66,19 +66,23 @@ class PPwindow(QMainWindow):
 
 		self.pplayout = PPLayout(self, self)
 		self.pplayout.load_settings(current_ppsettings)
-		# self.savebutton = SaveButton(self)
-		# self.reset = Reset(self)
+		self.savebutton = SaveButton(self)
+		self.reset = Reset(self)
+
+		self.menu = PPMenu(self)
 
 		self.label = QLabel(self)
 		self.updatepp()
 		self.label.setGeometry(0, 0, self.ppsample.settings.width, self.ppsample.settings.height)
 
-		self.menu = PPMenu(self)
-
 		self.show()
 
 	def updatepp(self):
-		self.ppsample.draw()
+		try:
+			self.ppsample.draw()
+		except Exception as e:
+			logging.error(repr(e))
+			return
 		pixmap = QPixmap(self.ppsample.outputpath)
 		self.label.setPixmap(pixmap)
 

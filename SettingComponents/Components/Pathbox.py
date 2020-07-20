@@ -25,6 +25,7 @@ class PathBox(ParentTextbox):
 		print("OK", self.file_type)
 
 	def updatevalue(self):
+		self.setToolTip(str(self.current_data[self.key]))
 		self.setText(str(self.current_data[self.key]))
 
 	def mousePressEvent(self, event):

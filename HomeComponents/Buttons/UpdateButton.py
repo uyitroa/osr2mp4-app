@@ -28,9 +28,9 @@ class UpdateButton(Button):
 		self.text_y = -10
 		self.default_fontsize = 250
 
-		self.img_idle = "res/SmallText_HD.png"
-		self.img_hover = "res/SmallText_HD.png"
-		self.img_click = "res/SmallText_HD.png"
+		self.img_idle = "res/SmallButton.png"
+		self.img_hover = "res/SmallButton hover.png"
+		self.img_click = "res/SmallButton click.png"
 
 		super().setup()
 

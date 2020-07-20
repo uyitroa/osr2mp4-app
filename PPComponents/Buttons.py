@@ -1,63 +1,64 @@
 import json
+import logging
+from copy import copy
 
-from PyQt5.QtWidgets import QPushButton
+from PyQt5.QtWidgets import QPushButton, QLabel
 
+from Parents import Button
+from abspath import pppath
 from config_data import current_ppsettings
 
 
 from osr2mp4.osr2mp4 import defaultppconfig
 
 
-class SaveButton(QPushButton):
+class SaveButton(Button):
 	def __init__(self, parent):
-		super().__init__(parent)
-		self.parent = parent
-		windowheight = parent.windowheight
-		imagewidth = parent.ppsample.settings.width
+		super(SaveButton, self).__init__(parent)
+		self.default_x = parent.windowwidth * 0.75
+		self.default_y = parent.windowheight * 0.85
+		self.default_size = 0.75
+		self.text_x = 40
+		self.text_y = -2
 
-		self.setGeometry(imagewidth, windowheight * 0.92, 100, 50)
-		self.setText("Save")
+		self.img_idle = "res/SmallButton.png"
+		self.img_hover = "res/SmallButton hover.png"
+		self.img_click = "res/SmallButton click.png"
 
-	def mousePressEvent(self, event):
-		try:
-			ppsettings = json.loads(self.parent.hugetextbox.toPlainText())
-		except Exception as e:
-			logging.error(repr(e))
-			return
+		self.text = QLabel(self)
+		self.text.setText("Save")
+		self.text.setStyleSheet("QLabel{color: white; background-color: transparent;}")
+		self.text.setGeometry(self.text_x, self.text_y, self.width(), self.height())
 
-		for k in ppsettings.keys():
-			current_ppsettings[k] = ppsettings[k]
-		self.parent.ppsample.ppcounter.loadsettings(current_ppsettings)
-		self.parent.ppsample.ppcounter.loadimg()
-		self.parent.ppsample.hitresultcounter.loadsettings(current_ppsettings)
-		self.parent.ppsample.hitresultcounter.loadimg()
-		self.parent.updatepp()
-		with open(pppath, 'w+') as f:
-			json.dump(current_ppsettings, f, indent=4)
-			f.close()
+		super().setup()
+
+		self.show()
+
+	def mouseclicked(self):
+		self.main_window.menu.save()
 
 
-class Reset(QPushButton):
+class Reset(Button):
 	def __init__(self, parent):
-		super().__init__(parent)
-		self.parent = parent
-		windowheight = parent.windowheight
-		imagewidth = parent.ppsample.settings.width
+		super(Reset, self).__init__(parent)
+		self.default_x = parent.windowwidth * 0.75
+		self.default_y = parent.windowheight * 0.9
+		self.default_size = 0.75
+		self.text_x = 40
+		self.text_y = -2
 
-		self.setGeometry(imagewidth + 100, windowheight * 0.92, 100, 50)
-		self.setText("Reset")
+		self.img_idle = "res/SmallButton.png"
+		self.img_hover = "res/SmallButton hover.png"
+		self.img_click = "res/SmallButton click.png"
 
-	def mousePressEvent(self, event):
-		ppsettings = defaultppconfig
-		for k in ppsettings.keys():
-			current_ppsettings[k] = ppsettings[k]
-		self.parent.ppsample.ppcounter.loadsettings(current_ppsettings)
-		self.parent.ppsample.ppcounter.loadimg()
-		self.parent.ppsample.hitresultcounter.loadsettings(current_ppsettings)
-		self.parent.ppsample.hitresultcounter.loadimg()
-		self.parent.hugetextbox.setPlainText(json.dumps(current_ppsettings, indent=4))
-		self.parent.updatepp()
-		with open(pppath, 'w+') as f:
-			json.dump(current_ppsettings, f, indent=4)
-			f.close()
+		self.text = QLabel(self)
+		self.text.setText("Reset")
+		self.text.setStyleSheet("QLabel{color: white; background-color: transparent;}")
+		self.text.setGeometry(self.text_x, self.text_y, self.width(), self.height())
 
+		super().setup()
+
+		self.show()
+
+	def mouseclicked(self):
+		self.main_window.menu.reset()
