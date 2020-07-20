@@ -35,14 +35,16 @@ def loadname(config):
 
 	custom = {}
 	custom["Map"] = os.path.basename(os.path.normpath(config["Beatmap path"]))
-	replay = parse_replay_file(config[".osr path"])
-	custom["Player"] = replay.player_name
-	custom["PlayDate"] = str(replay.timestamp)
+	try:
+		replay = parse_replay_file(config[".osr path"])
+		custom["Player"] = replay.player_name
+		custom["PlayDate"] = str(replay.timestamp)
+		p = (300 * replay.number_300s + 100 * replay.number_100s + 50 * replay.number_50s)
+		total = 300 * (replay.number_300s + replay.number_100s + replay.number_50s + replay.misses)
+		custom["Accuracy"] = "{:.2f}".format(p / total * 100)
+	except Exception as e:
+		logging.error(repr(e))
 	custom["Date"] = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-
-	p = (300 * replay.number_300s + 100 * replay.number_100s + 50 * replay.number_50s)
-	total = 300 * (replay.number_300s + replay.number_100s + replay.number_50s + replay.misses)
-	custom["Accuracy"] = "{:.2f}".format(p/total * 100)
 
 	filename = config["Output name"]
 	for name in custom:

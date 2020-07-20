@@ -22,5 +22,5 @@ class OutputButton(PopupButton):
 	def afteropenfile(self, filename):
 		current_config["Output path"] = filename
 		if current_config["Output name"] == "":
-			current_config["Output name"] = "output.avi"
+			current_config["Output name"] = "{Map} played by {Player}.avi"
 		super().afteropenfile(filename)
