@@ -60,6 +60,7 @@ class PPwindow(QMainWindow):
 		self.setFixedSize(QSize(self.windowwidth, self.windowheight))
 		self.ppsample = PPSample(self.windowwidth, current_ppsettings)
 		self.optionpath = os.path.join(os.path.dirname(__file__), "ppoptions_config.json")
+		self.setStyleSheet("background-color: rgb(30, 30, 33);")
 
 		self.label = QLabel(self)
 
