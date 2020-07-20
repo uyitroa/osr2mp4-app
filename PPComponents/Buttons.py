@@ -1,15 +1,6 @@
-import json
-import logging
-from copy import copy
-
-from PyQt5.QtWidgets import QPushButton, QLabel
+from PyQt5.QtWidgets import QLabel
 
 from Parents import Button
-from abspath import pppath
-from config_data import current_ppsettings
-
-
-from osr2mp4.osr2mp4 import defaultppconfig
 
 
 class SaveButton(Button):
@@ -29,6 +20,8 @@ class SaveButton(Button):
 		self.text.setText("Save")
 		self.text.setStyleSheet("QLabel{color: white; background-color: transparent;}")
 		self.text.setGeometry(self.text_x, self.text_y, self.width(), self.height())
+
+		self.setToolTip("Ctrl+S")
 
 		super().setup()
 
@@ -55,6 +48,8 @@ class Reset(Button):
 		self.text.setText("Reset")
 		self.text.setStyleSheet("QLabel{color: white; background-color: transparent;}")
 		self.text.setGeometry(self.text_x, self.text_y, self.width(), self.height())
+
+		self.setToolTip("Ctrl+R")
 
 		super().setup()
 

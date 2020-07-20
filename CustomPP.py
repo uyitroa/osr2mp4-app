@@ -1,21 +1,19 @@
 import sys
 import traceback
-
 import osr2mp4
 from PIL import Image
 from PyQt5.QtCore import QSize
-from PyQt5.QtGui import QPixmap, QKeySequence
+from PyQt5.QtGui import QPixmap
 from osr2mp4.ImageProcess.Objects.Scores.PPCounter import PPCounter
 from osr2mp4.ImageProcess.Objects.Scores.HitresultCounter import HitresultCounter
 from osr2mp4.Utils.Resolution import get_screensize
 from osr2mp4.global_var import Settings
-from PyQt5.QtWidgets import QLabel, QMainWindow, QApplication, QMenuBar, QAction
+from PyQt5.QtWidgets import QLabel, QMainWindow, QApplication
 import os
-
 from PPComponents.Buttons import SaveButton, Reset
 from PPComponents.Layout import PPLayout
 from PPComponents.Menu import PPMenu
-from abspath import pppath, abspath
+from abspath import abspath
 from config_data import current_ppsettings
 import logging
 

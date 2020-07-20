@@ -53,4 +53,4 @@ else:
 	}
 	# logging.info("Current config is set to default")
 
-loadsettings(current_config, current_settings)
+loadsettings(current_config, current_settings, current_ppsettings)
