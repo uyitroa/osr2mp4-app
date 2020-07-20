@@ -21,6 +21,7 @@
 		"Automatic cursor size": {"type": "CheckBox"},
 		"Score meter size": {"type": "Slider", "min": 0.5, "max": 5, "step": 0.1},
 		"Rotate sliderball": {"type": "CheckBox"},
+		"Show mods icon": {"type": "CheckBox"},
 		"Enable PP counter": {"type": "CheckBox"},
 		"Global leaderboard": {"type": "CheckBox"},
 		"Mods leaderboard": {"type": "Small_Textbox"},
