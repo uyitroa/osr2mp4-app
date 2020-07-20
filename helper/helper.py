@@ -70,7 +70,7 @@ def save(filename=None):
 		f.close()
 
 
-def loadsettings(config, settings):
+def loadsettings(config, settings, ppsettings):
 	outputpath = config["Output path"]
 
 	config["Output name"] = config.get("Output name", "{Player} - {Map} {PlayDate} {Accuracy}.mp4")
@@ -79,3 +79,6 @@ def loadsettings(config, settings):
 		config["Output path"] = os.path.basename(outputpath)
 	else:
 		config["Output path"] = os.path.dirname(outputpath)
+
+	ppsettings["Rgb"] = eval(str(ppsettings["Rgb"]))
+	ppsettings["Hitresult Rgb"] = eval(str(ppsettings["Hitresult Rgb"]))
