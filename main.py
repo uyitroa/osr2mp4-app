@@ -110,7 +110,8 @@ class Window(QMainWindow):
 			PopupButton.browsing = False
 			return
 		if self.isActiveWindow():
-			self.check_replay_map()
+			if os.path.isdir(current_config["Beatmap path"]):
+				self.check_replay_map()
 			print("Checking latest map")
 			print("gf's priority is you\n")
 		else:
