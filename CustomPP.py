@@ -1,3 +1,4 @@
+import PyQt5
 import sys
 import traceback
 import osr2mp4
@@ -94,6 +95,10 @@ def excepthook(exc_type, exc_value, exc_tb):
 
 def main(execpath="."):
 	sys.excepthook = excepthook
+
+	qtpath = os.path.dirname(PyQt5.__file__)
+	pluginpath = os.path.join(qtpath, "Qt/plugins")
+	os.environ['QT_QPA_PLATFORM_PLUGIN_PATH'] = pluginpath
 
 	logpath = os.path.join(execpath, "Logs", "custompp.log")
 	logging.basicConfig(level=logging.DEBUG, filename=logpath, filemode="w",

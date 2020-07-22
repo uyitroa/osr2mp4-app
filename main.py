@@ -106,9 +106,6 @@ class Window(QMainWindow):
 		if self.isActiveWindow():
 			self.check_replay_map()
 			print("Checking latest map")
-			print("gf's priority is you\n")
-		else:
-			print("u dont have a gf\n")
 
 	def applicationStateChanged(self, state):
 		if ButtonBrowse.browsing or PopupButton.browsing:
@@ -117,9 +114,6 @@ class Window(QMainWindow):
 			return
 		if state == 4:
 			self.check_replay_map()
-			print("gf's priority is you\n")
-		else:
-			print("u dont have a gf\n")
 
 	def resizeEvent(self, event):
 		height = self.width() * 9 / 16

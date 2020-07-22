@@ -6,7 +6,7 @@ from PyQt5.QtGui import QKeySequence
 from PyQt5.QtWidgets import QMenuBar, QAction
 from abspath import pppath
 from config_data import current_ppsettings
-from osr2mp4.osr2mp4 import defaultppconfig
+from osr2mp4.global_var import defaultppconfig
 
 
 class PPMenu(QMenuBar):

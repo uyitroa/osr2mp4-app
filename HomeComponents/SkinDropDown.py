@@ -109,20 +109,17 @@ class SkinDropDown(QComboBox):
 			logging.info(c)
 			if not c:
 				return
-			cfg = [ x for x in c if "osu!.cfg" not in x ]
+			cfg = [x for x in c if "osu!.cfg" not in x]
 			logging.info(cfg)
 			props = read_properties_file(cfg[0])
 			name = props['skin']
 
 			current_config["Skin path"] = os.path.join(current_config["osu! path"], "Skins", name)
-			skin_list = [f for f in glob.glob(os.path.join(current_config["osu! path"],"Skins/*"), recursive=True)]
+			skin_list = [f for f in glob.glob(os.path.join(current_config["osu! path"], "Skins/*"), recursive=True)]
 			for x in skin_list:
-				index = x.rfind("/")  # find_lastIndex
-				index2 = x.rfind("\\")
-				if index > index2:
-					self.addItems([" ".join(x[index + 1:len(x)].split())])
-				else:
-					self.addItems([" ".join(x[index2 + 1:len(x)].split())])
+				skinname = os.path.basename(x)
+				self.addItems([skinname])
+
 			self.setCurrentIndex(self.findText(" ".join(name.split())))
 
 	def changesize(self):
