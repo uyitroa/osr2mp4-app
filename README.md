@@ -23,3 +23,5 @@
 + Check [here](MacOSLinuxInstall.md) for information on installing in Linux or MacOS
 
 
+### Donations
+ If you like the work I do, you can donate to me via [Paypal](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=XMZPZ9WCD4KRS&source=url)
