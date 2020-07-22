@@ -110,8 +110,7 @@ class Window(QMainWindow):
 			PopupButton.browsing = False
 			return
 		if self.isActiveWindow():
-			if os.path.isdir(current_config["Beatmap path"]):
-				self.check_replay_map()
+			self.check_replay_map()
 			print("Checking latest map")
 			print("gf's priority is you\n")
 		else:
@@ -237,31 +236,34 @@ class Window(QMainWindow):
 
 		if current_config["osu! path"] != "":
 			beatmap_path = find_beatmap_(replay, current_config["osu! path"])
-			if os.path.isdir(os.path.join(current_config["osu! path"], "Songs")):
-				current_config["Beatmap path"] = os.path.join(current_config["osu! path"], "Songs", beatmap_path)
+			default_path = os.path.join(current_config["osu! path"], "Songs")
+			default_path_status = self.beatmap_path_checker(default_path, beatmap_path)
+			if not default_path_status:
+				beatmap_unique_path = self.get_beatmap_path()
+				beatmap_unique_path_status = self.beatmap_path_checker(beatmap_unique_path, beatmap_path)
+
+	def beatmap_path_checker(self, path, beatmap_path):
+		if os.path.isdir(path):
+			if os.path.isdir(os.path.join(path, beatmap_path)):
+				current_config["Beatmap path"] = os.path.join(path, beatmap_path)
 				if beatmap_path != "":
 					self.mapsetpath.setText(beatmap_path)
 					print("press F")
 					logging.info("Updated beatmap path to: {}".format(beatmap_path))
-
-			else:
-				c = glob.glob(os.path.join(current_config["osu! path"], "osu!.*.cfg"))
-				logging.info(c)
-				if not c:
-					return
-				cfg = [ x for x in c if "osu!.cfg" not in x ]
-				logging.info(cfg)
-				props = read_properties_file(cfg[0])
-				beatmap_directory = read_properties_file(cfg[0])
-				beatmap_directory_path =  beatmap_directory["beatmapdirectory"]
-				current_config["Beatmap path"] = os.path.join(beatmap_directory_path, beatmap_path)
-				if beatmap_path != "":
-					self.mapsetpath.setText(beatmap_path)
-					print("press F", current_config["Beatmap path"])
-					logging.info("Updated beatmap path to: {}".format(beatmap_path))
-
-			
-
+			return True
+		return False
+	def get_beatmap_path(self):
+		c = glob.glob(os.path.join(current_config["osu! path"], "osu!.*.cfg"))
+		logging.info(c)
+		if not c:
+			return
+		cfg = [ x for x in c if "osu!.cfg" not in x ]
+		logging.info(cfg)
+		props = read_properties_file(cfg[0])
+		beatmap_directory = read_properties_file(cfg[0])
+		beatmap_directory_path =  beatmap_directory["beatmapdirectory"]
+		return beatmap_directory_path
+						
 	def check_replay_map(self):
 		self.find_latestReplay()
 
