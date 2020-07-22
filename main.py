@@ -1,47 +1,50 @@
-import glob
-import logging
-import os
-import os.path
-import sys
-import traceback
-
-import PyQt5
 import psutil
-from PyQt5 import QtGui, QtCore
 from PyQt5.QtWidgets import QMainWindow, QApplication
-from autologging import TRACE
-
+import os, json, sys, glob, os.path
+from HomeComponents.Buttons.UpdateButton import UpdateButton
+from HomeComponents.Logo import Logo
 from HomeComponents.Buttons.MapsetButton import MapsetButton
-from HomeComponents.Buttons.Options import Options
 from HomeComponents.Buttons.OsrButton import OsrButton
 from HomeComponents.Buttons.OutputButton import OutputButton
-from HomeComponents.Buttons.StartButton import StartButton
-from HomeComponents.Buttons.UpdateButton import UpdateButton
-from HomeComponents.Buttons.osuButton import osuButton
-from HomeComponents.Logo import Logo
+from Parents import ButtonBrowse, PopupButton
 from HomeComponents.PathImage import OsrPath, MapSetPath
 from HomeComponents.PopupWindow import PopupWindow, CustomTextWindow
-from HomeComponents.ProgressBar import ProgressBar
-from HomeComponents.SkinDropDown import SkinDropDown
-from Parents import ButtonBrowse, PopupButton
 from SettingComponents.Layouts.SettingsPage import SettingsPage
-from abspath import abspath, configpath, Log
-from config_data import current_config, current_settings
+from HomeComponents.SkinDropDown import SkinDropDown
+from HomeComponents.Buttons.StartButton import StartButton
+from abspath import abspath, settingspath, configpath, Log
+from HomeComponents.Buttons.osuButton import osuButton
 from helper.find_beatmap import find_beatmap_
-from helper.helper import save
+from PyQt5 import QtGui, QtCore
+from config_data import current_config, current_settings
+from HomeComponents.ProgressBar import ProgressBar
+from HomeComponents.Buttons.Options import Options
+import logging
+import traceback
+from autologging import traced, logged, TRACE
+import PyQt5
+from helper.username_parser import get_configInfo, read_properties_file
 
 
+
+
+# from PyQt5.QtWinExtras import QWinTaskbarButton
+
+completed_settings = {}
+excl = ("resizeEvent", "keyPressEvent", "mousePressEvent", "delete_popup", "blur_function", "applicationStateChanged", "on_focusChanged")
+
+
+
+@logged(logging.getLogger(__name__))
+@traced(*excl, exclude=True)
 class Window(QMainWindow):
 	def __init__(self, App, execpath):
 		super().__init__()
+		
 
 		logging.basicConfig(level=TRACE, filename=Log.apppath, filemode="w", format="%(asctime)s:%(levelname)s:%(name)s:%(funcName)s:%(message)s")
 
-		apikey = current_settings["api key"]
-		current_settings["api key"] = None  # avoid logging api key
 		logging.info("Current settings is updated to: {}".format(current_settings))
-		current_settings["api key"] = apikey
-
 		logging.info("Current config is updated to: {}".format(current_config))
 
 		self.setFocus()
@@ -70,6 +73,9 @@ class Window(QMainWindow):
 		self.skin_dropdown = SkinDropDown(self)
 		self.options = Options(self)
 		self.updatebutton = UpdateButton(self)
+
+
+		# self.setFixedSize(window_width, window_height)
 
 		logging.info("Loaded Buttons")
 
@@ -162,7 +168,13 @@ class Window(QMainWindow):
 			self.settingspage.hide()
 			self.settingspage.settingsarea.scrollArea.hide()
 
-			save()
+			with open(settingspath, 'w+') as f:
+				json.dump(current_settings, f, indent=4)
+				f.close()
+
+			with open(configpath, 'w+') as f:
+				json.dump(current_config, f, indent=4)
+				f.close()
 
 		if self.customwindow.isVisible():
 			self.customwindow.hide()
@@ -188,7 +200,9 @@ class Window(QMainWindow):
 				self.delete_popup()
 				self.popup_bool = False
 
-		save()
+		with open(settingspath, 'w+') as f:
+			json.dump(current_settings, f, indent=4)
+			f.close()
 
 		if not self.popup_bool:
 			self.settingspage.load_settings()
@@ -222,11 +236,30 @@ class Window(QMainWindow):
 
 		if current_config["osu! path"] != "":
 			beatmap_path = find_beatmap_(replay, current_config["osu! path"])
-			current_config["Beatmap path"] = os.path.join(current_config["osu! path"], "Songs", beatmap_path)
-			if beatmap_path != "":
-				self.mapsetpath.setText(beatmap_path)
-				print("press F")
-				logging.info("Updated beatmap path to: {}".format(beatmap_path))
+			if os.path.isdir(os.path.join(current_config["osu! path"], "Songs")):
+				current_config["Beatmap path"] = os.path.join(current_config["osu! path"], "Songs", beatmap_path)
+				if beatmap_path != "":
+					self.mapsetpath.setText(beatmap_path)
+					print("press F")
+					logging.info("Updated beatmap path to: {}".format(beatmap_path))
+
+			else:
+				c = glob.glob(os.path.join(current_config["osu! path"], "osu!.*.cfg"))
+				logging.info(c)
+				if not c:
+					return
+				cfg = [ x for x in c if "osu!.cfg" not in x ]
+				logging.info(cfg)
+				props = read_properties_file(cfg[0])
+				beatmap_directory = read_properties_file(cfg[0])
+				beatmap_directory_path =  beatmap_directory["beatmapdirectory"]
+				current_config["Beatmap path"] = os.path.join(beatmap_directory_path, beatmap_path)
+				if beatmap_path != "":
+					self.mapsetpath.setText(beatmap_path)
+					print("press F", current_config["Beatmap path"])
+					logging.info("Updated beatmap path to: {}".format(beatmap_path))
+
+			
 
 	def check_replay_map(self):
 		self.find_latestReplay()
@@ -265,6 +298,7 @@ def main(execpath="."):
 	qtpath = os.path.dirname(PyQt5.__file__)
 	pluginpath = os.path.join(qtpath, "Qt/plugins")
 	os.environ['QT_QPA_PLATFORM_PLUGIN_PATH'] = pluginpath
+
 
 	App = QApplication(sys.argv)
 	window = Window(App, execpath)
