@@ -1,0 +1,79 @@
+2020-07-24 01:41:38,537:INFO:root:__init__:Current settings is updated to: {'Cursor size': 1, 'In-game interface': True, 'Show scoreboard': True, 'Background dim': 100, 'Rotate sliderball': False, 'Always show key overlay': True, 'Automatic cursor size': False, 'Show mods icon': True, 'Enable PP counter': False, 'Score meter size': 1, 'Song volume': 50, 'Effect volume': 50, 'Ignore beatmap hitsounds': False, "Use skin's sound samples": False, 'Song delay': 0, 'Global leaderboard': False, 'Mods leaderboard': '*', 'api key': None}
+2020-07-24 01:41:38,537:INFO:root:__init__:Current config is updated to: {'osu! path': '', 'Skin path': '', 'Beatmap path': '', '.osr path': '', 'Default skin path': '', 'Output path': '', 'Output name': '', 'Width': 1280, 'Height': 720, 'FPS': 60, 'Start time': 0, 'End time': -1, 'Video codec': 'XVID', 'Process': 2, 'ffmpeg path': 'ffmpeg'}
+2020-07-24 01:41:38,573:INFO:root:getsize:Image loaded: res/B1_Shadow.png
+2020-07-24 01:41:38,582:INFO:root:getsize:Image loaded: res/B1_Idle.png
+2020-07-24 01:41:38,586:INFO:root:getsize:Image loaded: res/B2_Shadow.png
+2020-07-24 01:41:38,595:INFO:root:getsize:Image loaded: res/B2_Idle.png
+2020-07-24 01:41:38,599:INFO:root:getsize:Image loaded: res/Start_Shadow.png
+2020-07-24 01:41:38,608:INFO:root:getsize:Image loaded: res/Start_Idle.png
+2020-07-24 01:41:38,627:INFO:root:getsize:Image loaded: res/OsrLogo_Shadow.png
+2020-07-24 01:41:38,691:INFO:root:getsize:Image loaded: res/OsrLogo.png
+2020-07-24 01:41:38,693:INFO:root:getsize:Image loaded: res/OsrPath_Shadow.png
+2020-07-24 01:41:38,696:INFO:root:getsize:Image loaded: res/OsrPath.png
+2020-07-24 01:41:38,698:INFO:root:getsize:Image loaded: res/MapsetPath_Shadow.png
+2020-07-24 01:41:38,701:INFO:root:getsize:Image loaded: res/MapsetPath.png
+2020-07-24 01:41:38,701:TRACE:HomeComponents.SkinDropDown.SkinDropDown:__init__:CALL *(<__main__.Window object at 0x0FA32808>,) **{}
+2020-07-24 01:41:38,701:TRACE:HomeComponents.SkinDropDown.SkinDropDown:addEmptyItem:CALL *(0,) **{}
+2020-07-24 01:41:38,701:TRACE:HomeComponents.SkinDropDown.SkinDropDown:addItems:CALL *([''],) **{}
+2020-07-24 01:41:38,702:TRACE:HomeComponents.SkinDropDown.SkinDropDown:addItems:RETURN None
+2020-07-24 01:41:38,702:TRACE:HomeComponents.SkinDropDown.SkinDropDown:addEmptyItem:RETURN None
+2020-07-24 01:41:38,702:TRACE:HomeComponents.SkinDropDown.SkinDropDown:addEmptyItem:CALL *(0,) **{}
+2020-07-24 01:41:38,702:TRACE:HomeComponents.SkinDropDown.SkinDropDown:addItems:CALL *([''],) **{}
+2020-07-24 01:41:38,702:TRACE:HomeComponents.SkinDropDown.SkinDropDown:addItems:RETURN None
+2020-07-24 01:41:38,703:TRACE:HomeComponents.SkinDropDown.SkinDropDown:addEmptyItem:RETURN None
+2020-07-24 01:41:38,703:TRACE:HomeComponents.SkinDropDown.SkinDropDown:addItems:CALL *(['Default Skin'],) **{}
+2020-07-24 01:41:38,703:TRACE:HomeComponents.SkinDropDown.SkinDropDown:addItems:RETURN None
+2020-07-24 01:41:38,704:TRACE:HomeComponents.SkinDropDown.SkinDropDown:setup:CALL *() **{}
+2020-07-24 01:41:38,704:INFO:root:getsize:Image loaded: res/Drop_Scale.png
+2020-07-24 01:41:38,724:TRACE:HomeComponents.SkinDropDown.SkinDropDown:setup:RETURN None
+2020-07-24 01:41:38,724:TRACE:HomeComponents.SkinDropDown.SkinDropDown:__init__:RETURN None
+2020-07-24 01:41:38,726:INFO:root:getsize:Image loaded: res/Options_Shadow.png
+2020-07-24 01:41:38,728:INFO:root:getsize:Image loaded: res/Options_Idle.png
+2020-07-24 01:41:38,755:INFO:root:getsize:Image loaded: res/SmallButton.png
+2020-07-24 01:41:38,755:INFO:root:__init__:0.0.4a2 | 0.0.4a3
+2020-07-24 01:41:38,761:INFO:root:getsize:Image loaded: res/CancelButton.png
+2020-07-24 01:41:38,761:INFO:root:__init__:Loaded Buttons
+2020-07-24 01:41:38,786:INFO:root:getsize:Image loaded: res/Window_Shadow.png
+2020-07-24 01:41:38,885:INFO:root:getsize:Image loaded: res/Window.png
+2020-07-24 01:41:38,889:INFO:root:getsize:Image loaded: res/OutputFolder_Idle.png
+2020-07-24 01:41:38,894:INFO:root:getsize:Image loaded: res/osu!Folder_Idle.png
+2020-07-24 01:41:38,986:INFO:root:getsize:Image loaded: res/WindowShadow.png
+2020-07-24 01:41:38,987:INFO:root:__init__:Loaded Popupwindow output button and osu button
+2020-07-24 01:41:39,075:INFO:root:getsize:Image loaded: res/WindowShadow.png
+2020-07-24 01:41:39,076:TRACE:SettingComponents.Layouts.ScrollArea.ScrollArea:__init__:CALL *(<SettingComponents.Layouts.SettingsPage.SettingsPage object at 0x0FA50658>, <__main__.Window object at 0x0FA32808>) **{}
+2020-07-24 01:41:39,077:TRACE:SettingComponents.Layouts.ScrollArea.ScrollArea:__init__:RETURN None
+2020-07-24 01:41:39,077:TRACE:SettingComponents.Layouts.ScrollArea.ScrollArea:load_settings:CALL *() **{}
+2020-07-24 01:41:39,088:ERROR:root:get_maplength:FileNotFoundError(2, 'No such file or directory')
+2020-07-24 01:41:39,336:TRACE:SettingComponents.Layouts.ScrollArea.ScrollArea:load_settings:RETURN None
+2020-07-24 01:41:39,336:INFO:root:__init__:Loaded settings page
+2020-07-24 01:41:39,340:ERROR:root:loadname:FileNotFoundError(2, 'No such file or directory')
+2020-07-24 01:41:40,879:INFO:root:check_updates:Latest Version of osr2mp4: 0.0.4a3
+2020-07-24 01:41:40,879:INFO:root:check_updates:Latest Version of osr2mp4app: 0.0.4a4
+2020-07-24 01:41:40,879:INFO:root:check_updates:Current Version of osr2mp4: 0.0.4a2
+2020-07-24 01:41:40,879:INFO:root:check_updates:Current Version of osr2mp4app: 0.0.4a3
+2020-07-24 01:41:53,175:INFO:root:mouseclicked:Updated: {'osu! path': '', 'Skin path': '', 'Beatmap path': '', '.osr path': '', 'Default skin path': '', 'Output path': '', 'Output name': '', 'Width': 1280, 'Height': 720, 'FPS': 60, 'Start time': 0, 'End time': -1, 'Video codec': 'XVID', 'Process': 2, 'ffmpeg path': 'ffmpeg'}
+2020-07-24 01:41:53,175:TRACE:Parents.PopupButton:afteropenfile:CALL *('D:/Рабочий стол 1/Семкин ВЛадислав/Images',) **{}
+2020-07-24 01:41:53,175:TRACE:Parents.PopupButton:afteropenfile:RETURN None
+2020-07-24 01:41:56,617:INFO:root:mouseclicked:Updated: {'osu! path': 'D:/Рабочий стол 1/Семкин ВЛадислав/Images', 'Skin path': '', 'Beatmap path': '', '.osr path': '', 'Default skin path': '', 'Output path': '', 'Output name': '', 'Width': 1280, 'Height': 720, 'FPS': 60, 'Start time': 0, 'End time': -1, 'Video codec': 'XVID', 'Process': 2, 'ffmpeg path': 'ffmpeg'}
+2020-07-24 01:41:56,617:TRACE:Parents.PopupButton:afteropenfile:CALL *('C:/Users/user/Favorites/Links',) **{}
+2020-07-24 01:41:56,617:INFO:root:afteropenfile:entering output
+2020-07-24 01:41:56,628:TRACE:HomeComponents.SkinDropDown.SkinDropDown:get_configInfo:CALL *('D:/Рабочий стол 1/Семкин ВЛадислав/Images',) **{}
+2020-07-24 01:41:56,629:INFO:root:get_configInfo:[]
+2020-07-24 01:41:56,629:TRACE:HomeComponents.SkinDropDown.SkinDropDown:get_configInfo:RETURN None
+2020-07-24 01:41:56,629:INFO:root:afteropenfile:config.json
+2020-07-24 01:41:56,629:TRACE:SettingComponents.Layouts.ScrollArea.ScrollArea:load_settings:CALL *() **{}
+2020-07-24 01:41:56,629:TRACE:SettingComponents.Layouts.ScrollArea.ScrollArea:load_settings:RETURN None
+2020-07-24 01:41:56,629:INFO:root:get_configInfo:[]
+2020-07-24 01:41:56,630:ERROR:root:get_configInfo:Exception()
+2020-07-24 01:41:56,630:TRACE:Parents.PopupButton:set_settings:CALL *({'CursorSize': 1, 'ShowInterface': 1, 'ScoreboardVisible': 1, 'DimLevel': 100.0, 'KeyOverlay': 1, 'AutomaticCursorSizing': 0, 'ScoreMeterScale': 1, 'VolumeMusic': 100, 'VolumeEffect': 100, 'IgnoreBeatmapSamples': 0, 'SkinSamples': 1},) **{}
+2020-07-24 01:41:56,630:INFO:root:set_settings:current settings {'Cursor size': 1.0, 'In-game interface': True, 'Show scoreboard': True, 'Background dim': 100.0, 'Rotate sliderball': False, 'Always show key overlay': True, 'Automatic cursor size': False, 'Show mods icon': True, 'Enable PP counter': False, 'Score meter size': 1.0, 'Song volume': 50.0, 'Effect volume': 50.0, 'Ignore beatmap hitsounds': False, "Use skin's sound samples": False, 'Song delay': 0, 'Global leaderboard': False, 'Mods leaderboard': '*', 'api key': 'lol'}
+2020-07-24 01:41:56,630:INFO:root:set_settings:osu settings {'CursorSize': 1, 'ShowInterface': 1, 'ScoreboardVisible': 1, 'DimLevel': 100.0, 'KeyOverlay': 1, 'AutomaticCursorSizing': 0, 'ScoreMeterScale': 1, 'VolumeMusic': 100, 'VolumeEffect': 100, 'IgnoreBeatmapSamples': 0, 'SkinSamples': 1}
+2020-07-24 01:41:56,630:INFO:root:set_settings:current settings after set {'Cursor size': 1.0, 'In-game interface': 1.0, 'Show scoreboard': 1.0, 'Background dim': 100.0, 'Rotate sliderball': False, 'Always show key overlay': 1.0, 'Automatic cursor size': 0.0, 'Show mods icon': True, 'Enable PP counter': False, 'Score meter size': 1.0, 'Song volume': 100.0, 'Effect volume': 100.0, 'Ignore beatmap hitsounds': 0.0, "Use skin's sound samples": 1.0, 'Song delay': 0, 'Global leaderboard': False, 'Mods leaderboard': '*', 'api key': 'lol'}
+2020-07-24 01:41:56,630:TRACE:Parents.PopupButton:set_settings:RETURN None
+2020-07-24 01:41:56,631:ERROR:root:loadname:FileNotFoundError(2, 'No such file or directory')
+2020-07-24 01:41:56,632:TRACE:Parents.PopupButton:afteropenfile:RETURN None
+2020-07-24 01:41:58,092:ERROR:root:loadname:FileNotFoundError(2, 'No such file or directory')
+2020-07-24 01:41:59,396:ERROR:root:loadname:FileNotFoundError(2, 'No such file or directory')
+2020-07-24 01:42:00,378:ERROR:root:loadname:FileNotFoundError(2, 'No such file or directory')
+2020-07-24 01:42:01,192:ERROR:root:loadname:FileNotFoundError(2, 'No such file or directory')
+2020-07-24 01:42:01,924:ERROR:root:loadname:FileNotFoundError(2, 'No such file or directory')

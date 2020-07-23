@@ -1,0 +1,17 @@
+{
+    "osu! path": "D:/\u0420\u0430\u0431\u043e\u0447\u0438\u0439 \u0441\u0442\u043e\u043b 1/\u0421\u0435\u043c\u043a\u0438\u043d \u0412\u041b\u0430\u0434\u0438\u0441\u043b\u0430\u0432/Images",
+    "Skin path": "",
+    "Beatmap path": "",
+    ".osr path": "",
+    "Default skin path": "",
+    "Output path": "C:/Users/user/Favorites/Links/. played by Player .avi",
+    "Output name": "{Map} played by {Player}.avi",
+    "Width": 1280,
+    "Height": 720,
+    "FPS": 60,
+    "Start time": 0,
+    "End time": -1,
+    "Video codec": "XVID",
+    "Process": 2,
+    "ffmpeg path": "ffmpeg"
+}
