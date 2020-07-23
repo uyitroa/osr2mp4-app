@@ -1,0 +1,45 @@
+2020-07-23 00:05:32,382:INFO:osr2mp4.osr2mp4.Osr2mp4:__init__:test
+2020-07-23 00:05:32,465:TRACE:osr2mp4.Utils.Setup:setupglobals:CALL *({'osu! path': 'C:/Users/user/AppData/Local/osu!', 'Skin path': 'C:/Users/user/AppData/Local/osu!/Skins/Default Skin', 'Beatmap path': 'C:/Users/user/AppData/Local/osu!/Songs/456524 Suzuki Konomi - Redo/', '.osr path': 'C:/Users/user/AppData/Local/osu!/Replays/- Kataomoi - - Suzuki Konomi - Redo [ReStart] (2019-08-25) Osu.osr', 'Default skin path': '', 'Output path': 'E:/fdfd/456524 Suzuki Konomi Redo played by Kataomoi .avi', 'Output name': '{Map} played by {Player}.avi', 'Width': 1280, 'Height': 720, 'FPS': 60, 'Start time': 0.0, 'End time': -1, 'Video codec': 'XVID', 'Process': 2, 'ffmpeg path': 'ffmpeg'}, {'Cursor size': 0.5, 'In-game interface': 1.0, 'Show scoreboard': False, 'Background dim': 30.0, 'Rotate sliderball': False, 'Always show key overlay': False, 'Automatic cursor size': 0.0, 'Show mods icon': True, 'Enable PP counter': False, 'Score meter size': 1.0, 'Song volume': 0.0, 'Effect volume': 100.0, 'Ignore beatmap hitsounds': 0.0, "Use skin's sound samples": True, 'Song delay': 0, 'Global leaderboard': False, 'Mods leaderboard': '*', 'api key': None}, <osr2mp4.osrparse.replay.Replay object at 0x0000000012D04C88>, <osr2mp4.global_var.Settings object at 0x0000000012CFBC48>) **{'ppsettings': {'x': 1320, 'y': 725, 'Size': 25, 'Rgb': [255, 255, 255], 'Alpha': 1, 'Font': 'arial.ttf', 'Background': 'D:\\Рабочий стол 1\\Владик\\Python\\osr2mp4\\osr2mp4win642323\\osr2mp4\\libs\\pythonlib\\lib\\site-packages\\osr2mp4\\res/pptemplate.png', 'Hitresult x': 50, 'Hitresult y': 150, 'Hitresult Size': 16, 'Hitresult Rgb': [255, 255, 255], 'Hitresult Alpha': 1, 'Hitresult Font': 'arial.ttf', 'Hitresult Background': 'D:\\Рабочий стол 1\\Владик\\Python\\osr2mp4\\osr2mp4win642323\\osr2mp4\\libs\\pythonlib\\lib\\site-packages\\osr2mp4\\res/hitresulttemplate.png', 'Hitresult Gap': 50}}
+2020-07-23 00:05:32,466:TRACE:root:read:{'Name': 'osu! Default Skin Template', 'Author': 'Developers', 'SliderBallFlip': '0', 'CursorRotate': '1', 'CursorExpand': '1', 'CursorCentre': '1', 'SliderBallFrames': '10', 'HitCircleOverlayAboveNumber': '1', 'LayeredHitSounds': '1', 'SpinnerFadePlayfield': '1', 'SpinnerNoBlink': '0', 'AnimationFramerate': '-1', 'AllowSliderBallTint': '0', 'CursorTrailRotate': '0', 'CustomComboBurstSounds': '30,60,90,120,240,480', 'ComboBurstRandom': '0', 'SliderStyle': '2', 'Version': '2'}
+2020-07-23 00:05:32,467:TRACE:root:read:{'Combo1': '255,192,0', 'Combo2': '0,202,0', 'Combo3': '18,124,255', 'Combo4': '242,24,57', 'MenuGlow': '60,60,60', 'SliderBorder': '255,255,255', 'SpinnerApproachCircle': '77,139,217', 'SongSelectActiveText': '0,0,0', 'SongSelectInactiveText': '255,255,255', 'StarBreakAdditive': '255,182,193'}
+2020-07-23 00:05:32,467:TRACE:root:read:{'HitCirclePrefix': 'default', 'HitCircleOverlap': '-2', 'ScorePrefix': 'score', 'ScoreOverlap': '0'}
+2020-07-23 00:05:32,467:TRACE:osr2mp4.Utils.Setup:setupglobals:RETURN None
+2020-07-23 00:05:32,467:TRACE:osr2mp4.Utils.HashBeatmap:get_osu:CALL *('C:/Users/user/AppData/Local/osu!/Songs/456524 Suzuki Konomi - Redo/', '227d0a51ef74f74ad204123b398b2f5b') **{}
+2020-07-23 00:05:32,546:TRACE:osr2mp4.Utils.HashBeatmap:get_osu:RETURN 'C:/Users/user/AppData/Local/osu!/Songs/456524 Suzuki Konomi - Redo/Suzuki Konomi - Redo (Kalibe) [ReStart].osu'
+2020-07-23 00:05:33,176:TRACE:root:__init__:Settings vars {'skin_path': 'C:/Users/user/AppData/Local/osu!/Skins/Default Skin/', 'default_path': '..\\..\\osr2mp4\\libs\\pythonlib\\lib\\site-packages\\osr2mp4/res/default/', 'skin_ini': <osr2mp4.Parser.skinparser.Skin object at 0x0000000011F2A7C8>, 'default_skin_ini': <osr2mp4.Parser.skinparser.Skin object at 0x0000000011F2A7C8>, 'format': '.png', 'x2': '@2x', 'ffmpeg': 'ffmpeg', 'output': 'E:/fdfd/456524 Suzuki Konomi Redo played by Kataomoi .avi', 'beatmap': 'C:/Users/user/AppData/Local/osu!/Songs/456524 Suzuki Konomi - Redo/', 'osu': 'C:/Users/user/AppData/Local/osu!/', 'path': '..\\..\\osr2mp4\\libs\\pythonlib\\lib\\site-packages\\osr2mp4/', 'temp': '..\\..\\osr2mp4\\libs\\pythonlib\\lib\\site-packages\\osr2mp4/ef0fd21c-cc45-11ea-8667-f80f4115cc49temp/', 'width': 1280, 'height': 720, 'fps': 60, 'scale': 0.9375, 'playfieldscale': 1.453857421875, 'playfieldwidth': 744.375, 'playfieldheight': 558.28125, 'movedown': 85, 'moveright': 255, 'timeframe': 1000, 'settings': {'Cursor size': 0.5, 'In-game interface': 1.0, 'Show scoreboard': False, 'Background dim': 30.0, 'Rotate sliderball': False, 'Always show key overlay': False, 'Automatic cursor size': 0.0, 'Show mods icon': True, 'Enable PP counter': False, 'Score meter size': 1.0, 'Song volume': 0.0, 'Effect volume': 100.0, 'Ignore beatmap hitsounds': 0.0, "Use skin's sound samples": True, 'Song delay': 0, 'Global leaderboard': False, 'Mods leaderboard': '*', 'api key': None}, 'ppsettings': {'x': 1320, 'y': 725, 'Size': 25, 'Rgb': [255, 255, 255], 'Alpha': 1, 'Font': 'arial.ttf', 'Background': 'D:\\Рабочий стол 1\\Владик\\Python\\osr2mp4\\osr2mp4win642323\\osr2mp4\\libs\\pythonlib\\lib\\site-packages\\osr2mp4\\res/pptemplate.png', 'Hitresult x': 50, 'Hitresult y': 150, 'Hitresult Size': 16, 'Hitresult Rgb': [255, 255, 255], 'Hitresult Alpha': 1, 'Hitresult Font': 'arial.ttf', 'Hitresult Background': 'D:\\Рабочий стол 1\\Владик\\Python\\osr2mp4\\osr2mp4win642323\\osr2mp4\\libs\\pythonlib\\lib\\site-packages\\osr2mp4\\res/hitresulttemplate.png', 'Hitresult Gap': 50}, 'codec': 'XVID', 'process': 2, 'enablelog': True}
+2020-07-23 00:05:33,176:TRACE:osr2mp4.osr2mp4.Osr2mp4:startall:CALL *() **{}
+2020-07-23 00:05:33,177:TRACE:osr2mp4.osr2mp4.Osr2mp4:analyse_replay:CALL *() **{}
+2020-07-23 00:05:33,517:TRACE:root:__init__:Diff {'CircleSize': 5.2, 'OverallDifficulty': 10, 'HPDrainRate': 9.1, 'BaseHPDrainRate': 6.5, 'BaseCircleSize': 4.0, 'BaseOverallDifficulty': 9.0, 'ApproachRate': 10, 'BaseApproachRate': 9.3, 'SliderMultiplier': 1.5, 'BaseSliderMultiplier': 1.5, 'SliderTickRate': 1.0, 'BaseSliderTickRate': 1.0}
+2020-07-23 00:05:33,548:DEBUG:root:checkmain:Start check
+2020-07-23 00:05:34,198:DEBUG:root:checkmain:check done
+2020-07-23 00:05:34,199:TRACE:root:checkmain:RETURN Info(time=254537, combo=1522, combostatus=1, showscore=56389590, score=56389590, accuracy={300: 1080, 100: 5, 50: 1, 0: 0}, clicks=[952, 139, 0, 0], hitresult=300, timestamp=254528, id=1085, hp=0.903442258232116, maxcombo=1522, more=Circle(state=<States.FADEOUT: 2>, deltat=9, followstate=False, sliderhead=False, x=208.0, y=314.0))
+2020-07-23 00:05:34,199:TRACE:osr2mp4.osr2mp4.Osr2mp4:analyse_replay:RETURN None
+2020-07-23 00:05:34,199:TRACE:osr2mp4.osr2mp4.Osr2mp4:startvideo:CALL *() **{}
+2020-07-23 00:05:34,199:DEBUG:root:create_frame:entering preparedframes
+2020-07-23 00:05:34,201:DEBUG:root:__init__:start preparing cursor
+2020-07-23 00:05:34,214:DEBUG:root:__init__:start preparing cursormiddle
+2020-07-23 00:05:34,214:DEBUG:root:__init__:start preparing cursortrail
+2020-07-23 00:05:34,216:DEBUG:root:__init__:start preparing scorenetry
+2020-07-23 00:05:34,245:DEBUG:root:__init__:start preparing scorenumber
+2020-07-23 00:05:34,271:DEBUG:root:__init__:start preparing accuracy
+2020-07-23 00:05:34,377:DEBUG:root:__init__:start preparing circle
+2020-07-23 00:05:34,513:DEBUG:root:__init__:start preparing background
+2020-07-23 00:05:34,694:DEBUG:root:__init__:start preparing sections
+2020-07-23 00:05:34,717:DEBUG:root:__init__:start preparing scoreboard
+2020-07-23 00:05:34,996:DEBUG:root:__init__:start preparing ur ranking
+2020-07-23 00:05:35,008:DEBUG:root:__init__:start preparing done
+2020-07-23 00:05:35,011:DEBUG:root:create_frame:Starting process
+2020-07-23 00:05:35,953:DEBUG:root:create_frame:Start drawer 0
+2020-07-23 00:05:36,037:DEBUG:root:create_frame:Start writer 0
+2020-07-23 00:05:36,039:DEBUG:root:create_frame:Starting process
+2020-07-23 00:05:37,084:DEBUG:root:create_frame:Start drawer 1
+2020-07-23 00:05:37,199:DEBUG:root:create_frame:Start writer 1
+2020-07-23 00:05:37,208:TRACE:osr2mp4.osr2mp4.Osr2mp4:startvideo:RETURN None
+2020-07-23 00:05:37,208:TRACE:osr2mp4.osr2mp4.Osr2mp4:startaudio:CALL *() **{}
+2020-07-23 00:05:38,307:TRACE:osr2mp4.osr2mp4.Osr2mp4:startaudio:RETURN None
+2020-07-23 00:05:38,307:TRACE:osr2mp4.osr2mp4.Osr2mp4:startall:RETURN None
+2020-07-23 00:05:38,307:TRACE:osr2mp4.osr2mp4.Osr2mp4:getprogress:CALL *() **{}
+2020-07-23 00:05:38,307:TRACE:osr2mp4.osr2mp4.Osr2mp4:getprogress:RETURN 0.22091305966205962
+2020-07-23 00:05:39,308:TRACE:osr2mp4.osr2mp4.Osr2mp4:getprogress:CALL *() **{}
+2020-07-23 00:05:39,308:TRACE:osr2mp4.osr2mp4.Osr2mp4:getprogress:RETURN 1.4765722636424512
+2020-07-23 00:05:39,309:TRACE:osr2mp4.osr2mp4.Osr2mp4:cleanup:CALL *() **{}

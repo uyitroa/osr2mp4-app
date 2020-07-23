@@ -1,0 +1,20 @@
+{
+    "Cursor size": 0.5,
+    "In-game interface": 1.0,
+    "Show scoreboard": false,
+    "Background dim": 30.0,
+    "Rotate sliderball": false,
+    "Always show key overlay": false,
+    "Automatic cursor size": 0.0,
+    "Show mods icon": true,
+    "Enable PP counter": false,
+    "Score meter size": 1.0,
+    "Song volume": 0.0,
+    "Effect volume": 100.0,
+    "Ignore beatmap hitsounds": 0.0,
+    "Use skin's sound samples": true,
+    "Song delay": 0,
+    "Global leaderboard": false,
+    "Mods leaderboard": "*",
+    "api key": "lol"
+}

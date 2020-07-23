@@ -1,0 +1,17 @@
+{
+    "osu! path": "C:/Users/user/AppData/Local/osu!",
+    "Skin path": "C:/Users/user/AppData/Local/osu!/Skins/Default",
+    "Beatmap path": "C:/Users/user/AppData/Local/osu!/Songs/456524 Suzuki Konomi - Redo",
+    ".osr path": "C:/Users/user/AppData/Local/osu!/Replays/- Kataomoi - - Suzuki Konomi - Redo [ReStart] (2019-08-25) Osu.osr",
+    "Default skin path": "",
+    "Output path": "E:/fdfd/456524 Suzuki Konomi Redo played by Kataomoi .avi",
+    "Output name": "{Map} played by {Player}.avi",
+    "Width": 1280,
+    "Height": 720,
+    "FPS": 60,
+    "Start time": 0.0,
+    "End time": -1,
+    "Video codec": "XVID",
+    "Process": 2,
+    "ffmpeg path": "ffmpeg"
+}

@@ -1,0 +1,88 @@
+2020-07-24 01:13:16,475:INFO:root:__init__:Current settings is updated to: {'Cursor size': 0.5, 'In-game interface': 1.0, 'Show scoreboard': False, 'Background dim': 30.0, 'Rotate sliderball': False, 'Always show key overlay': False, 'Automatic cursor size': 0.0, 'Show mods icon': True, 'Enable PP counter': False, 'Score meter size': 1.0, 'Song volume': 0.0, 'Effect volume': 100.0, 'Ignore beatmap hitsounds': 0.0, "Use skin's sound samples": True, 'Song delay': 0, 'Global leaderboard': False, 'Mods leaderboard': '*', 'api key': None}
+2020-07-24 01:13:16,475:INFO:root:__init__:Current config is updated to: {'osu! path': 'C:/Users/user/AppData/Local/osu!', 'Skin path': 'C:/Users/user/AppData/Local/osu!/Skins/Default', 'Beatmap path': 'C:/Users/user/AppData/Local/osu!/Songs/456524 Suzuki Konomi - Redo', '.osr path': 'C:/Users/user/AppData/Local/osu!/Replays/- Kataomoi - - Suzuki Konomi - Redo [ReStart] (2019-08-25) Osu.osr', 'Default skin path': '', 'Output path': 'E:/fdfd', 'Output name': '{Map} played by {Player}.avi', 'Width': 1280, 'Height': 720, 'FPS': 60, 'Start time': 0.0, 'End time': -1, 'Video codec': 'XVID', 'Process': 2, 'ffmpeg path': 'ffmpeg'}
+2020-07-24 01:13:16,513:INFO:root:getsize:Image loaded: res/B1_Shadow.png
+2020-07-24 01:13:16,522:INFO:root:getsize:Image loaded: res/B1_Idle.png
+2020-07-24 01:13:16,526:INFO:root:getsize:Image loaded: res/B2_Shadow.png
+2020-07-24 01:13:16,535:INFO:root:getsize:Image loaded: res/B2_Idle.png
+2020-07-24 01:13:16,538:INFO:root:getsize:Image loaded: res/Start_Shadow.png
+2020-07-24 01:13:16,548:INFO:root:getsize:Image loaded: res/Start_Idle.png
+2020-07-24 01:13:16,568:INFO:root:getsize:Image loaded: res/OsrLogo_Shadow.png
+2020-07-24 01:13:16,632:INFO:root:getsize:Image loaded: res/OsrLogo.png
+2020-07-24 01:13:16,634:INFO:root:getsize:Image loaded: res/OsrPath_Shadow.png
+2020-07-24 01:13:16,637:INFO:root:getsize:Image loaded: res/OsrPath.png
+2020-07-24 01:13:16,638:INFO:root:getsize:Image loaded: res/MapsetPath_Shadow.png
+2020-07-24 01:13:16,641:INFO:root:getsize:Image loaded: res/MapsetPath.png
+2020-07-24 01:13:16,641:TRACE:HomeComponents.SkinDropDown.SkinDropDown:__init__:CALL *(<__main__.Window object at 0x0F45D778>,) **{}
+2020-07-24 01:13:16,642:TRACE:HomeComponents.SkinDropDown.SkinDropDown:addEmptyItem:CALL *(0,) **{}
+2020-07-24 01:13:16,642:TRACE:HomeComponents.SkinDropDown.SkinDropDown:addItems:CALL *([''],) **{}
+2020-07-24 01:13:16,642:TRACE:HomeComponents.SkinDropDown.SkinDropDown:addItems:RETURN None
+2020-07-24 01:13:16,643:TRACE:HomeComponents.SkinDropDown.SkinDropDown:addEmptyItem:RETURN None
+2020-07-24 01:13:16,643:TRACE:HomeComponents.SkinDropDown.SkinDropDown:addEmptyItem:CALL *(0,) **{}
+2020-07-24 01:13:16,643:TRACE:HomeComponents.SkinDropDown.SkinDropDown:addItems:CALL *([''],) **{}
+2020-07-24 01:13:16,643:TRACE:HomeComponents.SkinDropDown.SkinDropDown:addItems:RETURN None
+2020-07-24 01:13:16,643:TRACE:HomeComponents.SkinDropDown.SkinDropDown:addEmptyItem:RETURN None
+2020-07-24 01:13:16,643:TRACE:HomeComponents.SkinDropDown.SkinDropDown:addItems:CALL *(['Default Skin'],) **{}
+2020-07-24 01:13:16,643:TRACE:HomeComponents.SkinDropDown.SkinDropDown:addItems:RETURN None
+2020-07-24 01:13:16,644:TRACE:HomeComponents.SkinDropDown.SkinDropDown:setup:CALL *() **{}
+2020-07-24 01:13:16,645:INFO:root:getsize:Image loaded: res/Drop_Scale.png
+2020-07-24 01:13:16,665:TRACE:HomeComponents.SkinDropDown.SkinDropDown:setup:RETURN None
+2020-07-24 01:13:16,665:TRACE:HomeComponents.SkinDropDown.SkinDropDown:__init__:RETURN None
+2020-07-24 01:13:16,666:INFO:root:getsize:Image loaded: res/Options_Shadow.png
+2020-07-24 01:13:16,668:INFO:root:getsize:Image loaded: res/Options_Idle.png
+2020-07-24 01:13:16,695:INFO:root:getsize:Image loaded: res/SmallButton.png
+2020-07-24 01:13:16,696:INFO:root:__init__:0.0.4a2 | 0.0.4a3
+2020-07-24 01:13:16,701:INFO:root:getsize:Image loaded: res/CancelButton.png
+2020-07-24 01:13:16,701:INFO:root:__init__:Loaded Buttons
+2020-07-24 01:13:16,726:INFO:root:getsize:Image loaded: res/Window_Shadow.png
+2020-07-24 01:13:16,825:INFO:root:getsize:Image loaded: res/Window.png
+2020-07-24 01:13:16,830:INFO:root:getsize:Image loaded: res/OutputFolder_Idle.png
+2020-07-24 01:13:16,834:INFO:root:getsize:Image loaded: res/osu!Folder_Idle.png
+2020-07-24 01:13:16,922:INFO:root:getsize:Image loaded: res/WindowShadow.png
+2020-07-24 01:13:16,923:INFO:root:__init__:Loaded Popupwindow output button and osu button
+2020-07-24 01:13:17,011:INFO:root:getsize:Image loaded: res/WindowShadow.png
+2020-07-24 01:13:17,012:TRACE:SettingComponents.Layouts.ScrollArea.ScrollArea:__init__:CALL *(<SettingComponents.Layouts.SettingsPage.SettingsPage object at 0x0F6A3610>, <__main__.Window object at 0x0F45D778>) **{}
+2020-07-24 01:13:17,014:TRACE:SettingComponents.Layouts.ScrollArea.ScrollArea:__init__:RETURN None
+2020-07-24 01:13:17,014:TRACE:SettingComponents.Layouts.ScrollArea.ScrollArea:load_settings:CALL *() **{}
+2020-07-24 01:13:17,098:TRACE:osr2mp4.Utils.HashBeatmap:get_osu:CALL *('C:/Users/user/AppData/Local/osu!/Songs/456524 Suzuki Konomi - Redo/', '227d0a51ef74f74ad204123b398b2f5b') **{}
+2020-07-24 01:13:17,195:TRACE:osr2mp4.Utils.HashBeatmap:get_osu:RETURN 'C:/Users/user/AppData/Local/osu!/Songs/456524 Suzuki Konomi - Redo/Suzuki Konomi - Redo (Kalibe) [ReStart].osu'
+2020-07-24 01:13:18,121:TRACE:SettingComponents.Layouts.ScrollArea.ScrollArea:load_settings:RETURN None
+2020-07-24 01:13:18,121:INFO:root:__init__:Loaded settings page
+2020-07-24 01:13:18,125:TRACE:HomeComponents.SkinDropDown.SkinDropDown:get_configInfo:CALL *('C:/Users/user/AppData/Local/osu!',) **{}
+2020-07-24 01:13:18,126:INFO:root:get_configInfo:['C:/Users/user/AppData/Local/osu!/osu!.user.cfg']
+2020-07-24 01:13:18,126:INFO:root:get_configInfo:['C:/Users/user/AppData/Local/osu!/osu!.user.cfg']
+2020-07-24 01:13:18,131:TRACE:HomeComponents.SkinDropDown.SkinDropDown:addItems:CALL *(['#HKZ'],) **{}
+2020-07-24 01:13:18,131:TRACE:HomeComponents.SkinDropDown.SkinDropDown:addItems:RETURN None
+2020-07-24 01:13:18,131:TRACE:HomeComponents.SkinDropDown.SkinDropDown:addItems:CALL *(['-+ Seoul v9 Personal Skin new hitcircle'],) **{}
+2020-07-24 01:13:18,131:TRACE:HomeComponents.SkinDropDown.SkinDropDown:addItems:RETURN None
+2020-07-24 01:13:18,131:TRACE:HomeComponents.SkinDropDown.SkinDropDown:addItems:CALL *(['-Megumin2K Base skin'],) **{}
+2020-07-24 01:13:18,131:TRACE:HomeComponents.SkinDropDown.SkinDropDown:addItems:RETURN None
+2020-07-24 01:13:18,131:TRACE:HomeComponents.SkinDropDown.SkinDropDown:addItems:CALL *(['3'],) **{}
+2020-07-24 01:13:18,131:TRACE:HomeComponents.SkinDropDown.SkinDropDown:addItems:RETURN None
+2020-07-24 01:13:18,132:TRACE:HomeComponents.SkinDropDown.SkinDropDown:addItems:CALL *(["bowdown Fl0master1337's edit"],) **{}
+2020-07-24 01:13:18,132:TRACE:HomeComponents.SkinDropDown.SkinDropDown:addItems:RETURN None
+2020-07-24 01:13:18,132:TRACE:HomeComponents.SkinDropDown.SkinDropDown:addItems:CALL *(['Burning+Crow V2'],) **{}
+2020-07-24 01:13:18,132:TRACE:HomeComponents.SkinDropDown.SkinDropDown:addItems:RETURN None
+2020-07-24 01:13:18,132:TRACE:HomeComponents.SkinDropDown.SkinDropDown:addItems:CALL *(['ChitandaPink'],) **{}
+2020-07-24 01:13:18,132:TRACE:HomeComponents.SkinDropDown.SkinDropDown:addItems:RETURN None
+2020-07-24 01:13:18,132:TRACE:HomeComponents.SkinDropDown.SkinDropDown:addItems:CALL *(['Hidden_V2'],) **{}
+2020-07-24 01:13:18,132:TRACE:HomeComponents.SkinDropDown.SkinDropDown:addItems:RETURN None
+2020-07-24 01:13:18,132:TRACE:HomeComponents.SkinDropDown.SkinDropDown:addItems:CALL *(['IJN Yamashiro'],) **{}
+2020-07-24 01:13:18,132:TRACE:HomeComponents.SkinDropDown.SkinDropDown:addItems:RETURN None
+2020-07-24 01:13:18,133:TRACE:HomeComponents.SkinDropDown.SkinDropDown:addItems:CALL *(["Lume's skin"],) **{}
+2020-07-24 01:13:18,133:TRACE:HomeComponents.SkinDropDown.SkinDropDown:addItems:RETURN None
+2020-07-24 01:13:18,133:TRACE:HomeComponents.SkinDropDown.SkinDropDown:addItems:CALL *(['Luminous'],) **{}
+2020-07-24 01:13:18,133:TRACE:HomeComponents.SkinDropDown.SkinDropDown:addItems:RETURN None
+2020-07-24 01:13:18,133:TRACE:HomeComponents.SkinDropDown.SkinDropDown:addItems:CALL *(['Miraie III_02_Fk_edit'],) **{}
+2020-07-24 01:13:18,133:TRACE:HomeComponents.SkinDropDown.SkinDropDown:addItems:RETURN None
+2020-07-24 01:13:18,133:TRACE:HomeComponents.SkinDropDown.SkinDropDown:addItems:CALL *(['skin7'],) **{}
+2020-07-24 01:13:18,133:TRACE:HomeComponents.SkinDropDown.SkinDropDown:addItems:RETURN None
+2020-07-24 01:13:18,133:TRACE:HomeComponents.SkinDropDown.SkinDropDown:get_configInfo:RETURN None
+2020-07-24 01:13:18,228:TRACE:SettingComponents.Layouts.ScrollArea.ScrollArea:load_settings:CALL *() **{}
+2020-07-24 01:13:18,228:TRACE:SettingComponents.Layouts.ScrollArea.ScrollArea:load_settings:RETURN None
+2020-07-24 01:13:18,803:INFO:root:find_beatmap_:Loaded beatmap folder 456524 Suzuki Konomi - Redo
+2020-07-24 01:13:18,808:INFO:root:find_latestMap:Updated beatmap path to: 456524 Suzuki Konomi - Redo
+2020-07-24 01:13:18,808:INFO:root:find_latestReplay:Updated replay path to: C:/Users/user/AppData/Local/osu!/Replays/- Kataomoi - - Suzuki Konomi - Redo [ReStart] (2019-08-25) Osu.osr
+2020-07-24 01:13:19,032:INFO:root:check_updates:Latest Version of osr2mp4: 0.0.4a3
+2020-07-24 01:13:19,032:INFO:root:check_updates:Latest Version of osr2mp4app: 0.0.4a4
+2020-07-24 01:13:19,032:INFO:root:check_updates:Current Version of osr2mp4: 0.0.4a2
+2020-07-24 01:13:19,032:INFO:root:check_updates:Current Version of osr2mp4app: 0.0.4a3

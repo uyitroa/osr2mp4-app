@@ -18,6 +18,7 @@ from HomeComponents.Buttons.OutputButton import OutputButton
 from HomeComponents.Buttons.StartButton import StartButton
 from HomeComponents.Buttons.UpdateButton import UpdateButton
 from HomeComponents.Buttons.osuButton import osuButton
+from HomeComponents.Buttons.CancelButton import CancelButton
 from HomeComponents.Logo import Logo
 from HomeComponents.PathImage import OsrPath, MapSetPath
 from HomeComponents.PopupWindow import PopupWindow, CustomTextWindow
@@ -70,11 +71,14 @@ class Window(QMainWindow):
 		self.skin_dropdown = SkinDropDown(self)
 		self.options = Options(self)
 		self.updatebutton = UpdateButton(self)
+        
+		self.cancelbutton = CancelButton(self)
+		self.cancelbutton.hide()
 
 		logging.info("Loaded Buttons")
 
 		self.blurrable_widgets = [self.osrbutton, self.mapsetbutton, self.startbutton, self.logo, self.osrpath,
-								  self.mapsetpath, self.options, self.skin_dropdown]
+								  self.mapsetpath, self.options, self.skin_dropdown, self.cancelbutton]
 
 		self.popup_window = PopupWindow(self)
 		self.output_window = OutputButton(self)
@@ -142,6 +146,7 @@ class Window(QMainWindow):
 		self.progressbar.changesize()
 		self.customwindow.changesize()
 		self.updatebutton.changesize()
+		self.cancelbutton.changesize()
 		if self.popup_bool:
 			self.blur_function(True)
 		else:
@@ -283,6 +288,9 @@ def main(execpath="."):
 	ret = App.exec_()
 	if window.startbutton.proc is not None and window.startbutton.proc.poll() is None:
 		kill(window.startbutton.proc.pid)
+		with open("progress.txt", "w") as file:
+			file.write("done")
+		file.close()
 
 	sys.exit(ret)
 

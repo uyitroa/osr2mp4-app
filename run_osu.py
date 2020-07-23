@@ -72,14 +72,14 @@ def run():
 
 
 if __name__ == "__main__":
-	try:
+	# try:
 		# sys.path = fixpath()
-		run()
-	except Exception as e:
-		abspath = os.path.dirname(os.path.abspath(inspect.getsourcefile(Dummy)))
-		ferror = open(os.path.join( "error.txt"), "w")
-		ferror.write(repr(e) + str(e))
-		ferror.close()
+	run()
+	# except Exception as e:
+		# abspath = os.path.dirname(os.path.abspath(inspect.getsourcefile(Dummy)))
+		# ferror = open(os.path.join( "error.txt"), "w")
+		# ferror.write(repr(e) + str(e))
+		# ferror.close()
 
 	abspath = os.path.dirname(os.path.abspath(inspect.getsourcefile(Dummy)))
 	fprogress = open(os.path.join(abspath, "progress.txt"), "w")
