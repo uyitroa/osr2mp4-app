@@ -107,7 +107,7 @@ class SkinDropDown(QComboBox):
 			c = glob.glob(os.path.join(path, "osu!.*.cfg"))
 			logging.info(c)
 			if not c:
-				return
+				return ""
 			cfg = [ x for x in c if "osu!.cfg" not in x ]
 			logging.info(cfg)
 			props = read_properties_file(cfg[0])

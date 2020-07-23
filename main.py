@@ -243,23 +243,21 @@ class Window(QMainWindow):
 				beatmap_unique_path_status = self.beatmap_path_checker(beatmap_unique_path, beatmap_path)
 
 	def beatmap_path_checker(self, path, beatmap_path):
-		if os.path.isdir(path):
-			if os.path.isdir(os.path.join(path, beatmap_path)):
-				current_config["Beatmap path"] = os.path.join(path, beatmap_path)
-				if beatmap_path != "":
-					self.mapsetpath.setText(beatmap_path)
-					print("press F")
-					logging.info("Updated beatmap path to: {}".format(beatmap_path))
+		if os.path.isdir(os.path.join(path, beatmap_path)):
+			current_config["Beatmap path"] = os.path.join(path, beatmap_path)
+			if beatmap_path != "":
+				self.mapsetpath.setText(beatmap_path)
+				print("press F")
+				logging.info("Updated beatmap path to: {}".format(beatmap_path))
 			return True
 		return False
 	def get_beatmap_path(self):
 		c = glob.glob(os.path.join(current_config["osu! path"], "osu!.*.cfg"))
 		logging.info(c)
 		if not c:
-			return
+			return ""
 		cfg = [ x for x in c if "osu!.cfg" not in x ]
 		logging.info(cfg)
-		props = read_properties_file(cfg[0])
 		beatmap_directory = read_properties_file(cfg[0])
 		beatmap_directory_path =  beatmap_directory["beatmapdirectory"]
 		return beatmap_directory_path
