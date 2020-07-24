@@ -101,18 +101,18 @@ class SkinDropDown(QComboBox):
 
 	def get_skins(self, path):
 		self.addItems(self.main_window.skins_directory)
-		self.get_configInfo(path)
+		self.get_config_info(path)
 
-	def get_configInfo(self, path):
+	def get_config_info(self, path):
 		if path != "":
 			c = glob.glob(os.path.join(path, "osu!.*.cfg"))
 			logging.info(c)
-			if not c:
-				return
-			cfg = [x for x in c if "osu!.cfg" not in x]
-			logging.info(cfg)
-			props = read_properties_file(cfg[0])
-			name = props['skin']
+			name = "Default Skin"
+			if c:
+				cfg = [x for x in c if "osu!.cfg" not in x]
+				logging.info(cfg)
+				props = read_properties_file(cfg[0])
+				name = props['skin']
 
 			current_config["Skin path"] = os.path.join(current_config["osu! path"], "Skins", name)
 			skin_list = [f for f in glob.glob(os.path.join(current_config["osu! path"], "Skins/*"), recursive=True)]
@@ -120,7 +120,7 @@ class SkinDropDown(QComboBox):
 				skinname = os.path.basename(x)
 				self.addItems([skinname])
 
-			self.setCurrentIndex(self.findText(" ".join(name.split())))
+			self.setCurrentIndex(self.findText(name))
 
 	def changesize(self):
 		changesize(self)

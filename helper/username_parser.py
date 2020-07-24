@@ -27,7 +27,7 @@ def read_properties_file(file_path):
 		return dict(cp.items('dummy_section'))
 
 
-def get_configInfo(path):
+def get_config_info(path):
 	try:
 		settings_result = {}
 		if path != "":

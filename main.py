@@ -188,7 +188,7 @@ class Window(QMainWindow):
 
 	def check_osuPath(self):
 		if os.path.isfile(configpath):
-			self.skin_dropdown.get_configInfo(current_config["osu! path"])
+			self.skin_dropdown.get_config_info(current_config["osu! path"])
 			if current_config["Output path"] != "" and current_config["osu! path"] != "":
 				self.delete_popup()
 				self.popup_bool = False
@@ -200,7 +200,7 @@ class Window(QMainWindow):
 		else:
 			self.settingspage.settingsarea.scrollArea.hide()
 
-	def find_latestReplay(self):
+	def find_latest_replay(self):
 		try:
 			if current_config["osu! path"] != "":
 				path = os.path.join(current_config["osu! path"], "Replays/*.osr")
@@ -213,7 +213,7 @@ class Window(QMainWindow):
 
 				self.prevreplay = replay
 				replay_name = os.path.split(replay)[-1]
-				self.find_latestMap(replay)
+				self.find_latest_map(replay)
 				if replay_name != "":
 					self.osrpath.setText(replay_name)
 
@@ -223,18 +223,21 @@ class Window(QMainWindow):
 			print("Error: {}".format(e))
 			logging.error(repr(e))
 
-	def find_latestMap(self, replay):
-
+	def find_latest_map(self, replay):
 		if current_config["osu! path"] != "":
-			beatmap_path = find_beatmap_(replay, current_config["osu! path"])
-			current_config["Beatmap path"] = os.path.join(current_config["osu! path"], "Songs", beatmap_path)
-			if beatmap_path != "":
-				self.mapsetpath.setText(beatmap_path)
+			beatmap_name = find_beatmap_(replay, current_config["osu! path"])
+			beatmap_path = os.path.join(current_config["osu! path"], "Songs", beatmap_name)
+			if not os.path.isdir(beatmap_path):
+				return
+
+			current_config["Beatmap path"] = beatmap_path
+			if beatmap_name != "":
+				self.mapsetpath.setText(beatmap_name)
 				print("press F")
 				logging.info("Updated beatmap path to: {}".format(beatmap_path))
 
 	def check_replay_map(self):
-		self.find_latestReplay()
+		self.find_latest_replay()
 
 
 def kill(proc_pid):

@@ -10,7 +10,7 @@ from autologging import traced, logged
 from abspath import abspath, configpath
 from config_data import current_config, current_settings
 from helper.helper import getsize, changesize, save
-from helper.username_parser import get_configInfo, settings_translator
+from helper.username_parser import get_config_info, settings_translator
 import logging
 
 
@@ -221,12 +221,12 @@ class PopupButton(ButtonBrowse):
 			self.main_window.check_replay_map()
 			self.main_window.resizeEvent(True)
 
-			self.main_window.skin_dropdown.get_configInfo(current_config["osu! path"])
+			self.main_window.skin_dropdown.get_config_info(current_config["osu! path"])
 			logging.info(configpath)
 
 			self.main_window.settingspage.load_settings()
 
-			osusettings = get_configInfo(current_config["osu! path"])
+			osusettings = get_config_info(current_config["osu! path"])
 
 			self.set_settings(osusettings)
 
