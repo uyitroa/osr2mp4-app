@@ -5,3 +5,4 @@ configparser
 osrparse
 osr2mp4
 Pillow-SIMD
+osr2mp4app
