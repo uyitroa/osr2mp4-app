@@ -97,22 +97,11 @@ class Window(QMainWindow):
 		self.progressbar = ProgressBar(self)
 		self.progressbar.hide()
 
-		self.check_osuPath()
+		self.check_osu_path()
 		# self.check_replay_map()
 
 		self.show()
 		self.resize(window_width, window_height)
-	def on_focusChanged(self):
-		if ButtonBrowse.browsing or PopupButton.browsing:
-			ButtonBrowse.browsing = False
-			PopupButton.browsing = False
-			return
-		if self.isActiveWindow():
-			self.check_replay_map()
-			print("Checking latest map")
-			print("gf's priority is you\n")
-		else:
-			print("u dont have a gf\n")
 
 	def applicationStateChanged(self, state):
 		if ButtonBrowse.browsing or PopupButton.browsing:
@@ -121,9 +110,6 @@ class Window(QMainWindow):
 			return
 		if state == 4:
 			self.check_replay_map()
-			print("gf's priority is you\n")
-		else:
-			print("u dont have a gf\n")
 
 	def resizeEvent(self, event):
 		height = self.width() * 9 / 16
@@ -186,9 +172,9 @@ class Window(QMainWindow):
 		for x in self.popup_widgets:
 			x.setParent(None)
 
-	def check_osuPath(self):
+	def check_osu_path(self):
 		if os.path.isfile(configpath):
-			self.skin_dropdown.get_config_info(current_config["osu! path"])
+			self.skin_dropdown.get_skins()
 			if current_config["Output path"] != "" and current_config["osu! path"] != "":
 				self.delete_popup()
 				self.popup_bool = False

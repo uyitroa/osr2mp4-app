@@ -221,7 +221,8 @@ class PopupButton(ButtonBrowse):
 			self.main_window.check_replay_map()
 			self.main_window.resizeEvent(True)
 
-			self.main_window.skin_dropdown.get_config_info(current_config["osu! path"])
+			self.main_window.skin_dropdown.set_skin_osu()
+			self.main_window.skin_dropdown.get_skins()
 			logging.info(configpath)
 
 			self.main_window.settingspage.load_settings()

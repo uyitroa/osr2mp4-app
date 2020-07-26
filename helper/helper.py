@@ -64,6 +64,12 @@ def save(filename=None):
 	config = copy(current_config)
 	config["Output path"] = os.path.join(config["Output path"], filename)
 
+	api = current_settings["api key"]
+	current_settings["api key"] = None
+	logging.info(config)
+	logging.info(current_settings)
+	current_settings["api key"] = api
+
 	with open(configpath, 'w+') as f:
 		json.dump(config, f, indent=4)
 		f.close()

@@ -8,7 +8,7 @@ from autologging import traced, logged
 
 from abspath import abspath
 from config_data import current_config
-from helper.helper import getsize, changesize
+from helper.helper import getsize, changesize, save
 from PyQt5.QtGui import QColor
 import logging
 
@@ -97,29 +97,30 @@ class SkinDropDown(QComboBox):
 
 	def activated_(self, index):
 		current_config["Skin path"] = os.path.join(current_config["osu! path"], "Skins", self.itemText(index))
+		save()
 		logging.info(current_config["Skin path"])
 
-	def get_skins(self, path):
-		self.addItems(self.main_window.skins_directory)
-		self.get_config_info(path)
+	def get_skins(self):
+		name = "Default Skin"
+		if os.path.isdir(current_config["Skin path"]):
+			name = os.path.basename(current_config["Skin path"])
 
-	def get_config_info(self, path):
-		if path != "":
-			c = glob.glob(os.path.join(path, "osu!.*.cfg"))
-			logging.info(c)
-			name = "Default Skin"
-			if c:
-				cfg = [x for x in c if "osu!.cfg" not in x]
-				logging.info(cfg)
-				props = read_properties_file(cfg[0])
-				name = props['skin']
+		skin_list = [f for f in glob.glob(os.path.join(current_config["osu! path"], "Skins/*"), recursive=True)]
+		for x in skin_list:
+			skinname = os.path.basename(x)
+			self.addItems([skinname])
 
+		self.setCurrentIndex(self.findText(name))
+
+	def set_skin_osu(self):
+		c = glob.glob(os.path.join(current_config["osu! path"], "osu!.*.cfg"))
+		logging.info(c)
+		if c:
+			cfg = [x for x in c if "osu!.cfg" not in x]
+			logging.info(cfg)
+			props = read_properties_file(cfg[0])
+			name = props['skin']
 			current_config["Skin path"] = os.path.join(current_config["osu! path"], "Skins", name)
-			skin_list = [f for f in glob.glob(os.path.join(current_config["osu! path"], "Skins/*"), recursive=True)]
-			for x in skin_list:
-				skinname = os.path.basename(x)
-				self.addItems([skinname])
-
 			self.setCurrentIndex(self.findText(name))
 
 	def changesize(self):
