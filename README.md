@@ -21,6 +21,7 @@
 + If you want to include all mods plays in the leaderboard, put * in the Mods leaderboard textbox. If you want to include only Hidden play, put HD. If you want to include HDHR and HR, put (HD)HR, HR will be a required mod and HD is an optional mod.
 ![](images/mods.png)
 + Check [here](MacOSLinuxInstall.md) for information on installing in Linux or MacOS
++ Join the discord server if you want any help: https://discord.gg/Xx82QQ3
 
 
 ### Donations
