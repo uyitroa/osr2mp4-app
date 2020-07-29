@@ -1,11 +1,8 @@
-import json
 import os
-import subprocess
-import sys
 import psutil
 from Parents import Button
-from abspath import abspath, configpath, settingspath, Log
-from config_data import current_config, current_settings
+from abspath import abspath
+
 
 class CancelButton(Button):
 	def __init__(self, parent):
@@ -22,15 +19,15 @@ class CancelButton(Button):
 		self.proc = None
 		self.parent = parent
 		super().setup()
-    
+
 	def kill(self, proc_pid):
 		process = psutil.Process(proc_pid)
 		for proc in process.children(recursive=True):
 			proc.kill()
 		process.kill()
-    
+
 	def mouseclicked(self):
 		if self.main_window.startbutton.proc is not None and self.main_window.startbutton.proc.poll() is None:
 			self.kill(self.main_window.startbutton.proc.pid)
-		with open("progress.txt", "w") as file:
+		with open(os.path.join(abspath, "progress.txt"), "w") as file:
 			file.write("done")
