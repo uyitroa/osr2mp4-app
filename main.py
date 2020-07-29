@@ -10,7 +10,8 @@ import psutil
 from PyQt5 import QtGui, QtCore
 from PyQt5.QtWidgets import QMainWindow, QApplication
 from autologging import TRACE
-
+from urllib.parse import urlparse
+from HomeComponents.Buttons.FolderButton import FolderButton
 from HomeComponents.Buttons.MapsetButton import MapsetButton
 from HomeComponents.Buttons.Options import Options
 from HomeComponents.Buttons.OsrButton import OsrButton
@@ -36,7 +37,8 @@ class Window(QMainWindow):
 	def __init__(self, App, execpath):
 		super().__init__()
 
-		logging.basicConfig(level=TRACE, filename=Log.apppath, filemode="w", format="%(asctime)s:%(levelname)s:%(name)s:%(funcName)s:%(message)s")
+		logging.basicConfig(level=TRACE, filename=Log.apppath, filemode="w",
+		                    format="%(asctime)s:%(levelname)s:%(name)s:%(funcName)s:%(message)s")
 
 		apikey = current_settings["api key"]
 		current_settings["api key"] = None  # avoid logging api key
@@ -50,6 +52,7 @@ class Window(QMainWindow):
 		self.setWindowIcon(QtGui.QIcon(os.path.join(abspath, "res/OsrLogo.png")))
 		self.setWindowTitle("Osr2mp4")
 		self.setStyleSheet("background-color: rgb(30, 30, 33);")
+		self.setAcceptDrops(True)
 
 		window_width, window_height = 832, 469
 
@@ -71,14 +74,15 @@ class Window(QMainWindow):
 		self.skin_dropdown = SkinDropDown(self)
 		self.options = Options(self)
 		self.updatebutton = UpdateButton(self)
-        
+		self.folderbutton = FolderButton(self)
+
 		self.cancelbutton = CancelButton(self)
 		self.cancelbutton.hide()
 
 		logging.info("Loaded Buttons")
 
 		self.blurrable_widgets = [self.osrbutton, self.mapsetbutton, self.startbutton, self.logo, self.osrpath,
-								  self.mapsetpath, self.options, self.skin_dropdown, self.cancelbutton]
+		                          self.mapsetpath, self.options, self.skin_dropdown, self.cancelbutton]
 
 		self.popup_window = PopupWindow(self)
 		self.output_window = OutputButton(self)
@@ -133,6 +137,8 @@ class Window(QMainWindow):
 		self.customwindow.changesize()
 		self.updatebutton.changesize()
 		self.cancelbutton.changesize()
+		self.folderbutton.changesize()
+
 		if self.popup_bool:
 			self.blur_function(True)
 		else:
@@ -210,20 +216,39 @@ class Window(QMainWindow):
 			logging.error(repr(e))
 
 	def find_latest_map(self, replay):
-		if current_config["osu! path"] != "":
-			beatmap_name = find_beatmap_(replay, current_config["osu! path"])
-			beatmap_path = os.path.join(current_config["osu! path"], "Songs", beatmap_name)
-			if not os.path.isdir(beatmap_path):
-				return
+		try:
+			if current_config["osu! path"] != "":
+				beatmap_name = find_beatmap_(replay, current_config["osu! path"])
+				beatmap_path = os.path.join(current_config["osu! path"], "Songs", beatmap_name)
+				if not os.path.isdir(beatmap_path):
+					return
 
-			current_config["Beatmap path"] = beatmap_path
-			if beatmap_name != "":
-				self.mapsetpath.setText(beatmap_name)
-				print("press F")
-				logging.info("Updated beatmap path to: {}".format(beatmap_path))
+				current_config["Beatmap path"] = beatmap_path
+				if beatmap_name != "":
+					self.mapsetpath.setText(beatmap_name)
+					print("press F")
+					logging.info("Updated beatmap path to: {}".format(beatmap_path))
+		except Exception as e:
+			print("Error: {}".format(e))
+			logging.error(repr(e))
 
 	def check_replay_map(self):
 		self.find_latest_replay()
+
+	def dragEnterEvent(self, e):
+		e.accept()
+
+	def dropEvent(self, e):
+		p = urlparse(e.mimeData().text())
+		final_path = os.path.abspath(os.path.join(p.netloc, p.path))
+		if final_path.endswith(".osr"):
+			current_config[".osr path"] = final_path
+			self.osrpath.setText(os.path.basename(final_path))
+			self.find_latest_map(final_path)
+		elif os.path.isdir(final_path):
+			current_config["Beatmap path"] = final_path
+			self.mapsetpath.setText(os.path.basename(final_path))
+		# self.setText(e.mimeData().text())
 
 
 def kill(proc_pid):
@@ -286,4 +311,3 @@ def main(execpath="."):
 
 if __name__ == "__main__":
 	main()
-
