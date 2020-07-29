@@ -1,8 +1,13 @@
+import os
+
 from PyQt5 import QtCore
 from PyQt5.QtCore import QFileSystemWatcher
+from PyQt5.QtMultimedia import QSound
 
 from Parents import Button
 from PyQt5.QtWidgets import QProgressBar
+
+from abspath import abspath
 
 
 class ProgressBar(QProgressBar):
@@ -14,6 +19,7 @@ class ProgressBar(QProgressBar):
 		self.default_y = 420
 		self.default_width = 830
 		self.default_height = 40
+		self.notification = QSound(os.path.join(abspath, "res/notification.wav"))
 
 		self.setGeometry(self.default_x, self.default_y, self.default_width, self.default_height)
 
@@ -37,6 +43,7 @@ QProgressBar::chunk {
 		f = open(path, "r")
 		content = f.read()
 		if content == "done":
+			self.notification.play()
 			self.hide()
 			self.setValue(0)
 			return
@@ -44,6 +51,8 @@ QProgressBar::chunk {
 		self.setValue(max(self.value(), float("0" + content)))
 		f.close()
 		if self.value() >= 100:
+			if not self.isVisible():
+				self.notification.play()
 			self.hide()
 			self.setValue(0)
 
