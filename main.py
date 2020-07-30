@@ -8,6 +8,7 @@ import traceback
 import PyQt5
 import psutil
 from PyQt5 import QtGui, QtCore
+from PyQt5.QtCore import QUrl
 from PyQt5.QtWidgets import QMainWindow, QApplication
 from autologging import TRACE
 from urllib.parse import urlparse
@@ -239,15 +240,16 @@ class Window(QMainWindow):
 		e.accept()
 
 	def dropEvent(self, e):
-		p = urlparse(e.mimeData().text())
-		final_path = os.path.abspath(os.path.join(p.netloc, p.path))
-		if final_path.endswith(".osr"):
-			current_config[".osr path"] = final_path
-			self.osrpath.setText(os.path.basename(final_path))
-			self.find_latest_map(final_path)
-		elif os.path.isdir(final_path):
-			current_config["Beatmap path"] = final_path
-			self.mapsetpath.setText(os.path.basename(final_path))
+		for url in e.mimeData().urls():
+			p = urlparse(url.url())
+			final_path = os.path.abspath(os.path.join(p.netloc, p.path))
+			if final_path.endswith(".osr"):
+				current_config[".osr path"] = final_path
+				self.osrpath.setText(os.path.basename(final_path))
+				self.find_latest_map(final_path)
+			elif os.path.isdir(final_path):
+				current_config["Beatmap path"] = final_path
+				self.mapsetpath.setText(os.path.basename(final_path))
 		# self.setText(e.mimeData().text())
 
 
