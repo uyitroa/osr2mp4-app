@@ -66,9 +66,10 @@ def run():
 	converter.joinall()
 
 	fprogress = open(os.path.join(abspath, "progress.txt"), "w")
-	fprogress.write("100")
-	fprogress.close()
+	# fprogress.write("100")
 	time.sleep(0.5)
+	fprogress.write("done")
+	fprogress.close()
 
 
 if __name__ == "__main__":
@@ -81,7 +82,7 @@ if __name__ == "__main__":
 		ferror.write(repr(e) + str(e))
 		ferror.close()
 
-	abspath = os.path.dirname(os.path.abspath(inspect.getsourcefile(Dummy)))
-	fprogress = open(os.path.join(abspath, "progress.txt"), "w")
-	fprogress.write("done")
-	fprogress.close()
+		fprogress = open(os.path.join(abspath, "progress.txt"), "w")
+		fprogress.write("error")
+		fprogress.close()
+
