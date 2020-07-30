@@ -8,7 +8,6 @@ import traceback
 import PyQt5
 import psutil
 from PyQt5 import QtGui, QtCore
-from PyQt5.QtCore import QUrl
 from PyQt5.QtWidgets import QMainWindow, QApplication
 from autologging import TRACE
 from urllib.parse import urlparse

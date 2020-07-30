@@ -11,6 +11,7 @@ from osrparse.enums import Mod
 import logging
 from abspath import abspath
 from config_data import current_config
+from helper.Dummy import BeatmapDummy
 
 
 class Slider(QSlider):
@@ -98,7 +99,8 @@ color: white;
 
 
 class Map:
-	length = None
+	beatmap = BeatmapDummy()
+	length = 1
 	name = None
 
 
@@ -111,7 +113,7 @@ class StartTimeSlider(Slider):
 		jsondata["option_config"]["min"] = 0
 		jsondata["option_config"]["step"] = 1
 
-		if Map.length is None:
+		if type(Map.beatmap).__name__ == "BeatmapDummy":
 			self.get_maplength(jsondata)
 
 		jsondata["option_config"]["max"] = Map.length
@@ -153,10 +155,10 @@ class StartTimeSlider(Slider):
 			Map.name = None
 			return
 
-		color = {"ComboNumber": 1}
-		osudata = osuparser.read_file(mappath, 1, color, False)
+		osudata = osuparser.read_file(mappath)
+		Map.beatmap = osudata
 
-		Map.length = osudata.hitobjects[-1]["end time"] - osudata.hitobjects[0]["time"]
+		Map.length = osudata.end_time - osudata.start_time
 		Map.length /= time_frame
 
 	# @classmethod
@@ -208,9 +210,6 @@ class EndTimeSlider(StartTimeSlider):
 	def updatevalue(self):
 		mapname = self.mapname
 		super().updatevalue()
-		# for self in cls.objs:
-			# if self.current_data[self.key] == -1:
-			# 	self.setValue(self.maximum())
 		if mapname != Map.name:
 			self.current_data[self.key] = -1
 			print(self.maximum())
