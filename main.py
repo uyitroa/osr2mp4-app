@@ -280,8 +280,6 @@ def main(execpath="."):
 	Log.apppath = os.path.join(execpath, "Logs", Log.apppath)
 	Log.runosupath = os.path.join(execpath, "Logs", Log.runosupath)
 
-	print(Log.apppath, Log.runosupath)
-
 	qtpath = os.path.dirname(PyQt5.__file__)
 	pluginpath = os.path.join(qtpath, "Qt/plugins")
 	os.environ['QT_QPA_PLATFORM_PLUGIN_PATH'] = pluginpath
