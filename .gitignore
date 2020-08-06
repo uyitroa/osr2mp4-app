@@ -5,3 +5,4 @@ Logs
 exit.txt
 settings.json
 **/__pycache__/
+.gitignore
