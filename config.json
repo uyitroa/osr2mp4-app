@@ -1,0 +1,17 @@
+{
+    "osu! path": "C:/Games/osu!",
+    "Skin path": "C:/Games/osu!/Skins/Komori - N O E L V 5 (white)",
+    "Beatmap path": "",
+    ".osr path": "",
+    "Default skin path": "",
+    "Output path": "C:/Users/Nevenit/Desktop/. played by Player .avi",
+    "Output name": "{Map} played by {Player}.avi",
+    "Width": 1280,
+    "Height": 720,
+    "FPS": 60,
+    "Start time": 0,
+    "End time": -1,
+    "Video codec": "XVID",
+    "Process": 2,
+    "ffmpeg path": "ffmpeg"
+}

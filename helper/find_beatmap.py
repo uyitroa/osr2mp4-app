@@ -1,6 +1,7 @@
 from struct import unpack_from
 import osrparse
 import logging
+import sqlite3
 
 
 def parseNum(db, offset, length):
@@ -145,6 +146,37 @@ def parseTimingPoint(db, offset):
 
     return (tp, offset)
 
+def hashCacheQuery(query):
+    db = sqlite3.connect("hashCache.db")
+    cur = db.cursor()
+    cur.execute(query)
+
+    #Lazy way to detemine if were reading (SELECT) or updating the database
+    if query[0] == "S":
+        return cur.fetchall()
+    else:
+        db.commit()
+
+    cur.close()  
+    db.close()
+
+def updateHashCache(db):
+    offset = 0
+    data = {}
+    data['version'], offset = parseNum(db, offset, 4)
+    data['folder_count'], offset = parseNum(db, offset, 4)
+    data['account_unlocked'], offset = parseBool(db, offset)
+
+    data['unlock_date'], offset = parseNum(db, offset, 8)
+    data['name'], offset = parseString(db, offset)
+    data['num_beatmaps'], offset = parseNum(db, offset, 4)
+
+    data['beatmaps'] = {}
+    for i in range(0, data['num_beatmaps']):
+        beatmap, offset = parseFastBeatmap(db, offset)
+        result = hashCacheQuery("SELECT Hash FROM hashCache WHERE Bitmap = '{}'".format(beatmap["folder_name"]))
+        if result == "":
+            hashCacheQuery("INSERT INTO hashCache (Hash, Beatmap) VALUES ('{}','{}')".format(beatmap["file_md5"], beatmap["folder_name"]))
 
 # parses the osu!.db file
 def getMapInfo(db, hash):
@@ -159,10 +191,15 @@ def getMapInfo(db, hash):
     data['num_beatmaps'], offset = parseNum(db, offset, 4)
 
     data['beatmaps'] = {}
-    for i in range(0, data['num_beatmaps']):
-        beatmap, offset = parseFastBeatmap(db, offset)
-        if beatmap['file_md5'] == hash:
-            return beatmap
+    result = hashCacheQuery("SELECT Beatmap FROM hashCache WHERE Hash = '{}'".format(hash))
+    if len(result) > 0:
+        return result[0][0]
+    else:
+        for i in range(0, data['num_beatmaps']):
+            beatmap, offset = parseFastBeatmap(db, offset)
+            if beatmap['file_md5'] == hash:
+                hashCacheQuery("INSERT INTO hashCache (Hash, Beatmap) VALUES ('{}','{}')".format(hash, beatmap["folder_name"]))
+                return beatmap["folder_name"]
 
     return None
 
@@ -172,7 +209,7 @@ def find_beatmap_(replay_path,osu_path):
     beatmap = getMapInfo(osuDb.read(), replayfile.beatmap_hash)
     osuDb.close()
     try:
-        logging.info("Loaded beatmap folder {}".format(beatmap["folder_name"]))
-        return beatmap["folder_name"]
+        logging.info("Loaded beatmap folder {}".format(beatmap))
+        return beatmap
     except Exception as e:
         logging.error(repr(e))
