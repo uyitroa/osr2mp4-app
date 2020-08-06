@@ -4,3 +4,4 @@ error.txt
 Logs
 exit.txt
 settings.json
+**/__pycache__/

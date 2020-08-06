@@ -2,6 +2,7 @@ from struct import unpack_from
 import osrparse
 import logging
 import sqlite3
+from abspath import cachepath
 
 
 def parseNum(db, offset, length):
@@ -147,7 +148,7 @@ def parseTimingPoint(db, offset):
     return (tp, offset)
 
 def hashCacheQuery(query):
-    db = sqlite3.connect("hashCache.db")
+    db = sqlite3.connect(cachepath)
     cur = db.cursor()
     cur.execute(query)
 
