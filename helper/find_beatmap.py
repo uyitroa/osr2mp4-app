@@ -180,7 +180,7 @@ def getMapInfo(db, hash):
         for i in range(0, data['num_beatmaps']):
             beatmap, offset = parseFastBeatmap(db, offset)
             if beatmap['file_md5'] == hash:
-                hashCacheQuery("INSERT INTO hashCache (Hash, Beatmap) VALUES ('{}','{}')".format(hash, beatmap["folder_name"]))
+                hashCacheQuery("INSERT INTO hashCache (Hash, Beatmap) VALUES ('{}','{}')".format(hash, beatmap["folder_name"].replace("'","''")))
                 return beatmap["folder_name"]
 
     return None
