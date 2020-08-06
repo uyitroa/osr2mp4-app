@@ -160,24 +160,6 @@ def hashCacheQuery(query):
     cur.close()  
     db.close()
 
-def updateHashCache(db):
-    offset = 0
-    data = {}
-    data['version'], offset = parseNum(db, offset, 4)
-    data['folder_count'], offset = parseNum(db, offset, 4)
-    data['account_unlocked'], offset = parseBool(db, offset)
-
-    data['unlock_date'], offset = parseNum(db, offset, 8)
-    data['name'], offset = parseString(db, offset)
-    data['num_beatmaps'], offset = parseNum(db, offset, 4)
-
-    data['beatmaps'] = {}
-    for i in range(0, data['num_beatmaps']):
-        beatmap, offset = parseFastBeatmap(db, offset)
-        result = hashCacheQuery("SELECT Hash FROM hashCache WHERE Bitmap = '{}'".format(beatmap["folder_name"]))
-        if result == "":
-            hashCacheQuery("INSERT INTO hashCache (Hash, Beatmap) VALUES ('{}','{}')".format(beatmap["file_md5"], beatmap["folder_name"]))
-
 # parses the osu!.db file
 def getMapInfo(db, hash):
     offset = 0
