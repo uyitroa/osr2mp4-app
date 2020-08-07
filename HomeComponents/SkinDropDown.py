@@ -22,7 +22,7 @@ class SkinDropDown(QComboBox):
 		super(SkinDropDown, self).__init__(parent)
 
 		self.default_x = 620
-		self.default_y = 245
+		self.default_y = 255
 		self.img_drop = os.path.join(abspath, "res/Drop_Scale.png")
 		self.img_listview = os.path.join(abspath, "res/listview.png")
 		self.setToolTip("Skin that will be used in the video")

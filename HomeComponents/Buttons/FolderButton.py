@@ -10,7 +10,7 @@ class FolderButton(Button):
 		super(FolderButton, self).__init__(parent)
 		self.main_window = parent
 		self.default_x = 700
-		self.default_y = 280
+		self.default_y = 290
 		self.default_size = 1
 		self.text_x = 500
 		self.text_y = -10
