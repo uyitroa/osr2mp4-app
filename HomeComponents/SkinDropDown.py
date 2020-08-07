@@ -21,10 +21,11 @@ class SkinDropDown(QComboBox):
 	def __init__(self, parent):
 		super(SkinDropDown, self).__init__(parent)
 
-		self.default_x = 600
+		self.default_x = 620
 		self.default_y = 245
 		self.img_drop = os.path.join(abspath, "res/Drop_Scale.png")
 		self.img_listview = os.path.join(abspath, "res/listview.png")
+		self.setToolTip("Skin that will be used in the video")
 
 		self.activated.connect(self.activated_)
 		self.main_window = parent
@@ -95,12 +96,11 @@ class SkinDropDown(QComboBox):
 			name = os.path.basename(current_config["Skin path"])
 
 		skin_list = [f for f in glob.glob(os.path.join(current_config["osu! path"], "Skins/*"), recursive=True)]
-		dirs_num = sum(os.path.isdir("C:\\Users\\Vincent\\AppData\\Local\\osu!\\Skins\\" + i) for i in os.listdir("C:\\Users\\Vincent\\AppData\\Local\\osu!\\Skins\\"))
-		print(dirs_num)
+		row = 0
 		for x in skin_list:
 			skinname = os.path.basename(x)
-			for i in range(0, dirs_num):
-				self.insertItems(i + 1, [skinname])
+			self.insertItems(row + 1, [skinname])
+			row += 1
 
 		self.setCurrentIndex(self.findText(name))
 

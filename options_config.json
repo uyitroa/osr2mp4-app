@@ -34,10 +34,6 @@
 		"Ignore beatmap hitsounds": {"type": "CheckBox"},
 		"Use skin's sound samples": {"type": "CheckBox"},
         "Song delay": {"type": "Slider", "min": -1000, "max": 1000, "step": 1}
-	},
-
-	"Maintenance": {
-		"Update": {"type": "UpdateButton"}
 	}
 
 }

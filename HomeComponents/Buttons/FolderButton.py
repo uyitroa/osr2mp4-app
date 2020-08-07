@@ -9,21 +9,20 @@ class FolderButton(Button):
 	def __init__(self, parent):
 		super(FolderButton, self).__init__(parent)
 		self.main_window = parent
-		self.default_x = 200
-		self.default_y = 400
-		self.default_size = 0.5
+		self.default_x = 700
+		self.default_y = 280
+		self.default_size = 1
 		self.text_x = 500
 		self.text_y = -10
 		self.default_fontsize = 250
 
-		self.img_idle = "res/SmallButton.png"
-		self.img_hover = "res/SmallButton hover.png"
-		self.img_click = "res/SmallButton click.png"
+		self.img_idle = "res/outputf_btn.png"
+		self.img_hover = "res/outputf_btn_hover.png"
+		self.img_click = "res/outputf_btn_click.png"
 
 		super().setup()
 
 		self.text = QLabel(self)
-		self.text.setText("Open Folder")
 
 	def mouseclicked(self):
 		outputpath = current_config["Output path"]
