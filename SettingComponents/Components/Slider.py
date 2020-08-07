@@ -3,14 +3,9 @@ import os
 from PyQt5.QtWidgets import QSlider, QToolTip
 from PyQt5 import QtCore
 from PyQt5 import QtGui
-from osr2mp4.Exceptions import BeatmapNotFound
-from osr2mp4.Utils.HashBeatmap import get_osu
-from osr2mp4.Parser import osuparser
-import osrparse
-from osrparse.enums import Mod
-import logging
 from abspath import abspath
-from config_data import current_config
+from config_data import current_config, current_settings
+from helper.helper import ensure_rightmap, getmaptime, osrhash
 
 
 class Slider(QSlider):
@@ -52,7 +47,6 @@ color: white;
 		self.setMaximum(self.default_max + self.bordersize)
 		self.setSingleStep(jsondata["option_config"]["step"] * 1000)
 
-
 		step = jsondata["option_config"]["step"]
 		self.precision = len(str(step-int(step))[1:])
 
@@ -82,7 +76,7 @@ color: white;
 
 		self.current_data[self.key] = round(self.value() / 1000, self.precision)
 
-		self.show = round(self.value() / 1000, self.precision)
+		self.show = self.current_data[self.key]
 		if self.show == int(self.show):
 			self.show = int(self.show)
 		QToolTip.showText(QtGui.QCursor.pos(), str(self.show), self)
@@ -91,15 +85,10 @@ color: white;
 		self.setValue(self.current_data[self.key] * 1000)
 
 	def enterEvent(self, QEvent):
-		self.show = round(self.value() / 1000, self.precision)
+		self.show = self.current_data[self.key]
 		if self.show == int(self.show):
 			self.show = int(self.show)
 		QToolTip.showText(QtGui.QCursor.pos(), str(self.show), self)
-
-
-class Map:
-	length = None
-	name = None
 
 
 class StartTimeSlider(Slider):
@@ -111,74 +100,28 @@ class StartTimeSlider(Slider):
 		jsondata["option_config"]["min"] = 0
 		jsondata["option_config"]["step"] = 1
 
-		if Map.length is None:
-			self.get_maplength(jsondata)
+		ensure_rightmap(current_config, current_settings)
+		self.prevhash = osrhash()
 
-		jsondata["option_config"]["max"] = Map.length
-
-		self.mapname = Map.name
+		jsondata["option_config"]["max"] = getmaptime(current_config, current_settings)
 
 		super().__init__(parent=parent, jsondata=jsondata)
 
-	# @classmethod
-	def get_maplength(self, jsondata):
-		if Map.name == jsondata["data"]["config"][".osr path"]:
-			return
-		Map.name = jsondata["data"]["config"][".osr path"]
-
-		try:
-			replay_data = osrparse.parse_replay_file(jsondata["data"]["config"][".osr path"])
-		except Exception as e:
-			logging.error(repr(e))
-			Map.length = 1
-			Map.name = None
-			return
-
-		if Mod.DoubleTime in replay_data.mod_combination or Mod.Nightcore in replay_data.mod_combination:
-			time_frame = 1500
-		elif Mod.HalfTime in replay_data.mod_combination:
-			time_frame = 750
-		else:
-			time_frame = 1000
-
-		laststring = jsondata["data"]["config"]["Beatmap path"][-1]
-		if laststring != "/" and laststring != "\\":
-			jsondata["data"]["config"]["Beatmap path"] += "/"
-
-		try:
-			mappath = get_osu(jsondata["data"]["config"]["Beatmap path"], replay_data.beatmap_hash)
-		except BeatmapNotFound:
-			print("replay not specified yet")
-			Map.length = 1
-			Map.name = None
-			return
-
-		color = {"ComboNumber": 1}
-		osudata = osuparser.read_file(mappath, 1, color, False)
-
-		Map.length = osudata.hitobjects[-1]["end time"] - osudata.hitobjects[0]["time"]
-		Map.length /= time_frame
-
-	# @classmethod
 	def updatevalue(self):
-		self.get_maplength({"data": {"config": current_config}, "option_config": {}})
-		# for self in cls.objs:
-		if self.mapname != Map.name:
-			self.mapname = Map.name
-			self.default_max = Map.length * 1000
-			tmp = self.bordersize
-			self.bordersize = (self.default_max - self.default_min) * 0.0125
-			self.cursize = self.cursize * self.bordersize/tmp
+		ensure_rightmap(current_config, current_settings)
+		if self.prevhash != osrhash():
+			self.updatetime()
 
-			self.setMaximum(self.default_max + self.cursize)
-			self.setMinimum(self.default_min - self.cursize)
-
-			self.current_data[self.key] = 0
-			self.setValue(self.minimum())
-
-	# def setFixedHeight(self, p_int):
-	# 	super().setFixedHeight(p_int)
-	# 	print("from height", self.cursize, self.bordersize)
+	def updatetime(self):
+		self.prevhash = osrhash()
+		self.default_max = getmaptime(current_config, current_settings)
+		tmp = self.bordersize
+		self.bordersize = (self.default_max - self.default_min) * 0.0125
+		self.cursize = self.cursize * self.bordersize / tmp
+		self.setMaximum(self.default_max + self.cursize)
+		self.setMinimum(self.default_min - self.cursize)
+		self.current_data[self.key] = 0
+		self.setValue(self.minimum())
 
 
 class EndTimeSlider(StartTimeSlider):
@@ -186,12 +129,12 @@ class EndTimeSlider(StartTimeSlider):
 
 	def __init__(self, parent=None, jsondata=None):
 		EndTimeSlider.objs.append(self)
-		endtime = jsondata["data"]["config"]["End time"]
+		end_time = jsondata["data"]["config"]["End time"]
 		super().__init__(parent=parent, jsondata=jsondata)
-		if endtime == -1:
+		if end_time == -1:
 			val = self.maximum()
 		else:
-			val = self.current_data[self.key] * 1000
+			val = self.current_data[self.key]
 
 		self.setValue(val)
 
@@ -200,18 +143,26 @@ class EndTimeSlider(StartTimeSlider):
 		super().valueChanged(p_int)
 		if p_int >= self.maximum() - self.cursize:
 			self.current_data[self.key] = -1
+			QToolTip.showText(QtGui.QCursor.pos(), "Max", self)
 
 	def setFixedHeight(self, p_int):
 		super().setFixedHeight(p_int)
 
-	# @classmethod
 	def updatevalue(self):
-		mapname = self.mapname
+		prevhash = self.prevhash
 		super().updatevalue()
-		# for self in cls.objs:
-			# if self.current_data[self.key] == -1:
-			# 	self.setValue(self.maximum())
-		if mapname != Map.name:
-			self.current_data[self.key] = -1
-			print(self.maximum())
-			self.setValue(self.maximum())
+		if prevhash != self.prevhash:
+			self.updateendtime()
+
+	def updateendtime(self):
+		self.current_data[self.key] = -1
+		self.setValue(self.maximum())
+
+	def enterEvent(self, QEvent):
+		self.show = self.current_data[self.key]
+		if self.show == int(self.show):
+			self.show = int(self.show)
+
+		if self.show == -1:
+			self.show = "Max"
+		QToolTip.showText(QtGui.QCursor.pos(), str(self.show), self)

@@ -1,8 +1,9 @@
 import os
-
 from Parents import ButtonBrowse
-from config_data import current_config
+from config_data import current_config, current_settings
 import logging
+
+from helper.helper import parse_osr
 
 
 class OsrButton(ButtonBrowse):
@@ -28,10 +29,12 @@ class OsrButton(ButtonBrowse):
 			return
 		replay_name = os.path.split(filename)[-1]
 		current_config[".osr path"] = filename
+
+		parse_osr(current_config, current_settings)
+
 		try:
 			self.main_window.osrpath.setText(replay_name)
 		except Exception as e:
-			#print('error {}'.format(e))
 			logging.error(repr(e))
 
 		try:

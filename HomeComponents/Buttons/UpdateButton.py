@@ -22,20 +22,19 @@ class UpdateButton(Button):
 		x = threading.Thread(target=self.check_updates)
 		x.start()
 		self.default_x = 20
-		self.default_y = 400
-		self.default_size = 0.5
+		self.default_y = 450
+		self.default_size = 0.75
 		self.text_x = 500
 		self.text_y = -10
 		self.default_fontsize = 250
 
-		self.img_idle = "res/SmallButton.png"
-		self.img_hover = "res/SmallButton hover.png"
-		self.img_click = "res/SmallButton click.png"
+		self.img_idle = "res/update_btn.png"
+		self.img_hover = "res/update_btn_hover.png"
+		self.img_click = "res/update_btn_click.png"
 
 		super().setup()
 
 		self.text = QLabel(self)
-		self.text.setText("Update")
 		self.text.setToolTip("{} | {}".format(self.osr2mp4_current_ver, self.osr2mp4app_current_ver))
 		logging.info("{} | {}".format(self.osr2mp4_current_ver, self.osr2mp4app_current_ver))
 		self.hide()

@@ -7,6 +7,8 @@ oldpath = os.path.join
 
 def newpath(path, *paths):
 	a = oldpath(path, *paths)
+	if type(a).__name__ != "str":
+		return a
 	return a.replace("\\", "/")
 
 

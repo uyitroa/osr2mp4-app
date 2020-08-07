@@ -4,39 +4,47 @@ import os
 import os.path
 import sys
 import traceback
-
 import PyQt5
-import psutil
 from PyQt5 import QtGui, QtCore
 from PyQt5.QtWidgets import QMainWindow, QApplication
 from autologging import TRACE
+from urllib.parse import urlparse
 
+from osr2mp4.Utils.getmods import mod_string_to_enums
+from osr2mp4.osrparse.replay import Replay
+
+from HomeComponents.AutoCheckBox import AutoCheckBox
+from HomeComponents.Buttons.FolderButton import FolderButton
 from HomeComponents.Buttons.MapsetButton import MapsetButton
 from HomeComponents.Buttons.Options import Options
 from HomeComponents.Buttons.OsrButton import OsrButton
+from HomeComponents.Buttons.OsrGrayButton import OsrGrayButton
 from HomeComponents.Buttons.OutputButton import OutputButton
 from HomeComponents.Buttons.StartButton import StartButton
 from HomeComponents.Buttons.UpdateButton import UpdateButton
 from HomeComponents.Buttons.osuButton import osuButton
 from HomeComponents.Buttons.CancelButton import CancelButton
+from HomeComponents.Buttons.osuMapButton import osuMapButton
 from HomeComponents.Logo import Logo
 from HomeComponents.PathImage import OsrPath, MapSetPath
 from HomeComponents.PopupWindow import PopupWindow, CustomTextWindow
 from HomeComponents.ProgressBar import ProgressBar
 from HomeComponents.SkinDropDown import SkinDropDown
+from Info import Info
 from Parents import ButtonBrowse, PopupButton
 from SettingComponents.Layouts.SettingsPage import SettingsPage
 from abspath import abspath, configpath, Log
 from config_data import current_config, current_settings
 from helper.find_beatmap import find_beatmap_
-from helper.helper import save
+from helper.helper import save, parse_osr, parse_map, kill, cleanupkill
 
 
 class Window(QMainWindow):
 	def __init__(self, App, execpath):
 		super().__init__()
 
-		logging.basicConfig(level=TRACE, filename=Log.apppath, filemode="w", format="%(asctime)s:%(levelname)s:%(name)s:%(funcName)s:%(message)s")
+		logging.basicConfig(level=TRACE, filename=Log.apppath, filemode="w",
+		                    format="%(asctime)s:%(levelname)s:%(name)s:%(funcName)s:%(message)s")
 
 		apikey = current_settings["api key"]
 		current_settings["api key"] = None  # avoid logging api key
@@ -50,6 +58,7 @@ class Window(QMainWindow):
 		self.setWindowIcon(QtGui.QIcon(os.path.join(abspath, "res/OsrLogo.png")))
 		self.setWindowTitle("Osr2mp4")
 		self.setStyleSheet("background-color: rgb(30, 30, 33);")
+		self.setAcceptDrops(True)
 
 		window_width, window_height = 832, 469
 
@@ -71,14 +80,16 @@ class Window(QMainWindow):
 		self.skin_dropdown = SkinDropDown(self)
 		self.options = Options(self)
 		self.updatebutton = UpdateButton(self)
-        
+		self.folderbutton = FolderButton(self)
+		self.osrgraybutton = OsrGrayButton(self)
+		self.osumapbutton = osuMapButton(self)
+		self.autocheckbox = AutoCheckBox(self)
 		self.cancelbutton = CancelButton(self)
-		self.cancelbutton.hide()
 
 		logging.info("Loaded Buttons")
 
 		self.blurrable_widgets = [self.osrbutton, self.mapsetbutton, self.startbutton, self.logo, self.osrpath,
-								  self.mapsetpath, self.options, self.skin_dropdown, self.cancelbutton]
+		                          self.mapsetpath, self.options, self.skin_dropdown, self.cancelbutton, self.folderbutton]
 
 		self.popup_window = PopupWindow(self)
 		self.output_window = OutputButton(self)
@@ -97,11 +108,48 @@ class Window(QMainWindow):
 		self.progressbar = ProgressBar(self)
 		self.progressbar.hide()
 
+		current_config[".osr path"] = "brrrrr"  # because if .osr path is auto, it won't check for latest play on startup
 		self.check_osu_path()
 		# self.check_replay_map()
 
 		self.show()
 		self.resize(window_width, window_height)
+
+	def toggle_auto(self, enable_auto):
+		if enable_auto:
+			self.prevreplay = "auto"
+			current_config[".osr path"] = "auto"
+			current_config["Beatmap path"] = ""
+			self.osrpath.setText("auto")
+			self.mapsetpath.setText("")
+			Info.replay = Replay()
+			Info.replay.mod_combination = mod_string_to_enums(current_settings["Custom mods"])
+			Info.map = None
+			Info.maphash = None
+
+			self.osrgraybutton.show()
+			self.osrbutton.hide()
+
+			self.mapsetbutton.hide()
+			self.osumapbutton.show()
+		else:
+			current_config[".osr path"] = ""
+			current_config["Beatmap path"] = ""
+			current_settings["Custom mods"] = ""
+			self.osrpath.setText("")
+			self.mapsetpath.setText("")
+			Info.replay = None
+			Info.real_mod = None
+			Info.map = None
+			Info.maphash = None
+
+			self.check_replay_map()
+
+			self.osrgraybutton.hide()
+			self.osrbutton.show()
+
+			self.mapsetbutton.show()
+			self.osumapbutton.hide()
 
 	def applicationStateChanged(self, state):
 		if ButtonBrowse.browsing or PopupButton.browsing:
@@ -133,6 +181,11 @@ class Window(QMainWindow):
 		self.customwindow.changesize()
 		self.updatebutton.changesize()
 		self.cancelbutton.changesize()
+		self.folderbutton.changesize()
+		self.autocheckbox.changesize()
+		self.osrgraybutton.changesize()
+		self.osumapbutton.changesize()
+
 		if self.popup_bool:
 			self.blur_function(True)
 		else:
@@ -179,6 +232,9 @@ class Window(QMainWindow):
 				self.delete_popup()
 				self.popup_bool = False
 
+		if current_config[".osr path"] == "auto":
+			current_settings["Custom mods"] = ""
+
 		save()
 
 		if not self.popup_bool:
@@ -188,49 +244,70 @@ class Window(QMainWindow):
 
 	def find_latest_replay(self):
 		try:
-			if current_config["osu! path"] != "":
-				path = os.path.join(current_config["osu! path"], "Replays/*.osr")
-				list_of_files = glob.glob(path)
-				if not list_of_files:
-					return
-				replay = max(list_of_files, key=os.path.getctime)
-				if self.prevreplay == replay:
-					return
+			if current_config["osu! path"] == "":
+				return
 
-				self.prevreplay = replay
-				replay_name = os.path.split(replay)[-1]
-				self.find_latest_map(replay)
-				if replay_name != "":
-					self.osrpath.setText(replay_name)
+			path = os.path.join(current_config["osu! path"], "Replays/*.osr")
+			list_of_files = glob.glob(path)
+			if not list_of_files:
+				return
+			replay = max(list_of_files, key=os.path.getctime)
+			if self.prevreplay == replay or current_config[".osr path"] == "auto":
+				return
 
-				current_config[".osr path"] = replay
-				logging.info("Updated replay path to: {}".format(replay))
+			self.prevreplay = replay
+			replay_name = os.path.split(replay)[-1]
+			self.osrpath.setText(replay_name)
+
+			current_config[".osr path"] = replay
+			parse_osr(current_config, current_settings)
+
+			self.find_latest_map(replay)
+
+			logging.info("Updated replay path to: {}".format(replay))
 		except Exception as e:
 			print("Error: {}".format(e))
 			logging.error(repr(e))
 
 	def find_latest_map(self, replay):
-		if current_config["osu! path"] != "":
+		try:
+			if current_config["osu! path"] == "":
+				return
+
 			beatmap_name = find_beatmap_(replay, current_config["osu! path"])
 			beatmap_path = os.path.join(current_config["osu! path"], "Songs", beatmap_name)
+
 			if not os.path.isdir(beatmap_path):
 				return
 
 			current_config["Beatmap path"] = beatmap_path
 			if beatmap_name != "":
 				self.mapsetpath.setText(beatmap_name)
-				print("press F")
 				logging.info("Updated beatmap path to: {}".format(beatmap_path))
+
+				parse_map(current_config, current_settings)
+		except Exception as e:
+			print("Error: {}".format(e))
+			logging.error(repr(e))
 
 	def check_replay_map(self):
 		self.find_latest_replay()
 
+	def dragEnterEvent(self, e):
+		e.accept()
 
-def kill(proc_pid):
-	process = psutil.Process(proc_pid)
-	for proc in process.children(recursive=True):
-		proc.kill()
-	process.kill()
+	def dropEvent(self, e):
+		for url in e.mimeData().urls():
+			p = urlparse(url.url())
+			final_path = os.path.abspath(os.path.join(p.netloc, p.path))
+			if final_path.endswith(".osr"):
+				current_config[".osr path"] = final_path
+				self.osrpath.setText(os.path.basename(final_path))
+				self.find_latest_map(final_path)
+			elif os.path.isdir(final_path):
+				current_config["Beatmap path"] = final_path
+				self.mapsetpath.setText(os.path.basename(final_path))
+		# self.setText(e.mimeData().text())
 
 
 def excepthook(exc_type, exc_value, exc_tb):
@@ -254,8 +331,6 @@ def main(execpath="."):
 	Log.apppath = os.path.join(execpath, "Logs", Log.apppath)
 	Log.runosupath = os.path.join(execpath, "Logs", Log.runosupath)
 
-	print(Log.apppath, Log.runosupath)
-
 	qtpath = os.path.dirname(PyQt5.__file__)
 	pluginpath = os.path.join(qtpath, "Qt/plugins")
 	os.environ['QT_QPA_PLATFORM_PLUGIN_PATH'] = pluginpath
@@ -277,6 +352,7 @@ def main(execpath="."):
 	ret = App.exec_()
 	if window.startbutton.proc is not None and window.startbutton.proc.poll() is None:
 		kill(window.startbutton.proc.pid)
+		cleanupkill()
 		with open("progress.txt", "w") as file:
 			file.write("done")
 		file.close()
@@ -286,4 +362,3 @@ def main(execpath="."):
 
 if __name__ == "__main__":
 	main()
-
