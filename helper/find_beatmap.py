@@ -152,13 +152,13 @@ def hashCacheQuery(query):
     cur = db.cursor()
     cur.execute(query)
 
-    #Lazy way to detemine if were reading (SELECT) or updating the database
+    #Lazy way to determine if were reading (SELECT) or updating the database
     if query[0] == "S":
         return cur.fetchall()
     else:
         db.commit()
 
-    cur.close()  
+    cur.close()
     db.close()
 
 # parses the osu!.db file
