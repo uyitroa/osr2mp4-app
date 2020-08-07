@@ -11,26 +11,34 @@ from PyQt5 import QtGui, QtCore
 from PyQt5.QtWidgets import QMainWindow, QApplication
 from autologging import TRACE
 from urllib.parse import urlparse
+
+from osr2mp4.Utils.getmods import mod_string_to_enums
+from osr2mp4.osrparse.replay import Replay
+
+from HomeComponents.AutoCheckBox import AutoCheckBox
 from HomeComponents.Buttons.FolderButton import FolderButton
 from HomeComponents.Buttons.MapsetButton import MapsetButton
 from HomeComponents.Buttons.Options import Options
 from HomeComponents.Buttons.OsrButton import OsrButton
+from HomeComponents.Buttons.OsrGrayButton import OsrGrayButton
 from HomeComponents.Buttons.OutputButton import OutputButton
 from HomeComponents.Buttons.StartButton import StartButton
 from HomeComponents.Buttons.UpdateButton import UpdateButton
 from HomeComponents.Buttons.osuButton import osuButton
 from HomeComponents.Buttons.CancelButton import CancelButton
+from HomeComponents.Buttons.osuMapButton import osuMapButton
 from HomeComponents.Logo import Logo
 from HomeComponents.PathImage import OsrPath, MapSetPath
 from HomeComponents.PopupWindow import PopupWindow, CustomTextWindow
 from HomeComponents.ProgressBar import ProgressBar
 from HomeComponents.SkinDropDown import SkinDropDown
+from Info import Info
 from Parents import ButtonBrowse, PopupButton
 from SettingComponents.Layouts.SettingsPage import SettingsPage
 from abspath import abspath, configpath, Log
 from config_data import current_config, current_settings
 from helper.find_beatmap import find_beatmap_
-from helper.helper import save, parse_osr, parse_osu
+from helper.helper import save, parse_osr, parse_map
 
 
 class Window(QMainWindow):
@@ -75,9 +83,10 @@ class Window(QMainWindow):
 		self.options = Options(self)
 		self.updatebutton = UpdateButton(self)
 		self.folderbutton = FolderButton(self)
-
+		self.osrgraybutton = OsrGrayButton(self)
+		self.osumapbutton = osuMapButton(self)
+		self.autocheckbox = AutoCheckBox(self)
 		self.cancelbutton = CancelButton(self)
-		self.cancelbutton.hide()
 
 		logging.info("Loaded Buttons")
 
@@ -106,6 +115,41 @@ class Window(QMainWindow):
 
 		self.show()
 		self.resize(window_width, window_height)
+
+	def toggle_auto(self, enable_auto):
+		if enable_auto:
+			self.prevreplay = "auto"
+			current_config[".osr path"] = "auto"
+			current_config["Beatmap path"] = ""
+			self.osrpath.setText("auto")
+			self.mapsetpath.setText("")
+			Info.replay = Replay()
+			Info.replay.mod_combination = mod_string_to_enums(current_settings["Custom mods"])
+			Info.map = None
+			Info.maphash = None
+
+			self.osrgraybutton.show()
+			self.osrbutton.hide()
+
+			self.mapsetbutton.hide()
+			self.osumapbutton.show()
+		else:
+			current_config[".osr path"] = ""
+			current_config["Beatmap path"] = ""
+			current_settings["Custom mods"] = ""
+			self.osrpath.setText("")
+			self.mapsetpath.setText("")
+			Info.replay = None
+			Info.map = None
+			Info.maphash = None
+
+			self.check_replay_map()
+
+			self.osrgraybutton.hide()
+			self.osrbutton.show()
+
+			self.mapsetbutton.show()
+			self.osumapbutton.hide()
 
 	def applicationStateChanged(self, state):
 		if ButtonBrowse.browsing or PopupButton.browsing:
@@ -138,6 +182,9 @@ class Window(QMainWindow):
 		self.updatebutton.changesize()
 		self.cancelbutton.changesize()
 		self.folderbutton.changesize()
+		self.autocheckbox.changesize()
+		self.osrgraybutton.changesize()
+		self.osumapbutton.changesize()
 
 		if self.popup_bool:
 			self.blur_function(True)
@@ -185,6 +232,9 @@ class Window(QMainWindow):
 				self.delete_popup()
 				self.popup_bool = False
 
+		if current_config[".osr path"] == "auto":
+			current_settings["Custom mods"] = ""
+
 		save()
 
 		if not self.popup_bool:
@@ -202,13 +252,12 @@ class Window(QMainWindow):
 			if not list_of_files:
 				return
 			replay = max(list_of_files, key=os.path.getctime)
-			if self.prevreplay == replay:
+			if self.prevreplay == replay or current_config[".osr path"] == "auto":
 				return
 
 			self.prevreplay = replay
 			replay_name = os.path.split(replay)[-1]
-			if replay_name != "":
-				self.osrpath.setText(replay_name)
+			self.osrpath.setText(replay_name)
 
 			current_config[".osr path"] = replay
 			parse_osr(current_config, current_settings)
@@ -236,7 +285,7 @@ class Window(QMainWindow):
 				self.mapsetpath.setText(beatmap_name)
 				logging.info("Updated beatmap path to: {}".format(beatmap_path))
 
-				parse_osu(current_config, current_settings)
+				parse_map(current_config, current_settings)
 		except Exception as e:
 			print("Error: {}".format(e))
 			logging.error(repr(e))

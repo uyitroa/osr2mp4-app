@@ -94,12 +94,20 @@ def parse_osr(config, settings):
 		return False
 
 
-def parse_osu(config, settings):
+def parse_map(config, settings):
 	try:
 		logging.info(config["Beatmap path"])
 		osupath = get_osu(config["Beatmap path"], Info.replay.beatmap_hash)
 
 		logging.info(osupath)
+		return parse_osu(osupath)
+	except Exception as e:
+		logging.error(repr(e))
+		return False
+
+
+def parse_osu(osupath):
+	try:
 		Info.map = osuparser.read_file(osupath)
 		Info.maphash = Info.replay.beatmap_hash
 		return True
@@ -115,7 +123,7 @@ def ensure_rightmap(config, settings):
 
 	wrongmap = Info.replay is not None and Info.replay.beatmap_hash != Info.maphash
 	if Info.map is None or wrongmap:
-		t = parse_osu(config, settings) and t
+		t = parse_map(config, settings) and t
 	return t
 
 
@@ -154,5 +162,5 @@ def loadsettings(config, settings, ppsettings):
 	ppsettings["Hitresult Rgb"] = eval(str(ppsettings["Hitresult Rgb"]))
 
 	parse_osr(config, settings)
-	parse_osu(config, settings)
+	parse_map(config, settings)
 

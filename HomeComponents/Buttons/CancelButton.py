@@ -24,6 +24,8 @@ class CancelButton(Button):
 		self.parent = parent
 		super().setup()
 
+		self.hide()
+
 	def kill(self, proc_pid):
 		process = psutil.Process(proc_pid)
 		for proc in process.children(recursive=True):
