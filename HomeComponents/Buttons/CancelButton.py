@@ -1,11 +1,5 @@
-import json
-import os
-import subprocess
-import sys
-import psutil
 from Parents import Button
-from abspath import abspath, configpath, settingspath, Log
-from config_data import current_config, current_settings
+from helper.helper import kill, cleanupkill
 
 
 class CancelButton(Button):
@@ -19,21 +13,15 @@ class CancelButton(Button):
 		self.img_idle = "res/CancelButton.png"
 		self.img_hover = "res/CancelButton_hover.png"
 		self.img_click = "res/CancelButton_click.png"
-		# self.img_shadow = "res/CancelButton_shadow.png"
 		self.proc = None
 		self.parent = parent
 		super().setup()
 
 		self.hide()
 
-	def kill(self, proc_pid):
-		process = psutil.Process(proc_pid)
-		for proc in process.children(recursive=True):
-			proc.kill()
-		process.kill()
-
 	def mouseclicked(self):
 		if self.main_window.startbutton.proc is not None and self.main_window.startbutton.proc.poll() is None:
-			self.kill(self.main_window.startbutton.proc.pid)
+			kill(self.main_window.startbutton.proc.pid)
+			cleanupkill()
 		with open("progress.txt", "w") as file:
 			file.write(".")

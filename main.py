@@ -4,9 +4,7 @@ import os
 import os.path
 import sys
 import traceback
-
 import PyQt5
-import psutil
 from PyQt5 import QtGui, QtCore
 from PyQt5.QtWidgets import QMainWindow, QApplication
 from autologging import TRACE
@@ -38,7 +36,7 @@ from SettingComponents.Layouts.SettingsPage import SettingsPage
 from abspath import abspath, configpath, Log
 from config_data import current_config, current_settings
 from helper.find_beatmap import find_beatmap_
-from helper.helper import save, parse_osr, parse_map
+from helper.helper import save, parse_osr, parse_map, kill, cleanupkill
 
 
 class Window(QMainWindow):
@@ -310,13 +308,6 @@ class Window(QMainWindow):
 		# self.setText(e.mimeData().text())
 
 
-def kill(proc_pid):
-	process = psutil.Process(proc_pid)
-	for proc in process.children(recursive=True):
-		proc.kill()
-	process.kill()
-
-
 def excepthook(exc_type, exc_value, exc_tb):
 	tb = "".join(traceback.format_exception(exc_type, exc_value, exc_tb))
 	logging.exception(tb)
@@ -359,6 +350,7 @@ def main(execpath="."):
 	ret = App.exec_()
 	if window.startbutton.proc is not None and window.startbutton.proc.poll() is None:
 		kill(window.startbutton.proc.pid)
+		cleanupkill()
 		with open("progress.txt", "w") as file:
 			file.write("done")
 		file.close()

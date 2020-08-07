@@ -1,7 +1,10 @@
+import glob
 import json
 import os
+import shutil
 from copy import copy
 import cv2
+import psutil
 from PyQt5 import QtCore
 import logging
 from osr2mp4 import osrparse
@@ -164,3 +167,17 @@ def loadsettings(config, settings, ppsettings):
 	parse_osr(config, settings)
 	parse_map(config, settings)
 
+
+def kill(proc_pid):
+	process = psutil.Process(proc_pid)
+	for proc in process.children(recursive=True):
+		proc.kill()
+	process.kill()
+
+
+def cleanupkill():
+	import osr2mp4
+	osr2mp4dir = os.path.dirname(osr2mp4.__file__)
+	to_deletes = glob.glob(os.path.join(osr2mp4dir, "*temp"))
+	for folder in to_deletes:
+		shutil.rmtree(folder, ignore_errors=True)
