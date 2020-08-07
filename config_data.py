@@ -1,9 +1,7 @@
 import json
 import os
 from copy import copy
-
 from abspath import configpath, settingspath, pppath
-# import logging
 from osr2mp4.global_var import defaultsettings, defaultppconfig
 
 from helper.helper import loadsettings

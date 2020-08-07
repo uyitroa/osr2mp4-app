@@ -1,12 +1,16 @@
 import json
 import os
 from copy import copy
-
 import cv2
 from PyQt5 import QtCore
 import logging
+from osr2mp4 import osrparse
+from osr2mp4.Parser import osuparser
+from osr2mp4.Utils.HashBeatmap import get_osu
+from osr2mp4.osrparse.enums import Mod
 
 from abspath import configpath, settingspath
+from Info import Info
 
 
 def getsize(img):
@@ -78,6 +82,67 @@ def save(filename=None):
 		f.close()
 
 
+def parse_osr(config):
+	try:
+		logging.info(config[".osr path"])
+		Info.replay = osrparse.parse_replay_file(config[".osr path"])
+		return True
+	except Exception as e:
+		logging.error(repr(e))
+		return False
+
+
+def parse_osu(config):
+	try:
+		logging.info(config["Beatmap path"])
+		osupath = get_osu(config["Beatmap path"], Info.replay.beatmap_hash)
+
+		logging.info(osupath)
+		Info.map = osuparser.read_file(osupath)
+		Info.maphash = Info.replay.beatmap_hash
+		return True
+	except Exception as e:
+		logging.error(repr(e))
+		return False
+
+
+def ensure_rightmap(config):
+	t = Info.replay is not None
+	if not t:
+		t = parse_osr(config)
+
+	wrongmap = Info.replay is not None and Info.replay.beatmap_hash != Info.maphash
+	if Info.map is None or wrongmap:
+		if wrongmap:
+			# this should never happen but who knows
+			logging.error("something is wrong")
+			print("something is wrong")
+
+		t = parse_osu(config) and t
+	return t
+
+
+def osrhash():
+	return str(Info.maphash) + str(Info.map)
+
+
+def getmaptime(config):
+	ensure_rightmap(config)
+	try:
+		nomod_time = Info.map.end_time - Info.map.start_time
+
+		if Mod.DoubleTime in Info.replay.mod_combination or Mod.Nightcore in Info.replay.mod_combination:
+			nomod_time /= 1.5
+
+		if Mod.HalfTime in Info.replay.mod_combination:
+			nomod_time /= 0.75
+
+		return nomod_time
+	except Exception as e:
+		logging.error(repr(e))
+		return 1
+
+
 def loadsettings(config, settings, ppsettings):
 	outputpath = config["Output path"]
 
@@ -90,3 +155,7 @@ def loadsettings(config, settings, ppsettings):
 
 	ppsettings["Rgb"] = eval(str(ppsettings["Rgb"]))
 	ppsettings["Hitresult Rgb"] = eval(str(ppsettings["Hitresult Rgb"]))
+
+	parse_osr(config)
+	parse_osu(config)
+
