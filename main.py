@@ -108,6 +108,7 @@ class Window(QMainWindow):
 		self.progressbar = ProgressBar(self)
 		self.progressbar.hide()
 
+		current_config[".osr path"] = "brrrrr"  # because if .osr path is auto, it won't check for latest play on startup
 		self.check_osu_path()
 		# self.check_replay_map()
 
