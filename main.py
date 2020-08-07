@@ -138,6 +138,7 @@ class Window(QMainWindow):
 			self.osrpath.setText("")
 			self.mapsetpath.setText("")
 			Info.replay = None
+			Info.real_mod = None
 			Info.map = None
 			Info.maphash = None
 

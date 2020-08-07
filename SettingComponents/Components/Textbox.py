@@ -79,7 +79,10 @@ class CustomModsTextBox(SmallTextBox):
 		super().textChanged(p_str)
 		mods = mod_string_to_enums(p_str)
 		if Info.replay is not None:
-			Info.replay.mod_combination = mods
+			if p_str == "":
+				Info.replay.mod_combination = Info.real_mod
+			else:
+				Info.replay.mod_combination = mods
 
 			# hmmmmmmmmmmm
 			StartTimeSlider.objs[0].updatetime()

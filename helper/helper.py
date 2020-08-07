@@ -90,7 +90,10 @@ def parse_osr(config, settings):
 	try:
 		logging.info(config[".osr path"])
 		Info.replay = osrparse.parse_replay_file(config[".osr path"])
-		Info.replay.mod_combination = mod_string_to_enums(settings["Custom mods"])
+		Info.real_mod = Info.replay.mod_combination
+		if settings["Custom mods"] != "":
+			Info.replay.mod_combination = mod_string_to_enums(settings["Custom mods"])
+
 		return True
 	except Exception as e:
 		logging.error(repr(e))
