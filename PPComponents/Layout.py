@@ -5,10 +5,10 @@ from PyQt5 import QtCore
 
 from SettingComponents.Components.Pathbox import PathBox
 from SettingComponents.Layouts.GridLayout import GridLayout
-from SettingComponents.Components.QLabel import Titles, Small_Titles
+from SettingComponents.Components.QLabel import Titles, SmallTitles
 from SettingComponents.Components.Scrollbar import Scrollbar
 from SettingComponents.Components.Separator import Separator
-from SettingComponents.Components.Textbox import Big_Textbox, Small_Textbox
+from SettingComponents.Components.Textbox import BigTextBox, SmallTextBox
 from SettingComponents.Components.Slider import Slider
 import json
 
@@ -23,8 +23,8 @@ class PPLayout(QtWidgets.QScrollArea):
 		self.default_width, self.default_height = parent.default_width, parent.default_height - parent.ppsample.settings.height
 		self.default_x, self.default_y = 10, parent.ppsample.settings.height
 
-		self.widgetlists = {"Big_Textbox": Big_Textbox, "Small_Textbox": Small_Textbox,
-							"Titles": Titles, "Small_Titles": Small_Titles,
+		self.widgetlists = {"Big_Textbox": BigTextBox, "Small_Textbox": SmallTextBox,
+							"Titles": Titles, "Small_Titles": SmallTitles,
 							"Slider": Slider, "PathBox": PathBox}
 
 		self.layout = QtWidgets.QHBoxLayout(parent)
@@ -64,7 +64,7 @@ class PPLayout(QtWidgets.QScrollArea):
 				jsondata = {"option_config": data[header][key], "data": data_config, "key": key}
 				widget = self.widgetlists[widgetname](jsondata=jsondata)
 
-				self.gridLayout.smart_addWidget(Small_Titles(key + ":"), column)
+				self.gridLayout.smart_addWidget(SmallTitles(key + ":"), column)
 				self.gridLayout.smart_addWidget(widget, column+1)
 			self.gridLayout.smart_addWidget(Titles(" "), 0)
 

@@ -2,14 +2,14 @@
 	"Render options": {
 		"osu! path": {"type": "PathBox", "filetype": "Folder"},
 		"Output path": {"type": "PathBox", "filetype": "Folder"},
-		"Output name": {"type": "Big_Textbox"},
+		"Output name": {"type": "BigTextBox"},
 		"Start time": {"type": "StartTimeSlider"},
 		"End time": {"type": "EndTimeSlider"},
-		"Process": {"type": "Small_Textbox", "Column": 1},
-		"Width": {"type": "Small_Textbox", "Column": 1},
-		"Height": {"type": "Small_Textbox", "Column": 1},
-		"FPS": {"type": "Small_Textbox", "Column": 1},
-		"Video codec": {"type": "Small_Textbox", "Column": 1}
+		"Process": {"type": "SmallTextBox", "Column": 1},
+		"Width": {"type": "SmallTextBox", "Column": 1},
+		"Height": {"type": "SmallTextBox", "Column": 1},
+		"FPS": {"type": "SmallTextBox", "Column": 1},
+		"Video codec": {"type": "SmallTextBox", "Column": 1}
 	},
 
 	"Visual options": {
@@ -24,8 +24,8 @@
 		"Show mods icon": {"type": "CheckBox"},
 		"Enable PP counter": {"type": "CheckBox"},
 		"Global leaderboard": {"type": "CheckBox"},
-		"Mods leaderboard": {"type": "Small_Textbox"},
-		"api key": {"type": "Big_Textbox"}
+		"Mods leaderboard": {"type": "SmallTextBox"},
+		"api key": {"type": "BigTextBox"}
 	},
 
 	"Sound options": {
@@ -34,6 +34,10 @@
 		"Ignore beatmap hitsounds": {"type": "CheckBox"},
 		"Use skin's sound samples": {"type": "CheckBox"},
         "Song delay": {"type": "Slider", "min": -1000, "max": 1000, "step": 1}
+	},
+
+	"Advanced options": {
+		"Custom mods": {"type": "CustomModsTextBox"}
 	},
 
 	"Maintenance": {

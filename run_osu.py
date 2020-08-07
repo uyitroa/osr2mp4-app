@@ -15,9 +15,22 @@ class Dummy: pass
 # 	print(sys.path, "\n", newpath)
 # 	return newpath
 
+def update_progress(framecount, deltatime, videotime):
+	abspath = os.path.dirname(os.path.abspath(inspect.getsourcefile(Dummy)))
+	nframe = videotime[1] - videotime[0]
+	curprogress = min(99, framecount/nframe * 100)
+	fprogress = open(os.path.join(abspath, "progress.txt"), "w")
+	fprogress.write(str(curprogress))
+	fprogress.close()
+	print(curprogress)
+
 
 def run():
+	import osr2mp4
 	from osr2mp4.osr2mp4 import Osr2mp4
+
+	osr2mp4.VideoProcess.CreateFrames.update_progress = update_progress
+
 	abspath = os.path.dirname(os.path.abspath(inspect.getsourcefile(Dummy)))
 	execpath = sys.argv[1]
 	logpath = os.path.join(execpath, "Logs/")
@@ -66,9 +79,10 @@ def run():
 	converter.joinall()
 
 	fprogress = open(os.path.join(abspath, "progress.txt"), "w")
-	fprogress.write("100")
-	fprogress.close()
+	# fprogress.write("100")
 	time.sleep(0.5)
+	fprogress.write("done")
+	fprogress.close()
 
 
 if __name__ == "__main__":
@@ -81,7 +95,7 @@ if __name__ == "__main__":
 		ferror.write(repr(e) + str(e))
 		ferror.close()
 
-	abspath = os.path.dirname(os.path.abspath(inspect.getsourcefile(Dummy)))
-	fprogress = open(os.path.join(abspath, "progress.txt"), "w")
-	fprogress.write("done")
-	fprogress.close()
+		fprogress = open(os.path.join(abspath, "progress.txt"), "w")
+		fprogress.write("error")
+		fprogress.close()
+

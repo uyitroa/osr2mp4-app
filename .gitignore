@@ -1,0 +1,10 @@
+venv/
+.idea/
+Logs/
+__pycache__/
+config.json
+settings.json
+error.txt
+progress.txt
+exit.txt
+hashCache.db

@@ -3,7 +3,7 @@ import sys
 from PyQt5.QtWidgets import QLabel
 
 from Parents import ButtonBrowse
-from SettingComponents.Components.Textbox import Big_Textbox
+from SettingComponents.Components.Textbox import BigTextBox
 from abspath import abspath
 
 
