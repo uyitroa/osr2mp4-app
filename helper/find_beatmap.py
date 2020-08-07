@@ -1,6 +1,8 @@
 from struct import unpack_from
 import osrparse
 import logging
+import sqlite3
+from abspath import cachepath
 
 
 def parseNum(db, offset, length):
@@ -145,6 +147,19 @@ def parseTimingPoint(db, offset):
 
     return (tp, offset)
 
+def hashCacheQuery(query):
+    db = sqlite3.connect(cachepath)
+    cur = db.cursor()
+    cur.execute(query)
+
+    #Lazy way to detemine if were reading (SELECT) or updating the database
+    if query[0] == "S":
+        return cur.fetchall()
+    else:
+        db.commit()
+
+    cur.close()  
+    db.close()
 
 # parses the osu!.db file
 def getMapInfo(db, hash):
@@ -159,10 +174,15 @@ def getMapInfo(db, hash):
     data['num_beatmaps'], offset = parseNum(db, offset, 4)
 
     data['beatmaps'] = {}
-    for i in range(0, data['num_beatmaps']):
-        beatmap, offset = parseFastBeatmap(db, offset)
-        if beatmap['file_md5'] == hash:
-            return beatmap
+    result = hashCacheQuery("SELECT Beatmap FROM hashCache WHERE Hash = '{}'".format(hash))
+    if len(result) > 0:
+        return result[0][0]
+    else:
+        for i in range(0, data['num_beatmaps']):
+            beatmap, offset = parseFastBeatmap(db, offset)
+            if beatmap['file_md5'] == hash:
+                hashCacheQuery("INSERT INTO hashCache (Hash, Beatmap) VALUES ('{}','{}')".format(hash, beatmap["folder_name"].replace("'","''")))
+                return beatmap["folder_name"]
 
     return None
 
@@ -172,7 +192,7 @@ def find_beatmap_(replay_path,osu_path):
     beatmap = getMapInfo(osuDb.read(), replayfile.beatmap_hash)
     osuDb.close()
     try:
-        logging.info("Loaded beatmap folder {}".format(beatmap["folder_name"]))
-        return beatmap["folder_name"]
+        logging.info("Loaded beatmap folder {}".format(beatmap))
+        return beatmap
     except Exception as e:
         logging.error(repr(e))
