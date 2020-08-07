@@ -4,6 +4,7 @@ from osr2mp4.Utils.getmods import mod_string_to_enums
 
 from Info import Info
 from SettingComponents.Components.Slider import StartTimeSlider, EndTimeSlider
+from config_data import current_config
 
 
 class ParentTextbox(QLineEdit):
@@ -85,6 +86,18 @@ class CustomModsTextBox(SmallTextBox):
 				Info.replay.mod_combination = mods
 
 			# hmmmmmmmmmmm
+			prevmax = EndTimeSlider.objs[0].maximum()
+			prevstart = StartTimeSlider.objs[0].value()
+			prevend = EndTimeSlider.objs[0].value()
+			if current_config["End time"] == -1:
+				prevend = -1
+
 			StartTimeSlider.objs[0].updatetime()
 			EndTimeSlider.objs[0].updatetime()
 			EndTimeSlider.objs[0].updateendtime()
+
+			scale = EndTimeSlider.objs[0].maximum()/prevmax
+			StartTimeSlider.objs[0].setValue(prevstart * scale)
+			if prevend != -1:
+				EndTimeSlider.objs[0].setValue(prevend * scale)
+
