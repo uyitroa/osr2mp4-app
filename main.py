@@ -11,9 +11,6 @@ from PyQt5 import QtGui, QtCore
 from PyQt5.QtWidgets import QMainWindow, QApplication
 from autologging import TRACE
 from urllib.parse import urlparse
-
-from osr2mp4 import osrparse
-
 from HomeComponents.Buttons.FolderButton import FolderButton
 from HomeComponents.Buttons.MapsetButton import MapsetButton
 from HomeComponents.Buttons.Options import Options
@@ -32,7 +29,6 @@ from Parents import ButtonBrowse, PopupButton
 from SettingComponents.Layouts.SettingsPage import SettingsPage
 from abspath import abspath, configpath, Log
 from config_data import current_config, current_settings
-from Info import Info
 from helper.find_beatmap import find_beatmap_
 from helper.helper import save, parse_osr, parse_osu
 
@@ -86,7 +82,7 @@ class Window(QMainWindow):
 		logging.info("Loaded Buttons")
 
 		self.blurrable_widgets = [self.osrbutton, self.mapsetbutton, self.startbutton, self.logo, self.osrpath,
-		                          self.mapsetpath, self.options, self.skin_dropdown, self.cancelbutton]
+		                          self.mapsetpath, self.options, self.skin_dropdown, self.cancelbutton, self.folderbutton]
 
 		self.popup_window = PopupWindow(self)
 		self.output_window = OutputButton(self)

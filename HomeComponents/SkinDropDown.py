@@ -21,64 +21,56 @@ class SkinDropDown(QComboBox):
 	def __init__(self, parent):
 		super(SkinDropDown, self).__init__(parent)
 
-		self.default_x = 600
+		self.default_x = 620
 		self.default_y = 245
 		self.img_drop = os.path.join(abspath, "res/Drop_Scale.png")
 		self.img_listview = os.path.join(abspath, "res/listview.png")
+		self.setToolTip("Skin that will be used in the video")
 
 		self.activated.connect(self.activated_)
 		self.main_window = parent
 
-		self.addEmptyItem(0)
-		self.addEmptyItem(self.count() - 1)
-
 		self.addItems(["Default Skin"])
-		self.setStyleSheet("""QComboBox
-			 {
+		self.setStyleSheet("""
+		QComboBox {
 			 border-image : url(%s);
 			 color: white;
-			 }
-			 QComboBox::drop-down
-			 {
+		}
+		
+		QComboBox::drop-down {
 			 border-bottom-right-radius: 1px;
-			 }
-			 QListView
-			 {
+		}
+
+		QListView {
 			 outline: none;
 			 color: white;
 			 font: bold;
 			 border-image : url(%s);
-			 }
- QScrollBar:vertical {
-	 width: 0px;
-	 height: 0px;
- }
- QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical {
-	 width: 0px;
-	 height: 0px;
-	 background: none;
- }
-
- QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
-	 background: none;
- }
- QTextEdit, QListView {
-    background-color: rgba(0, 0, 0, 0);
-    background-attachment: scroll;
-}
+		}
+		
+		QScrollBar:vertical {
+		 width: 0px;
+		 height: 0px;
+		}
+		QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical {
+		 width: 0px;
+		 height: 0px;
+		 background: none;
+		}
+		
+		QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+		 background: none;
+		}
+		QTextEdit, QListView {
+		background-color: rgba(0, 0, 0, 0);
+		background-attachment: scroll;
+		}
  
 			 """ % (self.img_drop, self.img_listview))
 		self.setItemData(0, QColor(QtCore.Qt.transparent), QtCore.Qt.BackgroundRole)
 		self.setItemData(1, QColor(QtCore.Qt.transparent), QtCore.Qt.BackgroundRole)
 		self.setItemData(2, QColor(QtCore.Qt.transparent), QtCore.Qt.BackgroundRole)
 		self.setup()
-
-	def addEmptyItem(self, index):
-		self.addItems([""])
-		model = self.model()
-		index = model.index(index, self.modelColumn())
-		item = model.itemFromIndex(index)
-		item.setSelectable(False)
 
 	def setup(self):
 
@@ -108,8 +100,7 @@ class SkinDropDown(QComboBox):
 		skin_list = [f for f in glob.glob(os.path.join(current_config["osu! path"], "Skins/*"), recursive=True)]
 		for x in skin_list:
 			skinname = os.path.basename(x)
-			self.addItems([skinname])
-
+			self.addItem(skinname)
 		self.setCurrentIndex(self.findText(name))
 
 	def set_skin_osu(self):
@@ -126,9 +117,6 @@ class SkinDropDown(QComboBox):
 	def changesize(self):
 		changesize(self)
 		self.view().setIconSize(QtCore.QSize(0, 0))  # for linux machines otherwise texts got hidden
-
-	def addItems(self, Iterable, p_str=None):
-		super().insertItems(self.count() - 1, Iterable)
 
 	def blur_me(self, blur):
 		if blur:
