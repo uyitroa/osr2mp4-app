@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import QSlider, QToolTip
 from PyQt5 import QtCore
 from PyQt5 import QtGui
 from abspath import abspath
-from config_data import current_config
+from config_data import current_config, current_settings
 from helper.helper import ensure_rightmap, getmaptime, osrhash
 
 
@@ -100,21 +100,21 @@ class StartTimeSlider(Slider):
 		jsondata["option_config"]["min"] = 0
 		jsondata["option_config"]["step"] = 1
 
-		ensure_rightmap(current_config)
+		ensure_rightmap(current_config, current_settings)
 		self.prevhash = osrhash()
 
-		jsondata["option_config"]["max"] = getmaptime(current_config)
+		jsondata["option_config"]["max"] = getmaptime(current_config, current_settings)
 
 		super().__init__(parent=parent, jsondata=jsondata)
 
 	def updatevalue(self):
-		ensure_rightmap(current_config)
+		ensure_rightmap(current_config, current_settings)
 		if self.prevhash != osrhash():
 			self.updatetime()
 
 	def updatetime(self):
 		self.prevhash = osrhash()
-		self.default_max = getmaptime(current_config)
+		self.default_max = getmaptime(current_config, current_settings)
 		tmp = self.bordersize
 		self.bordersize = (self.default_max - self.default_min) * 0.0125
 		self.cursize = self.cursize * self.bordersize / tmp

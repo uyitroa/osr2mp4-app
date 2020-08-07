@@ -38,7 +38,7 @@ class Titles(ParentTitle):
 		self.default_height = super().height()
 
 
-class Small_Titles(ParentTitle):
+class SmallTitles(ParentTitle):
 	def __init__(self, title, parent=None):
 		self.default_fontsize = 14
 		super().__init__(self.default_fontsize)

@@ -8,10 +8,10 @@ from SettingComponents.Components.Buttons import UpdateButton
 from SettingComponents.Components.DoubleSlider import DoubleSlider
 from SettingComponents.Components.Pathbox import PathBox
 from SettingComponents.Layouts.GridLayout import GridLayout
-from SettingComponents.Components.QLabel import Titles, Small_Titles
+from SettingComponents.Components.QLabel import Titles, SmallTitles
 from SettingComponents.Components.Scrollbar import Scrollbar
 from SettingComponents.Components.Separator import Separator
-from SettingComponents.Components.Textbox import Big_Textbox, Small_Textbox
+from SettingComponents.Components.Textbox import BigTextBox, SmallTextBox, CustomModsTextBox
 from SettingComponents.Components.Slider import Slider, EndTimeSlider, StartTimeSlider
 import json
 from SettingComponents.Components.CheckBox import CheckBox
@@ -32,8 +32,8 @@ class ScrollArea(QtWidgets.QScrollArea):
 		self.default_width, self.default_height = parent.default_width, parent.default_height * 0.94
 		self.default_x, self.default_y = 15, 15
 
-		self.widgetlists = {"Big_Textbox": Big_Textbox, "Small_Textbox": Small_Textbox,
-							"Titles": Titles, "Small_Titles": Small_Titles,
+		self.widgetlists = {"BigTextBox": BigTextBox, "SmallTextBox": SmallTextBox, "CustomModsTextBox": CustomModsTextBox,
+							"Titles": Titles, "SmallTitles": SmallTitles,
 							"Slider": Slider, "DoubleSlider": DoubleSlider, "StartTimeSlider": StartTimeSlider,
 							"EndTimeSlider": EndTimeSlider,
 							"CheckBox": CheckBox, "UpdateButton": UpdateButton, "PathBox": PathBox}
@@ -89,7 +89,7 @@ class ScrollArea(QtWidgets.QScrollArea):
 				if widgetname == "CheckBox" or widgetname == "UpdateButton":
 					self.gridLayout.smart_addWidget(widget, column)
 				else:
-					self.gridLayout.smart_addWidget(Small_Titles(key + ":"), column)
+					self.gridLayout.smart_addWidget(SmallTitles(key + ":"), column)
 					self.gridLayout.smart_addWidget(widget, column)
 			self.gridLayout.smart_addWidget(Titles(" "), 0)
 

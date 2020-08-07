@@ -1,6 +1,6 @@
 import os
 from Parents import ButtonBrowse
-from config_data import current_config
+from config_data import current_config, current_settings
 from helper.helper import parse_osu
 
 
@@ -27,4 +27,4 @@ class MapsetButton(ButtonBrowse):
 			return
 		current_config["Beatmap path"] = filename
 		self.main_window.mapsetpath.setText(filename)
-		parse_osu(current_config)
+		parse_osu(current_config, current_settings)

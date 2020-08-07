@@ -7,6 +7,7 @@ import logging
 from osr2mp4 import osrparse
 from osr2mp4.Parser import osuparser
 from osr2mp4.Utils.HashBeatmap import get_osu
+from osr2mp4.Utils.getmods import mod_string_to_enums
 from osr2mp4.osrparse.enums import Mod
 
 from abspath import configpath, settingspath
@@ -82,17 +83,18 @@ def save(filename=None):
 		f.close()
 
 
-def parse_osr(config):
+def parse_osr(config, settings):
 	try:
 		logging.info(config[".osr path"])
 		Info.replay = osrparse.parse_replay_file(config[".osr path"])
+		Info.replay.mod_combination = mod_string_to_enums(settings["Custom mods"])
 		return True
 	except Exception as e:
 		logging.error(repr(e))
 		return False
 
 
-def parse_osu(config):
+def parse_osu(config, settings):
 	try:
 		logging.info(config["Beatmap path"])
 		osupath = get_osu(config["Beatmap path"], Info.replay.beatmap_hash)
@@ -106,19 +108,14 @@ def parse_osu(config):
 		return False
 
 
-def ensure_rightmap(config):
+def ensure_rightmap(config, settings):
 	t = Info.replay is not None
 	if not t:
-		t = parse_osr(config)
+		t = parse_osr(config, settings)
 
 	wrongmap = Info.replay is not None and Info.replay.beatmap_hash != Info.maphash
 	if Info.map is None or wrongmap:
-		if wrongmap:
-			# this should never happen but who knows
-			logging.error("something is wrong")
-			print("something is wrong")
-
-		t = parse_osu(config) and t
+		t = parse_osu(config, settings) and t
 	return t
 
 
@@ -126,8 +123,8 @@ def osrhash():
 	return str(Info.maphash) + str(Info.map)
 
 
-def getmaptime(config):
-	ensure_rightmap(config)
+def getmaptime(config, settings):
+	ensure_rightmap(config, settings)
 	try:
 		nomod_time = Info.map.end_time - Info.map.start_time
 
@@ -156,6 +153,6 @@ def loadsettings(config, settings, ppsettings):
 	ppsettings["Rgb"] = eval(str(ppsettings["Rgb"]))
 	ppsettings["Hitresult Rgb"] = eval(str(ppsettings["Hitresult Rgb"]))
 
-	parse_osr(config)
-	parse_osu(config)
+	parse_osr(config, settings)
+	parse_osu(config, settings)
 

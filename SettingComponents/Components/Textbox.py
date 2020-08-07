@@ -1,5 +1,9 @@
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import QLineEdit
+from osr2mp4.Utils.getmods import mod_string_to_enums
+
+from Info import Info
+from SettingComponents.Components.Slider import StartTimeSlider, EndTimeSlider
 
 
 class ParentTextbox(QLineEdit):
@@ -23,6 +27,9 @@ class ParentTextbox(QLineEdit):
 		else:
 			self.current_data = jsondata["data"]["settings"]
 
+		if jsondata["key"] not in self.current_data:
+			self.current_data[jsondata["key"]] = ""
+
 		super().textChanged.connect(self.textChanged)
 		self.raise_()
 
@@ -44,7 +51,7 @@ class ParentTextbox(QLineEdit):
 		self.current_data[self.key] = p_str
 
 
-class Big_Textbox(ParentTextbox):
+class BigTextBox(ParentTextbox):
 	def __init__(self, parent=None, jsondata=None):
 		super().__init__(parent=parent, jsondata=jsondata)
 
@@ -55,7 +62,7 @@ class Big_Textbox(ParentTextbox):
 		QLineEdit().setFixedHeight(self.default_height)
 
 
-class Small_Textbox(ParentTextbox):
+class SmallTextBox(ParentTextbox):
 	def __init__(self, parent=None, jsondata=None):
 		super().__init__(parent=parent, jsondata=jsondata)
 
@@ -65,3 +72,16 @@ class Small_Textbox(ParentTextbox):
 		self.setFixedWidth(self.default_width)
 		QLineEdit().setFixedHeight(self.default_height)
 
+
+class CustomModsTextBox(SmallTextBox):
+	@QtCore.pyqtSlot(str)
+	def textChanged(self, p_str):
+		super().textChanged(p_str)
+		mods = mod_string_to_enums(p_str)
+		if Info.replay is not None:
+			Info.replay.mod_combination = mods
+
+			# hmmmmmmmmmmm
+			StartTimeSlider.objs[0].updatetime()
+			EndTimeSlider.objs[0].updatetime()
+			EndTimeSlider.objs[0].updateendtime()

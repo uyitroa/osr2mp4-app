@@ -215,7 +215,7 @@ class Window(QMainWindow):
 				self.osrpath.setText(replay_name)
 
 			current_config[".osr path"] = replay
-			parse_osr(current_config)
+			parse_osr(current_config, current_settings)
 
 			self.find_latest_map(replay)
 
@@ -240,7 +240,7 @@ class Window(QMainWindow):
 				self.mapsetpath.setText(beatmap_name)
 				logging.info("Updated beatmap path to: {}".format(beatmap_path))
 
-				parse_osu(current_config)
+				parse_osu(current_config, current_settings)
 		except Exception as e:
 			print("Error: {}".format(e))
 			logging.error(repr(e))
