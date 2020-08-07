@@ -20,10 +20,10 @@ class AutoCheckBox(QCheckBox):
 		self.box_height = 20
 		self.default_fontsize = 14
 
-		self.default_x = 400
-		self.default_y = 400
+		self.default_x = 520
+		self.default_y = 145
 
-		self.text = "  " + "Use Auto replay" + "     "
+		self.text = " " + "Use Auto replay"
 		self.setText(self.text)
 		self.curfont = self.font()
 

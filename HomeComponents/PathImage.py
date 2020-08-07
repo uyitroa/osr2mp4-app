@@ -8,7 +8,7 @@ class OsrPath(PathImage):
 		super(OsrPath, self).__init__(parent)
 
 		self.default_x = 544
-		self.default_y = 165
+		self.default_y = 175
 		self.default_size = 4.5
 
 		self.img = "res/OsrPath.png"
@@ -22,7 +22,7 @@ class MapSetPath(PathImage):
 		super(MapSetPath, self).__init__(parent)
 
 		self.default_x = 544
-		self.default_y = 200
+		self.default_y = 210
 		self.default_size = 4.5
 
 		self.img = "res/MapsetPath.png"
