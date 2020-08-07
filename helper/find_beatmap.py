@@ -3,6 +3,7 @@ import osrparse
 import logging
 import sqlite3
 from abspath import cachepath
+from os import path
 
 
 def parseNum(db, offset, length):
@@ -196,3 +197,6 @@ def find_beatmap_(replay_path,osu_path):
         return beatmap
     except Exception as e:
         logging.error(repr(e))
+
+if not os.path.isfile(cachepath):
+    hashCacheQuery("CREATE TABLE hashCache (Hash TEXT, Beatmap TEXT);")
