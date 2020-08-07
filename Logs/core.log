@@ -1,0 +1,68 @@
+2020-07-30 15:35:33,033:INFO:osr2mp4.osr2mp4.Osr2mp4:__init__:test
+2020-07-30 15:35:33,065:TRACE:osr2mp4.Utils.Setup:setupglobals:CALL *({'osu! path': 'C:/Users/Vincent/AppData/Local/osu!', 'Skin path': 'C:/Users/Vincent/AppData/Local/osu!/Skins/- YUGEN FINAL WS -', 'Beatmap path': 'C:/Users/Vincent/AppData/Local/osu!/Songs/497769 Drop - Granat/', '.osr path': 'C:/Users/Vincent/AppData/Local/osu!/Replays/Keitsu - Drop - Granat [Normal] (2020-07-29) Osu.osr', 'Default skin path': '', 'Output path': 'C:/Users/Vincent/Downloads/497769 Drop Granat played by Keitsu.avi', 'Output name': '{Map} played by {Player}.avi', 'Width': 1280, 'Height': 720, 'FPS': 60, 'Start time': 0.0, 'End time': 10.0, 'Video codec': 'XVID', 'Process': 1, 'ffmpeg path': 'ffmpeg'}, {'Cursor size': 1.0, 'In-game interface': 1.0, 'Show scoreboard': 1.0, 'Background dim': 100.0, 'Rotate sliderball': False, 'Always show key overlay': 1.0, 'Automatic cursor size': 0.0, 'Show mods icon': True, 'Enable PP counter': False, 'Score meter size': 1.39, 'Song volume': 70.0, 'Effect volume': 100.0, 'Ignore beatmap hitsounds': 0.0, "Use skin's sound samples": 1.0, 'Song delay': 0, 'Global leaderboard': False, 'Mods leaderboard': '*', 'api key': None}, <osr2mp4.osrparse.replay.Replay object at 0x0000022E9C679C08>, <osr2mp4.global_var.Settings object at 0x0000022E8C792F08>) **{'ppsettings': {'x': 1320, 'y': 725, 'Size': 25, 'Rgb': [255, 255, 255], 'Alpha': 1, 'Font': 'arial.ttf', 'Background': 'C:\\Users\\Vincent\\AppData\\Local\\Programs\\Python\\Python37\\lib\\site-packages\\osr2mp4\\res/pptemplate.png', 'Hitresult x': 50, 'Hitresult y': 150, 'Hitresult Size': 16, 'Hitresult Rgb': [255, 255, 255], 'Hitresult Alpha': 1, 'Hitresult Font': 'arial.ttf', 'Hitresult Background': 'C:\\Users\\Vincent\\AppData\\Local\\Programs\\Python\\Python37\\lib\\site-packages\\osr2mp4\\res/hitresulttemplate.png', 'Hitresult Gap': 3}}
+2020-07-30 15:35:33,127:TRACE:root:read:{'Name': '- YUGEN FINAL - Widescreen', 'Author': '[Garin]', 'Version': '2.4', 'SliderBallFlip': '1', 'CursorRotate': '0', 'CursorTrailRotate': '0', 'CursorExpand': '0', 'CursorCentre': '1', 'SliderBallFrames': '60', 'HitCircleOverlayAboveNumer': '1', 'SliderStyle': '2', 'AllowSliderBallTint': '1', 'SpinnerFadePlayfield': '0'}
+2020-07-30 15:35:33,127:TRACE:root:read:{'Combo1': '26,116,242', 'Combo2': '164,32,240', 'Combo3': '37,185,239', 'Combo4': '23,209,116', 'Combo5': '226,45,124', 'SongSelectActiveText': '250,250,250', 'SongSelectInactiveText': '230,230,230', 'SliderBorder': '190,190,190', 'SliderTrackOverride': '3,3,12'}
+2020-07-30 15:35:33,127:TRACE:root:read:{'HitCirclePrefix': 'default', 'HitCircleOverlap': '6', 'ScorePrefix': 'score', 'ScoreOverlap': '8', 'ComboPrefix': 'combo', 'ComboOverlap': '8'}
+2020-07-30 15:35:33,127:TRACE:osr2mp4.Utils.Setup:setupglobals:RETURN None
+2020-07-30 15:35:33,127:TRACE:osr2mp4.Utils.HashBeatmap:get_osu:CALL *('C:/Users/Vincent/AppData/Local/osu!/Songs/497769 Drop - Granat/', '234cb38a8bde98157b6ddb3c3265956a') **{}
+2020-07-30 15:35:33,190:TRACE:osr2mp4.Utils.HashBeatmap:get_osu:RETURN 'C:/Users/Vincent/AppData/Local/osu!/Songs/497769 Drop - Granat/Drop - Granat (Left) [Normal].osu'
+2020-07-30 15:35:33,268:TRACE:root:__init__:Settings vars {'skin_path': 'C:/Users/Vincent/AppData/Local/osu!/Skins/- YUGEN FINAL WS -/', 'default_path': '..\\..\\AppData\\Local\\Programs\\Python\\Python37\\lib\\site-packages\\osr2mp4/res/default/', 'skin_ini': <osr2mp4.Parser.skinparser.Skin object at 0x0000022E9C6B3FC8>, 'default_skin_ini': <osr2mp4.Parser.skinparser.Skin object at 0x0000022E9C6B3FC8>, 'format': '.png', 'x2': '@2x', 'ffmpeg': 'ffmpeg', 'output': 'C:/Users/Vincent/Downloads/497769 Drop Granat played by Keitsu.avi', 'beatmap': 'C:/Users/Vincent/AppData/Local/osu!/Songs/497769 Drop - Granat/', 'osu': 'C:/Users/Vincent/AppData/Local/osu!/', 'path': '..\\..\\AppData\\Local\\Programs\\Python\\Python37\\lib\\site-packages\\osr2mp4/', 'temp': '..\\..\\AppData\\Local\\Programs\\Python\\Python37\\lib\\site-packages\\osr2mp4/8ac641d2-d269-11ea-90b7-409f3849c72atemp/', 'width': 1280, 'height': 720, 'fps': 60, 'scale': 0.9375, 'playfieldscale': 1.453857421875, 'playfieldwidth': 744.375, 'playfieldheight': 558.28125, 'movedown': 85, 'moveright': 255, 'timeframe': 1000, 'settings': {'Cursor size': 1.0, 'In-game interface': 1.0, 'Show scoreboard': 1.0, 'Background dim': 100.0, 'Rotate sliderball': False, 'Always show key overlay': 1.0, 'Automatic cursor size': 0.0, 'Show mods icon': True, 'Enable PP counter': False, 'Score meter size': 1.39, 'Song volume': 70.0, 'Effect volume': 100.0, 'Ignore beatmap hitsounds': 0.0, "Use skin's sound samples": 1.0, 'Song delay': 0, 'Global leaderboard': False, 'Mods leaderboard': '*', 'api key': None}, 'ppsettings': {'x': 1320, 'y': 725, 'Size': 25, 'Rgb': [255, 255, 255], 'Alpha': 1, 'Font': 'arial.ttf', 'Background': 'C:\\Users\\Vincent\\AppData\\Local\\Programs\\Python\\Python37\\lib\\site-packages\\osr2mp4\\res/pptemplate.png', 'Hitresult x': 50, 'Hitresult y': 150, 'Hitresult Size': 16, 'Hitresult Rgb': [255, 255, 255], 'Hitresult Alpha': 1, 'Hitresult Font': 'arial.ttf', 'Hitresult Background': 'C:\\Users\\Vincent\\AppData\\Local\\Programs\\Python\\Python37\\lib\\site-packages\\osr2mp4\\res/hitresulttemplate.png', 'Hitresult Gap': 3}, 'codec': 'XVID', 'process': 1, 'enablelog': True}
+2020-07-30 15:35:33,268:TRACE:osr2mp4.osr2mp4.Osr2mp4:startall:CALL *() **{}
+2020-07-30 15:35:33,268:TRACE:osr2mp4.osr2mp4.Osr2mp4:analyse_replay:CALL *() **{}
+2020-07-30 15:35:33,299:TRACE:root:__init__:Diff {'CircleSize': 3.5, 'OverallDifficulty': 3.0, 'HPDrainRate': 4.0, 'BaseHPDrainRate': 4.0, 'BaseCircleSize': 3.5, 'BaseOverallDifficulty': 3.0, 'ApproachRate': 4.0, 'BaseApproachRate': 4.0, 'SliderMultiplier': 1.1, 'BaseSliderMultiplier': 1.1, 'SliderTickRate': 1.0, 'BaseSliderTickRate': 1.0}
+2020-07-30 15:35:33,299:DEBUG:root:checkmain:Start check
+2020-07-30 15:35:33,424:DEBUG:root:checkmain:check done
+2020-07-30 15:35:33,424:TRACE:root:checkmain:RETURN Info(time=42058.3899204244, combo=8, combostatus=0, showscore=47760, score=47760, accuracy={300: 39, 100: 8, 50: 5, 0: 3}, clicks=[0, 57, 0, 0], hitresult=300, timestamp=40068, id=54, hp=0.6568999752540474, maxcombo=54, more=Slider(followstate='10', hitvalue=0, tickend=True, x=401.0, y=150.0, end=True, arrowindex=2))
+2020-07-30 15:35:33,424:TRACE:osr2mp4.osr2mp4.Osr2mp4:analyse_replay:RETURN None
+2020-07-30 15:35:33,424:TRACE:osr2mp4.osr2mp4.Osr2mp4:startvideo:CALL *() **{}
+2020-07-30 15:35:33,424:DEBUG:root:create_frame:entering preparedframes
+2020-07-30 15:35:33,424:DEBUG:root:__init__:start preparing cursor
+2020-07-30 15:35:33,846:DEBUG:root:__init__:start preparing cursormiddle
+2020-07-30 15:35:33,846:DEBUG:root:__init__:start preparing cursortrail
+2020-07-30 15:35:33,877:DEBUG:root:__init__:start preparing scorenetry
+2020-07-30 15:35:34,111:DEBUG:root:__init__:start preparing scorenumber
+2020-07-30 15:35:34,846:DEBUG:root:__init__:start preparing accuracy
+2020-07-30 15:35:35,393:DEBUG:root:__init__:start preparing circle
+2020-07-30 15:35:37,861:DEBUG:root:__init__:start preparing background
+2020-07-30 15:35:38,345:DEBUG:root:__init__:start preparing sections
+2020-07-30 15:35:38,642:DEBUG:root:__init__:start preparing scoreboard
+2020-07-30 15:35:40,783:DEBUG:root:__init__:start preparing ur ranking
+2020-07-30 15:35:40,830:DEBUG:root:__init__:start preparing done
+2020-07-30 15:35:41,236:DEBUG:root:create_frame:Starting process
+2020-07-30 15:35:46,329:DEBUG:root:create_frame:Start drawer 0
+2020-07-30 15:35:54,376:DEBUG:root:create_frame:Start writer 0
+2020-07-30 15:35:54,485:TRACE:osr2mp4.osr2mp4.Osr2mp4:startvideo:RETURN None
+2020-07-30 15:35:54,485:TRACE:osr2mp4.osr2mp4.Osr2mp4:startaudio:CALL *() **{}
+2020-07-30 15:35:57,625:TRACE:osr2mp4.osr2mp4.Osr2mp4:startaudio:RETURN None
+2020-07-30 15:35:57,625:TRACE:osr2mp4.osr2mp4.Osr2mp4:startall:RETURN None
+2020-07-30 15:35:57,625:TRACE:osr2mp4.osr2mp4.Osr2mp4:getprogress:CALL *() **{}
+2020-07-30 15:35:57,625:TRACE:osr2mp4.osr2mp4.Osr2mp4:getprogress:RETURN 0
+2020-07-30 15:35:58,625:TRACE:osr2mp4.osr2mp4.Osr2mp4:getprogress:CALL *() **{}
+2020-07-30 15:35:58,625:TRACE:osr2mp4.osr2mp4.Osr2mp4:getprogress:RETURN 0
+2020-07-30 15:35:59,641:TRACE:osr2mp4.osr2mp4.Osr2mp4:getprogress:CALL *() **{}
+2020-07-30 15:35:59,641:TRACE:osr2mp4.osr2mp4.Osr2mp4:getprogress:RETURN 7.04210544989361
+2020-07-30 15:36:00,656:TRACE:osr2mp4.osr2mp4.Osr2mp4:getprogress:CALL *() **{}
+2020-07-30 15:36:00,656:TRACE:osr2mp4.osr2mp4.Osr2mp4:getprogress:RETURN 26.666150734429284
+2020-07-30 15:36:01,672:TRACE:osr2mp4.osr2mp4.Osr2mp4:getprogress:CALL *() **{}
+2020-07-30 15:36:01,734:TRACE:osr2mp4.osr2mp4.Osr2mp4:getprogress:RETURN 45.0704618521727
+2020-07-30 15:36:02,750:TRACE:osr2mp4.osr2mp4.Osr2mp4:getprogress:CALL *() **{}
+2020-07-30 15:36:02,750:TRACE:osr2mp4.osr2mp4.Osr2mp4:getprogress:RETURN 60.022439541911076
+2020-07-30 15:36:03,755:TRACE:osr2mp4.osr2mp4.Osr2mp4:getprogress:CALL *() **{}
+2020-07-30 15:36:03,755:TRACE:osr2mp4.osr2mp4.Osr2mp4:getprogress:RETURN 73.96421282962638
+2020-07-30 15:36:04,770:TRACE:osr2mp4.osr2mp4.Osr2mp4:getprogress:CALL *() **{}
+2020-07-30 15:36:04,770:TRACE:osr2mp4.osr2mp4.Osr2mp4:getprogress:RETURN 89.52086340682625
+2020-07-30 15:36:05,786:TRACE:osr2mp4.osr2mp4.Osr2mp4:getprogress:CALL *() **{}
+2020-07-30 15:36:05,786:TRACE:osr2mp4.osr2mp4.Osr2mp4:getprogress:RETURN 99
+2020-07-30 15:36:06,802:TRACE:osr2mp4.osr2mp4.Osr2mp4:joinall:CALL *() **{}
+2020-07-30 15:36:06,802:TRACE:osr2mp4.osr2mp4.Osr2mp4:joinvideo:CALL *() **{}
+2020-07-30 15:36:06,802:DEBUG:root:joinvideo:True
+2020-07-30 15:36:06,802:DEBUG:root:joinvideo:True
+2020-07-30 15:36:16,723:DEBUG:root:joinvideo:Joined drawers 0
+2020-07-30 15:36:16,723:DEBUG:root:joinvideo:Joined writers 0
+2020-07-30 15:36:16,738:DEBUG:root:joinvideo:Closed conn 0
+2020-07-30 15:36:16,738:TRACE:osr2mp4.osr2mp4.Osr2mp4:joinvideo:RETURN None
+2020-07-30 15:36:16,738:TRACE:osr2mp4.osr2mp4.Osr2mp4:joinaudio:CALL *() **{}
+2020-07-30 15:36:16,738:TRACE:osr2mp4.osr2mp4.Osr2mp4:joinaudio:RETURN None
+2020-07-30 15:36:17,895:TRACE:osr2mp4.osr2mp4.Osr2mp4:joinall:RETURN None
+2020-07-30 15:36:18,410:TRACE:osr2mp4.osr2mp4.Osr2mp4:cleanup:CALL *() **{}
+2020-07-30 15:36:18,426:TRACE:osr2mp4.osr2mp4.Osr2mp4:cleanup:RETURN None

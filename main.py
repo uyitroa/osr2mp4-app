@@ -227,7 +227,6 @@ class Window(QMainWindow):
 				current_config["Beatmap path"] = beatmap_path
 				if beatmap_name != "":
 					self.mapsetpath.setText(beatmap_name)
-					print("press F")
 					logging.info("Updated beatmap path to: {}".format(beatmap_path))
 		except Exception as e:
 			print("Error: {}".format(e))

@@ -29,9 +29,6 @@ class SkinDropDown(QComboBox):
 		self.activated.connect(self.activated_)
 		self.main_window = parent
 
-		self.addEmptyItem(0)
-		self.addEmptyItem(self.count() - 1)
-
 		self.addItems(["Default Skin"])
 		self.setStyleSheet("""QComboBox
 			 {
@@ -73,13 +70,6 @@ class SkinDropDown(QComboBox):
 		self.setItemData(2, QColor(QtCore.Qt.transparent), QtCore.Qt.BackgroundRole)
 		self.setup()
 
-	def addEmptyItem(self, index):
-		self.addItems([""])
-		model = self.model()
-		index = model.index(index, self.modelColumn())
-		item = model.itemFromIndex(index)
-		item.setSelectable(False)
-
 	def setup(self):
 
 		self.default_width, self.default_height = getsize(self.img_drop)
@@ -89,7 +79,6 @@ class SkinDropDown(QComboBox):
 		self.setGeometry(self.default_x, self.default_y, self.default_width, self.default_height)
 		self.setIconSize(QtCore.QSize(self.default_width, self.default_height))
 		self.view().setIconSize(QtCore.QSize(0, 0))  # for linux machines otherwise texts got hidden
-		self.setMaxVisibleItems(7)
 
 		self.blur_effect = QGraphicsBlurEffect()
 		self.blur_effect.setBlurRadius(0)
@@ -106,9 +95,12 @@ class SkinDropDown(QComboBox):
 			name = os.path.basename(current_config["Skin path"])
 
 		skin_list = [f for f in glob.glob(os.path.join(current_config["osu! path"], "Skins/*"), recursive=True)]
+		dirs_num = sum(os.path.isdir("C:\\Users\\Vincent\\AppData\\Local\\osu!\\Skins\\" + i) for i in os.listdir("C:\\Users\\Vincent\\AppData\\Local\\osu!\\Skins\\"))
+		print(dirs_num)
 		for x in skin_list:
 			skinname = os.path.basename(x)
-			self.addItems([skinname])
+			for i in range(0, dirs_num):
+				self.insertItems(i + 1, [skinname])
 
 		self.setCurrentIndex(self.findText(name))
 

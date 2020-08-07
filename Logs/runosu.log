@@ -1,0 +1,59 @@
+ERROR:root:file not found soft-slidernormal
+ERROR:root:file not found soft-slidernormal
+file not foundsoft-slidernormal
+file not foundsoft-slidernormal
+Done loading 5.608974456787109
+F 1262.8125
+4 6 0.7388503417968751
+cur_index 0
+Starting draw
+End draw
+Start write
+Release write
+End write
+ffmpeg version N-55702-g920046a Copyright (c) 2000-2013 the FFmpeg developers
+  built on Aug 21 2013 18:10:00 with gcc 4.7.3 (GCC)
+  configuration: --disable-static --enable-shared --enable-gpl --enable-version3 --disable-w32threads --enable-avisynth --enable-bzlib --enable-fontconfig --enable-frei0r --enable-gnutls --enable-iconv --enable-libass --enable-libbluray --enable-libcaca --enable-libfreetype --enable-libgsm --enable-libilbc --enable-libmodplug --enable-libmp3lame --enable-libopencore-amrnb --enable-libopencore-amrwb --enable-libopenjpeg --enable-libopus --enable-librtmp --enable-libschroedinger --enable-libsoxr --enable-libspeex --enable-libtheora --enable-libtwolame --enable-libvo-aacenc --enable-libvo-amrwbenc --enable-libvorbis --enable-libvpx --enable-libx264 --enable-libxavs --enable-libxvid --enable-zlib
+  libavutil      52. 42.100 / 52. 42.100
+  libavcodec     55. 29.100 / 55. 29.100
+  libavformat    55. 14.101 / 55. 14.101
+  libavdevice    55.  3.100 / 55.  3.100
+  libavfilter     3. 82.100 /  3. 82.100
+  libswscale      2.  5.100 /  2.  5.100
+  libswresample   0. 17.103 /  0. 17.103
+  libpostproc    52.  3.100 / 52.  3.100
+Input #0, avi, from '..\..\AppData\Local\Programs\Python\Python37\lib\site-packages\osr2mp4/8ac641d2-d269-11ea-90b7-409f3849c72atemp/outputf.avi':
+  Metadata:
+    encoder         : Lavf58.29.100
+  Duration: 00:00:11.02, start: 0.000000, bitrate: 2990 kb/s
+    Stream #0:0: Video: mpeg4 (Simple Profile) (XVID / 0x44495658), yuv420p, 1280x720 [SAR 1:1 DAR 16:9], 60 tbr, 60 tbn, 60 tbc
+Guessed Channel Layout for  Input Stream #1.0 : stereo
+Input #1, wav, from '..\..\AppData\Local\Programs\Python\Python37\lib\site-packages\osr2mp4/8ac641d2-d269-11ea-90b7-409f3849c72atemp/audio.mp3':
+  Duration: 00:00:11.11, bitrate: 5644 kb/s
+    Stream #1:0: Audio: pcm_f64le ([3][0][0][0] / 0x0003), 44100 Hz, stereo, dbl, 5644 kb/s
+Output #0, avi, to 'C:/Users/Vincent/Downloads/497769 Drop Granat played by Keitsu.avi':
+  Metadata:
+    ISFT            : Lavf55.14.101
+    Stream #0:0: Video: mpeg4 (XVID / 0x44495658), yuv420p, 1280x720 [SAR 1:1 DAR 16:9], q=2-31, 60 tbn, 60 tbc
+    Stream #0:1: Audio: pcm_f64le ([3][0][0][0] / 0x0003), 44100 Hz, stereo, 5644 kb/s
+Stream mapping:
+  Stream #0:0 -> #0:0 (copy)
+  Stream #1:0 -> #0:1 (copy)
+Press [q] to stop, [?] for help
+frame=  661 fps=0.0 q=-1.0 Lsize=   11724kB time=00:00:11.11 bitrate=8643.2kbits/s    
+video:3997kB audio:7657kB subtitle:0 global headers:0kB muxing overhead 0.605316%
+0.9375
+done
+cur_index 0
+
+
+OFFSET: -3039.0
+0
+0
+7.04210544989361
+26.666150734429284
+45.0704618521727
+60.022439541911076
+73.96421282962638
+89.52086340682625
+99

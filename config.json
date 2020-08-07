@@ -1,0 +1,17 @@
+{
+    "osu! path": "C:/Users/Vincent/AppData/Local/osu!",
+    "Skin path": "C:/Users/Vincent/AppData/Local/osu!/Skins/- YUGEN FINAL WS -",
+    "Beatmap path": "C:/Users/Vincent/AppData/Local/osu!/Songs/497769 Drop - Granat/",
+    ".osr path": "C:/Users/Vincent/AppData/Local/osu!/Replays/Keitsu - Drop - Granat [Normal] (2020-07-29) Osu.osr",
+    "Default skin path": "",
+    "Output path": "C:/Users/Vincent/Downloads/497769 Drop Granat played by Keitsu.avi",
+    "Output name": "{Map} played by {Player}.avi",
+    "Width": 1280,
+    "Height": 720,
+    "FPS": 60,
+    "Start time": 0.0,
+    "End time": 10.0,
+    "Video codec": "XVID",
+    "Process": 1,
+    "ffmpeg path": "ffmpeg"
+}
