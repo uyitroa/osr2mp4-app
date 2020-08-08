@@ -1,9 +1,10 @@
+venv/
+.idea/
+Logs/
+__pycache__/
 config.json
-__pycache__
-error.txt
-Logs
-exit.txt
 settings.json
-**/__pycache__/
-.gitignore
-Todo.txt
+error.txt
+progress.txt
+exit.txt
+hashCache.db
