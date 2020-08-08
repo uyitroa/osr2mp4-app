@@ -198,5 +198,5 @@ def find_beatmap_(replay_path,osu_path):
     except Exception as e:
         logging.error(repr(e))
 
-if not os.path.isfile(cachepath):
+if not path.isfile(cachepath):
     hashCacheQuery("CREATE TABLE hashCache (Hash TEXT, Beatmap TEXT);")
