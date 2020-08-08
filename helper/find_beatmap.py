@@ -3,6 +3,7 @@ import osrparse
 import logging
 import sqlite3
 from abspath import cachepath
+from os import path
 
 
 def parseNum(db, offset, length):
@@ -152,13 +153,13 @@ def hashCacheQuery(query):
     cur = db.cursor()
     cur.execute(query)
 
-    #Lazy way to detemine if were reading (SELECT) or updating the database
+    #Lazy way to determine if were reading (SELECT) or updating the database
     if query[0] == "S":
         return cur.fetchall()
     else:
         db.commit()
 
-    cur.close()  
+    cur.close()
     db.close()
 
 # parses the osu!.db file
@@ -196,3 +197,6 @@ def find_beatmap_(replay_path,osu_path):
         return beatmap
     except Exception as e:
         logging.error(repr(e))
+
+if not path.isfile(cachepath):
+    hashCacheQuery("CREATE TABLE hashCache (Hash TEXT, Beatmap TEXT);")
