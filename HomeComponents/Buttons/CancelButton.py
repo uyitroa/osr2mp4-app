@@ -1,6 +1,7 @@
 from Parents import Button
 from helper.helper import kill, cleanupkill
-
+import os
+from abspath import abspath
 
 class CancelButton(Button):
 	def __init__(self, parent):
@@ -23,5 +24,5 @@ class CancelButton(Button):
 		if self.main_window.startbutton.proc is not None and self.main_window.startbutton.proc.poll() is None:
 			kill(self.main_window.startbutton.proc.pid)
 			cleanupkill()
-		with open("progress.txt", "w") as file:
+		with open(os.path.join(abspath, "progress.txt"), "w") as file:
 			file.write(".")
