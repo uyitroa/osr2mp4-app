@@ -1,4 +1,5 @@
-from PyQt5.QtWidgets import QLabel
+from PyQt5 import QtCore
+from PyQt5.QtWidgets import QLabel, QLineEdit, QTextEdit, QFrame
 
 from Parents import Button
 
@@ -29,15 +30,16 @@ class CustomTextWindow(Button):
 
 		self.default_fontsize = 30
 		self.text_x = 30
-		self.text_y = -180
+		self.text_y = 10
 
 		self.img_idle = "res/WindowShadow.png"
 		self.img_hover = "res/WindowShadow.png"
 		self.img_click = "res/WindowShadow.png"
 
-		self.text = QLabel(self)
+		self.text = QTextEdit(self)
 		self.text.setText("")
-		self.text.setWordWrap(True)
+		self.text.setReadOnly(True)
+		self.text.setFrameStyle(QFrame.NoFrame)
 
 		super().setup()
 
@@ -60,4 +62,4 @@ class CustomTextWindow(Button):
 
 		fontsize = scale * self.default_fontsize
 		self.text.setStyleSheet("font-size: {}pt; font-weight: bold; color: white; background-color: rgba(0,0,0,0%)".format(fontsize))
-		self.text.setGeometry(x, y, self.width(), self.height())
+		self.text.setGeometry(x, y, int(self.width() * 0.95), int(self.height() * 0.9))
