@@ -16,6 +16,7 @@ class CheckBox(QCheckBox):
 		self.box_width = 20
 		self.box_height = 20
 		self.default_fontsize = 14
+		self.cur_size = 1
 
 		self.text = "  " + jsondata["key"] + "     "
 		self.setText(self.text)
@@ -52,6 +53,7 @@ class CheckBox(QCheckBox):
 
 	def setFixedWidth(self, p_int):
 		scale = p_int / self.default_width
+		self.cur_size = scale
 
 		self.setStyleSheet("""
 		QCheckBox {
@@ -64,6 +66,7 @@ class CheckBox(QCheckBox):
 		}
 		QCheckBox::indicator:unchecked {
 		    border-image: url(%s);
+		    color: blue;
 		}
 		QCheckBox::indicator:checked {
 		    border-image: url(%s);
@@ -74,7 +77,6 @@ class CheckBox(QCheckBox):
 		self.setFont(self.curfont)
 
 		super().setFixedWidth(p_int)
-
 
 	@QtCore.pyqtSlot(int)
 	def stateChanged(self, p_int):

@@ -288,8 +288,12 @@ class Window(QMainWindow):
 					self.setmap(mapset)
 
 			elif os.path.isdir(final_path):
-				current_config["Beatmap path"] = final_path
-				self.mapsetpath.setText(os.path.basename(final_path))
+				self.setmap(final_path)
+
+			elif final_path.endswith(".osu"):
+				if current_config[".osr path"] != "auto":
+					final_path = os.path.dirname(final_path)
+				self.setmap(final_path)
 
 
 def excepthook(exc_type, exc_value, exc_tb):

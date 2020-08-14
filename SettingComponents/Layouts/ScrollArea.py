@@ -11,7 +11,8 @@ from SettingComponents.Layouts.GridLayout import GridLayout
 from SettingComponents.Components.QLabel import Titles, SmallTitles
 from SettingComponents.Components.Scrollbar import Scrollbar
 from SettingComponents.Components.Separator import Separator
-from SettingComponents.Components.Textbox import BigTextBox, SmallTextBox, CustomModsTextBox
+from SettingComponents.Components.Textbox import BigTextBox, SmallTextBox, CustomModsTextBox, VeryBigTextBox, \
+	AverageTextBox
 from SettingComponents.Components.Slider import Slider, EndTimeSlider, StartTimeSlider
 import json
 from SettingComponents.Components.CheckBox import CheckBox
@@ -33,6 +34,7 @@ class ScrollArea(QtWidgets.QScrollArea):
 		self.default_x, self.default_y = 15, 15
 
 		self.widgetlists = {"BigTextBox": BigTextBox, "SmallTextBox": SmallTextBox, "CustomModsTextBox": CustomModsTextBox,
+		                    "VeryBigTextBox": VeryBigTextBox, "AverageTextBox": AverageTextBox,
 							"Titles": Titles, "SmallTitles": SmallTitles,
 							"Slider": Slider, "DoubleSlider": DoubleSlider, "StartTimeSlider": StartTimeSlider,
 							"EndTimeSlider": EndTimeSlider,

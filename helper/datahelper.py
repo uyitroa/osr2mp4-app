@@ -3,6 +3,8 @@ import logging
 import os
 from copy import copy
 
+from osr2mp4.global_var import defaultsettings, defaultppconfig
+
 from abspath import configpath, settingspath
 from helper.osudatahelper import parse_osr, parse_map
 
@@ -61,6 +63,16 @@ def loadsettings(config, settings, ppsettings):
 	outputpath = config["Output path"]
 
 	config["Output name"] = config.get("Output name", "{Player} - {Map} {PlayDate} {Accuracy}.mp4")
+
+	config["Audio codec"] = config.get("Audio codec", "aac")
+
+	for key in defaultsettings:
+		if key not in settings:
+			settings[key] = defaultsettings[key]
+
+	for key in defaultppconfig:
+		if key not in ppsettings:
+			ppsettings[key] = defaultppconfig[key]
 
 	if os.path.isdir(outputpath):
 		config["Output path"] = os.path.basename(outputpath)

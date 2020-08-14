@@ -74,7 +74,29 @@ class SmallTextBox(ParentTextbox):
 		QLineEdit().setFixedHeight(self.default_height)
 
 
-class CustomModsTextBox(SmallTextBox):
+class AverageTextBox(ParentTextbox):
+	def __init__(self, parent=None, jsondata=None):
+		super().__init__(parent=parent, jsondata=jsondata)
+
+		self.default_width = 100
+		self.default_height = 20
+
+		self.setFixedWidth(self.default_width)
+		QLineEdit().setFixedHeight(self.default_height)
+
+
+class VeryBigTextBox(ParentTextbox):
+	def __init__(self, parent=None, jsondata=None):
+		super().__init__(parent=parent, jsondata=jsondata)
+
+		self.default_width = 350
+		self.default_height = 20
+
+		self.setFixedWidth(self.default_width)
+		QLineEdit().setFixedHeight(self.default_height)
+
+
+class CustomModsTextBox(AverageTextBox):
 	@QtCore.pyqtSlot(str)
 	def textChanged(self, p_str):
 		super().textChanged(p_str)

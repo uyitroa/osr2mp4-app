@@ -9,19 +9,12 @@ from helper.datahelper import loadsettings
 if os.path.isfile(pppath):
 	with open(pppath) as f:
 		current_ppsettings = json.load(f)
-	for key in defaultppconfig:
-		if key not in current_ppsettings:
-			current_ppsettings[key] = defaultppconfig[key]
 else:
 	current_ppsettings = copy(defaultppconfig)
 
 if os.path.isfile(settingspath):
 	with open(settingspath) as f:
 		current_settings = json.load(f)
-
-	for key in defaultsettings:
-		if key not in current_settings:
-			current_settings[key] = defaultsettings[key]
 
 else:
 	current_settings = copy(defaultsettings)
@@ -49,6 +42,5 @@ else:
 		"Process": 2,
 		"ffmpeg path": "ffmpeg"
 	}
-	# logging.info("Current config is set to default")
 
 loadsettings(current_config, current_settings, current_ppsettings)

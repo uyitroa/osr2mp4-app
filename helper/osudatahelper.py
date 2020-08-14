@@ -1,4 +1,5 @@
 import logging
+import os
 
 from osr2mp4 import osrparse
 from osr2mp4.Parser import osuparser
@@ -26,8 +27,10 @@ def parse_osr(config, settings):
 def parse_map(config, settings):
 	try:
 		logging.info(config["Beatmap path"])
-		osupath = get_osu(config["Beatmap path"], Info.replay.beatmap_hash)
-
+		if os.path.isdir(config["Beatmap path"]):
+			osupath = get_osu(config["Beatmap path"], Info.replay.beatmap_hash)
+		else:
+			osupath = config["Beatmap path"]
 		logging.info(osupath)
 		return parse_osu(osupath)
 	except Exception as e:
