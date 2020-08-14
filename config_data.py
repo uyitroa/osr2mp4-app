@@ -1,7 +1,7 @@
 import json
 import os
 from copy import copy
-from abspath import configpath, settingspath, pppath
+from abspath import configpath, settingspath, pppath, tooltippath
 from osr2mp4.global_var import defaultsettings, defaultppconfig
 
 from helper.datahelper import loadsettings
@@ -43,4 +43,10 @@ else:
 		"ffmpeg path": "ffmpeg"
 	}
 
-loadsettings(current_config, current_settings, current_ppsettings)
+if os.path.isfile(tooltippath):
+	with open(tooltippath) as f:
+		current_tooltip = json.load(f)
+else:
+	current_tooltip = {}
+
+loadsettings(current_config, current_settings, current_ppsettings, current_tooltip)

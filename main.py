@@ -35,7 +35,6 @@ from Parents import ButtonBrowse, PopupButton
 from SettingComponents.Layouts.SettingsPage import SettingsPage
 from abspath import abspath, configpath, Log
 from config_data import current_config, current_settings
-from helper.find_beatmap import find_beatmap_
 from helper.helper import kill, cleanupkill, get_latest_replay, get_right_map
 from helper.osudatahelper import parse_osr, parse_map
 from helper.datahelper import save

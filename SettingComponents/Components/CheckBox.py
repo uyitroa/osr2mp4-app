@@ -1,13 +1,16 @@
 import os
+import webbrowser
 
-from PyQt5 import QtCore
+from PyQt5 import QtCore, QtGui
 from PyQt5.QtWidgets import QCheckBox
 
+from SettingComponents.Components.ToolTip import ClickableTooltip
 from abspath import abspath
+from config_data import current_config, current_settings, current_tooltip
 
 
 class CheckBox(QCheckBox):
-	def __init__(self, jsondata=None):
+	def __init__(self, key=None, jsondata=None):
 		super().__init__()
 
 		self.img_uncheck = os.path.join(abspath, "res/Uncheck_HD.png")
@@ -18,24 +21,28 @@ class CheckBox(QCheckBox):
 		self.default_fontsize = 14
 		self.cur_size = 1
 
-		self.text = "  " + jsondata["key"] + "     "
+		self.text = "  " + key + "     "
 		self.setText(self.text)
 		self.curfont = self.font()
 
 		self.default_width = self.box_width * 1.1 + self.textwidth()
 		self.default_height = self.box_height * 1.1
 
-		self.key = jsondata["key"]
+		self.key = key
 
-		if jsondata["key"] in jsondata["data"]["config"]:
-			self.current_data = jsondata["data"]["config"]
+		if key in current_config:
+			self.current_data = current_config
 		else:
-			self.current_data = jsondata["data"]["settings"]
+			self.current_data = current_settings
 
 		if bool(self.current_data[self.key]):
 			self.setCheckState(QtCore.Qt.Checked)
 		else:
 			self.setCheckState(QtCore.Qt.Unchecked)
+
+		tip = current_tooltip.get(self.key, "")
+		self.setToolTip(tip)
+		self.installEventFilter(self)
 
 		super().stateChanged.connect(self.stateChanged)
 
@@ -84,3 +91,14 @@ class CheckBox(QCheckBox):
 			self.current_data[self.key] = True
 		else:
 			self.current_data[self.key] = False
+
+	def tooltip_link_clicked(self, url):
+		webbrowser.open(url)
+
+	def eventFilter(self, source, event):
+		if event.type() == QtCore.QEvent.ToolTip and source.toolTip():
+			toolTip = ClickableTooltip.showText(
+				QtGui.QCursor.pos(), source.toolTip(), source)
+			toolTip.linkActivated.connect(self.tooltip_link_clicked)
+			return True
+		return super().eventFilter(source, event)

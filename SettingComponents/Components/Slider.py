@@ -9,7 +9,7 @@ from helper.osudatahelper import ensure_rightmap, osrhash, getmaptime
 
 
 class Slider(QSlider):
-	def __init__(self, parent=None, jsondata=None):
+	def __init__(self, key=None, jsondata=None):
 		super().__init__()
 		self.setOrientation(QtCore.Qt.Horizontal)
 
@@ -35,8 +35,8 @@ color: white;
 }
 """ % (self.img_groove, self.img_handle))
 
-		self.default_min = jsondata["option_config"]["min"] * 1000
-		self.default_max = jsondata["option_config"]["max"] * 1000
+		self.default_min = jsondata["min"] * 1000
+		self.default_max = jsondata["max"] * 1000
 
 		self.bordersize = self.cursize = (self.default_max - self.default_min) * 0.0125
 
@@ -45,17 +45,17 @@ color: white;
 
 		self.setMinimum(self.default_min - self.bordersize)
 		self.setMaximum(self.default_max + self.bordersize)
-		self.setSingleStep(jsondata["option_config"]["step"] * 1000)
+		self.setSingleStep(jsondata["step"] * 1000)
 
-		step = jsondata["option_config"]["step"]
+		step = jsondata["step"]
 		self.precision = len(str(step-int(step))[1:])
 
-		self.key = jsondata["key"]
+		self.key = key
 
-		if jsondata["key"] in jsondata["data"]["config"]:
-			self.current_data = jsondata["data"]["config"]
+		if self.key in current_config:
+			self.current_data = current_config
 		else:
-			self.current_data = jsondata["data"]["settings"]
+			self.current_data = current_settings
 
 		super().valueChanged.connect(self.valueChanged)
 		self.setValue(self.current_data[self.key] * 1000)
@@ -95,17 +95,17 @@ class StartTimeSlider(Slider):
 
 	objs = []
 
-	def __init__(self, parent=None, jsondata=None):
+	def __init__(self, key=None, jsondata=None):
 		StartTimeSlider.objs.append(self)
-		jsondata["option_config"]["min"] = 0
-		jsondata["option_config"]["step"] = 1
+		jsondata["min"] = 0
+		jsondata["step"] = 1
 
 		ensure_rightmap(current_config, current_settings)
 		self.prevhash = osrhash()
 
-		jsondata["option_config"]["max"] = getmaptime(current_config, current_settings)
+		jsondata["max"] = getmaptime(current_config, current_settings)
 
-		super().__init__(parent=parent, jsondata=jsondata)
+		super().__init__(key=key, jsondata=jsondata)
 
 	def updatevalue(self):
 		ensure_rightmap(current_config, current_settings)
@@ -127,10 +127,10 @@ class StartTimeSlider(Slider):
 class EndTimeSlider(StartTimeSlider):
 	objs = []
 
-	def __init__(self, parent=None, jsondata=None):
+	def __init__(self, key=None, jsondata=None):
 		EndTimeSlider.objs.append(self)
-		end_time = jsondata["data"]["config"]["End time"]
-		super().__init__(parent=parent, jsondata=jsondata)
+		end_time = current_config["End time"]
+		super().__init__(key=key, jsondata=jsondata)
 		if end_time == -1:
 			val = self.maximum()
 		else:

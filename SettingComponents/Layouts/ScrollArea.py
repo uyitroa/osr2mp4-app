@@ -73,8 +73,6 @@ class ScrollArea(QtWidgets.QScrollArea):
 			return
 		self.loaded = True
 
-		data_config = {"config": current_config, "settings": current_settings}
-
 		with open(optionconfigpath) as f:
 			data = json.load(f)
 
@@ -85,8 +83,7 @@ class ScrollArea(QtWidgets.QScrollArea):
 				column = data[header][key].get("Column", 0)  # default to 0 if column is not specified
 				widgetname = data[header][key]["type"]
 
-				jsondata = {"option_config": data[header][key], "data": data_config, "key": key}
-				widget = self.widgetlists[widgetname](jsondata=jsondata)
+				widget = self.widgetlists[widgetname](key=key, jsondata=data[header][key])
 
 				if widgetname == "CheckBox" or widgetname == "UpdateButton":
 					self.gridLayout.smart_addWidget(widget, column)
@@ -97,8 +94,6 @@ class ScrollArea(QtWidgets.QScrollArea):
 
 		self.scrollArea.hide()
 		self.scrollArea.raise_()
-
-		print("settings")
 
 	def reload_settings(self):
 		self.loaded = False

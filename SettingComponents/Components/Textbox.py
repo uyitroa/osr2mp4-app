@@ -1,14 +1,17 @@
-from PyQt5 import QtCore
+import webbrowser
+
+from PyQt5 import QtCore, QtGui
 from PyQt5.QtWidgets import QLineEdit
 from osr2mp4.Utils.getmods import mod_string_to_enums
 
 from Info import Info
 from SettingComponents.Components.Slider import StartTimeSlider, EndTimeSlider
-from config_data import current_config
+from SettingComponents.Components.ToolTip import ClickableTooltip
+from config_data import current_config, current_tooltip, current_settings
 
 
 class ParentTextbox(QLineEdit):
-	def __init__(self, parent=None, jsondata=None):
+	def __init__(self, key=None, jsondata=None):
 		super().__init__()
 		self.default_width = 1
 		self.default_height = 1
@@ -21,18 +24,22 @@ class ParentTextbox(QLineEdit):
 		}
 		""")
 
-		self.key = jsondata["key"]
+		self.key = key
 
-		if jsondata["key"] in jsondata["data"]["config"]:
-			self.current_data = jsondata["data"]["config"]
+		if key in current_config:
+			self.current_data = current_config
 		else:
-			self.current_data = jsondata["data"]["settings"]
+			self.current_data = current_settings
 
-		if jsondata["key"] not in self.current_data:
-			self.current_data[jsondata["key"]] = ""
+		if self.key not in self.current_data:
+			self.current_data["key"] = ""
 
 		super().textChanged.connect(self.textChanged)
 		self.raise_()
+
+		tip = current_tooltip.get(self.key, "")
+		self.setToolTip(tip)
+		self.installEventFilter(self)
 
 	def updatevalue(self):
 		self.setText(str(self.current_data[self.key]))
@@ -51,10 +58,21 @@ class ParentTextbox(QLineEdit):
 				pass
 		self.current_data[self.key] = p_str
 
+	def tooltip_link_clicked(self, url):
+		webbrowser.open(url)
+
+	def eventFilter(self, source, event):
+		if event.type() == QtCore.QEvent.ToolTip and source.toolTip():
+			toolTip = ClickableTooltip.showText(
+				QtGui.QCursor.pos(), source.toolTip(), source)
+			toolTip.linkActivated.connect(self.tooltip_link_clicked)
+			return True
+		return super().eventFilter(source, event)
+
 
 class BigTextBox(ParentTextbox):
-	def __init__(self, parent=None, jsondata=None):
-		super().__init__(parent=parent, jsondata=jsondata)
+	def __init__(self, key=None, jsondata=None):
+		super().__init__(key=key)
 
 		self.default_width = 250
 		self.default_height = 20
@@ -64,8 +82,8 @@ class BigTextBox(ParentTextbox):
 
 
 class SmallTextBox(ParentTextbox):
-	def __init__(self, parent=None, jsondata=None):
-		super().__init__(parent=parent, jsondata=jsondata)
+	def __init__(self, key=None, jsondata=None):
+		super().__init__(key=key)
 
 		self.default_width = 50
 		self.default_height = 20
@@ -75,8 +93,8 @@ class SmallTextBox(ParentTextbox):
 
 
 class AverageTextBox(ParentTextbox):
-	def __init__(self, parent=None, jsondata=None):
-		super().__init__(parent=parent, jsondata=jsondata)
+	def __init__(self, key, jsondata=None):
+		super().__init__(key=key)
 
 		self.default_width = 100
 		self.default_height = 20
@@ -86,8 +104,8 @@ class AverageTextBox(ParentTextbox):
 
 
 class VeryBigTextBox(ParentTextbox):
-	def __init__(self, parent=None, jsondata=None):
-		super().__init__(parent=parent, jsondata=jsondata)
+	def __init__(self, key=None, jsondata=None):
+		super().__init__(key=key)
 
 		self.default_width = 350
 		self.default_height = 20

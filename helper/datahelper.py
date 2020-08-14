@@ -2,9 +2,10 @@ import json
 import logging
 import os
 from copy import copy
-
+import datetime
+import re
 from osr2mp4.global_var import defaultsettings, defaultppconfig
-
+from Info import Info
 from abspath import configpath, settingspath
 from helper.osudatahelper import parse_osr, parse_map
 
@@ -33,21 +34,27 @@ def save(filename=None):
 
 
 def loadname(config):
-	from osr2mp4.osrparse import parse_replay_file
-	import datetime
-	import re
-
 	custom = {}
-	custom["Map"] = os.path.basename(os.path.normpath(config["Beatmap path"]))
+
 	try:
-		replay = parse_replay_file(config[".osr path"])
-		custom["Player"] = replay.player_name
-		custom["PlayDate"] = str(replay.timestamp)
-		p = (300 * replay.number_300s + 100 * replay.number_100s + 50 * replay.number_50s)
-		total = 300 * (replay.number_300s + replay.number_100s + replay.number_50s + replay.misses)
-		custom["Accuracy"] = "{:.2f}".format(p / total * 100)
+		custom["Map"] = os.path.basename(os.path.normpath(config["Beatmap path"]))
+		if Info.map is not None:
+			custom["MapTitle"] = Info.map.meta.get("Title", "")
+			custom["Artist"] = Info.map.meta.get("Artist", "")
+			custom["Creator"] = Info.map.meta.get("Creator", "")
+			custom["Difficulty"] = Info.map.meta.get("Version", "")
 	except Exception as e:
-		logging.error(repr(e))
+		logging.error("From loadname map", repr(e))
+
+	try:
+		if Info.replay is not None:
+			custom["Player"] = Info.replay.player_name
+			custom["PlayDate"] = str(Info.replay.timestamp)
+			p = (300 * Info.replay.number_300s + 100 * Info.replay.number_100s + 50 * Info.replay.number_50s)
+			total = 300 * (Info.replay.number_300s + Info.replay.number_100s + Info.replay.number_50s + Info.replay.misses)
+			custom["Accuracy"] = "{:.2f}".format(p / total * 100)
+	except Exception as e:
+		logging.error("From loadname replay", repr(e))
 	custom["Date"] = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
 	filename = config["Output name"]
@@ -59,7 +66,7 @@ def loadname(config):
 	return filename
 
 
-def loadsettings(config, settings, ppsettings):
+def loadsettings(config, settings, ppsettings, tooltip):
 	outputpath = config["Output path"]
 
 	config["Output name"] = config.get("Output name", "{Player} - {Map} {PlayDate} {Accuracy}.mp4")
