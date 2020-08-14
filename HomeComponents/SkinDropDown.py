@@ -8,7 +8,8 @@ from autologging import traced, logged
 
 from abspath import abspath
 from config_data import current_config
-from helper.helper import getsize, changesize, save
+from helper.helper import getsize, changesize
+from helper.datahelper import save
 from PyQt5.QtGui import QColor
 import logging
 

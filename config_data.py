@@ -4,7 +4,7 @@ from copy import copy
 from abspath import configpath, settingspath, pppath
 from osr2mp4.global_var import defaultsettings, defaultppconfig
 
-from helper.helper import loadsettings
+from helper.datahelper import loadsettings
 
 if os.path.isfile(pppath):
 	with open(pppath) as f:

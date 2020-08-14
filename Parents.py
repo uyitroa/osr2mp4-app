@@ -9,7 +9,8 @@ from autologging import traced, logged
 
 from abspath import abspath, configpath
 from config_data import current_config, current_settings
-from helper.helper import getsize, changesize, save
+from helper.helper import getsize, changesize
+from helper.datahelper import save
 from helper.username_parser import get_config_info, settings_translator
 import logging
 

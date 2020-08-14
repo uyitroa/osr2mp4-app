@@ -1,7 +1,7 @@
 import os
 from Parents import ButtonBrowse
 from config_data import current_config, current_settings
-from helper.helper import parse_osu
+from helper.osudatahelper import parse_osu
 
 
 class osuMapButton(ButtonBrowse):

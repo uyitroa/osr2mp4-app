@@ -5,7 +5,7 @@ import sys
 from Parents import Button
 from abspath import abspath, configpath, settingspath, Log
 from config_data import current_config, current_settings
-from helper.helper import save, loadname
+from helper.datahelper import save, loadname
 
 
 class StartButton(Button):

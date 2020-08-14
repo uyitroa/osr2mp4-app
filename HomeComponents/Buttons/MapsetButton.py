@@ -1,7 +1,7 @@
 import os
 from Parents import ButtonBrowse
 from config_data import current_config, current_settings
-from helper.helper import parse_map
+from helper.osudatahelper import parse_map
 
 
 class MapsetButton(ButtonBrowse):
@@ -25,6 +25,4 @@ class MapsetButton(ButtonBrowse):
 	def afteropenfile(self, filename):
 		if filename == "":  # if user cancel select
 			return
-		current_config["Beatmap path"] = filename
-		self.main_window.mapsetpath.setText(os.path.basename(filename))
-		parse_map(current_config, current_settings)
+		self.main_window.setmap(filename)

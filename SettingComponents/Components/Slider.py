@@ -5,7 +5,7 @@ from PyQt5 import QtCore
 from PyQt5 import QtGui
 from abspath import abspath
 from config_data import current_config, current_settings
-from helper.helper import ensure_rightmap, getmaptime, osrhash
+from helper.osudatahelper import ensure_rightmap, osrhash, getmaptime
 
 
 class Slider(QSlider):
