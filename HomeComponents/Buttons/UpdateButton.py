@@ -1,9 +1,8 @@
 import os
-import sys
 
 from PyQt5.QtWidgets import QLabel
 import logging
-from Parents import Button
+from BaseComponents.Buttons import Button
 
 import pkg_resources
 import json

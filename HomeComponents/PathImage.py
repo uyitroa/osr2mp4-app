@@ -1,9 +1,7 @@
-from PyQt5.QtWidgets import QLabel
-
-from Parents import Button, PathImage
+from BaseComponents.PathBox import PathBox
 
 
-class OsrPath(PathImage):
+class OsrPath(PathBox):
 	def __init__(self, parent):
 		super(OsrPath, self).__init__(parent)
 
@@ -17,7 +15,7 @@ class OsrPath(PathImage):
 		super().setup()
 
 
-class MapSetPath(PathImage):
+class MapSetPath(PathBox):
 	def __init__(self, parent):
 		super(MapSetPath, self).__init__(parent)
 

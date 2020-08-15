@@ -41,7 +41,7 @@
 		"Custom mods": {"type": "CustomModsTextBox"}
 	},
 
-	"Advanced render options (Experimental)": {
+	"Advanced render options": {
 		"Use FFmpeg video writer": {"type": "CheckBox"},
         "FFmpeg codec": {"type": "AverageTextBox"},
         "FFmpeg custom commands": {"type": "VeryBigTextBox"}

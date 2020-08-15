@@ -66,7 +66,7 @@ def loadname(config):
 	return filename
 
 
-def loadsettings(config, settings, ppsettings, tooltip):
+def loadsettings(config, settings, ppsettings):
 	outputpath = config["Output path"]
 
 	config["Output name"] = config.get("Output name", "{Player} - {Map} {PlayDate} {Accuracy}.mp4")

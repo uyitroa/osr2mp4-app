@@ -1,7 +1,6 @@
-from PyQt5 import QtCore
-from PyQt5.QtWidgets import QLabel, QLineEdit, QTextEdit, QFrame
+from PyQt5.QtWidgets import QTextEdit, QFrame
 
-from Parents import Button
+from BaseComponents.Buttons import Button
 
 
 class PopupWindow(Button):

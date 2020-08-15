@@ -18,8 +18,6 @@ import json
 from SettingComponents.Components.CheckBox import CheckBox
 from abspath import optionconfigpath
 
-from config_data import current_settings, current_config
-
 
 @logged(logging.getLogger(__name__))
 @traced("changesize", exclude=True)
@@ -27,7 +25,8 @@ class ScrollArea(QtWidgets.QScrollArea):
 	def __init__(self, parent, main_window):
 		super().__init__()
 
-		self.main_window = parent
+		self.main_window = main_window
+		self.settingspage = parent
 
 		self.loaded = False
 		self.default_width, self.default_height = parent.default_width, parent.default_height * 0.94
@@ -57,14 +56,14 @@ class ScrollArea(QtWidgets.QScrollArea):
 
 	def changesize(self):
 
-		scale = self.main_window.height() / self.main_window.default_height
+		scale = self.settingspage.height() / self.settingspage.default_height
 
 		self.gridLayout.changesize(scale)
 
 		x = scale * self.default_x
 		y = scale * self.default_y
-		width = self.main_window.width()
-		height = self.main_window.height() * 0.93
+		width = self.settingspage.width()
+		height = self.settingspage.height() * 0.93
 		self.layout.setGeometry(QtCore.QRect(x, y, width, height))
 		self.scrollArea.changesize()
 
@@ -76,19 +75,24 @@ class ScrollArea(QtWidgets.QScrollArea):
 		with open(optionconfigpath) as f:
 			data = json.load(f)
 
+		options, tooltips, headers = self.main_window.langs_dropdown.getlang()
+
 		for header in data:
-			self.gridLayout.smart_addWidget(Titles(header), 0)
+			self.gridLayout.smart_addWidget(Titles(headers.get(header, header)), 0)
 			self.gridLayout.smart_addWidget(Separator(), 0)
 			for key in data[header]:
 				column = data[header][key].get("Column", 0)  # default to 0 if column is not specified
 				widgetname = data[header][key]["type"]
+
+				data[header][key]["desc"] = tooltips.get(key, "")
+				data[header][key]["name"] = options.get(key, "")
 
 				widget = self.widgetlists[widgetname](key=key, jsondata=data[header][key])
 
 				if widgetname == "CheckBox" or widgetname == "UpdateButton":
 					self.gridLayout.smart_addWidget(widget, column)
 				else:
-					self.gridLayout.smart_addWidget(SmallTitles(key + ":"), column)
+					self.gridLayout.smart_addWidget(SmallTitles(options.get(key, key) + ":"), column)
 					self.gridLayout.smart_addWidget(widget, column)
 			self.gridLayout.smart_addWidget(Titles(" "), 0)
 
@@ -97,4 +101,13 @@ class ScrollArea(QtWidgets.QScrollArea):
 
 	def reload_settings(self):
 		self.loaded = False
+
+		while self.gridLayout.count():
+			child = self.gridLayout.takeAt(0)
+			if child.widget():
+				child.widget().deleteLater()
+
+		EndTimeSlider.objs = []
+		StartTimeSlider.objs = []
+
 		self.load_settings()

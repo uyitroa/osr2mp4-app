@@ -6,7 +6,7 @@ from PyQt5.QtWidgets import QCheckBox
 
 from SettingComponents.Components.ToolTip import ClickableTooltip
 from abspath import abspath
-from config_data import current_config, current_settings, current_tooltip
+from config_data import current_config, current_settings
 
 
 class CheckBox(QCheckBox):
@@ -22,7 +22,7 @@ class CheckBox(QCheckBox):
 		self.cur_size = 1
 
 		self.text = "  " + key + "     "
-		self.setText(self.text)
+		self.setText(jsondata.get("name", key))
 		self.curfont = self.font()
 
 		self.default_width = self.box_width * 1.1 + self.textwidth()
@@ -40,7 +40,7 @@ class CheckBox(QCheckBox):
 		else:
 			self.setCheckState(QtCore.Qt.Unchecked)
 
-		tip = current_tooltip.get(self.key, "")
+		tip = jsondata.get("desc", "")
 		self.setToolTip(tip)
 		self.installEventFilter(self)
 

@@ -1,4 +1,3 @@
-import glob
 import logging
 import os
 import os.path
@@ -25,13 +24,14 @@ from HomeComponents.Buttons.UpdateButton import UpdateButton
 from HomeComponents.Buttons.osuButton import osuButton
 from HomeComponents.Buttons.CancelButton import CancelButton
 from HomeComponents.Buttons.osuMapButton import osuMapButton
+from HomeComponents.LanguageDropDown import LanguageDropDown
 from HomeComponents.Logo import Logo
 from HomeComponents.PathImage import OsrPath, MapSetPath
 from HomeComponents.PopupWindow import PopupWindow, CustomTextWindow
 from HomeComponents.ProgressBar import ProgressBar
 from HomeComponents.SkinDropDown import SkinDropDown
 from Info import Info
-from Parents import ButtonBrowse, PopupButton
+from BaseComponents.Buttons import ButtonBrowse, PopupButton
 from SettingComponents.Layouts.SettingsPage import SettingsPage
 from abspath import abspath, configpath, Log
 from config_data import current_config, current_settings
@@ -95,6 +95,7 @@ class Window(QMainWindow):
 		self.popup_window = PopupWindow(self)
 		self.output_window = OutputButton(self)
 		self.osu_window = osuButton(self)
+		self.langs_dropdown = LanguageDropDown(self)
 
 		self.customwindow = CustomTextWindow(self)
 		self.customwindow.hide()
@@ -184,6 +185,7 @@ class Window(QMainWindow):
 		self.autocheckbox.changesize()
 		self.osrgraybutton.changesize()
 		self.osumapbutton.changesize()
+		self.langs_dropdown.changesize()
 
 		if self.popup_bool:
 			self.blur_function(True)

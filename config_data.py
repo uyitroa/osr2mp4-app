@@ -43,10 +43,5 @@ else:
 		"ffmpeg path": "ffmpeg"
 	}
 
-if os.path.isfile(tooltippath):
-	with open(tooltippath) as f:
-		current_tooltip = json.load(f)
-else:
-	current_tooltip = {}
 
-loadsettings(current_config, current_settings, current_ppsettings, current_tooltip)
+loadsettings(current_config, current_settings, current_ppsettings)

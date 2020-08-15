@@ -1,10 +1,8 @@
 import os
-from Parents import ButtonBrowse
-from config_data import current_config, current_settings
-import logging
+from BaseComponents.Buttons import ButtonBrowse
+from config_data import current_config
 
 from helper.helper import get_right_map
-from helper.osudatahelper import parse_osr
 
 
 class OsrButton(ButtonBrowse):

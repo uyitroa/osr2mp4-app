@@ -2,8 +2,7 @@ import os
 import sys
 from PyQt5.QtWidgets import QLabel
 
-from Parents import ButtonBrowse
-from SettingComponents.Components.Textbox import BigTextBox
+from BaseComponents.Buttons import ButtonBrowse
 from abspath import abspath
 
 

@@ -47,6 +47,8 @@ color: white;
 		self.setMaximum(self.default_max + self.bordersize)
 		self.setSingleStep(jsondata["step"] * 1000)
 
+		self.jsondata = jsondata
+
 		step = jsondata["step"]
 		self.precision = len(str(step-int(step))[1:])
 
@@ -59,6 +61,7 @@ color: white;
 
 		super().valueChanged.connect(self.valueChanged)
 		self.setValue(self.current_data[self.key] * 1000)
+		self.show = str(self.current_data[self.key])
 
 	def setFixedHeight(self, p_int):
 		super().setFixedHeight(p_int)
@@ -72,22 +75,20 @@ color: white;
 		val = min(self.maximum() - self.cursize, val)
 		self.setSliderPosition(val)
 
-		# print(val)
-
 		self.current_data[self.key] = round(self.value() / 1000, self.precision)
 
 		self.show = self.current_data[self.key]
 		if self.show == int(self.show):
 			self.show = int(self.show)
-		QToolTip.showText(QtGui.QCursor.pos(), str(self.show), self)
 
 	def updatevalue(self):
 		self.setValue(self.current_data[self.key] * 1000)
 
 	def enterEvent(self, QEvent):
-		self.show = self.current_data[self.key]
-		if self.show == int(self.show):
-			self.show = int(self.show)
+		QToolTip.showText(QtGui.QCursor.pos(), str(self.show), self)
+
+	def mouseMoveEvent(self, QMouseEvent):
+		super().mouseMoveEvent(QMouseEvent)
 		QToolTip.showText(QtGui.QCursor.pos(), str(self.show), self)
 
 
@@ -114,7 +115,8 @@ class StartTimeSlider(Slider):
 
 	def updatetime(self):
 		self.prevhash = osrhash()
-		self.default_max = getmaptime(current_config, current_settings)
+		self.jsondata["max"] = getmaptime(current_config, current_settings)
+		self.default_max = self.jsondata["max"] * 1000
 		tmp = self.bordersize
 		self.bordersize = (self.default_max - self.default_min) * 0.0125
 		self.cursize = self.cursize * self.bordersize / tmp
@@ -135,7 +137,6 @@ class EndTimeSlider(StartTimeSlider):
 			val = self.maximum()
 		else:
 			val = self.current_data[self.key]
-
 		self.setValue(val)
 
 	@QtCore.pyqtSlot(int)
@@ -143,7 +144,7 @@ class EndTimeSlider(StartTimeSlider):
 		super().valueChanged(p_int)
 		if p_int >= self.maximum() - self.cursize:
 			self.current_data[self.key] = -1
-			QToolTip.showText(QtGui.QCursor.pos(), "Max", self)
+			self.show = "Max"
 
 	def setFixedHeight(self, p_int):
 		super().setFixedHeight(p_int)

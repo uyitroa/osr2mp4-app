@@ -1,7 +1,6 @@
 import os
-from Parents import ButtonBrowse
-from config_data import current_config, current_settings
-from helper.osudatahelper import parse_map
+from BaseComponents.Buttons import ButtonBrowse
+from config_data import current_config
 
 
 class MapsetButton(ButtonBrowse):

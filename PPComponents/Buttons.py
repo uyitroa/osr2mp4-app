@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QLabel
 
-from Parents import Button
+from BaseComponents.Buttons import Button
 
 
 class SaveButton(Button):

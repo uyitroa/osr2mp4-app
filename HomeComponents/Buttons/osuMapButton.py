@@ -1,6 +1,6 @@
 import os
-from Parents import ButtonBrowse
-from config_data import current_config, current_settings
+from BaseComponents.Buttons import ButtonBrowse
+from config_data import current_config
 from helper.osudatahelper import parse_osu
 
 

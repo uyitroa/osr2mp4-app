@@ -7,7 +7,7 @@ from osr2mp4.Utils.getmods import mod_string_to_enums
 from Info import Info
 from SettingComponents.Components.Slider import StartTimeSlider, EndTimeSlider
 from SettingComponents.Components.ToolTip import ClickableTooltip
-from config_data import current_config, current_tooltip, current_settings
+from config_data import current_config, current_settings
 
 
 class ParentTextbox(QLineEdit):
@@ -37,7 +37,7 @@ class ParentTextbox(QLineEdit):
 		super().textChanged.connect(self.textChanged)
 		self.raise_()
 
-		tip = current_tooltip.get(self.key, "")
+		tip = jsondata.get("desc", "")
 		self.setToolTip(tip)
 		self.installEventFilter(self)
 
@@ -72,7 +72,7 @@ class ParentTextbox(QLineEdit):
 
 class BigTextBox(ParentTextbox):
 	def __init__(self, key=None, jsondata=None):
-		super().__init__(key=key)
+		super().__init__(key=key, jsondata=jsondata)
 
 		self.default_width = 250
 		self.default_height = 20
@@ -83,7 +83,7 @@ class BigTextBox(ParentTextbox):
 
 class SmallTextBox(ParentTextbox):
 	def __init__(self, key=None, jsondata=None):
-		super().__init__(key=key)
+		super().__init__(key=key, jsondata=jsondata)
 
 		self.default_width = 50
 		self.default_height = 20
@@ -94,7 +94,7 @@ class SmallTextBox(ParentTextbox):
 
 class AverageTextBox(ParentTextbox):
 	def __init__(self, key, jsondata=None):
-		super().__init__(key=key)
+		super().__init__(key=key, jsondata=jsondata)
 
 		self.default_width = 100
 		self.default_height = 20
@@ -105,7 +105,7 @@ class AverageTextBox(ParentTextbox):
 
 class VeryBigTextBox(ParentTextbox):
 	def __init__(self, key=None, jsondata=None):
-		super().__init__(key=key)
+		super().__init__(key=key, jsondata=jsondata)
 
 		self.default_width = 350
 		self.default_height = 20
@@ -125,6 +125,9 @@ class CustomModsTextBox(AverageTextBox):
 			else:
 				Info.replay.mod_combination = mods
 
+			if not EndTimeSlider.objs or not StartTimeSlider.objs:
+				return
+
 			# hmmmmmmmmmmm
 			prevmax = EndTimeSlider.objs[0].maximum()
 			prevstart = StartTimeSlider.objs[0].value()
@@ -138,6 +141,8 @@ class CustomModsTextBox(AverageTextBox):
 
 			scale = EndTimeSlider.objs[0].maximum()/prevmax
 			StartTimeSlider.objs[0].setValue(prevstart * scale)
+			current_config["Start time"] = prevstart * scale / 1000
 			if prevend != -1:
 				EndTimeSlider.objs[0].setValue(prevend * scale)
+				current_config["End time"] = prevend * scale / 1000
 

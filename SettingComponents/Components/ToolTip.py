@@ -126,7 +126,8 @@ class ClickableTooltip(QtWidgets.QLabel):
 	def hideEvent(self, event):
 		super().hideEvent(event)
 		QtWidgets.QApplication.instance().removeEventFilter(self)
-		self.refWidget.window().removeEventFilter(self)
+		if self.refWidget:
+			self.refWidget.window().removeEventFilter(self)
 		self.refWidget = self.refPos = None
 		self.mouseTimer.stop()
 		self.hideTimer.stop()

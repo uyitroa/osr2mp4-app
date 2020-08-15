@@ -73,8 +73,7 @@ def getmaptime(config, settings):
 
 		if Mod.HalfTime in Info.replay.mod_combination:
 			nomod_time /= 0.75
-
-		return nomod_time
+		return nomod_time/1000
 	except Exception as e:
 		logging.error(repr(e))
 		return 1

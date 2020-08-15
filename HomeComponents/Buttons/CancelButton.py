@@ -1,4 +1,4 @@
-from Parents import Button
+from BaseComponents.Buttons import Button
 from helper.helper import kill, cleanupkill
 
 
