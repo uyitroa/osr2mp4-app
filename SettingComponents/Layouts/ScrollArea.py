@@ -17,6 +17,7 @@ from SettingComponents.Components.Slider import Slider, EndTimeSlider, StartTime
 import json
 from SettingComponents.Components.CheckBox import CheckBox
 from abspath import optionconfigpath
+from config_data import current_config, current_settings
 
 
 @logged(logging.getLogger(__name__))
@@ -85,7 +86,7 @@ class ScrollArea(QtWidgets.QScrollArea):
 				widgetname = data[header][key]["type"]
 
 				data[header][key]["desc"] = tooltips.get(key, "")
-				data[header][key]["name"] = options.get(key, "")
+				data[header][key]["name"] = options.get(key, key)
 
 				widget = self.widgetlists[widgetname](key=key, jsondata=data[header][key])
 

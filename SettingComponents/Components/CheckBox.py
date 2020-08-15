@@ -35,6 +35,9 @@ class CheckBox(QCheckBox):
 		else:
 			self.current_data = current_settings
 
+		if self.key not in self.current_data:
+			self.current_data[self.key] = False
+
 		if bool(self.current_data[self.key]):
 			self.setCheckState(QtCore.Qt.Checked)
 		else:

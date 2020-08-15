@@ -7,6 +7,7 @@ from abspath import abspath
 import logging
 
 from config_data import current_config
+from helper.datahelper import save
 
 
 @logged(logging.getLogger(__name__))
@@ -40,6 +41,7 @@ class LanguageDropDown(ComboBox):
 		current_config["Language"] = self.itemText(index)
 		self.main_window.hidesettings()
 		self.main_window.settingspage.reload_settings()
+		save()
 
 	def loadlang(self, filename, defaultvalues):
 		try:

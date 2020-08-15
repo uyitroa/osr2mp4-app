@@ -59,6 +59,9 @@ color: white;
 		else:
 			self.current_data = current_settings
 
+		if self.key not in self.current_data:
+			self.current_data[self.key] = 0
+
 		super().valueChanged.connect(self.valueChanged)
 		self.setValue(self.current_data[self.key] * 1000)
 		self.show = str(self.current_data[self.key])

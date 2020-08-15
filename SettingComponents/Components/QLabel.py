@@ -2,12 +2,13 @@ from PyQt5.QtWidgets import QLabel
 
 
 class ParentTitle(QLabel):
-	def __init__(self, default_fontsize=1):
+	def __init__(self, default_fontsize=1, color="white"):
 		super().__init__()
 		self.default_width = 1
 		self.default_height = 1
 		self.default_fontsize = default_fontsize
-		self.setStyleSheet("font: bold %ipx;color:white;" % self.default_fontsize)
+		self.color = color
+		self.setStyleSheet("font: bold %ipx;color:%s;" % (self.default_fontsize, color))
 
 	def width(self):
 		return self.fontMetrics().boundingRect(self.text).width() * 2
@@ -17,7 +18,7 @@ class ParentTitle(QLabel):
 
 	def setFixedHeight(self, p_int):
 		scale = p_int / self.default_height
-		self.setStyleSheet("font-size: %ipx; font-weight: bold; color: white;" % int(scale * self.default_fontsize))
+		self.setStyleSheet("font-size: %ipx; font-weight: bold; color: %s;" % (int(scale * self.default_fontsize), self.color))
 		super().setFixedHeight(p_int)
 
 	def updatevalue(self):
@@ -25,9 +26,9 @@ class ParentTitle(QLabel):
 
 
 class Titles(ParentTitle):
-	def __init__(self, title, pixmap=None, parent=None):
+	def __init__(self, title, pixmap=None, parent=None, color="white"):
 		self.default_fontsize = 24
-		super().__init__(self.default_fontsize)
+		super().__init__(self.default_fontsize, color=color)
 		self.text = title + "   "
 		self.setText(title)
 		font = self.font()
@@ -39,9 +40,9 @@ class Titles(ParentTitle):
 
 
 class SmallTitles(ParentTitle):
-	def __init__(self, title, parent=None):
+	def __init__(self, title, parent=None, color="white"):
 		self.default_fontsize = 14
-		super().__init__(self.default_fontsize)
+		super().__init__(self.default_fontsize, color=color)
 		self.text = title + "   "
 		self.setText(title)
 

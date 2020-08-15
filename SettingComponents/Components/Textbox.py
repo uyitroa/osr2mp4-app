@@ -32,7 +32,7 @@ class ParentTextbox(QLineEdit):
 			self.current_data = current_settings
 
 		if self.key not in self.current_data:
-			self.current_data["key"] = ""
+			self.current_data[self.key] = ""
 
 		super().textChanged.connect(self.textChanged)
 		self.raise_()
