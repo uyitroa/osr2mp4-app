@@ -1,5 +1,5 @@
 {
-  "Process": "Le nombre de processus, le temps de rendu va être plus rapide selon le nombre de processus choisi (Un trop grand nombre de processus peut causer des ralentissements en fonction des caractéristiques de votre ordinateur, en général 2 à 4 processus sont suffisant sur un ordinateur de bureau",
+  "Process": "Le nombre de processus, le temps de rendu va être plus rapide selon le nombre de processus choisi (Un trop grand nombre de processus peut causer des ralentissements en fonction des caractéristiques de votre ordinateur, en général 2 à 4 processus sont suffisants sur un ordinateur de bureau",
   "Video codec": "FOURCC de l'encodage. Les différents fourcc disponible pour l'encodage sont listées <a href='https://www.fourcc.org/codecs.php'>ici</a>",
   "Output name": "{Map}  ->  Dossier de la map \n{MapTitle}  ->  Nom de la map \n{Artist}  ->  L'artiste de la chanson \n{Creator}  ->  Createur de la map \n{Player}  ->  Nom du joueur \n{PlayDate}  ->  La date de la partie \n{Date}  ->  La date actuelle \n{Accuracy}  ->  Précision de la partie \n\nExample: {MapTitle} joué par {Player}.mp4  ->  Harumachi clover joué par Cookiezi.mp4  ",
   "Rotate sliderball": "La fonctionnalité est desactivé par défaut afin de réduire le temps de rendu. Activez cette option pour ajouter les effets de rotations sur les sliderballs avec le skin utilisé",
