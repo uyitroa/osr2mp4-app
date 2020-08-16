@@ -16,8 +16,8 @@ class LanguageDropDown(ComboBox):
 	def __init__(self, parent):
 		super().__init__(parent)
 
-		self.default_x = 10
-		self.default_y = 10
+		self.default_x = 5
+		self.default_y = 5
 		self.default_width = 0.4
 		self.default_height = 0.5
 
@@ -55,6 +55,9 @@ class LanguageDropDown(ComboBox):
 			if key not in options:
 				options[key] = defaultvalues[key]
 		return options
+	
+	def changesize(self):
+		pass
 
 	def getlang(self):
 		langpath = os.path.join(abspath, "langs", self.currentText())
