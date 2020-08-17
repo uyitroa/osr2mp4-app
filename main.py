@@ -138,6 +138,8 @@ class Window(QMainWindow):
 			self.setmap("")
 
 			current_settings["Custom mods"] = ""
+			current_config[".osr path"] = ""
+			current_config["Beatmap path"] = ""
 			Info.replay = None
 			Info.real_mod = None
 			Info.map = None
@@ -244,6 +246,9 @@ class Window(QMainWindow):
 			self.settingspage.settingsarea.scrollArea.hide()
 
 	def setreplay(self, replay_path):
+		if replay_path is None or replay_path == "":
+			return
+
 		replay_name = os.path.split(replay_path)[-1]
 		self.osrpath.setText(replay_name)
 
@@ -252,6 +257,8 @@ class Window(QMainWindow):
 		logging.info("Updated replay path to: {}".format(replay_path))
 
 	def setmap(self, mapset_path):
+		if mapset_path is None or mapset_path == "":
+			return
 		current_config["Beatmap path"] = mapset_path
 		map_name = os.path.split(mapset_path)[-1]
 		self.mapsetpath.setText(map_name)
@@ -264,7 +271,7 @@ class Window(QMainWindow):
 			return
 
 		replay = get_latest_replay()
-		if self.prevreplay == replay:
+		if self.prevreplay == replay or replay is None:
 			return
 		self.prevreplay = replay
 

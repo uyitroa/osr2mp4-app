@@ -80,6 +80,5 @@ class LanguageDropDown(ComboBox):
 				self.langnames[langname] = langsh
 			except Exception as e:
 				logging.error("from get_langs", repr(e))
-		print(self.langnames)
 		self.setCurrentIndex(self.findText("en"))
 
