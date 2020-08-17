@@ -21,10 +21,12 @@ class LanguageDropDown(ComboBox):
 		self.default_width = 0.4
 		self.default_height = 0.5
 
+		self.langnames = {}
+
 		super().setup()
 		self.get_langs()
 
-		langpath = os.path.join(abspath, "langs", "English")
+		langpath = os.path.join(abspath, "langs", "en")
 		with open(os.path.join(langpath, "tooltips.json")) as f:
 			self.default_tooltips = json.load(f)
 
@@ -60,7 +62,7 @@ class LanguageDropDown(ComboBox):
 		pass
 
 	def getlang(self):
-		langpath = os.path.join(abspath, "langs", self.currentText())
+		langpath = os.path.join(abspath, "langs", self.langnames.get(self.currentText(), "en"))
 		tooltips = self.loadlang(os.path.join(langpath, "tooltips.json"), self.default_tooltips)
 		options = self.loadlang(os.path.join(langpath, "options.json"), self.default_options)
 		headers = self.loadlang(os.path.join(langpath, "options_headers.json"), self.default_headers)
@@ -70,6 +72,14 @@ class LanguageDropDown(ComboBox):
 	def get_langs(self):
 		langlist = [f for f in glob.glob(os.path.join(abspath, "langs/*"))]
 		for x in langlist:
-			langname = os.path.basename(x)
-			self.addItem(langname)
-		self.setCurrentIndex(0)
+			try:
+				langsh = os.path.basename(x)
+				with open(os.path.join(x, "lang.txt"), "r", encoding="utf-8") as f:
+					langname = f.read().strip()
+				self.addItem(langname)
+				self.langnames[langname] = langsh
+			except Exception as e:
+				logging.error("from get_langs", repr(e))
+		print(self.langnames)
+		self.setCurrentIndex(self.findText("en"))
+
