@@ -45,7 +45,7 @@ class LanguageDropDown(ComboBox):
 
 	def loadlang(self, filename, defaultvalues):
 		try:
-			with open(filename) as f:
+			with open(filename, encoding='utf-8') as f:
 				options = json.load(f)
 		except Exception as e:
 			logging.error("from languagedropdown getlangs", repr(e))

@@ -18,7 +18,7 @@ class ClickableTooltip(QtWidgets.QLabel):
 		self.mouseTimer = QtCore.QTimer(interval=250, timeout=self.checkCursor)
 		self.hideTimer = QtCore.QTimer(singleShot=True, timeout=self.hide)
 
-		self.setStyleSheet("""background-color: rgb(20, 20, 23); color: white; border-color:rgb(20, 20, 23);""")
+		self.setStyleSheet("""background-color: rgb(40, 40, 43); color: white;""")
 
 	def checkCursor(self):
 		# ignore if the link context menu is visible

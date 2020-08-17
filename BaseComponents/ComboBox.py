@@ -22,7 +22,7 @@ class ComboBox(QComboBox):
 		QComboBox {
 			 border-image : url(%s);
 			 color: white;
-			 font-size: 12pt;
+			 font-size: 9pt;
 		}
 
 		QComboBox::drop-down {

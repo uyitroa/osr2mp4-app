@@ -21,8 +21,9 @@ class CheckBox(QCheckBox):
 		self.default_fontsize = 14
 		self.cur_size = 1
 
-		self.text = "  " + key + "     "
-		self.setText(jsondata.get("name", key))
+		textstr = jsondata.get("name", key)
+		self.text = "  " + textstr + "     "
+		self.setText(textstr)
 		self.curfont = self.font()
 
 		self.default_width = self.box_width * 1.1 + self.textwidth()
