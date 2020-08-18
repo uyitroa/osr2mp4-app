@@ -1,0 +1,15 @@
+{
+  "Process": "Liczba procesów, czas renderowania będzie szybszy z większą ilością procesów (lecz za wiele będzie wolniej zależąc na twoim PC, zwykle 2-4 wystarczają na normalnym kompie).",
+  "Video codec": "FOURCC kodeku. Fourcc twojego kodeku znajdziesz <a href='https://www.fourcc.org/codecs.php'>tutaj</a>",
+  "Output name": "{Map}  ->  Folder mapy \n{MapTitle}  ->  Nazwa mapy \n{Artist}  ->  Twórca muzyki \n{Creator}  ->  Nick mappera \n{Player}  ->  Nick gracza \n{PlayDate}  ->  Data gry \n{Date}  ->  Dzisiejsza data \n{Accuracy}  ->  Celność w playu (acc) \n\nPrzykład: {MapTitle} zagrane przez {Player}.mp4  ->  Harumachi clover zagrane przez Cookieziego.mp4  ",
+  "Rotate sliderball": "Ta opcja jest domyślnie wyłączona by zmniejszyć czas renderowania. Włącz to jeśli twój skin wymaga tej opcji.",
+  "Enable PP counter": "Możesz edytować licznik pp używając CustomPP.exe",
+  "Global leaderboard": "Musisz podać klucz api by widzieć globalną tablicę wyników. Tutaj zdobędziesz klucz api: <a href='https://old.ppy.sh/p/api/'>tutaj</a>.",
+  "api key": "Zdobądź klucz api <a href='https://old.ppy.sh/p/api/'>tutaj</a>.",
+  "Mods leaderboard": "Jeśli chcesz mieć playe z byle jakimi modami w tabeli wyników, wpisz * w miejscu do pisania (Tablica wyników (z modami)). Jeśli chcesz tylko playe z Hiddenem, wpisz HD. Jeśli chcesz HDHR i HR, wpisz (HD)HR, HR będzie wymaganym modem i HD będzie opcjonalnym.",
+  "Custom mods": "Przykład: HDHR, i replay będzie z hdhr.",
+  "FFmpeg codec": "Znajdź swój kodek <a href='https://github.com/uyitroa/osr2mp4-core/blob/master/res/Video%20codec%20list.txt'>tutaj</a>",
+  "Audio codec": "Znajdź swój kodek <a href='https://github.com/uyitroa/osr2mp4-core/blob/master/res/Audio%20codec%20list.txt'>tutaj</a>",
+  "FFmpeg custom commands": "Dodaj ustawienia tak jak byś robił to w ffmpegu w lini komend. Dowiedz się więcej o ffmpeg'u <a href='https://ffmpeg.org/ffmpeg.html'>tutaj</a>",
+  "Use FFmpeg video writer": "Używanie writera wideo ffmpeg pozwala na więcej możliwości niż writer opencv, lecz może być wolniejszy niż opencv."
+}
