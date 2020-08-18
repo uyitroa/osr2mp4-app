@@ -1,4 +1,5 @@
-from PyQt5.QtWidgets import QTextEdit, QFrame
+from PyQt5.QtGui import QFont
+from PyQt5.QtWidgets import QTextEdit, QFrame, QLabel
 
 from BaseComponents.Buttons import Button
 
@@ -11,13 +12,24 @@ class PopupWindow(Button):
 		self.default_y = 70
 		self.default_size = 3.5
 
-		self.img_idle = "res/Window.png"
-		self.img_hover = "res/Window.png"
-		self.img_click = "res/Window.png"
+		self.img_idle = "res/WindowShadow.png"
+		self.img_hover = "res/WindowShadow.png"
+		self.img_click = "res/WindowShadow.png"
 		self.img_shadow = "res/Window_Shadow.png"
+
+		self.setup = self.main_window.langs_dropdown.getlang_popupwindow()
+
+		self.text = QLabel(self)
+		self.text.setText(self.setup["Setup"])
+		self.text.setFont(QFont('Tahoma', 22))
+		self.text.setStyleSheet("QLabel{background: transparent; color: white}")
+		self.text.setGeometry(45, 100, 800, 200)
 
 		super().setup()
 
+	def reload_popupwindow(self):
+		setup = self.main_window.langs_dropdown.getlang_popupwindow()
+		self.text.setText(setup["Setup"])
 
 class CustomTextWindow(Button):
 	def __init__(self, parent):
