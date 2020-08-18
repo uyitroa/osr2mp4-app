@@ -8,3 +8,4 @@ error.txt
 progress.txt
 exit.txt
 hashCache.db
+.DS_STORE

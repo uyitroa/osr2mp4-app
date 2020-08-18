@@ -1,4 +1,3 @@
-import glob
 import logging
 import os
 import os.path
@@ -25,18 +24,20 @@ from HomeComponents.Buttons.UpdateButton import UpdateButton
 from HomeComponents.Buttons.osuButton import osuButton
 from HomeComponents.Buttons.CancelButton import CancelButton
 from HomeComponents.Buttons.osuMapButton import osuMapButton
+from HomeComponents.LanguageDropDown import LanguageDropDown
 from HomeComponents.Logo import Logo
 from HomeComponents.PathImage import OsrPath, MapSetPath
 from HomeComponents.PopupWindow import PopupWindow, CustomTextWindow
 from HomeComponents.ProgressBar import ProgressBar
 from HomeComponents.SkinDropDown import SkinDropDown
 from Info import Info
-from Parents import ButtonBrowse, PopupButton
+from BaseComponents.Buttons import ButtonBrowse, PopupButton
 from SettingComponents.Layouts.SettingsPage import SettingsPage
 from abspath import abspath, configpath, Log
 from config_data import current_config, current_settings
-from helper.find_beatmap import find_beatmap_
-from helper.helper import save, parse_osr, parse_map, kill, cleanupkill
+from helper.helper import kill, cleanupkill, get_latest_replay, get_right_map
+from helper.osudatahelper import parse_osr, parse_map
+from helper.datahelper import save
 
 
 class Window(QMainWindow):
@@ -94,6 +95,7 @@ class Window(QMainWindow):
 		self.popup_window = PopupWindow(self)
 		self.output_window = OutputButton(self)
 		self.osu_window = osuButton(self)
+		self.langs_dropdown = LanguageDropDown(self)
 
 		self.customwindow = CustomTextWindow(self)
 		self.customwindow.hide()
@@ -118,10 +120,9 @@ class Window(QMainWindow):
 	def toggle_auto(self, enable_auto):
 		if enable_auto:
 			self.prevreplay = "auto"
-			current_config[".osr path"] = "auto"
-			current_config["Beatmap path"] = ""
-			self.osrpath.setText("auto")
-			self.mapsetpath.setText("")
+			self.setreplay("auto")
+			self.setmap("")
+
 			Info.replay = Replay()
 			Info.replay.mod_combination = mod_string_to_enums(current_settings["Custom mods"])
 			Info.map = None
@@ -133,11 +134,12 @@ class Window(QMainWindow):
 			self.mapsetbutton.hide()
 			self.osumapbutton.show()
 		else:
+			self.setreplay("")
+			self.setmap("")
+
+			current_settings["Custom mods"] = ""
 			current_config[".osr path"] = ""
 			current_config["Beatmap path"] = ""
-			current_settings["Custom mods"] = ""
-			self.osrpath.setText("")
-			self.mapsetpath.setText("")
 			Info.replay = None
 			Info.real_mod = None
 			Info.map = None
@@ -185,6 +187,7 @@ class Window(QMainWindow):
 		self.autocheckbox.changesize()
 		self.osrgraybutton.changesize()
 		self.osumapbutton.changesize()
+		self.langs_dropdown.changesize()
 
 		if self.popup_bool:
 			self.blur_function(True)
@@ -242,56 +245,42 @@ class Window(QMainWindow):
 		else:
 			self.settingspage.settingsarea.scrollArea.hide()
 
-	def find_latest_replay(self):
-		try:
-			if current_config["osu! path"] == "":
-				return
+	def setreplay(self, replay_path):
+		if replay_path is None or replay_path == "":
+			return
 
-			path = os.path.join(current_config["osu! path"], "Replays/*.osr")
-			list_of_files = glob.glob(path)
-			if not list_of_files:
-				return
-			replay = max(list_of_files, key=os.path.getctime)
-			if self.prevreplay == replay or current_config[".osr path"] == "auto":
-				return
+		replay_name = os.path.split(replay_path)[-1]
+		self.osrpath.setText(replay_name)
 
-			self.prevreplay = replay
-			replay_name = os.path.split(replay)[-1]
-			self.osrpath.setText(replay_name)
+		current_config[".osr path"] = replay_path
+		parse_osr(current_config, current_settings)
+		logging.info("Updated replay path to: {}".format(replay_path))
 
-			current_config[".osr path"] = replay
-			parse_osr(current_config, current_settings)
+	def setmap(self, mapset_path):
+		if mapset_path is None or mapset_path == "":
+			return
+		current_config["Beatmap path"] = mapset_path
+		map_name = os.path.split(mapset_path)[-1]
+		self.mapsetpath.setText(map_name)
 
-			self.find_latest_map(replay)
-
-			logging.info("Updated replay path to: {}".format(replay))
-		except Exception as e:
-			print("Error: {}".format(e))
-			logging.error(repr(e))
-
-	def find_latest_map(self, replay):
-		try:
-			if current_config["osu! path"] == "":
-				return
-
-			beatmap_name = find_beatmap_(replay, current_config["osu! path"])
-			beatmap_path = os.path.join(current_config["osu! path"], "Songs", beatmap_name)
-
-			if not os.path.isdir(beatmap_path):
-				return
-
-			current_config["Beatmap path"] = beatmap_path
-			if beatmap_name != "":
-				self.mapsetpath.setText(beatmap_name)
-				logging.info("Updated beatmap path to: {}".format(beatmap_path))
-
-				parse_map(current_config, current_settings)
-		except Exception as e:
-			print("Error: {}".format(e))
-			logging.error(repr(e))
+		parse_map(current_config, current_settings)
+		logging.info("Updated beatmap path to: {}".format(mapset_path))
 
 	def check_replay_map(self):
-		self.find_latest_replay()
+		if current_config[".osr path"] == "auto":
+			return
+
+		replay = get_latest_replay()
+		if self.prevreplay == replay or replay is None:
+			return
+		self.prevreplay = replay
+
+		self.setreplay(replay)
+
+		mapset = get_right_map(replay)
+		if mapset is None:
+			return
+		self.setmap(mapset)
 
 	def dragEnterEvent(self, e):
 		e.accept()
@@ -301,13 +290,18 @@ class Window(QMainWindow):
 			p = urlparse(url.url())
 			final_path = os.path.abspath(os.path.join(p.netloc, p.path))
 			if final_path.endswith(".osr"):
-				current_config[".osr path"] = final_path
-				self.osrpath.setText(os.path.basename(final_path))
-				self.find_latest_map(final_path)
+				self.setreplay(final_path)
+				mapset = get_right_map(final_path)
+				if mapset is not None:
+					self.setmap(mapset)
+
 			elif os.path.isdir(final_path):
-				current_config["Beatmap path"] = final_path
-				self.mapsetpath.setText(os.path.basename(final_path))
-		# self.setText(e.mimeData().text())
+				self.setmap(final_path)
+
+			elif final_path.endswith(".osu"):
+				if current_config[".osr path"] != "auto":
+					final_path = os.path.dirname(final_path)
+				self.setmap(final_path)
 
 
 def excepthook(exc_type, exc_value, exc_tb):

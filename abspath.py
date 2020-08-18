@@ -26,6 +26,7 @@ settingspath = os.path.join(abspath, "settings.json")
 pppath = os.path.join(abspath, "ppsettings.json")
 optionconfigpath = os.path.join(abspath, 'options_config.json')
 cachepath = os.path.join(abspath, 'hashCache.db')
+tooltippath = os.path.join(abspath, "tooltips.json")
 
 
 class Log:

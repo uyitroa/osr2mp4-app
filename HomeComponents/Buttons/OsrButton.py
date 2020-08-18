@@ -1,9 +1,8 @@
 import os
-from Parents import ButtonBrowse
-from config_data import current_config, current_settings
-import logging
+from BaseComponents.Buttons import ButtonBrowse
+from config_data import current_config
 
-from helper.helper import parse_osr
+from helper.helper import get_right_map
 
 
 class OsrButton(ButtonBrowse):
@@ -27,17 +26,8 @@ class OsrButton(ButtonBrowse):
 	def afteropenfile(self, filename):
 		if filename == "":  # if user cancel select
 			return
-		replay_name = os.path.split(filename)[-1]
-		current_config[".osr path"] = filename
 
-		parse_osr(current_config, current_settings)
-
-		try:
-			self.main_window.osrpath.setText(replay_name)
-		except Exception as e:
-			logging.error(repr(e))
-
-		try:
-			self.main_window.find_latest_map(filename)
-		except Exception as e:
-			logging.error(repr(e))
+		self.main_window.setreplay(filename)
+		mappath = get_right_map(filename)
+		if mappath is not None:
+			self.main_window.setmap(mappath)

@@ -16,7 +16,7 @@ def scale(val, src, dst):
 
 
 class CustomScrolbar(QSlider):
-	def __init__(self, parent=None, jsondata=None):
+	def __init__(self, parent):
 		super().__init__(parent)
 
 		super().valueChanged.connect(self.valueChanged)

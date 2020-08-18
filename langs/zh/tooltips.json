@@ -1,0 +1,15 @@
+{
+	"Process": "根据电脑配置，会处理快或慢",
+	"Video codec": "FOURCC视频codec. 想知道更多 <a href='https://www.fourcc.org/codecs.php'>这里</a>",
+	"Output name": "{Map}  ->  地图 \n{MapTitle}  ->  图名 \n{Artist}  ->  音乐作者 \n{Creator}  ->  地图作者 \n{Player}  ->  玩家 \n{PlayDate}  ->  游戏时间 \n{Date}  ->  下载时间 \n{Accuracy}  ->  其他 \n\nExample: {Player}的{MapTitle} ->  Cookiezi的Harumachi clover.mp4  ",
+	"Rotate sliderball": "为了节省时间，这选项是默认关闭的",
+	"Enable PP counter": "可使用CustomPP.exe来自定义PP分器",
+	"Global leaderboard": "需API Key才能开启总排名. 申请API Key <a href='https://osu.ppy.sh/p/api/'>这里</a>. 如果不能，请刷新网页",
+	"api key": "申请API Key <a href='https://osu.ppy.sh/p/api/'>这里</a>. 如果不能，请刷新网页",
+	"Mods leaderboard": "要模式排名只需在模式排名添加*. 想要Hidden选HD. 想要HDHR和HR选(HD)HR. HR是条件HD是可选项",
+	"Custom mods": "其他模式",
+	"FFmpeg codec": "找出视频codec <a href='https://github.com/uyitroa/osr2mp4-core/blob/master/res/Video%20codec%20list.txt'>这里</a>",
+	"Audio codec": "找出音乐codec <a href='https://github.com/uyitroa/osr2mp4-core/blob/master/res/Audio%20codec%20list.txt'>这里</a>",
+	"FFmpeg custom commands": "如果使用FFmpeg可添加选项. 想知道更多 <a href='https://ffmpeg.org/ffmpeg.html'>这里</a>",
+	"Use FFmpeg video writer": "使用FFMPEG写法比OpenCV更多选项，但是可能会更慢 "
+}

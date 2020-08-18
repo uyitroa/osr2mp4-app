@@ -1,0 +1,15 @@
+{
+  "Process": "Le nombre de processus, le temps de rendu va être plus rapide selon le nombre de processus choisi (Un trop grand nombre de processus peut causer des ralentissements en fonction des caractéristiques de votre ordinateur, en général 2 à 4 processus sont suffisants sur un ordinateur de bureau",
+  "Video codec": "FOURCC de l'encodage. Les différents fourcc disponible pour l'encodage sont listées <a href='https://www.fourcc.org/codecs.php'>ici</a>",
+  "Output name": "{Map}  ->  Dossier de la map \n{MapTitle}  ->  Nom de la map \n{Artist}  ->  L'artiste de la chanson \n{Creator}  ->  Createur de la map \n{Player}  ->  Nom du joueur \n{PlayDate}  ->  La date de la partie \n{Date}  ->  La date actuelle \n{Accuracy}  ->  Précision de la partie \n\nExample: {MapTitle} joué par {Player}.mp4  ->  Harumachi clover joué par Cookiezi.mp4  ",
+  "Rotate sliderball": "La fonctionnalité est desactivé par défaut afin de réduire le temps de rendu. Activez cette option pour ajouter les effets de rotations sur les sliderballs avec le skin utilisé",
+  "Enable PP counter": "Le compteur de PP peut être personnalisé avec l'application CustomPP.exe",
+  "Global leaderboard": "Une clé API est requise pour activer le classement général. Avoir une clé API <a href='https://osu.ppy.sh/p/api/'>ici</a>. Vous devriez parfois spammez l'actualisation de la page car le lien renvoie souvent sur la page d'accueil de !osu",
+  "api key": "Avoir une clé API <a href='https://osu.ppy.sh/p/api/'>ici</a>. Vous devriez parfois spammez l'actualisation de la page car le lien renvoie souvent sur la page d'accueil de !osu",
+  "Mods leaderboard": "Pour inclure tout les différents mods du jeu sur le classement, insèrez * dans l'option Classement des mods. Pour inclure le mod Hidden, insèrez HD. Pour inclure HDHR et HR, insèrez (HD)HR, HR va être considéré comme un mod requis et HD sera un mod optionnel",
+  "Custom mods": "Exemple: HDHR, et le replay va être en hdhr.",
+  "FFmpeg codec": "Trouvez l'encodage video <a href='https://github.com/uyitroa/osr2mp4-core/blob/master/res/Video%20codec%20list.txt'>ici</a>",
+  "Audio codec": "Trouvez l'encodage audio <a href='https://github.com/uyitroa/osr2mp4-core/blob/master/res/Audio%20codec%20list.txt'>ici</a>",
+  "FFmpeg custom commands": "Ajoute des options comme si vous utilisez FFMPEG en ligne de commande. En savoir plus sur FFMPEG <a href='https://ffmpeg.org/ffmpeg.html'>ici</a>",
+  "Use FFmpeg video writer": "L'utilisation de l'écriture video par le biais de FFMPEG permet d'obtenir plus d'options de personnalisations que celle de OpenCV, mais peut être plus lent que OpenCV "
+}

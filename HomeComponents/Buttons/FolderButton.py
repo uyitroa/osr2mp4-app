@@ -1,7 +1,7 @@
 import os
 import webbrowser
 from PyQt5.QtWidgets import QLabel
-from Parents import Button
+from BaseComponents.Buttons import Button
 from config_data import current_config
 
 

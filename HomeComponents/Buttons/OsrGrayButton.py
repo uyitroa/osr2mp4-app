@@ -1,4 +1,4 @@
-from Parents import Button
+from BaseComponents.Buttons import Button
 
 
 class OsrGrayButton(Button):

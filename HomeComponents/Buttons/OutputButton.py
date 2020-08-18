@@ -1,6 +1,4 @@
-import os
-
-from Parents import PopupButton
+from BaseComponents.Buttons import PopupButton
 from config_data import current_config
 
 

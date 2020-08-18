@@ -2,13 +2,12 @@ import os
 import sys
 from PyQt5.QtWidgets import QLabel
 
-from Parents import ButtonBrowse
-from SettingComponents.Components.Textbox import BigTextBox
+from BaseComponents.Buttons import ButtonBrowse
 from abspath import abspath
 
 
 class UpdateButton(QLabel):
-	def __init__(self, jsondata=None, default_fontsize=1):
+	def __init__(self, key=None, jsondata=None, default_fontsize=1):
 		super().__init__()
 		self.default_width = 75
 		self.default_height = 27

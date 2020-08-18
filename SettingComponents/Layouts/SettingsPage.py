@@ -1,4 +1,4 @@
-from Parents import Button
+from BaseComponents.Buttons import Button
 from SettingComponents.Layouts.ScrollArea import ScrollArea
 
 
@@ -8,9 +8,6 @@ def get_arearect(settings):
 
 	middle_x = settings.default_x + settings.default_width/2
 	middle_y = settings.default_y + settings.default_height/2
-
-	area_x = middle_x - area_width/2
-	area_y = middle_y - area_height/2
 
 	return 0, 0, area_width, area_height
 
@@ -30,8 +27,6 @@ class SettingsPage(Button):
 		super().setup()
 
 		self.settingsarea = ScrollArea(self, parent)
-		# self.settingsarea.default_x, self.settingsarea.default_y, self.settingsarea.default_width, self.settingsarea.default_height = get_arearect(self)
-		# self.settingsarea.setup()
 
 		self.hide()
 		self.load_settings()
@@ -42,6 +37,9 @@ class SettingsPage(Button):
 
 	def load_settings(self):
 		self.settingsarea.load_settings()
+
+	def reload_settings(self):
+		self.settingsarea.reload_settings()
 
 	def updatevalue(self):
 		self.settingsarea.gridLayout.updatevalue()

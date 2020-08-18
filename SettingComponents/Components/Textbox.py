@@ -1,14 +1,17 @@
-from PyQt5 import QtCore
+import webbrowser
+
+from PyQt5 import QtCore, QtGui
 from PyQt5.QtWidgets import QLineEdit
 from osr2mp4.Utils.getmods import mod_string_to_enums
 
 from Info import Info
 from SettingComponents.Components.Slider import StartTimeSlider, EndTimeSlider
-from config_data import current_config
+from SettingComponents.Components.ToolTip import ClickableTooltip
+from config_data import current_config, current_settings
 
 
 class ParentTextbox(QLineEdit):
-	def __init__(self, parent=None, jsondata=None):
+	def __init__(self, key=None, jsondata=None):
 		super().__init__()
 		self.default_width = 1
 		self.default_height = 1
@@ -21,18 +24,22 @@ class ParentTextbox(QLineEdit):
 		}
 		""")
 
-		self.key = jsondata["key"]
+		self.key = key
 
-		if jsondata["key"] in jsondata["data"]["config"]:
-			self.current_data = jsondata["data"]["config"]
+		if key in current_config:
+			self.current_data = current_config
 		else:
-			self.current_data = jsondata["data"]["settings"]
+			self.current_data = current_settings
 
-		if jsondata["key"] not in self.current_data:
-			self.current_data[jsondata["key"]] = ""
+		if self.key not in self.current_data:
+			self.current_data[self.key] = ""
 
 		super().textChanged.connect(self.textChanged)
 		self.raise_()
+
+		tip = jsondata.get("desc", "")
+		self.setToolTip(tip)
+		self.installEventFilter(self)
 
 	def updatevalue(self):
 		self.setText(str(self.current_data[self.key]))
@@ -51,10 +58,21 @@ class ParentTextbox(QLineEdit):
 				pass
 		self.current_data[self.key] = p_str
 
+	def tooltip_link_clicked(self, url):
+		webbrowser.open(url)
+
+	def eventFilter(self, source, event):
+		if event.type() == QtCore.QEvent.ToolTip and source.toolTip():
+			toolTip = ClickableTooltip.showText(
+				QtGui.QCursor.pos(), source.toolTip(), source)
+			toolTip.linkActivated.connect(self.tooltip_link_clicked)
+			return True
+		return super().eventFilter(source, event)
+
 
 class BigTextBox(ParentTextbox):
-	def __init__(self, parent=None, jsondata=None):
-		super().__init__(parent=parent, jsondata=jsondata)
+	def __init__(self, key=None, jsondata=None):
+		super().__init__(key=key, jsondata=jsondata)
 
 		self.default_width = 250
 		self.default_height = 20
@@ -64,8 +82,8 @@ class BigTextBox(ParentTextbox):
 
 
 class SmallTextBox(ParentTextbox):
-	def __init__(self, parent=None, jsondata=None):
-		super().__init__(parent=parent, jsondata=jsondata)
+	def __init__(self, key=None, jsondata=None):
+		super().__init__(key=key, jsondata=jsondata)
 
 		self.default_width = 50
 		self.default_height = 20
@@ -74,7 +92,29 @@ class SmallTextBox(ParentTextbox):
 		QLineEdit().setFixedHeight(self.default_height)
 
 
-class CustomModsTextBox(SmallTextBox):
+class AverageTextBox(ParentTextbox):
+	def __init__(self, key, jsondata=None):
+		super().__init__(key=key, jsondata=jsondata)
+
+		self.default_width = 100
+		self.default_height = 20
+
+		self.setFixedWidth(self.default_width)
+		QLineEdit().setFixedHeight(self.default_height)
+
+
+class VeryBigTextBox(ParentTextbox):
+	def __init__(self, key=None, jsondata=None):
+		super().__init__(key=key, jsondata=jsondata)
+
+		self.default_width = 350
+		self.default_height = 20
+
+		self.setFixedWidth(self.default_width)
+		QLineEdit().setFixedHeight(self.default_height)
+
+
+class CustomModsTextBox(AverageTextBox):
 	@QtCore.pyqtSlot(str)
 	def textChanged(self, p_str):
 		super().textChanged(p_str)
@@ -84,6 +124,9 @@ class CustomModsTextBox(SmallTextBox):
 				Info.replay.mod_combination = Info.real_mod
 			else:
 				Info.replay.mod_combination = mods
+
+			if not EndTimeSlider.objs or not StartTimeSlider.objs:
+				return
 
 			# hmmmmmmmmmmm
 			prevmax = EndTimeSlider.objs[0].maximum()
@@ -98,6 +141,8 @@ class CustomModsTextBox(SmallTextBox):
 
 			scale = EndTimeSlider.objs[0].maximum()/prevmax
 			StartTimeSlider.objs[0].setValue(prevstart * scale)
+			current_config["Start time"] = prevstart * scale / 1000
 			if prevend != -1:
 				EndTimeSlider.objs[0].setValue(prevend * scale)
+				current_config["End time"] = prevend * scale / 1000
 
