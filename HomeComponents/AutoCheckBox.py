@@ -1,7 +1,7 @@
 import os
 
 from PyQt5 import QtCore
-from PyQt5.QtWidgets import QCheckBox
+from PyQt5.QtWidgets import QCheckBox, QGraphicsBlurEffect
 
 from abspath import abspath
 from helper.helper import changesize
@@ -23,9 +23,13 @@ class AutoCheckBox(QCheckBox):
 		self.default_x = 520
 		self.default_y = 145
 
-		self.text = " " + "Use Auto replay"
+		self.text = " " + "Auto Replay"
 		self.setText(self.text)
 		self.curfont = self.font()
+
+		self.blur_effect = QGraphicsBlurEffect()
+		self.blur_effect.setBlurRadius(0)
+		self.setGraphicsEffect(self.blur_effect)
 
 		self.default_width = self.box_width * 1.1 + self.textwidth()
 		self.default_height = self.box_height * 1.1
@@ -70,3 +74,9 @@ class AutoCheckBox(QCheckBox):
 	@QtCore.pyqtSlot(int)
 	def stateChanged(self, p_int):
 		self.main_window.toggle_auto(p_int == 2)
+
+	def blur_me(self, blur):
+		if blur:
+			self.blur_effect.setBlurRadius(25)
+		else:
+			self.blur_effect.setBlurRadius(0)

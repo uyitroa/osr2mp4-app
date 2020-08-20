@@ -90,12 +90,13 @@ class Window(QMainWindow):
 		logging.info("Loaded Buttons")
 
 		self.blurrable_widgets = [self.osrbutton, self.mapsetbutton, self.startbutton, self.logo, self.osrpath,
-		                          self.mapsetpath, self.options, self.skin_dropdown, self.cancelbutton, self.folderbutton]
+		                          self.mapsetpath, self.options, self.skin_dropdown, self.cancelbutton, self.folderbutton, self.autocheckbox]
 
-		self.output_window = OutputButton(self)
-		self.osu_window = osuButton(self)
 		self.langs_dropdown = LanguageDropDown(self)
 		self.popup_window = PopupWindow(self)
+		self.output_window = OutputButton(self)
+		self.osu_window = osuButton(self)
+
 
 		self.customwindow = CustomTextWindow(self)
 		self.customwindow.hide()
