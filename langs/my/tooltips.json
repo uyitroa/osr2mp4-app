@@ -1,0 +1,15 @@
+{
+  "Process": "Bilangan proses, masa render akan jadi lebih laju dengan proses yang tinggi (tetapi akan menjadi perlahan jika terlalu tinggi mengikut spesifikasi pc anda, selalunya 2-4 proses adalah cukup bagi pc biasa).",
+  "Video codec": "FOURCC kepada codec. Anda boleh cari FOURCC bagi codec anda di <a href='https://www.fourcc.org/codecs.php'>sini</a>",
+  "Output name": "{Map}  ->  Folder map \n{MapTitle}  ->  Nama map \n{Artist}  ->  Artis lagu \n{Creator}  ->  Nama mapper \n{Player}  ->  Nama pemain \n{PlayDate}  ->  Tarikh main \n{Date}  ->  Tarikh semasa \n{Accuracy}  ->  Ketepatan main tersebut \n\nContoh: {MapTitle} dimain oleh {Player}.mp4  ->  Harumachi clover dimain oleh Cookiezi.mp4  ",
+  "Rotate sliderball": "Fungsi ini dimatikan untuk kurangkan masa render. Benarkan jika skin anda perlukan sliderball dipusing.",
+  "Enable PP counter": "Anda boleh mengubahsuai pengira PP dengan CustomPP.exe",
+  "Global leaderboard": "Anda perlu masukan kunci api untuk benarkan papan skor global. Dapatkan kunci api di <a href='https://osu.ppy.sh/p/api/'>sini</a>. Anda mungkin perlu spam segar semula kerana pautan rosak dan akan membawa anda ke laman utama osu!.",
+  "api key": "Dapatkan kunci api di <a href='https://osu.ppy.sh/p/api/'>sini</a>. Anda mungkin perlu spam segar semula kerana pautan rosak dan akan membawa anda ke laman utama osu!.",
+  "Mods leaderboard": "Jika anda ingin papan skor bagi semua mods, letak * di kotak teks papan skor mod. Jika anda hanya perlukan Hidden, letak HD. Jika anda mahu HDHR dan HR, letak (HD)HR, HR akan menjadi mod utama dan HD menjadi mod pilihan.",
+  "Custom mods": "Contoh: HDHR, dan main semula akan jadi HDHR.",
+  "FFmpeg codec": "Cari codec anda di <a href='https://github.com/uyitroa/osr2mp4-core/blob/master/res/Video%20codec%20list.txt'>sini</a>",
+  "Audio codec": "Cari codec anda di <a href='https://github.com/uyitroa/osr2mp4-core/blob/master/res/Audio%20codec%20list.txt'>sini</a>",
+  "FFmpeg custom commands": "Tambah pilihan seperti mana anda guna dengan FFmpeg. Belajar lebih mengenai FFmpeg di <a href='https://ffmpeg.org/ffmpeg.html'>sini</a>",
+  "Use FFmpeg video writer": "Menggunakan video writer FFmpeg akan membenarkan pilhan tersuai yang lebih banyak dari opencv, tetapi ia mengkin lebih perlahan dari opencv."
+}
