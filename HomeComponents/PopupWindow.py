@@ -13,7 +13,7 @@ class PopupWindow(Button):
 		self.default_y = 70
 		self.default_size = 3.5
 
-		self.default_fontsize = 22
+		self.default_fontsize = 24
 		self.text_x = 20
 		self.text_y = -30
 
@@ -44,7 +44,7 @@ class PopupWindow(Button):
 		y = scale * self.text_y
 
 		fontsize = scale * self.default_fontsize
-		self.text.setStyleSheet("font-size: {}pt; font-weight: bold; color: white; background-color: rgba(0,0,0,0%)".format(fontsize))
+		self.text.setStyleSheet("font-size: {}pt; color: white; background-color: rgba(0,0,0,0%)".format(fontsize))
 		self.text.setGeometry(x, y, int(self.width() * 0.95), int(self.height() * 0.9))
 
 class CustomTextWindow(Button):
