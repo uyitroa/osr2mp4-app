@@ -11,7 +11,7 @@ from config_data import current_config, current_settings
 
 
 class ParentTextbox(QLineEdit):
-	def __init__(self, key=None, jsondata=None):
+	def __init__(self, key=None, jsondata=None, datadict=None):
 		super().__init__()
 		self.default_width = 1
 		self.default_height = 1
@@ -26,10 +26,13 @@ class ParentTextbox(QLineEdit):
 
 		self.key = key
 
-		if key in current_config:
-			self.current_data = current_config
+		if datadict is not None:
+			self.current_data = datadict
 		else:
-			self.current_data = current_settings
+			if key in current_config:
+				self.current_data = current_config
+			else:
+				self.current_data = current_settings
 
 		if self.key not in self.current_data:
 			self.current_data[self.key] = ""
@@ -71,8 +74,8 @@ class ParentTextbox(QLineEdit):
 
 
 class BigTextBox(ParentTextbox):
-	def __init__(self, key=None, jsondata=None):
-		super().__init__(key=key, jsondata=jsondata)
+	def __init__(self, key=None, jsondata=None, datadict=None):
+		super().__init__(key=key, jsondata=jsondata, datadict=datadict)
 
 		self.default_width = 250
 		self.default_height = 20
@@ -82,8 +85,8 @@ class BigTextBox(ParentTextbox):
 
 
 class SmallTextBox(ParentTextbox):
-	def __init__(self, key=None, jsondata=None):
-		super().__init__(key=key, jsondata=jsondata)
+	def __init__(self, key=None, jsondata=None, datadict=None):
+		super().__init__(key=key, jsondata=jsondata, datadict=datadict)
 
 		self.default_width = 50
 		self.default_height = 20
@@ -93,8 +96,8 @@ class SmallTextBox(ParentTextbox):
 
 
 class AverageTextBox(ParentTextbox):
-	def __init__(self, key, jsondata=None):
-		super().__init__(key=key, jsondata=jsondata)
+	def __init__(self, key, jsondata=None, datadict=None):
+		super().__init__(key=key, jsondata=jsondata, datadict=datadict)
 
 		self.default_width = 100
 		self.default_height = 20
@@ -104,8 +107,8 @@ class AverageTextBox(ParentTextbox):
 
 
 class VeryBigTextBox(ParentTextbox):
-	def __init__(self, key=None, jsondata=None):
-		super().__init__(key=key, jsondata=jsondata)
+	def __init__(self, key=None, jsondata=None, datadict=None):
+		super().__init__(key=key, jsondata=jsondata, datadict=datadict)
 
 		self.default_width = 350
 		self.default_height = 20

@@ -1,6 +1,4 @@
-from PyQt5.QtGui import QFont
-from PyQt5.QtWidgets import QTextEdit, QFrame, QLabel
-
+from PyQt5.QtWidgets import QTextEdit, QFrame
 from BaseComponents.Buttons import Button
 
 
@@ -12,21 +10,14 @@ class PopupWindow(Button):
 		self.default_y = 70
 		self.default_size = 3.5
 
-		self.img_idle = "res/WindowShadow.png"
-		self.img_hover = "res/WindowShadow.png"
-		self.img_click = "res/WindowShadow.png"
+		self.img_idle = "res/Window.png"
+		self.img_hover = "res/Window.png"
+		self.img_click = "res/Window.png"
 		self.img_shadow = "res/Window_Shadow.png"
 
-		setup = self.main_window.langs_dropdown.getlang_popupwindow()
-
-		self.text = QLabel(self)
-		self.text.setText(setup)
-		self.text.setFont(QFont('Arial', 20))
-		self.text.setStyleSheet("QLabel{background: transparent}")
-		self.text.setGeometry(50, 40, 400, 40)
+		print(self.main_window.langs_dropdown)
 
 		super().setup()
-
 
 
 class CustomTextWindow(Button):

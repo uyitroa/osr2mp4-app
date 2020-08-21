@@ -9,7 +9,7 @@ from helper.osudatahelper import ensure_rightmap, osrhash, getmaptime
 
 
 class Slider(QSlider):
-	def __init__(self, key=None, jsondata=None):
+	def __init__(self, key=None, jsondata=None, datadict=None):
 		super().__init__()
 		self.setOrientation(QtCore.Qt.Horizontal)
 
@@ -53,11 +53,13 @@ color: white;
 		self.precision = len(str(step-int(step))[1:])
 
 		self.key = key
-
-		if self.key in current_config:
-			self.current_data = current_config
+		if datadict is not None:
+			self.current_data = datadict
 		else:
-			self.current_data = current_settings
+			if self.key in current_config:
+				self.current_data = current_config
+			else:
+				self.current_data = current_settings
 
 		if self.key not in self.current_data:
 			self.current_data[self.key] = 0

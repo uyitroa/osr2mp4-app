@@ -49,8 +49,6 @@ class PPLayout(QtWidgets.QScrollArea):
 			return
 		self.loaded = True
 
-		data_config = {"config": ppsettings}
-
 		with open(self.main_window.optionpath) as f:
 			data = json.load(f)
 
@@ -61,8 +59,7 @@ class PPLayout(QtWidgets.QScrollArea):
 				column = data[header][key].get("Column", 0)  # default to 0 if column is not specified
 				widgetname = data[header][key]["type"]
 
-				jsondata = {"option_config": data[header][key], "data": data_config, "key": key}
-				widget = self.widgetlists[widgetname](jsondata=jsondata)
+				widget = self.widgetlists[widgetname](key=key, jsondata=data[header][key], datadict=ppsettings)
 
 				self.gridLayout.smart_addWidget(SmallTitles(key + ":"), column)
 				self.gridLayout.smart_addWidget(widget, column+1)

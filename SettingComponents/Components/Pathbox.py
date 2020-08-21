@@ -4,8 +4,8 @@ from SettingComponents.Components.Textbox import ParentTextbox
 
 
 class PathBox(ParentTextbox):
-	def __init__(self, key=None, jsondata=None):
-		super().__init__(key=key, jsondata=jsondata)
+	def __init__(self, key=None, jsondata=None, datadict=None):
+		super().__init__(key=key, jsondata=jsondata, datadict=datadict)
 
 		self.default_width = 250
 		self.default_height = 10

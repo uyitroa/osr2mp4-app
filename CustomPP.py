@@ -36,6 +36,8 @@ class PPSample:
 		settings.height = height
 		settings.settings["Enable PP counter"] = True
 		settings.ppsettings = ppsettings
+		settings.fps = 60
+		settings.timeframe = 1000
 		self.ppcounter = PPCounter(settings)
 		self.ppcounter.set(727.27)
 

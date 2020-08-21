@@ -10,7 +10,7 @@ from config_data import current_config, current_settings
 
 
 class CheckBox(QCheckBox):
-	def __init__(self, key=None, jsondata=None):
+	def __init__(self, key=None, jsondata=None, datadict=None):
 		super().__init__()
 
 		self.img_uncheck = os.path.join(abspath, "res/Uncheck_HD.png")
@@ -31,10 +31,13 @@ class CheckBox(QCheckBox):
 
 		self.key = key
 
-		if key in current_config:
-			self.current_data = current_config
+		if datadict is not None:
+			self.current_data = datadict
 		else:
-			self.current_data = current_settings
+			if key in current_config:
+				self.current_data = current_config
+			else:
+				self.current_data = current_settings
 
 		if self.key not in self.current_data:
 			self.current_data[self.key] = False
