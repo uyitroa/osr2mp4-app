@@ -2,15 +2,15 @@
   "Process": "Количество процессов, чем больше количество процессов, тем меньше время рендера (но слишком большое количество может увеличить время в зависимости от Вашего ПК, как правило 2-4 процессов достаточно для большинства ПК)",
   "Video codec": "FOURCC кодека. Вы можете найти fourcc вашего кодека <a href='https://www.fourcc.org/codecs.php'>здесь</a>",
   "Output name": "{Map}  ->  Папка карты \n{MapTitle}  ->  Название карты \n{Artist}  ->  Испольнитель \n{Creator}  ->  Маппер \n{Player}  ->  Ник игрока \n{PlayDate}  ->  Дата плея \n{Date}  ->  Текущая дата \n{Accuracy}  ->  Точность плея \n\nПример: {MapTitle} played by {Player}.mp4  ->  Harumachi clover played by Cookiezi.mp4",
-  "Rotate sliderball": "Эта опция по умолчанию отключена, чтобы уменьшить время рендера. Включите её если инверсия слайдербалла нужна для вашего скина",
-  "Enable PP counter": "Вы можете кастомизировать pp counter в CustomPP.exe",
+  "Rotate sliderball": "Эта опция по умолчанию отключена, чтобы уменьшить время рендера. Включите её если надо поворачивать слайдерболл в вашем скине",
+  "Enable PP counter": "Вы можете кастомизировать счетчик PP в CustomPP.exe",
   "Global leaderboard": "Вам необходимо ввести API ключ, чтобы включить топ мира. Получите API ключ <a href='https://osu.ppy.sh/p/api/'>здесь</a>. Вам может потребовать обновить страницу несколько раз, потому что эта ссылка сломана и перенаправляет на главную страницу osu!",
   "api key": "Получите API ключ здесь <a href='https://osu.ppy.sh/p/api/'>здесь</a>. Вам может потребовать обновить страницу несколько раз, потому что эта ссылка сломана и перенаправляет на главную страницу osu!",
   "Mods leaderboard": "Если вы хотите включить все моды в топ, введите * в поле \"Топ по выбранным модам \" Если вы хотите включить только HD, введите HD. Если вы хотите включить HDHR и HR, введите (HD)HR. HR будет обязательным модом, а HD дополнительным.",
   "Custom mods": "Пример: HDHR, и реплей будет с HDHR",
   "FFmpeg codec": "Найдите свой кодек <a href='https://github.com/uyitroa/osr2mp4-core/blob/master/res/Video%20codec%20list.txt'>здесь</a>",
   "Audio codec": "Найдите свой кодек <a href='https://github.com/uyitroa/osr2mp4-core/blob/master/res/Audio%20codec%20list.txt'>здесь</a>",
-  "FFmpeg custom commands": "Добавьте ffmpeg команды как если бы вы делали это в командной строке. Узнайте больше о ffmpeg <a href='https://ffmpeg.org/ffmpeg.html'>здесь</a>",
+  "FFmpeg custom commands": "Добавьте ffmpeg команды, как если бы вы делали это в командной строке. Узнайте больше о ffmpeg <a href='https://ffmpeg.org/ffmpeg.html'>здесь</a>",
   "Use FFmpeg video writer": "Использование ffmpeg video writer имеет больше опций, которые можно кастомизировать, чем opencv video writer. Но он может работать медленнее, чем opencv video writer."
 
 }
