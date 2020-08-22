@@ -45,9 +45,6 @@ class LanguageDropDown(ComboBox):
 		self.main_window.settingspage.reload_settings()
 		save()
 
-	def getlang_popupwindow(self):
-		return "A"
-
 	def loadlang(self, filename, defaultvalues):
 		try:
 			with open(filename, encoding='utf-8') as f:
