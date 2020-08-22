@@ -60,7 +60,7 @@ def loadname(config):
 	filename = config["Output name"]
 	for name in custom:
 		template = "{" + name + "}"
-		filename = filename.replace(template, custom[name])
+		filename = filename.replace(template, str(custom[name]))
 
 	filename = re.sub('[^0-9a-zA-Z.]+', ' ', filename)
 	return filename
