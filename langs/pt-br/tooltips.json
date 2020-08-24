@@ -1,0 +1,19 @@
+{
+  "Process": "O numero de processos usados. A renderização será mais rapida com mais processos (Porém, muitos processos tornará mais devagar dependendo das especificações do seu PC, normalmente 2-4 processos são suficientes em um PC normal).",
+  "Video codec": "FOURCC do codec. você pode encontrar o fourcc do seu codec <a href='https://www.fourcc.org/codecs.php'>aqui</a>",
+  "Output name": "{Map}  ->  Pasta do mapa \n{MapTitle}  ->  Nome do mapa \n{Artist}  ->  Artista da música \n{Creator}  ->  Nome do mapper \n{Player}  ->  Nome do jogador \n{PlayDate}  ->  A data em que a play foi feita \n{Date}  ->  Data atual \n{Accuracy}  ->  Accuracy da play \n\nExemplo: {MapTitle} jogado por {Player}.mp4  ->  Harumachi clover jogado por Cookiezi.mp4  ",
+  "Rotate sliderball": "Desativado por padrão para diminuir o tempo de Renderização. Habilite se sua skin precisar que o sliderball gire.",
+  "Width": "Largura do vídeo.",
+  "Height": "Altura do vídeo.",
+  "In-game interface": "A interface no replay (Score, Accuracy, Barra de HP e Combo).",
+  "Enable PP counter": "Você pode customizar o PP Counter usando o CustomPP.exe",
+  "Global leaderboard": "Você precisa colocar sua API Key para habilitar o Leaderboard Global. Você pode conseguir uma API Key <a href='https://osu.ppy.sh/p/api/'>aqui</a>. Você provavelmente terá que atualizar a página até aparecer, pois algumas vezes o link está quebrado e redireciona para a página inicial do osu!.",
+  "api key": "Você pode conseguir uma API Key <a href='https://osu.ppy.sh/p/api/'>aqui</a>. Você provavelmente terá que atualizar a página até aparecer, pois algumas vezes o link está quebrado e redireciona para a página inicial do osu!.",
+  "Mods leaderboard": "Se você quiser incluir todas as plays com todos os mods no leaderboard coloque um * no Leaderboard mods. Se quiser incluir apenas plays feitas com Hidden, coloque HD. Se quiser incluir tanto plays com HDHR quanto com HR, use (HD)HR, então o HR sera requerido e o HD será um mod opcional.",
+  "Ignore beatmap hitsounds": "Fará com que hitsounds como clap, hitfinish ou whistle não sejam reproduzidos.",
+  "Custom mods": "Customizar mods que irão aparecer no replay, \n\nExemplo:HDHR fará com que o replay seja reproduzido com os mods Hidden e HardRock\n\nCombinações como HTDT ou EZHR também são suportadas.",
+  "FFmpeg codec": "Encontre seu codec <a href='https://github.com/uyitroa/osr2mp4-core/blob/master/res/Video%20codec%20list.txt'>aqui</a>",
+  "Audio codec": "Encontre seu codec <a href='https://github.com/uyitroa/osr2mp4-core/blob/master/res/Audio%20codec%20list.txt'>aqui</a>",
+  "FFmpeg custom commands": "Adcione opções como você faria com o FFmpeg em uma linha de comandos. Entenda mais sobre o FFmpeg <a href='https://ffmpeg.org/ffmpeg.html'>aqui</a>.",
+  "Use FFmpeg video writer": "O FFmpeg video writer permite usar mais opções customizáveis do que opencv writer, mas provavelmente será mais devagar do que o opencv."
+}
