@@ -87,7 +87,6 @@ class ScrollArea(QtWidgets.QScrollArea):
 
 				data[header][key]["desc"] = tooltips.get(key, "")
 				data[header][key]["name"] = options.get(key, key)
-
 				widget = self.widgetlists[widgetname](key=key, jsondata=data[header][key])
 
 				if widgetname == "CheckBox" or widgetname == "UpdateButton":
