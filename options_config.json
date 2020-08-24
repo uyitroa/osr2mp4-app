@@ -10,7 +10,7 @@
 		"Height": {"type": "SmallTextBox", "Column": 1},
 		"FPS": {"type": "SmallTextBox", "Column": 1},
 		"Video codec": {"type": "SmallTextBox", "Column": 1},
-        "Audio codec": {"type": "SmallTextBox"}
+        	"Audio codec": {"type": "SmallTextBox"}
 	},
 
 	"Visual options": {
@@ -21,6 +21,7 @@
 		"Always show key overlay": {"type": "CheckBox"},
 		"Automatic cursor size": {"type": "CheckBox"},
 		"Score meter size": {"type": "Slider", "min": 0.5, "max": 5, "step": 0.1},
+		"Show score meter": {"type": "CheckBox"},
 		"Rotate sliderball": {"type": "CheckBox"},
 		"Show mods icon": {"type": "CheckBox"},
 		"Enable PP counter": {"type": "CheckBox"},
@@ -34,17 +35,19 @@
 		"Effect volume": {"type": "Slider", "min": 0, "max": 100, "step":1},
 		"Ignore beatmap hitsounds": {"type": "CheckBox"},
 		"Use skin's sound samples": {"type": "CheckBox"},
-        "Song delay": {"type": "Slider", "min": -1000, "max": 1000, "step": 1}
+		"Song delay": {"type": "Slider", "min": -1000, "max": 1000, "step": 1}
 	},
 
 	"Advanced options": {
-		"Custom mods": {"type": "CustomModsTextBox"}
+		"Custom mods": {"type": "CustomModsTextBox"},
+		"Slider quality": {"type": "SmallTextBox"}
 	},
 
 	"Advanced render options": {
 		"Use FFmpeg video writer": {"type": "CheckBox"},
-        "FFmpeg codec": {"type": "AverageTextBox"},
-        "FFmpeg custom commands": {"type": "VeryBigTextBox"}
+		"FFmpeg codec": {"type": "AverageTextBox"},
+		"FFmpeg custom commands": {"type": "VeryBigTextBox"},
+		"Audio bitrate": {"type": "SmallTextBox"}
 	},
 
 	"Maintenance": {
