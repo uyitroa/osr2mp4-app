@@ -1,20 +1,43 @@
 import sys
 import subprocess
 import threading
-from PyQt5.QtWidgets import QLabel, QApplication, QMainWindow, QSizePolicy
-import PyQt5, os
+import os
+import PyQt5
 
-class Window(QMainWindow):
+from PyQt5.QtGui import QPixmap
+from PyQt5.QtWidgets import QLabel, QApplication, QSizePolicy, QDesktopWidget, QWidget
+
+class Window(QWidget):
 	def __init__(self):
 		super().__init__()
-		self.resize(100, 100)
-		self.text = QLabel(self)
-		self.text.setText("Updating...")
-		self.text.setGeometry(0, -100, 300, 300)
+		self.left = 0
+		self.top = 0
+		self.width = 242
+		self.height = 242
+
+		self.label = QLabel(self)
+
+		self.setGeometry(self.left, self.top, self.width, self.height)
+		self.setFixedSize(self.width, self.height)
+
 		self.upgradelist = ["osr2mp4", "osr2mp4app"]
 		self.setSizePolicy(QSizePolicy(QSizePolicy.Ignored, QSizePolicy.Ignored))
 		self.a = threading.Thread(target=self.install)
+
+		self.osrLogoUpdater()
+	def osrLogoUpdater(self):
+		pixmap = QPixmap('res/OsrUpdater.png')
+		self.label.setPixmap(pixmap)
+		self.setAttribute(PyQt5.QtCore.Qt.WA_TranslucentBackground)
+		self.setWindowFlags(PyQt5.QtCore.Qt.FramelessWindowHint)
+		self.center()
 		self.show()
+
+	def center(self):
+		qr = self.frameGeometry()
+		cp = QDesktopWidget().availableGeometry().center()
+		qr.moveCenter(cp)
+		self.move(qr.topLeft())
 
 	def install(self):
 		for i in self.upgradelist:

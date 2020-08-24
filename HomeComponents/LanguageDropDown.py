@@ -1,6 +1,8 @@
 import glob
 import json
 import os
+
+from PyQt5.QtWidgets import QLabel
 from autologging import traced, logged
 from BaseComponents.ComboBox import ComboBox
 from abspath import abspath
@@ -15,6 +17,8 @@ from helper.datahelper import save
 class LanguageDropDown(ComboBox):
 	def __init__(self, parent):
 		super().__init__(parent)
+
+		self.text = QLabel(self)
 
 		self.default_x = 5
 		self.default_y = 5
@@ -36,12 +40,16 @@ class LanguageDropDown(ComboBox):
 		with open(os.path.join(langpath, "options_headers.json")) as f:
 			self.default_headers = json.load(f)
 
+		with open(os.path.join(langpath, "options_setup.json")) as f:
+			self.default_setup = json.load(f)
+
 		language = current_config.get("Language", "English")
 		self.setCurrentIndex(self.findText(language))
 
 	def activated_(self, index):
 		current_config["Language"] = self.itemText(index)
 		self.main_window.hidesettings()
+		self.main_window.popup_window.reload_popupwindow()
 		self.main_window.settingspage.reload_settings()
 		save()
 
@@ -69,6 +77,13 @@ class LanguageDropDown(ComboBox):
 
 		return options, tooltips, headers
 
+	def getlang_popupwindow(self):
+		langpath = os.path.join(abspath, "langs", self.langnames.get(self.currentText(), "en"))
+		setup = self.loadlang(os.path.join(langpath, "options_setup.json"), self.default_setup)
+
+		return setup
+
+
 	def get_langs(self):
 		langlist = [f for f in glob.glob(os.path.join(abspath, "langs/*"))]
 		for x in langlist:
@@ -81,4 +96,5 @@ class LanguageDropDown(ComboBox):
 			except Exception as e:
 				logging.error("from get_langs", repr(e))
 		self.setCurrentIndex(self.findText("en"))
+
 
