@@ -1,5 +1,6 @@
 import os
 
+from PyQt5.QtCore import QEvent
 from PyQt5.QtWidgets import QSlider, QToolTip
 from PyQt5 import QtCore
 from PyQt5 import QtGui
@@ -64,9 +65,13 @@ color: white;
 		if self.key not in self.current_data:
 			self.current_data[self.key] = 0
 
+		self.mousemove = False
+
 		super().valueChanged.connect(self.valueChanged)
 		self.setValue(self.current_data[self.key] * 1000)
 		self.show = str(self.current_data[self.key])
+
+		self.installEventFilter(self)
 
 	def setFixedHeight(self, p_int):
 		super().setFixedHeight(p_int)
@@ -86,15 +91,20 @@ color: white;
 		if self.show == int(self.show):
 			self.show = int(self.show)
 
+		if self.mousemove:
+			QToolTip.showText(QtGui.QCursor.pos(), str(self.show), self)
+		self.mousemove = False
+
 	def updatevalue(self):
 		self.setValue(self.current_data[self.key] * 1000)
 
-	def enterEvent(self, QEvent):
+	def enterEvent(self, event):
 		QToolTip.showText(QtGui.QCursor.pos(), str(self.show), self)
 
-	def mouseMoveEvent(self, QMouseEvent):
-		super().mouseMoveEvent(QMouseEvent)
-		QToolTip.showText(QtGui.QCursor.pos(), str(self.show), self)
+	def eventFilter(self, object, event):
+		if event.type() == QEvent.MouseMove:
+			self.mousemove = True
+		return False
 
 
 class StartTimeSlider(Slider):
