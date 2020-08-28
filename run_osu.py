@@ -2,6 +2,7 @@ import inspect
 import os
 import sys
 import time
+import traceback
 
 
 class Dummy: pass
@@ -90,9 +91,10 @@ if __name__ == "__main__":
 		# sys.path = fixpath()
 		run()
 	except Exception as e:
+		tb = traceback.format_exc()
 		abspath = os.path.dirname(os.path.abspath(inspect.getsourcefile(Dummy)))
 		ferror = open(os.path.join( "error.txt"), "w")
-		ferror.write(repr(e) + str(e))
+		ferror.write(repr(e) + str(e) + " " + tb)
 		ferror.close()
 
 		fprogress = open(os.path.join(abspath, "progress.txt"), "w")

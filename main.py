@@ -306,7 +306,7 @@ class Window(QMainWindow):
 
 
 def excepthook(exc_type, exc_value, exc_tb):
-	tb = "".join(traceback.format_exception(exc_type, exc_value, exc_tb))
+	tb = traceback.format_exc() + " " + "".join(traceback.format_exception(exc_type, exc_value, exc_tb))
 	logging.exception(tb)
 	print(tb)
 	QApplication.quit()
