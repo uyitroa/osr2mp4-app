@@ -62,7 +62,7 @@ def loadname(config):
 		template = "{" + name + "}"
 		filename = filename.replace(template, str(custom[name]))
 
-	filename = re.sub('[^0-9a-zA-Z.]+', ' ', filename)
+	filename = re.sub('[^0-9a-zA-Z.]+', ' ', filename)  # delete special characters, because ffmpeg doesn't allow some special characters and throws an error
 	return filename
 
 
