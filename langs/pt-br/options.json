@@ -37,6 +37,6 @@
     "FFmpeg codec": "FFmpeg codec",
     "FFmpeg custom commands": "Comandos customizados do FFmpeg ",
 	"Audio bitrate":"Qualidade de áudio",
-	"Slider quality":"Qualidade do slider"
+	"Slider quality":"Qualidade do slider",
 	"Show score meter": "mostrar o medidor de score"
 }
