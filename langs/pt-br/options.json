@@ -35,5 +35,8 @@
     "Custom mods": "Customizar mods",
     "Use FFmpeg video writer": "Usar FFmpeg video writer",
     "FFmpeg codec": "FFmpeg codec",
-    "FFmpeg custom commands": "Comandos customizados do FFmpeg "
+    "FFmpeg custom commands": "Comandos customizados do FFmpeg ",
+	"Audio bitrate":"Qualidade de áudio",
+	"Slider quality":"Qualidade do slider",
+	"Show score meter": "Mostrar o medidor de score"
 }
