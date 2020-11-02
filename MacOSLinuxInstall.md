@@ -4,7 +4,7 @@ You'll be happy to know that this app works great in Linux, too! Here is a guide
 
 **Important**:
 
-Check your current Python version. As of the time of writing, osr2mp4 requires Python 3.6 and does not yet support Python 3.8. You can check your Python version by typing `python --version` in the terminal. If your version is lower than 3.6, consider upgrading. If your version is higher than 3.6 OR you do not want to upgrade to 3.6, please see the following instructions for installing Python 3.7.8 alongside your current Python installation.
+Check your current Python version. As of the time of writing, osr2mp4 requires Python 3.7 and does not yet support Python 3.8. You can check your Python version by typing `python --version` in the terminal. If your version is lower than 3.7, consider upgrading. If your version is higher than 3.7 OR you do not want to upgrade to 3.7, please see the following instructions for installing Python 3.7.8 alongside your current Python installation.
 
 **We do NOT want to downgrade Python, as it would break any other apps that rely on the newer version!**
 
