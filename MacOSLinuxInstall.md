@@ -102,9 +102,9 @@ Proceed to Configuring and Running PyEnv and osr2mp4 to continue.
 
 2. Close your terminal and then open it again. You won't notice any changes yet, but we have just made it possible to use different versions of Python through PyEnv without removing your current version.
 
-3. Install Python 3.6.X. Use `pyenv versions` to list all of the versions available for install. In this example we will be using Python 3.7.8: `pyenv install 3.7.8`. This may take a long time depending on how powerful your processor is.
+3. Install Python 3.7.X. Use `pyenv versions` to list all of the versions available for install. In this example we will be using Python 3.7.8: `pyenv install 3.7.8`. This may take a long time depending on how powerful your processor is.
 
-**Before you proceed, you should switch to Python 3.6 in your terminal or nothing will work.** Do this with `pyenv shell 3.7.8` We're now using Python 3.7.8 in our Terminal. Great! But before we proceed we need to upgrade pip, Python's package manager. `pip install --upgrade pip`.
+**Before you proceed, you should switch to Python 3.7 in your terminal or nothing will work.** Do this with `pyenv shell 3.7.8` We're now using Python 3.7.8 in our Terminal. Great! But before we proceed we need to upgrade pip, Python's package manager. `pip install --upgrade pip`.
 
 4. Now change your directory to wherever you need want to install osr2mp4 and clone the osr2mp4 repository, then step into the osr2mp4-app folder in your terminal. This should look something like this:
 
