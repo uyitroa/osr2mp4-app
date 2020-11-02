@@ -12,7 +12,7 @@ Check your current Python version. As of the time of writing, osr2mp4 requires P
 
 ## Arch Linux, Manjaro, EndeavourOS
 
-1. Install `ffmpeg` and `pyenv`. If you already have Python 3.6, you can skip the information about installing PyEnv and just install ffmpeg. We'll use PyEnv to allow us to run Python 3.7.8 while still having Python 3.8 on our system. PyEnv and ffmpeg are official packages so they can be installed with `sudo pacman -S ffmpeg pyenv`. You can also get PyEnv [on GitHub](https://github.com/pyenv/pyenv).
+1. Install `ffmpeg` and `pyenv`. If you already have Python 3.7, you can skip the information about installing PyEnv and just install ffmpeg. We'll use PyEnv to allow us to run Python 3.7.8 while still having Python 3.8 on our system. PyEnv and ffmpeg are official packages so they can be installed with `sudo pacman -S ffmpeg pyenv`. You can also get PyEnv [on GitHub](https://github.com/pyenv/pyenv).
 
 2. Next we need the following dependencies so that we can build our Python 3.7.8 installation from source: `sudo pacman -S base-devel openssl zlib`
 
@@ -34,7 +34,7 @@ Proceed to Configuring and Running PyEnv and osr2mp4 to continue.
 
 ## Ubuntu 20.04, Pop!_OS, other Ubuntu derivatives
 
-1. Install `ffmpeg` and `pyenv`. If you already have Python 3.6, you can skip the information about installing PyEnv and just install ffmpeg.
+1. Install `ffmpeg` and `pyenv`. If you already have Python 3.7, you can skip the information about installing PyEnv and just install ffmpeg.
 
 ```
 
