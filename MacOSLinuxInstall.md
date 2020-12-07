@@ -91,7 +91,6 @@ Proceed to Configuring and Running PyEnv and osr2mp4 to continue.
 2. For MacOS Catalina or later (or if you are using zsh instead of bash): 
           Do `echo 'eval "$(pyenv init -)"' >>~/.zshrc`
 For MacOS Mojave or older, (or if you are using bash):
-
           Add `pyenv-init` to your shell configuration file (~/.bash_profile in MacOS). The easiest way to do this is with your text editor of choice. Open the file and a new line `eval "$(pyenv init -)"` at the end. It is important that this is put at the end of the file in order to prevent unwanted behavior in your terminal.
 
 3. Close your terminal and then open it again. You won't notice any changes yet, but we have just made it possible to use different versions of Python through PyEnv without removing your current version.
