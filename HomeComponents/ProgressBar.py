@@ -1,9 +1,9 @@
 import os
-
+from PyQt5.QtWidgets import QLabel
 from PyQt5 import QtCore
 from PyQt5.QtMultimedia import QSound
 from PyQt5.QtWidgets import QProgressBar
-
+from config_data import current_config
 from abspath import abspath
 
 
@@ -16,6 +16,7 @@ class ProgressBar(QProgressBar):
 		self.default_y = 420
 		self.default_width = 830
 		self.default_height = 40
+		self.default_fontsize = 250
 		self.notification = {"done": QSound(os.path.join(abspath, "res/success.wav")),
 							"error": QSound(os.path.join(abspath, "res/fail.wav")),
 							".": QSound("blank")}
@@ -23,7 +24,9 @@ class ProgressBar(QProgressBar):
 		self.setGeometry(self.default_x, self.default_y, self.default_width, self.default_height)
 
 		self.setAlignment(QtCore.Qt.AlignCenter)
-
+		self.text = QLabel(self)
+		self.text.setStyleSheet("QLabel{font-size: %ipt; font-weight: bold; color: white; background-color: transparent;}QToolTip { background-color:white;color: black; }" % self.default_fontsize)
+	
 		self.setStyleSheet("""
 QProgressBar {
 	border: 2px solid white;
@@ -63,6 +66,8 @@ QProgressBar::chunk {
 		super().hide()
 
 	def show(self):
+		mapendtime = "Max" if current_config['End time'] == -1 else current_config['End time']
+		self.text.setToolTip(f"Map start time: {current_config['Start time']}, Map end time: {mapendtime}")
 		self.main_window.startbutton.default_y = 330
 		self.main_window.options.default_y = 390
 		self.main_window.updatebutton.default_y = 360
@@ -79,3 +84,4 @@ QProgressBar::chunk {
 		y = self.default_y * scale
 
 		self.setGeometry(x, y, width, height)
+		self.text.setGeometry(0, 0, width, height)
