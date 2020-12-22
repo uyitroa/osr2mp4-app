@@ -35,5 +35,8 @@
     "Custom mods": "Пользовательские моды",
     "Use FFmpeg video writer": "Использовать FFmpeg video writer",
     "FFmpeg codec": "FFmpeg кодек",
-    "FFmpeg custom commands": "Пользовательские FFmpeg команды"
+    "FFmpeg custom commands": "Пользовательские FFmpeg команды",
+    "Audio bitrate": "",
+    "Slider quality": "",
+    "Show score meter": ""
 }

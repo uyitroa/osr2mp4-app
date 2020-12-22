@@ -11,6 +11,8 @@
   "FFmpeg codec": "Найдите свой кодек <a href='https://github.com/uyitroa/osr2mp4-core/blob/master/res/Video%20codec%20list.txt'>здесь</a>",
   "Audio codec": "Найдите свой кодек <a href='https://github.com/uyitroa/osr2mp4-core/blob/master/res/Audio%20codec%20list.txt'>здесь</a>",
   "FFmpeg custom commands": "Добавьте ffmpeg команды, как если бы вы делали это в командной строке. Узнайте больше о ffmpeg <a href='https://ffmpeg.org/ffmpeg.html'>здесь</a>",
-  "Use FFmpeg video writer": "Использование ffmpeg video writer имеет больше опций, которые можно кастомизировать, чем opencv video writer. Но он может работать медленнее, чем opencv video writer."
-
+  "Use FFmpeg video writer": "Использование ffmpeg video writer имеет больше опций, которые можно кастомизировать, чем opencv video writer. Но он может работать медленнее, чем opencv video writer.",
+  "Ignore beatmap hitsounds": "",
+  "Use skin's sound samples": "",
+  "Slider quality": ""
 }
