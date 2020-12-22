@@ -59,7 +59,10 @@ class PPLayout(QtWidgets.QScrollArea):
 				column = data[header][key].get("Column", 0)  # default to 0 if column is not specified
 				widgetname = data[header][key]["type"]
 
-				widget = self.widgetlists[widgetname](key=key, jsondata=data[header][key], datadict=ppsettings)
+				if widgetname == "PathBox":
+					widget = self.widgetlists[widgetname](key=key, jsondata=data[header][key], datadict=ppsettings, func=self.main_window.savebutton.mouseclicked)
+				else:
+					widget = self.widgetlists[widgetname](key=key, jsondata=data[header][key], datadict=ppsettings)
 
 				self.gridLayout.smart_addWidget(SmallTitles(key + ":"), column)
 				self.gridLayout.smart_addWidget(widget, column+1)

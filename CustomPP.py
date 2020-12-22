@@ -65,17 +65,18 @@ class PPwindow(QMainWindow):
 
 		self.label = QLabel(self)
 
-		self.pplayout = PPLayout(self, self)
-		self.pplayout.load_settings(current_ppsettings)
 		self.savebutton = SaveButton(self)
 		self.reset = Reset(self)
-
-		self.menu = PPMenu(self)
+		self.menu = PPMenu(self)	
+		self.pplayout = PPLayout(self, self)
+		self.pplayout.load_settings(current_ppsettings)
 
 		self.label = QLabel(self)
 		self.updatepp()
 		self.label.setGeometry(0, 0, self.ppsample.settings.width, self.ppsample.settings.height)
 
+		self.savebutton.raise_()
+		self.reset.raise_()
 		self.show()
 
 	def updatepp(self):
