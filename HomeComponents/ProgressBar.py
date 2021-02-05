@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import QLabel
 from PyQt5 import QtCore
 from PyQt5.QtMultimedia import QSound
 from PyQt5.QtWidgets import QProgressBar
+from PyQt5.QtWinExtras import QWinTaskbarButton 
 from config_data import current_config
 from abspath import abspath
 
@@ -11,6 +12,11 @@ class ProgressBar(QProgressBar):
 	def __init__(self, parent):
 		super(ProgressBar, self).__init__(parent)
 		self.main_window = parent
+
+		# taskbar progress
+		self.taskbar_btn = QWinTaskbarButton(parent)
+		self.taskbar_prog = self.taskbar_btn.progress()
+		self.taskbar_prog.setRange(0, 100)
 
 		self.default_x = 0
 		self.default_y = 420
@@ -50,7 +56,9 @@ QProgressBar::chunk {
 			self.setValue(0)
 			return
 
-		self.setValue(max(self.value(), float("0" + content)))
+		val = max(self.value(), float("0" + content))
+		self.setValue(val)
+		self.taskbar_prog.setValue(val)
 		f.close()
 		# if self.value() >= 100:
 		# 	self.hide()
@@ -63,6 +71,7 @@ QProgressBar::chunk {
 		self.main_window.options.default_y = 430
 		self.main_window.updatebutton.default_y = 400
 		self.main_window.resizeEvent(True)
+		self.taskbar_prog.hide()
 		super().hide()
 
 	def show(self):
@@ -74,6 +83,7 @@ QProgressBar::chunk {
 		self.main_window.resizeEvent(True)
 		self.main_window.startbutton.hide()
 		self.main_window.cancelbutton.show()
+		self.taskbar_prog.show()
 		super().show()
 
 	def changesize(self):
