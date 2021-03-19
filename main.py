@@ -116,8 +116,11 @@ class Window(QMainWindow):
 		# self.check_replay_map()
 
 		self.show()
-		# bind taskbar progress
-		self.progressbar.taskbar_btn.setWindow(self.windowHandle())
+		
+		# bind taskbar progress, windows only
+		if getattr(self.progressbar, 'taskbar_btn', None): # could also import the using_windows variable and use that
+			self.progressbar.taskbar_btn.setWindow(self.windowHandle()) # maybe do that instead?
+
 		self.resize(window_width, window_height)
 
 	def toggle_auto(self, enable_auto):
