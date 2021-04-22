@@ -1,0 +1,18 @@
+{
+  "Process": "Het aantal processen, de rendertijd zal sneller zijn met hogere processen (maar te hoog zal langzamer zijn afhankelijk van de specificaties van je pc, gewoonlijk zijn 2-4 processen voldoende op een normale pc).",
+  "Video codec": "FOURCC van de codec. Je kunt de fourcc van je codec <a href='https://www.fourcc.org/codecs.php'> hier </a> vinden",
+  "Output name": "{Map} -> Mapmap \n {MapTitle} -> Mapnaam \n {Artist} -> Artiest van het nummer \n {Creator} -> Mapper's name \n {Player} -> Player naam \n {PlayDate} -> De datum van het spel \n {Datum} -> Huidige datum \n {Nauwkeurigheid} -> Nauwkeurigheid van het spel \n \nVoorbeeld: {MapTitle} gespeeld door {Player} .mp4 -> Harumachi-clover gespeeld door Cookiezi.mp4 ",
+  "Rotate sliderball": "De functie is standaard uitgeschakeld om de rendertijd te verkorten. Schakel dit in als je skin een sliderball nodig heeft om te draaien.",
+  "Enable PP counter": "U kunt de pp-teller aanpassen met CustomPP.exe",
+  "Global leaderboard": "U moet de api-sleutel invoeren om het wereldwijde leaderboard in te schakelen. Haal de api-sleutel <a href='https://osu.ppy.sh/p/api/'> hier </a> op. Wellicht moet de pagina spam vernieuwen omdat de link soms verbroken is en u doorverwijst naar de osu! startpagina. ",
+  "api key": "Haal de api-sleutel <a href='https://old.ppy.sh/p/api/'> hier </a>.",
+  "Mods leaderboard": "Als je alle mods-plays in het leaderboard wilt opnemen, plaats je * in het Mods-leaderboard-tekstvak. Als je alleen Hidden play wilt opnemen, plaats je HD. Als je HDHR en HR wilt opnemen, zet je (HD ) HR, HR is een vereiste mod en HD is een optionele mod. ",
+  "Custom mods": "Voorbeeld: HDHR, en de herhaling zal in hdhr zijn.",
+  "FFmpeg codec": "Vind uw codec <a href='https://github.com/uyitroa/osr2mp4-core/blob/master/res/Video%20codec%20list.txt'> hier </a>",
+  "Audio codec": "Vind uw codec <a href='https://github.com/uyitroa/osr2mp4-core/blob/master/res/Audio%20codec%20list.txt'> hier </a>",
+  "FFmpeg custom commands": "Voeg opties toe net zoals je zou doen met ffmpeg in de commandoregel. Lees <a href='https://ffmpeg.org/ffmpeg.html'> hier </a>",
+  "Use FFmpeg video writer": "Het gebruik van ffmpeg video writer biedt meer aanpasbare opties dan opencv writer, maar het kan langzamer zijn dan opencv.",
+  "Ignore beatmap hitsounds": "Schakel hitsounds zoals klappen, hitfinish en fluiten uit",
+  "Use skin's sound samples": "Als het is ingeschakeld, zal het skin's sound samples gebruiken, als het uitgeschakeld is, zal het beatmap's hitounds gebruiken.",
+  "Slider quality": "Verhoog dit als de slider er slecht of korrelig uitziet. Verlaag dit als je een snellere rendertijd wilt. Meestal is tussen 2 en 3 voldoende. Het is erg moeilijk om het verschil boven 5 op te merken. Zet er 10 of meer als je wilt om je tijd te verspillen. "
+}
