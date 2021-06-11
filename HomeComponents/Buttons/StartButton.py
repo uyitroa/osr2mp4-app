@@ -19,6 +19,7 @@ class BeatmapQueue(QtCore.QThread):
 	def run(self):
 		while True:
 			item = self.queue.get()
+			self.parent.processing_something = True
 			print("mother item")
 			for f_name in item:
 				print("FUCK")
@@ -32,7 +33,7 @@ class BeatmapQueue(QtCore.QThread):
 				self.parent.main_window.progressbar.show()
 				subprocess.call(
 						[sys.executable, os.path.join(abspath, "run_osu.py"), self.parent.main_window.execpath])
-
+			self.parent.processing_something = False
 			self.queue.task_done()
 			"""
 			filename = loadname(current_config)
@@ -45,8 +46,8 @@ class BeatmapQueue(QtCore.QThread):
 			self.queue.task_done()
 			"""
 
-	def put(self, config):
-		self.queue.put(config[".osr path"])
+	def put(self, tmp_list):
+		self.queue.put(tmp_list)
 
 
 class StartButton(Button):
@@ -57,7 +58,7 @@ class StartButton(Button):
 		self.default_x = 600
 		self.default_y = 330
 		self.default_size = 3.5
-
+		self.processing_something = False
 		self.img_idle = "res/Start_Idle.png"
 		self.img_hover = "res/Start_Hover.png"
 		self.img_click = "res/Start_Click.png"
@@ -67,5 +68,8 @@ class StartButton(Button):
 		super().setup()
 
 	def mouseclicked(self):
-		self.beatmap_queue.put(current_config)
+		tmp_list = []
+		for osr_path in current_config[".osr path"]:
+			tmp_list.append(osr_path)
+		self.beatmap_queue.put(tmp_list)
 

@@ -25,9 +25,13 @@ class OsrButton(ButtonBrowse):
 	def afteropenfile(self, filename):
 		if filename == "":  # if user cancel select
 			return
-		current_config[".osr path"] = filename
-		return
-		self.main_window.setreplay(filename)
+		if self.main_window.startbutton.processing_something == True:
+			self.main_window.startbutton.beatmap_queue.put(filename)
+		else:
+			current_config[".osr path"] = filename
+
+
+'''		self.main_window.setreplay(filename)
 		mappath = get_right_map(filename)
 		if mappath is not None:
-			self.main_window.setmap(mappath)
+			self.main_window.setmap(mappath)'''
