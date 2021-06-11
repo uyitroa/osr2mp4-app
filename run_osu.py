@@ -3,7 +3,7 @@ import os
 import sys
 import time
 import traceback
-
+import logging
 
 class Dummy: pass
 
@@ -29,7 +29,6 @@ def update_progress(framecount, deltatime, videotime):
 def run():
 	import osr2mp4
 	from osr2mp4.osr2mp4 import Osr2mp4
-
 	osr2mp4.VideoProcess.CreateFrames.update_progress = update_progress
 
 	abspath = os.path.dirname(os.path.abspath(inspect.getsourcefile(Dummy)))

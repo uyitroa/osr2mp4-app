@@ -153,7 +153,7 @@ class ButtonBrowse(Button):
 		if self.file_type == "Folder":
 			file_name = QFileDialog.getExistingDirectory(None, "Select Directory", self.browsepath)
 		else:
-			file_name = QFileDialog.getOpenFileName(self, 'Open file', self.browsepath,
+			file_name = QFileDialog.getOpenFileNames(self, 'Open file', self.browsepath,
 			                                        "{} files (*{})".format(self.file_type, self.file_type))[0]
 		logging.info("Updated: {}".format(current_config))
 		self.afteropenfile(file_name)

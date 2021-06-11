@@ -4,7 +4,6 @@ from config_data import current_config
 
 from helper.helper import get_right_map
 
-
 class OsrButton(ButtonBrowse):
 	def __init__(self, parent):
 		super(OsrButton, self).__init__(parent)
@@ -26,7 +25,8 @@ class OsrButton(ButtonBrowse):
 	def afteropenfile(self, filename):
 		if filename == "":  # if user cancel select
 			return
-
+		current_config[".osr path"] = filename
+		return
 		self.main_window.setreplay(filename)
 		mappath = get_right_map(filename)
 		if mappath is not None:

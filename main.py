@@ -4,6 +4,8 @@ import os.path
 import sys
 import traceback
 import PyQt5
+import threading
+import queue
 from PyQt5 import QtGui, QtCore
 from PyQt5.QtWidgets import QMainWindow, QApplication
 from autologging import TRACE
@@ -40,6 +42,8 @@ from helper.osudatahelper import parse_osr, parse_map
 from helper.datahelper import save
 
 
+
+
 class Window(QMainWindow):
 	def __init__(self, App, execpath):
 		super().__init__()
@@ -67,7 +71,6 @@ class Window(QMainWindow):
 		self.minimum_resolution = [640, 360]
 		self.previous_resolution = [0, 0]
 		self.default_width, self.default_height = window_width, window_height
-
 		self.popup_bool = True
 		self.clicked_inside = False
 		self.prevreplay = ""
@@ -254,7 +257,6 @@ class Window(QMainWindow):
 	def setreplay(self, replay_path):
 		if replay_path is None or replay_path == "":
 			return
-
 		replay_name = os.path.split(replay_path)[-1]
 		self.osrpath.setText(replay_name)
 
@@ -275,7 +277,6 @@ class Window(QMainWindow):
 	def check_replay_map(self):
 		if current_config[".osr path"] == "auto":
 			return
-
 		replay = get_latest_replay()
 		if self.prevreplay == replay or replay is None:
 			return
