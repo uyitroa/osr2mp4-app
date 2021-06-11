@@ -23,8 +23,10 @@ class BeatmapQueue(QtCore.QThread):
 			for f_name in item:
 				print("FUCK")
 				mappath = get_right_map(f_name)
-				current_config[".osr path"] = f_name
-				current_config["Beatmap path"] = mappath
+				self.parent.main_window.setreplay(f_name)
+				self.parent.main_window.setmap(mappath)
+				#current_config[".osr path"] = f_name
+				#current_config["Beatmap path"] = mappath
 				filename = loadname(current_config)
 				save(filename)
 				self.parent.main_window.progressbar.show()
