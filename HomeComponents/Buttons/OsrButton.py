@@ -25,7 +25,8 @@ class OsrButton(ButtonBrowse):
 	def afteropenfile(self, filename):
 		if filename == "":  # if user cancel select
 			return
-		if self.main_window.startbutton.processing_something == True:
+		if self.main_window.startbutton.processing_something:
+			print("ADDED TO QUEUE!!!")
 			self.main_window.startbutton.beatmap_queue.put(filename)
 		else:
 			current_config[".osr path"] = filename

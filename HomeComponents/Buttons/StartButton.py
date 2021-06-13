@@ -18,21 +18,21 @@ class BeatmapQueue(QtCore.QThread):
 
 	def run(self):
 		while True:
-			item = self.queue.get()
+			print('hey dude')
+			f_name = self.queue.get()
+
 			self.parent.processing_something = True
 			print("mother item")
-			for f_name in item:
-				print("FUCK")
-				mappath = get_right_map(f_name)
-				self.parent.main_window.setreplay(f_name)
-				self.parent.main_window.setmap(mappath)
-				#current_config[".osr path"] = f_name
-				#current_config["Beatmap path"] = mappath
-				filename = loadname(current_config)
-				save(filename)
+			mappath = get_right_map(f_name)
+			self.parent.main_window.setreplay(f_name)
+			self.parent.main_window.setmap(mappath)
+			filename = loadname(current_config)
+			save(filename)
+			if self.parent.proc is None or self.parent.proc.poll() is not None:
 				self.parent.main_window.progressbar.show()
-				subprocess.call(
-						[sys.executable, os.path.join(abspath, "run_osu.py"), self.parent.main_window.execpath])
+				self.parent.proc = subprocess.Popen([sys.executable, os.path.join(abspath, "run_osu.py"), self.parent.main_window.execpath])
+				self.parent.proc.wait()
+			print("Task done?????")
 			self.parent.processing_something = False
 			self.queue.task_done()
 			"""
@@ -47,7 +47,8 @@ class BeatmapQueue(QtCore.QThread):
 			"""
 
 	def put(self, tmp_list):
-		self.queue.put(tmp_list)
+		for osr_ in tmp_list:
+			self.queue.put(osr_)
 
 
 class StartButton(Button):

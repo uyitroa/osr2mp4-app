@@ -22,8 +22,13 @@ class CancelButton(Button):
 		self.hide()
 
 	def mouseclicked(self):
+		with self.main_window.startbutton.beatmap_queue.queue.mutex:
+			self.main_window.startbutton.beatmap_queue.queue.queue.clear()
+
 		if self.main_window.startbutton.proc is not None and self.main_window.startbutton.proc.poll() is None:
+			print("cleaning up")
 			kill(self.main_window.startbutton.proc.pid)
 			cleanupkill()
+
 		with open(os.path.join(abspath, "progress.txt"), "w") as filee:
 			filee.write(".")
