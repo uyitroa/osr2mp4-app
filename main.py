@@ -5,7 +5,7 @@ from HomeComponents.Osr2mp4Logo import Osr2mp4Logo
 from HomeComponents.FilesPath import MapPath, OsrPath
 from HomeComponents.AutoReplayCheckBox import AutoReplayCheckBox
 from HomeComponents.SkinDropDown import SkinDropDown
-
+from Custom.CustomFunctions import blur_widget
 
 class MyWidget(QtWidgets.QMainWindow):
     def __init__(self, ):
@@ -22,13 +22,13 @@ class MyWidget(QtWidgets.QMainWindow):
         self.osr_path = OsrPath(self)
         self.auto_replay = AutoReplayCheckBox(self)
         self.skin_drop = SkinDropDown(self)
-        print(self.map_button.frameGeometry().width())
-        print(self.osr_button.frameGeometry().width())
+
+        home_widgets = [self.osu_logo, self.osr_button, self.map_button, self.map_path, self.osr_path, self.auto_replay, self.skin_drop]
+        #blur_widget(home_widgets)
 
         self.setStyleSheet("background-color: rgb(30, 30, 33);")
 
         self.center()
-
         self.show()
 
     def resizeEvent(self, event):

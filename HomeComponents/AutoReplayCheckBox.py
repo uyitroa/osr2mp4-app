@@ -19,9 +19,9 @@ class AutoReplayCheckBox(QtWidgets.QCheckBox):
                     height: 25;
 		        }
         		QCheckBox::indicator:checked {
-        		    border-image: url(%s);
+        		    image: url(%s);
         		}
         		QCheckBox::indicator:unchecked {
-        		    border-image: url(%s);
+        		    image: url(%s);
         		}
         					""" % (self.checked_img, self.unchecked_img))
