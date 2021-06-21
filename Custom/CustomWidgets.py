@@ -28,7 +28,7 @@ class CustomButtons(QtWidgets.QLabel):
 
     def setup(self):
         set_pixmap(self, self.main_window.app_directory, self.pixmap_idle, [self.width(), self.height()])
-        self.main_window.main_layout.addWidget(self, self.row, self.col)
+        self.main_window.button_vertical_layout.addWidget(self)
 
     def enterEvent(self, event):
         set_pixmap(self, self.main_window.app_directory, self.pixmap_hover, [self.width(), self.height()])
