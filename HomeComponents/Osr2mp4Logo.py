@@ -1,4 +1,4 @@
-from Custom.CustomWidgets import CustomButtons, CustomLabel
+from Custom.CustomWidgets import CustomLabel
 from PyQt5.QtWidgets import QGraphicsBlurEffect
 
 class Osr2mp4Logo(CustomLabel):

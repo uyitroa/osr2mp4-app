@@ -1,5 +1,7 @@
 from PyQt5 import QtWidgets, QtGui, QtCore
 from pathlib import Path
+from Custom.CustomQtFunctions import set_pixmap
+import os
 
 
 class CustomLabel(QtWidgets.QLabel):
@@ -9,7 +11,7 @@ class CustomLabel(QtWidgets.QLabel):
         self.setMinimumSize(QtCore.QSize(50, 50))
 
     def setup(self):
-        pixmap = QtGui.QPixmap(self.pixmap_idle).scaled(self.default_scale[0], self.default_scale[1],QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation)
+        pixmap = QtGui.QPixmap(os.path.join(self.main_window.app_directory, self.pixmap_idle)).scaled(self.default_scale[0], self.default_scale[1],QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation)
         self.setGeometry(self.default_coordinates[0], self.default_coordinates[1], self.default_scale[0],self.default_scale[1])
         self.setPixmap(pixmap)
 
@@ -21,20 +23,17 @@ class CustomButtons(QtWidgets.QLabel):
         self.setMinimumSize(QtCore.QSize(50, 50))
 
     def setup(self):
-        pixmap = QtGui.QPixmap(self.pixmap_idle).scaled(self.default_scale[0], self.default_scale[1], QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation)
         self.setGeometry(self.default_coordinates[0], self.default_coordinates[1], self.default_scale[0], self.default_scale[1])
-        self.setPixmap(pixmap)
+        set_pixmap(self, self.main_window.app_directory, self.pixmap_idle, self.default_scale)
 
     def enterEvent(self, event):
-        pixmap = QtGui.QPixmap(self.pixmap_hover).scaled(self.default_scale[0], self.default_scale[1], QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation)
-        self.setPixmap(pixmap)
+        set_pixmap(self, self.main_window.app_directory, self.pixmap_hover, self.default_scale)
 
     def leaveEvent(self, event):
-        pixmap = QtGui.QPixmap(self.pixmap_idle).scaled(self.default_scale[0], self.default_scale[1], QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation)
-        self.setPixmap(pixmap)
+        set_pixmap(self, self.main_window.app_directory, self.pixmap_idle, self.default_scale)
 
     def mousePressEvent(self, event):
-        pixmap = QtGui.QPixmap(self.pixmap_clicked).scaled(self.default_scale[0], self.default_scale[1], QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation)
+        pixmap = QtGui.QPixmap(os.path.join(self.main_window.app_directory, self.pixmap_clicked)).scaled(self.default_scale[0], self.default_scale[1], QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation)
         self.setPixmap(pixmap)
         home_dir = str(Path.home())
         if self.file_extension == "folder":

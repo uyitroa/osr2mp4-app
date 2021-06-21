@@ -1,19 +1,26 @@
-from PyQt5 import QtWidgets, QtCore, QtGui
+from PyQt5 import QtWidgets
 from HomeComponents.SelectOsr import SelectOsr
 from HomeComponents.SelectBeatmap import SelectBeatmap
 from HomeComponents.Osr2mp4Logo import Osr2mp4Logo
 from HomeComponents.FilesPath import MapPath, OsrPath
 from HomeComponents.AutoReplayCheckBox import AutoReplayCheckBox
 from HomeComponents.SkinDropDown import SkinDropDown
-from Custom.CustomFunctions import blur_widget
+from HidableComponents.PopupWindow import PopupWindow
+from HidableComponents.SelectOsuFolder import SelectOsuFolder
+
+from Custom.CustomQtFunctions import blur_widget
+from Custom.CustomFunctions import check_data_paths
+import os
 
 
 class MyWidget(QtWidgets.QMainWindow):
     def __init__(self, ):
         super().__init__()
+
         window_width, window_height = 832, 469
         window_startingpoint = 0
         self.setGeometry(window_startingpoint, window_startingpoint, window_width, window_height)
+        self.app_directory = os.path.abspath(os.getcwd())
 
         self.osu_logo = Osr2mp4Logo(self)
         self.osr_button = SelectOsr(self)
@@ -25,7 +32,9 @@ class MyWidget(QtWidgets.QMainWindow):
         self.skin_drop = SkinDropDown(self)
 
         home_widgets = [self.osu_logo, self.osr_button, self.map_button, self.map_path, self.osr_path, self.auto_replay, self.skin_drop]
+        self.hidden_widgets = []
         #blur_widget(home_widgets)
+        check_data_paths(self.app_directory, self)
 
         self.setStyleSheet("background-color: rgb(30, 30, 33);")
 
@@ -41,6 +50,12 @@ class MyWidget(QtWidgets.QMainWindow):
         center_point = QtWidgets.QApplication.desktop().screenGeometry(screen).center()
         frame_gm.moveCenter(center_point)
         self.move(frame_gm.topLeft())
+
+    def get_hidden_popup(self):
+        return
+        popup_window = PopupWindow(self)
+        select_osu_folder = SelectOsuFolder(self)
+        #self.hidden_widgets.extend([popup_window, select_osu_folder])
 
 
 if __name__ == "__main__":

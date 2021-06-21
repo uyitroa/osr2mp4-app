@@ -1,15 +1,15 @@
 from PyQt5 import QtWidgets, QtCore
+import os
 
 
 class AutoReplayCheckBox(QtWidgets.QCheckBox):
     def __init__(self, parent):
         super(AutoReplayCheckBox, self).__init__(parent)
         self.setText("Auto Replay")
-        self.checked_img = "images/checked.png"
-        self.unchecked_img = "images/unchecked.png"
+        self.checked_img = os.path.join(parent.app_directory, "images/checked.png").replace("\\", "/")
+        self.unchecked_img = os.path.join(parent.app_directory, "images/unchecked.png").replace("\\", "/")
         self.setMinimumSize(QtCore.QSize(50, 21))
         self.setGeometry(518, 144, 185, 21)
-        #self.setStyleSheet("color: white;font-size:15pt;")
         self.setStyleSheet("""
                 QCheckBox {
                 color: white;font-size:15pt;

@@ -1,7 +1,11 @@
-from PyQt5.QtWidgets import QGraphicsBlurEffect
+import os
+import json
 
 
-def blur_widget(widgets):
-    for widget in widgets:
-        blur_effect = QGraphicsBlurEffect()
-        widget.setGraphicsEffect(blur_effect)
+def check_data_paths(app_directory, app):
+    data_directory = os.path.join(app_directory, "data/config.json")
+    with open(data_directory) as f:
+        data = json.load(f)
+        if data["osu! path"] == "" or data["Output path"] == "":
+            app.get_hidden_popup()
+
