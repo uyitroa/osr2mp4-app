@@ -12,7 +12,7 @@ class CustomLabel(QtWidgets.QLabel):
 
     def setup(self):
         pixmap = QtGui.QPixmap(os.path.join(self.main_window.app_directory, self.pixmap_idle)).scaled(self.default_scale[0], self.default_scale[1],QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation)
-        self.setGeometry(self.default_coordinates[0], self.default_coordinates[1], self.default_scale[0],self.default_scale[1])
+        self.setGeometry(self.default_coordinates[0], self.default_coordinates[1], self.default_scale[0], self.default_scale[1])
         self.setPixmap(pixmap)
 
 

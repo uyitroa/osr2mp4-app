@@ -5,15 +5,15 @@ from HomeComponents.Osr2mp4Logo import Osr2mp4Logo
 from HomeComponents.FilesPath import MapPath, OsrPath
 from HomeComponents.AutoReplayCheckBox import AutoReplayCheckBox
 from HomeComponents.SkinDropDown import SkinDropDown
-from HidableComponents.PopupWindow import PopupWindow
-from HidableComponents.SelectOsuFolder import SelectOsuFolder
+from PopupComponents.PopupWindow import PopupWindow
+from PopupComponents.SelectOsuFolder import SelectOsuFolder
 
 from Custom.CustomQtFunctions import blur_widget
 from Custom.CustomFunctions import check_data_paths
 import os
 
 
-class MyWidget(QtWidgets.QMainWindow):
+class MyWidget(QtWidgets.QWidget):
     def __init__(self, ):
         super().__init__()
 
@@ -33,8 +33,11 @@ class MyWidget(QtWidgets.QMainWindow):
 
         home_widgets = [self.osu_logo, self.osr_button, self.map_button, self.map_path, self.osr_path, self.auto_replay, self.skin_drop]
         self.hidden_widgets = []
-        #blur_widget(home_widgets)
         check_data_paths(self.app_directory, self)
+
+        #TESTTTTT
+        main_layout = QtWidgets.QGridLayout(self)
+        main_layout.addWidget(self.osu_logo, 5, 3,10 ,10)
 
         self.setStyleSheet("background-color: rgb(30, 30, 33);")
 
