@@ -29,6 +29,7 @@ class Logo(QtWidgets.QLabel):
         set_pixmap(self, self.main_window.app_directory, self.pixmap_idle, [self.width(), self.height()])
         self.main_window.logo_horizontal.addWidget(self)
 
+
     def resizeEvent(self, event):
         pixmap = QtGui.QPixmap(self.pixmap_idle)
         self.setPixmap(pixmap.scaled(
@@ -45,6 +46,7 @@ class CustomButtons(QtWidgets.QLabel):
     def setup(self):
         set_pixmap(self, self.main_window.app_directory, self.pixmap_idle, [self.width(), self.height()])
         self.main_window.button_vertical_layout.addWidget(self)
+
 
     def enterEvent(self, event):
         set_pixmap(self, self.main_window.app_directory, self.pixmap_hover, [self.width(), self.height()])
@@ -68,10 +70,7 @@ class CustomButtons(QtWidgets.QLabel):
 
 
     def resizeEvent(self, event):
-        pixmap = QtGui.QPixmap(self.pixmap_idle)
-        self.setPixmap(pixmap.scaled(
-            self.width(), self.height(),
-            QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation))
+        set_pixmap(self, self.main_window.app_directory, self.pixmap_idle, [self.width(), self.height()])
     '''
     def resize(self):
         scale = self.main_window.height() / 469
