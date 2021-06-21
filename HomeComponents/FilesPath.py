@@ -7,7 +7,7 @@ class MapPath(CustomLabel):
         self.main_window = parent
         self.pixmap_idle = "images/MapPathIdle.png"
         self.row = 3
-        self.col = 3
+        self.col = 5
         super().setup()
 
 
@@ -18,5 +18,5 @@ class OsrPath(CustomLabel):
 
         self.pixmap_idle = "images/OsrPathIdle.png"
         self.row = 4
-        self.col = 3
+        self.col = 5
         super().setup()

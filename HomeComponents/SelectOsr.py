@@ -9,7 +9,5 @@ class SelectOsr(CustomButtons):
         self.pixmap_hover = "images/SelectOsrHover.png"
         self.pixmap_clicked = "images/SelectOsrClicked.png"
         self.file_extension = ".osr"
-        self.row = 1
-        self.col = 3
         #self.setAlignment(QtCore.Qt.)
         super().setup()

@@ -11,7 +11,23 @@ class CustomLabel(QtWidgets.QLabel):
 
     def setup(self):
         set_pixmap(self, self.main_window.app_directory, self.pixmap_idle, [self.width(), self.height()])
-        self.main_window.main_layout.addWidget(self, self.row, self.col)
+        self.main_window.path_vertical_layout.addWidget(self)
+
+    def resizeEvent(self, event):
+        pixmap = QtGui.QPixmap(self.pixmap_idle)
+        self.setPixmap(pixmap.scaled(
+            self.width(), self.height(),
+            QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation))
+
+
+class Logo(QtWidgets.QLabel):
+    def __init__(self, parent):
+        super().__init__(parent)
+        self.setMinimumSize(QtCore.QSize(50, 50))
+
+    def setup(self):
+        set_pixmap(self, self.main_window.app_directory, self.pixmap_idle, [self.width(), self.height()])
+        self.main_window.logo_horizontal.addWidget(self)
 
     def resizeEvent(self, event):
         pixmap = QtGui.QPixmap(self.pixmap_idle)
