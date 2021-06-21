@@ -18,26 +18,23 @@ class MyWidget(QtWidgets.QWidget):
         super().__init__()
 
         window_width, window_height = 832, 469
-        window_startingpoint = 0
-        self.setGeometry(window_startingpoint, window_startingpoint, window_width, window_height)
+        self.window_startingpoint = 0
+        self.setGeometry(self.window_startingpoint, self.window_startingpoint, window_width, window_height)
         self.app_directory = os.path.abspath(os.getcwd())
-
+        self.main_layout = QtWidgets.QGridLayout(self)
         self.osu_logo = Osr2mp4Logo(self)
         self.osr_button = SelectOsr(self)
         self.map_button = SelectBeatmap(self)
 
         self.map_path = MapPath(self)
         self.osr_path = OsrPath(self)
-        self.auto_replay = AutoReplayCheckBox(self)
-        self.skin_drop = SkinDropDown(self)
+        #self.auto_replay = AutoReplayCheckBox(self)
+        #self.skin_drop = SkinDropDown(self)
 
-        home_widgets = [self.osu_logo, self.osr_button, self.map_button, self.map_path, self.osr_path, self.auto_replay, self.skin_drop]
+        #home_widgets = [self.osu_logo, self.osr_button, self.map_button, self.map_path, self.osr_path, self.auto_replay, self.skin_drop]
         self.hidden_widgets = []
         check_data_paths(self.app_directory, self)
 
-        #TESTTTTT
-        main_layout = QtWidgets.QGridLayout(self)
-        main_layout.addWidget(self.osu_logo, 5, 3,10 ,10)
 
         self.setStyleSheet("background-color: rgb(30, 30, 33);")
 

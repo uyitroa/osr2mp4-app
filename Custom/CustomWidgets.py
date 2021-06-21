@@ -7,24 +7,26 @@ import os
 class CustomLabel(QtWidgets.QLabel):
     def __init__(self, parent):
         super().__init__(parent)
-        self.main_window = parent
         self.setMinimumSize(QtCore.QSize(50, 50))
+        self.setScaledContents(True)
 
     def setup(self):
         pixmap = QtGui.QPixmap(os.path.join(self.main_window.app_directory, self.pixmap_idle)).scaled(self.default_scale[0], self.default_scale[1],QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation)
         self.setGeometry(self.default_coordinates[0], self.default_coordinates[1], self.default_scale[0], self.default_scale[1])
         self.setPixmap(pixmap)
+        self.main_window.main_layout.addWidget(self, self.row, self.col)
 
 
 class CustomButtons(QtWidgets.QLabel):
     def __init__(self, parent):
         super().__init__(parent)
-        self.main_window = parent
         self.setMinimumSize(QtCore.QSize(50, 50))
+        self.setScaledContents(True)
 
     def setup(self):
         self.setGeometry(self.default_coordinates[0], self.default_coordinates[1], self.default_scale[0], self.default_scale[1])
         set_pixmap(self, self.main_window.app_directory, self.pixmap_idle, self.default_scale)
+        self.main_window.main_layout.addWidget(self, self.row, self.col)
 
     def enterEvent(self, event):
         set_pixmap(self, self.main_window.app_directory, self.pixmap_hover, self.default_scale)

@@ -1,6 +1,7 @@
 from PyQt5 import QtWidgets, QtCore
 import os
 
+
 class SkinDropDown(QtWidgets.QComboBox):
     def __init__(self, parent):
         super(SkinDropDown, self).__init__(parent)
