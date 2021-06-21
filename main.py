@@ -7,6 +7,7 @@ from HomeComponents.AutoReplayCheckBox import AutoReplayCheckBox
 from HomeComponents.SkinDropDown import SkinDropDown
 from Custom.CustomFunctions import blur_widget
 
+
 class MyWidget(QtWidgets.QMainWindow):
     def __init__(self, ):
         super().__init__()
