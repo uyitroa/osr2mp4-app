@@ -9,8 +9,6 @@ class SelectBeatmap(CustomButtons):
         self.pixmap_hover = "images/SelectMapHover.png"
         self.pixmap_clicked = "images/SelectMapClicked.png"
         self.file_extension = "folder"
-        self.default_scale = [328, 52]
-        self.default_coordinates = [505, 85]
         self.row = 0
         self.col = 3
         super().setup()

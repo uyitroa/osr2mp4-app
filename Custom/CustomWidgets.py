@@ -8,12 +8,9 @@ class CustomLabel(QtWidgets.QLabel):
     def __init__(self, parent):
         super().__init__(parent)
         self.setMinimumSize(QtCore.QSize(50, 50))
-        #self.setScaledContents(True)
 
     def setup(self):
-        pixmap = QtGui.QPixmap(os.path.join(self.main_window.app_directory, self.pixmap_idle)).scaled(self.default_scale[0], self.default_scale[1],QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation)
-        self.setGeometry(self.default_coordinates[0], self.default_coordinates[1], self.default_scale[0], self.default_scale[1])
-        self.setPixmap(pixmap)
+        set_pixmap(self, self.main_window.app_directory, self.pixmap_idle, [self.width(), self.height()])
         self.main_window.main_layout.addWidget(self, self.row, self.col)
 
     def resizeEvent(self, event):
@@ -30,8 +27,7 @@ class CustomButtons(QtWidgets.QLabel):
         #self.setScaledContents(True)
 
     def setup(self):
-        self.setGeometry(self.default_coordinates[0], self.default_coordinates[1], self.default_scale[0], self.default_scale[1])
-        set_pixmap(self, self.main_window.app_directory, self.pixmap_idle, self.default_scale)
+        set_pixmap(self, self.main_window.app_directory, self.pixmap_idle, [self.width(), self.height()])
         self.main_window.main_layout.addWidget(self, self.row, self.col)
 
     def enterEvent(self, event):
@@ -52,7 +48,6 @@ class CustomButtons(QtWidgets.QLabel):
             print(beatmap_path)
         elif self.file_extension == ".osr":
             replay_path = QtWidgets.QFileDialog.getOpenFileNames(self, 'Open file', home_dir, ".osr (*.osr)")
-
 
 
 

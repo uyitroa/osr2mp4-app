@@ -1,5 +1,5 @@
 from Custom.CustomWidgets import CustomButtons
-
+from PyQt5 import QtCore
 
 class SelectOsr(CustomButtons):
     def __init__(self, parent):
@@ -9,8 +9,7 @@ class SelectOsr(CustomButtons):
         self.pixmap_hover = "images/SelectOsrHover.png"
         self.pixmap_clicked = "images/SelectOsrClicked.png"
         self.file_extension = ".osr"
-        self.default_scale = [346, 52]
-        self.default_coordinates = [490, 30]
         self.row = 1
         self.col = 3
+        #self.setAlignment(QtCore.Qt.)
         super().setup()
