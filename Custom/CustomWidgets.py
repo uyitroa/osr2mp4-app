@@ -8,7 +8,7 @@ class CustomLabel(QtWidgets.QLabel):
     def __init__(self, parent):
         super().__init__(parent)
         self.setMinimumSize(QtCore.QSize(50, 50))
-        self.setScaledContents(True)
+        #self.setScaledContents(True)
 
     def setup(self):
         pixmap = QtGui.QPixmap(os.path.join(self.main_window.app_directory, self.pixmap_idle)).scaled(self.default_scale[0], self.default_scale[1],QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation)
@@ -16,12 +16,18 @@ class CustomLabel(QtWidgets.QLabel):
         self.setPixmap(pixmap)
         self.main_window.main_layout.addWidget(self, self.row, self.col)
 
+    def resizeEvent(self, event):
+        pixmap = QtGui.QPixmap(self.pixmap_idle)
+        self.setPixmap(pixmap.scaled(
+            self.width(), self.height(),
+            QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation))
+
 
 class CustomButtons(QtWidgets.QLabel):
     def __init__(self, parent):
         super().__init__(parent)
         self.setMinimumSize(QtCore.QSize(50, 50))
-        self.setScaledContents(True)
+        #self.setScaledContents(True)
 
     def setup(self):
         self.setGeometry(self.default_coordinates[0], self.default_coordinates[1], self.default_scale[0], self.default_scale[1])
@@ -29,10 +35,13 @@ class CustomButtons(QtWidgets.QLabel):
         self.main_window.main_layout.addWidget(self, self.row, self.col)
 
     def enterEvent(self, event):
-        set_pixmap(self, self.main_window.app_directory, self.pixmap_hover, self.default_scale)
+        set_pixmap(self, self.main_window.app_directory, self.pixmap_hover, [self.width(), self.height()])
 
     def leaveEvent(self, event):
-        set_pixmap(self, self.main_window.app_directory, self.pixmap_idle, self.default_scale)
+        set_pixmap(self, self.main_window.app_directory, self.pixmap_idle, [self.width(), self.height()])
+
+    def mouseReleaseEvent(self, event):
+        set_pixmap(self, self.main_window.app_directory, self.pixmap_idle, [self.width(), self.height()])
 
     def mousePressEvent(self, event):
         pixmap = QtGui.QPixmap(os.path.join(self.main_window.app_directory, self.pixmap_clicked)).scaled(self.default_scale[0], self.default_scale[1], QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation)
@@ -44,10 +53,14 @@ class CustomButtons(QtWidgets.QLabel):
         elif self.file_extension == ".osr":
             replay_path = QtWidgets.QFileDialog.getOpenFileNames(self, 'Open file', home_dir, ".osr (*.osr)")
 
-    def mouseReleaseEvent(self, event):
-        pixmap = QtGui.QPixmap(self.pixmap_idle).scaled(self.default_scale[0], self.default_scale[1], QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation)
-        self.setPixmap(pixmap)
 
+
+
+    def resizeEvent(self, event):
+        pixmap = QtGui.QPixmap(self.pixmap_idle)
+        self.setPixmap(pixmap.scaled(
+            self.width(), self.height(),
+            QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation))
     '''
     def resize(self):
         scale = self.main_window.height() / 469
