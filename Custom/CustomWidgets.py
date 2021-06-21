@@ -71,6 +71,10 @@ class CustomButtons(QtWidgets.QLabel):
 
     def resizeEvent(self, event):
         set_pixmap(self, self.main_window.app_directory, self.pixmap_idle, [self.width(), self.height()])
+        print(self.width())
+        print(QtGui.QPixmap(self.pixmap()).width())
+
+
     '''
     def resize(self):
         scale = self.main_window.height() / 469
