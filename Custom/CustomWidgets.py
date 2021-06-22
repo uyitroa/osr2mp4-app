@@ -14,10 +14,7 @@ class CustomLabel(QtWidgets.QLabel):
         self.main_window.path_vertical_layout.addWidget(self)
 
     def resizeEvent(self, event):
-        pixmap = QtGui.QPixmap(self.pixmap_idle)
-        self.setPixmap(pixmap.scaled(
-            self.width(), self.height(),
-            QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation))
+        set_pixmap(self, self.main_window.app_directory, self.pixmap_idle, [self.width(), self.height()])
 
 
 class Logo(QtWidgets.QLabel):
@@ -29,24 +26,19 @@ class Logo(QtWidgets.QLabel):
         set_pixmap(self, self.main_window.app_directory, self.pixmap_idle, [self.width(), self.height()])
         self.main_window.logo_horizontal.addWidget(self)
 
-
     def resizeEvent(self, event):
-        pixmap = QtGui.QPixmap(self.pixmap_idle)
-        self.setPixmap(pixmap.scaled(
-            self.width(), self.height(),
-            QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation))
+        set_pixmap(self, self.main_window.app_directory, self.pixmap_idle, [self.width(), self.height()])
 
 
 class CustomButtons(QtWidgets.QLabel):
     def __init__(self, parent):
         super().__init__(parent)
         self.setMinimumSize(QtCore.QSize(50, 50))
-        #self.setScaledContents(True)
+        self.setScaledContents(True)
 
     def setup(self):
         set_pixmap(self, self.main_window.app_directory, self.pixmap_idle, [self.width(), self.height()])
         self.main_window.button_vertical_layout.addWidget(self)
-
 
     def enterEvent(self, event):
         set_pixmap(self, self.main_window.app_directory, self.pixmap_hover, [self.width(), self.height()])
@@ -67,12 +59,8 @@ class CustomButtons(QtWidgets.QLabel):
         elif self.file_extension == ".osr":
             replay_path = QtWidgets.QFileDialog.getOpenFileNames(self, 'Open file', home_dir, ".osr (*.osr)")
 
-
-
     def resizeEvent(self, event):
         set_pixmap(self, self.main_window.app_directory, self.pixmap_idle, [self.width(), self.height()])
-        print(self.width())
-        print(QtGui.QPixmap(self.pixmap()).width())
 
 
     '''

@@ -1,4 +1,4 @@
-from PyQt5 import QtWidgets
+from PyQt5 import QtWidgets, QtCore
 from HomeComponents.SelectOsr import SelectOsr
 from HomeComponents.SelectBeatmap import SelectBeatmap
 from HomeComponents.Osr2mp4Logo import Osr2mp4Logo
@@ -11,7 +11,7 @@ from PopupComponents.SelectOsuFolder import SelectOsuFolder
 from Custom.CustomQtFunctions import blur_widget
 from Custom.CustomFunctions import check_data_paths
 import os
-
+import copy
 
 class MyWidget(QtWidgets.QWidget):
     def __init__(self, ):
@@ -25,13 +25,14 @@ class MyWidget(QtWidgets.QWidget):
         self.button_vertical_layout = QtWidgets.QVBoxLayout(self)
         self.path_vertical_layout = QtWidgets.QVBoxLayout(self)
         self.logo_horizontal = QtWidgets.QHBoxLayout(self)
-        self.main_layout.addLayout(self.button_vertical_layout, 0, 11, 1, 3)
-        self.main_layout.addLayout(self.path_vertical_layout, 1, 12, 1, 2)
-        self.main_layout.addLayout(self.logo_horizontal, 0, 0, 5, 5)
-        self.button_vertical_layout.setSpacing(0)
+        self.main_layout.addLayout(self.logo_horizontal, 0, 0, 4, 4)
+        self.main_layout.addLayout(self.button_vertical_layout, 0, 4, 1, 3)
+        self.main_layout.addLayout(self.path_vertical_layout, 1, 5, 1, 2)
+        #self.main_layout.setRowMinimumHeight(1, 1)
+        #self.main_layout.setHorizontalSpacing(80)
         self.osu_logo = Osr2mp4Logo(self)
-        self.map_button = SelectBeatmap(self)
         self.osr_button = SelectOsr(self)
+        self.map_button = SelectBeatmap(self)
 
         self.map_path = MapPath(self)
         self.osr_path = OsrPath(self)
