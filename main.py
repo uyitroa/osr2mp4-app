@@ -28,8 +28,6 @@ class MyWidget(QtWidgets.QWidget):
         self.main_layout.addLayout(self.logo_horizontal, 0, 0, 4, 4)
         self.main_layout.addLayout(self.button_vertical_layout, 0, 4, 1, 3)
         self.main_layout.addLayout(self.path_vertical_layout, 1, 5, 1, 2)
-        #self.main_layout.setRowMinimumHeight(1, 1)
-        #self.main_layout.setHorizontalSpacing(80)
         self.osu_logo = Osr2mp4Logo(self)
         self.osr_button = SelectOsr(self)
         self.map_button = SelectBeatmap(self)

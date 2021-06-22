@@ -10,8 +10,8 @@ class CustomLabel(QtWidgets.QLabel):
         self.setMinimumSize(QtCore.QSize(50, 50))
 
     def setup(self):
-        set_pixmap(self, self.main_window.app_directory, self.pixmap_idle, [self.width(), self.height()])
         self.main_window.path_vertical_layout.addWidget(self)
+        set_pixmap(self, self.main_window.app_directory, self.pixmap_idle, [self.width(), self.height()])
 
     def resizeEvent(self, event):
         set_pixmap(self, self.main_window.app_directory, self.pixmap_idle, [self.width(), self.height()])
@@ -34,9 +34,9 @@ class CustomButtons(QtWidgets.QLabel):
     def __init__(self, parent):
         super().__init__(parent)
         self.setMinimumSize(QtCore.QSize(50, 50))
-        self.setScaledContents(True)
 
     def setup(self):
+
         set_pixmap(self, self.main_window.app_directory, self.pixmap_idle, [self.width(), self.height()])
         self.main_window.button_vertical_layout.addWidget(self)
 
@@ -50,14 +50,14 @@ class CustomButtons(QtWidgets.QLabel):
         set_pixmap(self, self.main_window.app_directory, self.pixmap_idle, [self.width(), self.height()])
 
     def mousePressEvent(self, event):
-        pixmap = QtGui.QPixmap(os.path.join(self.main_window.app_directory, self.pixmap_clicked)).scaled(self.default_scale[0], self.default_scale[1], QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation)
-        self.setPixmap(pixmap)
+        set_pixmap(self, self.main_window.app_directory, self.pixmap_clicked, [self.width(), self.height()])
         home_dir = str(Path.home())
-        if self.file_extension == "folder":
-            beatmap_path = QtWidgets.QFileDialog.getExistingDirectory(self, 'Beatmap Folder ', home_dir)
-            print(beatmap_path)
-        elif self.file_extension == ".osr":
-            replay_path = QtWidgets.QFileDialog.getOpenFileNames(self, 'Open file', home_dir, ".osr (*.osr)")
+        if self.file_extension is not None:
+            if self.file_extension == "folder":
+                beatmap_path = QtWidgets.QFileDialog.getExistingDirectory(self, 'Beatmap Folder ', home_dir)
+                print(beatmap_path)
+            elif self.file_extension == ".osr":
+                replay_path = QtWidgets.QFileDialog.getOpenFileNames(self, 'Open file', home_dir, ".osr (*.osr)")
 
     def resizeEvent(self, event):
         set_pixmap(self, self.main_window.app_directory, self.pixmap_idle, [self.width(), self.height()])
