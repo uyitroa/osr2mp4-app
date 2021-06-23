@@ -1,6 +1,6 @@
 from PyQt5 import QtWidgets, QtGui, QtCore
 from pathlib import Path
-from Custom.CustomQtFunctions import set_pixmap
+
 import os
 
 
@@ -10,24 +10,11 @@ class CustomLabel(QtWidgets.QLabel):
         self.setMinimumSize(QtCore.QSize(50, 50))
 
     def setup(self):
-        self.main_window.path_vertical_layout.addWidget(self)
-        set_pixmap(self, self.main_window.app_directory, self.pixmap_idle, [self.width(), self.height()])
+        self.setPixmap(self.pixmap_idle.scaled(self.width(), self.height(), QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation))
+        self.layout.addWidget(self)
 
     def resizeEvent(self, event):
-        set_pixmap(self, self.main_window.app_directory, self.pixmap_idle, [self.width(), self.height()])
-
-
-class Logo(QtWidgets.QLabel):
-    def __init__(self, parent):
-        super().__init__(parent)
-        self.setMinimumSize(QtCore.QSize(50, 50))
-
-    def setup(self):
-        set_pixmap(self, self.main_window.app_directory, self.pixmap_idle, [self.width(), self.height()])
-        self.main_window.logo_horizontal.addWidget(self)
-
-    def resizeEvent(self, event):
-        set_pixmap(self, self.main_window.app_directory, self.pixmap_idle, [self.width(), self.height()])
+        self.setPixmap(self.pixmap_idle.scaled(self.width(), self.height(), QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation))
 
 
 class CustomButtons(QtWidgets.QLabel):
@@ -36,21 +23,20 @@ class CustomButtons(QtWidgets.QLabel):
         self.setMinimumSize(QtCore.QSize(50, 50))
 
     def setup(self):
-
-        set_pixmap(self, self.main_window.app_directory, self.pixmap_idle, [self.width(), self.height()])
-        self.main_window.button_vertical_layout.addWidget(self)
+        self.setPixmap(self.pixmap_idle.scaled(self.width(), self.height(), QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation))
+        self.layout.addWidget(self)
 
     def enterEvent(self, event):
-        set_pixmap(self, self.main_window.app_directory, self.pixmap_hover, [self.width(), self.height()])
+        self.setPixmap(self.pixmap_hover.scaled(self.width(), self.height(), QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation))
 
     def leaveEvent(self, event):
-        set_pixmap(self, self.main_window.app_directory, self.pixmap_idle, [self.width(), self.height()])
+        self.setPixmap(self.pixmap_idle.scaled(self.width(), self.height(), QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation))
 
     def mouseReleaseEvent(self, event):
-        set_pixmap(self, self.main_window.app_directory, self.pixmap_idle, [self.width(), self.height()])
+        self.setPixmap(self.pixmap_idle.scaled(self.width(), self.height(), QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation))
 
     def mousePressEvent(self, event):
-        set_pixmap(self, self.main_window.app_directory, self.pixmap_clicked, [self.width(), self.height()])
+        self.setPixmap(self.pixmap_clicked.scaled(self.width(), self.height(), QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation))
         home_dir = str(Path.home())
         if self.file_extension is not None:
             if self.file_extension == "folder":
@@ -58,9 +44,10 @@ class CustomButtons(QtWidgets.QLabel):
                 print(beatmap_path)
             elif self.file_extension == ".osr":
                 replay_path = QtWidgets.QFileDialog.getOpenFileNames(self, 'Open file', home_dir, ".osr (*.osr)")
+                print(replay_path)
 
     def resizeEvent(self, event):
-        set_pixmap(self, self.main_window.app_directory, self.pixmap_idle, [self.width(), self.height()])
+        self.setPixmap(self.pixmap_idle.scaled(self.width(), self.height(), QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation))
 
 
     '''

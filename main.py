@@ -17,17 +17,11 @@ class MyWidget(QtWidgets.QWidget):
     def __init__(self, ):
         super().__init__()
 
-        window_width, window_height = 832, 469
-        self.window_startingpoint = 0
-        self.setGeometry(self.window_startingpoint, self.window_startingpoint, window_width, window_height)
+        window_width, window_height, window_starting_point = 832, 469, 0
+        self.setGeometry(window_starting_point, window_starting_point, window_width, window_height)
         self.app_directory = os.path.abspath(os.getcwd())
-        self.main_layout = QtWidgets.QGridLayout(self)
-        self.button_vertical_layout = QtWidgets.QVBoxLayout(self)
-        self.path_vertical_layout = QtWidgets.QVBoxLayout(self)
-        self.logo_horizontal = QtWidgets.QHBoxLayout(self)
-        self.main_layout.addLayout(self.logo_horizontal, 0, 0, 4, 4)
-        self.main_layout.addLayout(self.button_vertical_layout, 0, 4, 1, 3)
-        self.main_layout.addLayout(self.path_vertical_layout, 1, 5, 1, 2)
+        self.create_layouts()
+        self.setup_layouts()
         self.osu_logo = Osr2mp4Logo(self)
         self.osr_button = SelectOsr(self)
         self.map_button = SelectBeatmap(self)
@@ -42,13 +36,21 @@ class MyWidget(QtWidgets.QWidget):
         check_data_paths(self.app_directory, self)
 
 
-        self.setStyleSheet("background-color: rgb(30, 30, 33);")
+        self.setStyleSheet("background-color: rgb(33, 30, 33);")
 
         self.center()
         self.show()
 
-    def resizeEvent(self, event):
-        pass
+    def create_layouts(self):
+        self.main_layout = QtWidgets.QGridLayout(self)
+        self.button_vertical_layout = QtWidgets.QVBoxLayout(self)
+        self.path_vertical_layout = QtWidgets.QVBoxLayout(self)
+        self.logo_horizontal = QtWidgets.QHBoxLayout(self)
+
+    def setup_layouts(self):
+        self.main_layout.addLayout(self.logo_horizontal, 0, 0, 4, 4)
+        self.main_layout.addLayout(self.button_vertical_layout, 0, 4, 1, 3)
+        self.main_layout.addLayout(self.path_vertical_layout, 1, 5, 1, 2)
 
     def center(self):
         frame_gm = self.frameGeometry()
