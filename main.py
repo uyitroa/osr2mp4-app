@@ -8,10 +8,8 @@ from HomeComponents.SkinDropDown import SkinDropDown
 from PopupComponents.PopupWindow import PopupWindow
 from PopupComponents.SelectOsuFolder import SelectOsuFolder
 
-from Custom.CustomQtFunctions import blur_widget
 from Custom.CustomFunctions import check_data_paths
 import os
-import copy
 
 class MyWidget(QtWidgets.QWidget):
     def __init__(self, ):
@@ -51,6 +49,7 @@ class MyWidget(QtWidgets.QWidget):
         self.main_layout.addLayout(self.logo_horizontal, 0, 0, 4, 4)
         self.main_layout.addLayout(self.button_vertical_layout, 0, 4, 1, 3)
         self.main_layout.addLayout(self.path_vertical_layout, 1, 5, 1, 2)
+
 
     def center(self):
         frame_gm = self.frameGeometry()

@@ -15,6 +15,8 @@ class CustomLabel(QtWidgets.QLabel):
 
     def resizeEvent(self, event):
         self.setPixmap(self.pixmap_idle.scaled(self.width(), self.height(), QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation))
+        self.main_window.map_path.resize_text_path()
+        self.main_window.osr_path.resize_text_path()
 
 
 class CustomButtons(QtWidgets.QLabel):
