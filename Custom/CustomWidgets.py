@@ -12,6 +12,7 @@ class CustomLabel(QtWidgets.QLabel):
     def setup(self):
         self.setPixmap(self.pixmap_idle.scaled(self.width(), self.height(), QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation))
         self.layout.addWidget(self)
+        self.setStyleSheet("background-color:red;")
 
     def resizeEvent(self, event):
         self.setPixmap(self.pixmap_idle.scaled(self.width(), self.height(), QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation))
@@ -50,25 +51,5 @@ class CustomButtons(QtWidgets.QLabel):
 
     def resizeEvent(self, event):
         self.setPixmap(self.pixmap_idle.scaled(self.width(), self.height(), QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation))
-
-
-    '''
-    def resize(self):
-        scale = self.main_window.height() / 469
-
-        x = self.default_coordinates[0] * scale
-        y = self.default_coordinates[1] * scale
-
-        width = self.default_scale[0] * scale
-        height = self.default_scale[1] * scale
-
-
-        _pixmap = QtGui.QPixmap(self.pixmap_idle)
-        self.setPixmap(_pixmap.scaled(
-            width, height,
-            QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation))
-        self.setGeometry(x, y, width, height)
-        '''
-
 
 

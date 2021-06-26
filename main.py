@@ -40,15 +40,17 @@ class MyWidget(QtWidgets.QWidget):
         self.show()
 
     def create_layouts(self):
-        self.main_layout = QtWidgets.QGridLayout(self)
+        self.main_layout = QtWidgets.QHBoxLayout(self)
+        self.main_vertical_layout = QtWidgets.QVBoxLayout(self)
         self.button_vertical_layout = QtWidgets.QVBoxLayout(self)
         self.path_vertical_layout = QtWidgets.QVBoxLayout(self)
         self.logo_horizontal = QtWidgets.QHBoxLayout(self)
 
     def setup_layouts(self):
-        self.main_layout.addLayout(self.logo_horizontal, 0, 0, 4, 4)
-        self.main_layout.addLayout(self.button_vertical_layout, 0, 4, 1, 3)
-        self.main_layout.addLayout(self.path_vertical_layout, 1, 5, 1, 2)
+        self.main_layout.addLayout(self.logo_horizontal)
+        self.main_layout.addLayout(self.main_vertical_layout)
+        self.main_vertical_layout.addLayout(self.button_vertical_layout)
+        self.main_vertical_layout.addLayout(self.path_vertical_layout)
 
 
     def center(self):
