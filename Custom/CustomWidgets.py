@@ -8,7 +8,7 @@ class CustomLabel(QtWidgets.QLabel):
     def __init__(self, parent):
         super().__init__(parent)
         self.setMinimumSize(QtCore.QSize(10, 10))
-        self.setStyleSheet("background-color:red;")
+        #self.setStyleSheet("background-color:red;")
 
     def setup(self):
         self.setPixmap(self.pixmap_idle.scaled(self.width(), self.height(), QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation))

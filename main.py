@@ -59,18 +59,18 @@ class MyWidget(QtWidgets.QWidget):
     def setup_layouts(self):
         self.main_layout.addLayout(self.logo_horizontal, 4)
         self.main_layout.addLayout(self.main_vertical_layout, 3)
-        self.main_vertical_layout.addLayout(self.button_vertical_layout)
+        self.main_vertical_layout.addLayout(self.button_vertical_layout, 1)
         
         self.path_box_storage.addLayout(self.path_vertical_layout, 1)
         self.path_box_storage.addLayout(self.path_box_vertical_padding, 10)
         w = QtWidgets.QWidget(self)
-        w.setStyleSheet("background-color:red;")
+        w.setStyleSheet("background-color:transparent;")
         self.path_box_vertical_padding.addWidget(w)
 
         self.sub_horizontal_layout.addLayout(self.path_box_padding, 1)
         self.sub_horizontal_layout.addLayout(self.path_box_storage, 2)
 
-        self.main_vertical_layout.addLayout(self.sub_horizontal_layout)
+        self.main_vertical_layout.addLayout(self.sub_horizontal_layout, 3)
 
     def center(self):
         frame_gm = self.frameGeometry()
