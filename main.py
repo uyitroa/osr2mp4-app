@@ -26,6 +26,7 @@ class MyWidget(QtWidgets.QWidget):
 
         self.map_path = MapPath(self)
         self.osr_path = OsrPath(self)
+
         #self.auto_replay = AutoReplayCheckBox(self)
         #self.skin_drop = SkinDropDown(self)
 
@@ -42,15 +43,34 @@ class MyWidget(QtWidgets.QWidget):
     def create_layouts(self):
         self.main_layout = QtWidgets.QHBoxLayout(self)
         self.main_vertical_layout = QtWidgets.QVBoxLayout(self)
+        self.sub_horizontal_layout = QtWidgets.QHBoxLayout(self)
         self.button_vertical_layout = QtWidgets.QVBoxLayout(self)
+
+        self.path_box_padding = QtWidgets.QVBoxLayout(self)
+        self.path_box_storage = QtWidgets.QVBoxLayout(self)
+        self.path_box_vertical_padding = QtWidgets.QVBoxLayout(self)
+
+
         self.path_vertical_layout = QtWidgets.QVBoxLayout(self)
         self.logo_horizontal = QtWidgets.QHBoxLayout(self)
 
+
+
     def setup_layouts(self):
-        self.main_layout.addLayout(self.logo_horizontal)
-        self.main_layout.addLayout(self.main_vertical_layout)
+        self.main_layout.addLayout(self.logo_horizontal, 4)
+        self.main_layout.addLayout(self.main_vertical_layout, 3)
         self.main_vertical_layout.addLayout(self.button_vertical_layout)
-        self.main_vertical_layout.addLayout(self.path_vertical_layout)
+
+        self.path_box_storage.addLayout(self.path_box_vertical_padding, 2)
+        self.path_box_storage.addLayout(self.path_vertical_layout, 1)
+
+        self.sub_horizontal_layout.addLayout(self.path_box_padding, 1)
+        self.sub_horizontal_layout.addLayout(self.path_box_storage, 2)
+
+        self.main_vertical_layout.addLayout(self.sub_horizontal_layout)
+
+        for x in range(10):
+            self.main_vertical_layout.addWidget(QtWidgets.QLabel(self))
 
 
     def center(self):
