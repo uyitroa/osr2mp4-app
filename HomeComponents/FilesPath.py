@@ -13,7 +13,6 @@ class MapPath(CustomLabel):
         self.pixmap_idle = QPixmap(os.path.join(self.main_window.app_directory, self.img_idle))
         self.setGeometry(10, 10, 10, 10)
         self.layout = self.main_window.path_vertical_layout
-        self.setAlignment(QtCore.Qt.AlignBottom)
         self.text = QLabel(self)
         self.text.setText("motherfuckerrrr")
         self.text.setStyleSheet("background-color:transparent;color:white;")
@@ -32,7 +31,6 @@ class OsrPath(CustomLabel):
         self.img_idle = "images/OsrPathIdle.png"
         self.pixmap_idle = QPixmap(os.path.join(self.main_window.app_directory, self.img_idle))
         self.layout = self.main_window.path_vertical_layout
-        self.setAlignment(QtCore.Qt.AlignRight)
         self.text = QLabel(self)
         self.text.setText("motherfuckerrrr")
         self.text.setStyleSheet("background-color:transparent;color:white;")

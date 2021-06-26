@@ -7,12 +7,12 @@ import os
 class CustomLabel(QtWidgets.QLabel):
     def __init__(self, parent):
         super().__init__(parent)
-        self.setMinimumSize(QtCore.QSize(50, 50))
+        self.setMinimumSize(QtCore.QSize(10, 10))
+        self.setStyleSheet("background-color:red;")
 
     def setup(self):
         self.setPixmap(self.pixmap_idle.scaled(self.width(), self.height(), QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation))
         self.layout.addWidget(self)
-        self.setStyleSheet("background-color:red;")
 
     def resizeEvent(self, event):
         self.setPixmap(self.pixmap_idle.scaled(self.width(), self.height(), QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation))
