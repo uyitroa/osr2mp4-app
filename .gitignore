@@ -1,5 +1,6 @@
 .gitignore
 .idea/
+__pycache__
 Custom/__pycache__/
 HomeComponents/__pycache__/
 PopupComponents/__pycache__/

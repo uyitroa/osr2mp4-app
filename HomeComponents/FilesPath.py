@@ -2,6 +2,7 @@ from Custom.CustomWidgets import CustomLabel
 from PyQt5 import QtCore
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QLabel
+from Custom.CustomFunctions import get_latest_replay
 
 import os
 
@@ -13,8 +14,9 @@ class MapPath(CustomLabel):
         self.pixmap_idle = QPixmap(os.path.join(self.main_window.app_directory, self.img_idle))
         self.setGeometry(10, 10, 10, 10)
         self.layout = self.main_window.path_vertical_layout
+        map_path_text = get_latest_replay()
         self.text = QLabel(self)
-        self.text.setText("motherfuckerrrr")
+        self.text.setText(map_path_text)
         self.text.setStyleSheet("background-color:transparent;color:white;")
         super().setup()
 
