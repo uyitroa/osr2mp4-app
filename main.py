@@ -32,7 +32,7 @@ class MyWidget(QtWidgets.QWidget):
         #self.auto_replay = AutoReplayCheckBox(self)
         #self.skin_drop = SkinDropDown(self)
 
-        #home_widgets = [self.osu_logo, self.osr_button, self.map_button, self.map_path, self.osr_path, self.auto_replay, self.skin_drop]
+        self.home_widgets = [self.osu_logo, self.osr_button, self.map_button, self.map_path, self.osr_path]
         self.popup_widgets = []
         self.hidden_widgets = []
         check_data_paths(self.app_directory, self)

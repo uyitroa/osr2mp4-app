@@ -10,8 +10,9 @@ class SelectOutputFolder(PopupLabels):
         self.setStyleSheet("background-color:transparent;")
         super().setup()
 
-    def resize_(self):
-        width, height = 26 / 100 * self.main_window.width(), 10 / 100 * self.main_window.height()
-        x, y = 25 / 100 * self.main_window.width(), 69 / 100 * self.main_window.height()
+    def resize_(self, popup_width, popup_height, popup_x, popup_y):
+        width, height = 40/100*popup_width, 14/100*popup_height
+        x, y = 11 / 100 * popup_width, 78 / 100 * popup_height
+
         self.setPixmap(self.pixmap_idle.scaled(width, height, Qt.KeepAspectRatio, Qt.SmoothTransformation))
-        self.setGeometry(x, y, width, height)
+        self.setGeometry(popup_x + x, popup_y + y, width, height)
