@@ -7,7 +7,10 @@ class SelectOsuFolder(PopupLabels):
         super(SelectOsuFolder, self).__init__(parent)
         self.main_window = parent
         self.img_idle = "images/OsuFolderIdle.png"
+        self.img_hover = "images/OsuFolderHover.png"
+        self.img_clicked = "images/OsuFolderClicked.png"
         self.setStyleSheet("background-color:transparent;")
+        self.clickable = True
         super().setup()
 
     def resize_(self, popup_width, popup_height, popup_x, popup_y):

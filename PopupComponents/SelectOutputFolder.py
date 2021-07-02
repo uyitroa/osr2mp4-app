@@ -7,7 +7,10 @@ class SelectOutputFolder(PopupLabels):
         super(SelectOutputFolder, self).__init__(parent)
         self.main_window = parent
         self.img_idle = "images/OutputFolderIdle.png"
+        self.img_hover = "images/OutputFolderHover.png"
+        self.img_clicked = "images/OutputFolderClicked.png"
         self.setStyleSheet("background-color:transparent;")
+        self.clickable = True
         super().setup()
 
     def resize_(self, popup_width, popup_height, popup_x, popup_y):

@@ -64,4 +64,16 @@ class PopupLabels(QtWidgets.QLabel):
 
     def setup(self):
         self.pixmap_idle = QtGui.QPixmap(os.path.join(self.main_window.app_directory, self.img_idle))
+        if self.clickable:
+            self.pixmap_hover = QtGui.QPixmap(os.path.join(self.main_window.app_directory, self.img_hover))
+            self.pixmap_clicked = QtGui.QPixmap(os.path.join(self.main_window.app_directory, self.img_clicked))
+
+    def enterEvent(self, event):
+        if self.clickable:
+            self.setPixmap(self.pixmap_hover.scaled(self.width(), self.height(), QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation))
+
+    def leaveEvent(self, event):
+        if self.clickable:
+            self.setPixmap(self.pixmap_idle.scaled(self.width(), self.height(), QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation))
+
 

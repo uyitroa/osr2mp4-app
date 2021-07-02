@@ -10,6 +10,7 @@ class PopupWindow(PopupLabels):
         self.img_idle = "images/PopupWindow.png"
         self.setStyleSheet("background-color:transparent;")
         self.blur_home_widgets()
+        self.clickable = False
         super().setup()
 
     def blur_home_widgets(self):
