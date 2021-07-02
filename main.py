@@ -88,7 +88,7 @@ class MyWidget(QtWidgets.QWidget):
         self.popup_window = PopupWindow(self)
         self.select_osu_folder = SelectOsuFolder(self)
         self.select_output_folder = SelectOutputFolder(self)
-        #self.hidden_widgets.extend([popup_window, select_osu_folder])
+        self.popup_widgets.extend([self.popup_window, self.select_osu_folder, self.select_output_folder])
 
 
 if __name__ == "__main__":

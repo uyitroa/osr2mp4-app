@@ -76,4 +76,11 @@ class PopupLabels(QtWidgets.QLabel):
         if self.clickable:
             self.setPixmap(self.pixmap_idle.scaled(self.width(), self.height(), QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation))
 
-
+    def mousePressEvent(self, event):
+        if self.clickable:
+            home_dir = str(Path.home())
+            if self.file_extension is not None:
+                if self.file_extension == "folder":
+                    print(self.file_name)
+                    path = QtWidgets.QFileDialog.getExistingDirectory(self, self.file_name, home_dir)
+                    print(path)

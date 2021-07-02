@@ -11,6 +11,8 @@ class SelectOutputFolder(PopupLabels):
         self.img_clicked = "images/OutputFolderClicked.png"
         self.setStyleSheet("background-color:transparent;")
         self.clickable = True
+        self.file_extension = "folder"
+        self.file_name = "Output Path"
         super().setup()
 
     def resize_(self, popup_width, popup_height, popup_x, popup_y):
