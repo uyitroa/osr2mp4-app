@@ -9,11 +9,10 @@
     "Width": 1280,
     "Height": 720,
     "FPS": 60,
-    "Start time": 0,
+    "Start time": 0.0,
     "End time": -1,
     "Video codec": "XVID",
     "Process": 2,
     "ffmpeg path": "ffmpeg",
-    "Audio codec": "aac",
-    "Language": "English"
+    "Audio codec": "aac"
 }

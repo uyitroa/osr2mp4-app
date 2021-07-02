@@ -7,6 +7,8 @@ from HomeComponents.AutoReplayCheckBox import AutoReplayCheckBox
 from HomeComponents.SkinDropDown import SkinDropDown
 from PopupComponents.PopupWindow import PopupWindow
 from PopupComponents.SelectOsuFolder import SelectOsuFolder
+from PopupComponents.SelectOutputFolder import SelectOutputFolder
+
 
 from Custom.CustomFunctions import check_data_paths
 import os
@@ -31,6 +33,7 @@ class MyWidget(QtWidgets.QWidget):
         #self.skin_drop = SkinDropDown(self)
 
         #home_widgets = [self.osu_logo, self.osr_button, self.map_button, self.map_path, self.osr_path, self.auto_replay, self.skin_drop]
+        self.popup_widgets = []
         self.hidden_widgets = []
         check_data_paths(self.app_directory, self)
 
@@ -54,8 +57,6 @@ class MyWidget(QtWidgets.QWidget):
         self.path_vertical_layout = QtWidgets.QVBoxLayout(self)
         self.logo_horizontal = QtWidgets.QHBoxLayout(self)
 
-
-
     def setup_layouts(self):
         self.main_layout.addLayout(self.logo_horizontal, 4)
         self.main_layout.addLayout(self.main_vertical_layout, 3)
@@ -72,6 +73,10 @@ class MyWidget(QtWidgets.QWidget):
 
         self.main_vertical_layout.addLayout(self.sub_horizontal_layout, 3)
 
+    def resizeEvent(self, event):
+        self.popup_window.resize_()
+        #self.select_osu_folder.resize_()
+        
     def center(self):
         frame_gm = self.frameGeometry()
         screen = QtWidgets.QApplication.desktop().screenNumber(QtWidgets.QApplication.desktop().cursor().pos())
@@ -80,9 +85,9 @@ class MyWidget(QtWidgets.QWidget):
         self.move(frame_gm.topLeft())
 
     def get_hidden_popup(self):
-        return
-        popup_window = PopupWindow(self)
-        select_osu_folder = SelectOsuFolder(self)
+        self.popup_window = PopupWindow(self)
+        self.select_osu_folder = SelectOsuFolder(self)
+        self.select_output_folder = SelectOutputFolder(self)
         #self.hidden_widgets.extend([popup_window, select_osu_folder])
 
 

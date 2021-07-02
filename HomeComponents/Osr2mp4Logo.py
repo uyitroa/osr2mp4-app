@@ -8,7 +8,6 @@ class Osr2mp4Logo(CustomLabel):
         super(Osr2mp4Logo, self).__init__(parent)
         self.main_window = parent
         self.img_idle = "images/osr2mp4_logo.png"
-        self.pixmap_idle = QPixmap(os.path.join(self.main_window.app_directory, self.img_idle))
         self.layout = self.main_window.logo_horizontal
         self.setAlignment(QtCore.Qt.AlignBottom)
         self.text = None

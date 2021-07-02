@@ -11,7 +11,6 @@ class MapPath(CustomLabel):
         super(MapPath, self).__init__(parent)
         self.main_window = parent
         self.img_idle = "images/MapPathIdle.png"
-        self.pixmap_idle = QPixmap(os.path.join(self.main_window.app_directory, self.img_idle))
         self.setGeometry(10, 10, 10, 10)
         self.layout = self.main_window.path_vertical_layout
         map_path_text = get_latest_replay()
@@ -31,7 +30,6 @@ class OsrPath(CustomLabel):
         self.main_window = parent
         self.text = None
         self.img_idle = "images/OsrPathIdle.png"
-        self.pixmap_idle = QPixmap(os.path.join(self.main_window.app_directory, self.img_idle))
         self.layout = self.main_window.path_vertical_layout
         self.text = QLabel(self)
         self.text.setText("motherfuckerrrr")
