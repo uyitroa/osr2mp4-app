@@ -8,16 +8,17 @@ from HomeComponents.SkinDropDown import SkinDropDown
 from PopupComponents.PopupWindow import PopupWindow
 from PopupComponents.SelectOsuFolder import SelectOsuFolder
 from PopupComponents.SelectOutputFolder import SelectOutputFolder
-
-
 from Custom.CustomFunctions import check_data_paths
+from Custom.CustomQtFunctions import unblur_widget
+from data.config import current_config
 import os
+
 
 class MyWidget(QtWidgets.QWidget):
     def __init__(self, ):
         super().__init__()
-
         window_width, window_height, window_starting_point = 832, 469, 0
+        self.current_config = current_config
         self.setGeometry(window_starting_point, window_starting_point, window_width, window_height)
         self.app_directory = os.path.abspath(os.getcwd())
         self.create_layouts()
@@ -84,11 +85,19 @@ class MyWidget(QtWidgets.QWidget):
         frame_gm.moveCenter(center_point)
         self.move(frame_gm.topLeft())
 
-    def get_hidden_popup(self):
+    def show_popups(self):
         self.popup_window = PopupWindow(self)
         self.select_osu_folder = SelectOsuFolder(self)
         self.select_output_folder = SelectOutputFolder(self)
         self.popup_widgets.extend([self.popup_window, self.select_osu_folder, self.select_output_folder])
+
+    def delete_popups(self):
+        for widget in self.popup_widgets:
+            widget.visible = False
+            widget.deleteLater()
+
+    def unblur_home_components(self):
+        unblur_widget(self.home_widgets)
 
 
 if __name__ == "__main__":

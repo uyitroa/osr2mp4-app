@@ -7,6 +7,7 @@ class CustomLabel(QtWidgets.QLabel):
     def __init__(self, parent):
         super().__init__(parent)
         self.setMinimumSize(QtCore.QSize(10, 10))
+        self.blur_effect=None
         #self.setStyleSheet("background-color:red;")
 
     def setup(self):
@@ -26,6 +27,8 @@ class CustomButtons(QtWidgets.QLabel):
     def __init__(self, parent):
         super().__init__(parent)
         self.setMinimumSize(QtCore.QSize(50, 50))
+        self.blur_effect=None
+
 
     def setup(self):
         self.pixmap_idle = QtGui.QPixmap(os.path.join(self.main_window.app_directory, self.img_idle))
@@ -81,6 +84,12 @@ class PopupLabels(QtWidgets.QLabel):
             home_dir = str(Path.home())
             if self.file_extension is not None:
                 if self.file_extension == "folder":
-                    print(self.file_name)
-                    path = QtWidgets.QFileDialog.getExistingDirectory(self, self.file_name, home_dir)
-                    print(path)
+                    try:
+                        path = QtWidgets.QFileDialog.getExistingDirectory(self, self.file_name, home_dir)
+                        self.main_window.current_config[self.file_name] = path
+                    except Exception as e:
+                        print("Error:", e.__class__, "detected.")
+        if self.main_window.current_config["Output path"] != "" and self.main_window.current_config["osu! path"] != "":
+            self.main_window.delete_popups()
+            self.main_window.unblur_home_components()
+

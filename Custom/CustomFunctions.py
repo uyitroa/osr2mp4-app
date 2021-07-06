@@ -9,7 +9,7 @@ def check_data_paths(app_directory, app):
     with open(data_directory) as f:
         data = json.load(f)
         if data["osu! path"] == "" or data["Output path"] == "":
-            app.get_hidden_popup()
+            app.show_popups()
 
 
 def get_latest_replay():

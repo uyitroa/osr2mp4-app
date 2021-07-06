@@ -12,7 +12,7 @@ class SelectOutputFolder(PopupLabels):
         self.setStyleSheet("background-color:transparent;")
         self.clickable = True
         self.file_extension = "folder"
-        self.file_name = "Output Path"
+        self.file_name = "Output path"
         super().setup()
 
     def resize_(self, popup_width, popup_height, popup_x, popup_y):
