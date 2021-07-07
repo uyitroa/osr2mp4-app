@@ -40,3 +40,21 @@ class OsrPath(CustomLabel):
         self.text.move(0, 0)
         self.text.resize(self.pixmap().width(), self.pixmap().height())
 
+class OsrPath_Label(QLabel):
+    def __init__(self, parent):
+        super(OsrPath_Label, self).__init__(parent)
+        self.main_window = parent
+        self.text = None
+        self.img_idle = "images/osr_path_label.png"
+        self.setup()
+
+
+    def setup(self):
+        self.pixmap_idle = QPixmap(os.path.join(self.main_window.app_directory, self.img_idle))
+        self.setPixmap(self.pixmap_idle.scaled(self.width(), self.height(), QtCore.Qt.KeepAspectRatio,
+                                               QtCore.Qt.SmoothTransformation))
+        self.main_window.osr_path_layout.addWidget(self)
+
+
+
+

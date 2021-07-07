@@ -6,10 +6,12 @@ import re
 
 def check_data_paths(app_directory, app):
     data_directory = os.path.join(app_directory, "data/config.json")
-    with open(data_directory) as f:
+    with open(data_directory, 'r') as f:
         data = json.load(f)
         if data["osu! path"] == "" or data["Output path"] == "":
             app.show_popups()
+        else:
+            app.popupable_bool = False
 
 
 def get_latest_replay():

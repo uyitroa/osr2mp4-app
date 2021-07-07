@@ -2,7 +2,7 @@ from PyQt5 import QtWidgets, QtCore
 from HomeComponents.SelectOsr import SelectOsr
 from HomeComponents.SelectBeatmap import SelectBeatmap
 from HomeComponents.Osr2mp4Logo import Osr2mp4Logo
-from HomeComponents.FilesPath import MapPath, OsrPath
+from HomeComponents.FilesPath import MapPath, OsrPath, OsrPath_Label
 from HomeComponents.AutoReplayCheckBox import AutoReplayCheckBox
 from HomeComponents.SkinDropDown import SkinDropDown
 from PopupComponents.PopupWindow import PopupWindow
@@ -10,25 +10,26 @@ from PopupComponents.SelectOsuFolder import SelectOsuFolder
 from PopupComponents.SelectOutputFolder import SelectOutputFolder
 from Custom.CustomFunctions import check_data_paths
 from Custom.CustomQtFunctions import unblur_widget
-from data.config import current_config
 import os
-
+import json
 
 class MyWidget(QtWidgets.QWidget):
     def __init__(self, ):
         super().__init__()
         window_width, window_height, window_starting_point = 832, 469, 0
-        self.current_config = current_config
         self.setGeometry(window_starting_point, window_starting_point, window_width, window_height)
         self.app_directory = os.path.abspath(os.getcwd())
+        self.popupable_bool = True
+        self.setup_config()
         self.create_layouts()
         self.setup_layouts()
         self.osu_logo = Osr2mp4Logo(self)
         self.osr_button = SelectOsr(self)
         self.map_button = SelectBeatmap(self)
 
-        self.map_path = MapPath(self)
+        #self.osr_path_label = OsrPath_Label
         self.osr_path = OsrPath(self)
+        self.map_path = MapPath(self)
 
         #self.auto_replay = AutoReplayCheckBox(self)
         #self.skin_drop = SkinDropDown(self)
@@ -56,13 +57,16 @@ class MyWidget(QtWidgets.QWidget):
 
 
         self.path_vertical_layout = QtWidgets.QVBoxLayout(self)
+        self.osr_path_layout = QtWidgets.QVBoxLayout(self)
+
         self.logo_horizontal = QtWidgets.QHBoxLayout(self)
 
     def setup_layouts(self):
         self.main_layout.addLayout(self.logo_horizontal, 4)
         self.main_layout.addLayout(self.main_vertical_layout, 3)
         self.main_vertical_layout.addLayout(self.button_vertical_layout, 1)
-        
+
+        self.path_box_storage.addLayout(self.osr_path_layout, 1)
         self.path_box_storage.addLayout(self.path_vertical_layout, 1)
         self.path_box_storage.addLayout(self.path_box_vertical_padding, 10)
         w = QtWidgets.QWidget(self)
@@ -75,15 +79,20 @@ class MyWidget(QtWidgets.QWidget):
         self.main_vertical_layout.addLayout(self.sub_horizontal_layout, 3)
 
     def resizeEvent(self, event):
-        self.popup_window.resize_()
-        #self.select_osu_folder.resize_()
-        
+        if self.popupable_bool:
+            self.popup_window.resize_()
+
     def center(self):
         frame_gm = self.frameGeometry()
         screen = QtWidgets.QApplication.desktop().screenNumber(QtWidgets.QApplication.desktop().cursor().pos())
         center_point = QtWidgets.QApplication.desktop().screenGeometry(screen).center()
         frame_gm.moveCenter(center_point)
         self.move(frame_gm.topLeft())
+
+    def setup_config(self):
+        data_directory = os.path.join(self.app_directory, "data/config.json")
+        with open(data_directory, 'r') as f:
+            self.current_config = json.load(f)
 
     def show_popups(self):
         self.popup_window = PopupWindow(self)

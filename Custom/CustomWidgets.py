@@ -1,7 +1,7 @@
 from PyQt5 import QtWidgets, QtCore, QtGui
 from pathlib import Path
 import os
-
+import json
 
 class CustomLabel(QtWidgets.QLabel):
     def __init__(self, parent):
@@ -92,4 +92,9 @@ class PopupLabels(QtWidgets.QLabel):
         if self.main_window.current_config["Output path"] != "" and self.main_window.current_config["osu! path"] != "":
             self.main_window.delete_popups()
             self.main_window.unblur_home_components()
+            data_directory = os.path.join(self.main_window.app_directory, "data/config.json")
+            with open(data_directory, 'w') as f:
+                current_config = json.dumps(self.main_window.current_config, indent = 4)
+                print(current_config)
+                f.write(current_config)
 
