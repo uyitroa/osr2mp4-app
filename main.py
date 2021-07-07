@@ -5,6 +5,9 @@ from HomeComponents.Osr2mp4Logo import Osr2mp4Logo
 from HomeComponents.FilesPath import MapPath, OsrPath
 from HomeComponents.AutoReplayCheckBox import AutoReplayCheckBox
 from HomeComponents.SkinDropDown import SkinDropDown
+from HomeComponents.OpenOutputFolder import OpenOutputFolder
+from HomeComponents.StartButton import StartButton
+
 from PopupComponents.PopupWindow import PopupWindow
 from PopupComponents.SelectOsuFolder import SelectOsuFolder
 from PopupComponents.SelectOutputFolder import SelectOutputFolder
@@ -36,6 +39,8 @@ class MyWidget(QtWidgets.QWidget):
 
         self.auto_replay = AutoReplayCheckBox(self)
         self.skin_drop = SkinDropDown(self)
+        self.open_output_folder = OpenOutputFolder(self)
+        self.start_button = StartButton(self)
 
         self.home_widgets = [self.osu_logo, self.osr_button, self.map_button, self.map_path, self.osr_path]
         self.popup_widgets = []
@@ -63,22 +68,27 @@ class MyWidget(QtWidgets.QWidget):
         self.skin_layout = QtWidgets.QHBoxLayout(self)
         self.skin_layout_dropdown = QtWidgets.QHBoxLayout(self)
 
+        self.open_output_layout = QtWidgets.QHBoxLayout(self)
+        self.open_output_button = QtWidgets.QHBoxLayout(self)
+
+        self.start_layout = QtWidgets.QHBoxLayout(self)
+        self.start_layout_button = QtWidgets.QHBoxLayout(self)
+        self.start_layout_vertical_padding = QtWidgets.QVBoxLayout(self)
         self.logo_horizontal = QtWidgets.QHBoxLayout(self)
 
     def setup_layouts(self):
 
         self.main_layout.addLayout(self.logo_horizontal, 5)
         self.main_layout.addLayout(self.main_vertical_layout, 3)
-        self.main_vertical_layout.addLayout(self.button_vertical_layout, 1)
+        self.main_vertical_layout.addLayout(self.button_vertical_layout, 5)
 
         #for auto_replay checkbox's horizontal padding
         self.auto_replay_layout.addWidget(QtWidgets.QLabel(self), 1)
-        self.auto_replay_layout.addLayout(self.auto_replay_layout_checkbox, 50)
-
+        self.auto_replay_layout.addLayout(self.auto_replay_layout_checkbox, 15)
         self.main_vertical_layout.addLayout(self.auto_replay_layout, 1)
-        self.path_box_storage.addLayout(self.path_vertical_layout, 3)
+
         #padding for the 2 pathbox
-        self.path_box_storage.addWidget(QtWidgets.QLabel(self), 10)
+        self.path_box_storage.addLayout(self.path_vertical_layout, 3)
         self.sub_horizontal_layout.addWidget(QtWidgets.QLabel(self), 4)
         self.sub_horizontal_layout.addLayout(self.path_box_storage, 25)
         self.main_vertical_layout.addLayout(self.sub_horizontal_layout, 3)
@@ -86,7 +96,18 @@ class MyWidget(QtWidgets.QWidget):
         #for skin dropdown padding
         self.skin_layout.addWidget(QtWidgets.QLabel(self), 1)
         self.skin_layout.addLayout(self.skin_layout_dropdown, 2)
+
+        self.open_output_layout.addWidget(QtWidgets.QLabel(self), 2)
+        self.open_output_layout.addLayout(self.open_output_button, 1)
+
+        self.start_layout.addWidget(QtWidgets.QLabel(self), 1)
+        self.start_layout.addLayout(self.start_layout_button, 3)
+        self.start_layout_vertical_padding.addWidget(QtWidgets.QLabel(self), 1)
+        self.start_layout_vertical_padding.addLayout(self.start_layout, 1)
+
         self.main_vertical_layout.addLayout(self.skin_layout, 1)
+        self.main_vertical_layout.addLayout(self.open_output_layout, 2)
+        self.main_vertical_layout.addLayout(self.start_layout_vertical_padding, 7)
 
     def resizeEvent(self, event):
         if self.popupable_bool:

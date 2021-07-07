@@ -1,17 +1,13 @@
 from Custom.CustomWidgets import CustomLabel
-from PyQt5 import QtCore
-from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QLabel
 from Custom.CustomFunctions import get_latest_replay
 
-import os
 
 class MapPath(CustomLabel):
     def __init__(self, parent):
         super(MapPath, self).__init__(parent)
         self.main_window = parent
         self.img_idle = "images/MapPathIdle.png"
-        self.setGeometry(10, 10, 10, 10)
         self.layout = self.main_window.path_vertical_layout
         self.text = QLabel(self)
         self.text.setText(self.main_window.latest_beatmap_text)

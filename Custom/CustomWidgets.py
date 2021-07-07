@@ -8,7 +8,7 @@ class CustomLabel(QtWidgets.QLabel):
         super().__init__(parent)
         self.setMinimumSize(QtCore.QSize(20, 20))
         self.blur_effect=None
-        self.setStyleSheet("background-color:red;")
+        #self.setStyleSheet("background-color:red;")
 
     def setup(self):
         self.pixmap_idle = QtGui.QPixmap(os.path.join(self.main_window.app_directory, self.img_idle))
