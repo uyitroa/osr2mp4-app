@@ -5,14 +5,16 @@ import os
 class AutoReplayCheckBox(QtWidgets.QCheckBox):
     def __init__(self, parent):
         super(AutoReplayCheckBox, self).__init__(parent)
-        self.setText("Auto Replay")
+        self.main_window = parent
+        self.setText("Use Auto Replay")
         self.checked_img = os.path.join(parent.app_directory, "images/checked.png").replace("\\", "/")
         self.unchecked_img = os.path.join(parent.app_directory, "images/unchecked.png").replace("\\", "/")
-        self.setMinimumSize(QtCore.QSize(50, 21))
-        self.setGeometry(518, 144, 185, 21)
+        self.setMinimumSize(QtCore.QSize(10, 10))
+        self.main_window.auto_replay_layout_checkbox.addWidget(self)
         self.setStyleSheet("""
                 QCheckBox {
                 color: white;font-size:15pt;
+                font-weight:bold;
                 }
                 QCheckBox::indicator {
                     width: 25;

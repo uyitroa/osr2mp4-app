@@ -2,7 +2,7 @@ from PyQt5 import QtWidgets, QtCore
 from HomeComponents.SelectOsr import SelectOsr
 from HomeComponents.SelectBeatmap import SelectBeatmap
 from HomeComponents.Osr2mp4Logo import Osr2mp4Logo
-from HomeComponents.FilesPath import MapPath, OsrPath, OsrPath_Label
+from HomeComponents.FilesPath import MapPath, OsrPath
 from HomeComponents.AutoReplayCheckBox import AutoReplayCheckBox
 from HomeComponents.SkinDropDown import SkinDropDown
 from PopupComponents.PopupWindow import PopupWindow
@@ -24,20 +24,20 @@ class MyWidget(QtWidgets.QWidget):
         self.create_layouts()
         self.setup_layouts()
         self.osu_logo = Osr2mp4Logo(self)
+
         self.osr_button = SelectOsr(self)
         self.map_button = SelectBeatmap(self)
 
-        #self.osr_path_label = OsrPath_Label
         self.osr_path = OsrPath(self)
         self.map_path = MapPath(self)
 
-        #self.auto_replay = AutoReplayCheckBox(self)
+        self.auto_replay = AutoReplayCheckBox(self)
         #self.skin_drop = SkinDropDown(self)
 
         self.home_widgets = [self.osu_logo, self.osr_button, self.map_button, self.map_path, self.osr_path]
         self.popup_widgets = []
         self.hidden_widgets = []
-        check_data_paths(self.app_directory, self)
+        check_data_paths(self)
 
 
         self.setStyleSheet("background-color: rgb(33, 30, 33);")
@@ -51,31 +51,30 @@ class MyWidget(QtWidgets.QWidget):
         self.sub_horizontal_layout = QtWidgets.QHBoxLayout(self)
         self.button_vertical_layout = QtWidgets.QVBoxLayout(self)
 
-        self.path_box_padding = QtWidgets.QVBoxLayout(self)
+        self.auto_replay_layout = QtWidgets.QHBoxLayout(self)
+        self.auto_replay_layout_checkbox = QtWidgets.QVBoxLayout(self)
+
         self.path_box_storage = QtWidgets.QVBoxLayout(self)
-        self.path_box_vertical_padding = QtWidgets.QVBoxLayout(self)
-
-
         self.path_vertical_layout = QtWidgets.QVBoxLayout(self)
-        self.osr_path_layout = QtWidgets.QVBoxLayout(self)
 
         self.logo_horizontal = QtWidgets.QHBoxLayout(self)
 
     def setup_layouts(self):
-        self.main_layout.addLayout(self.logo_horizontal, 4)
+
+        self.main_layout.addLayout(self.logo_horizontal, 5)
         self.main_layout.addLayout(self.main_vertical_layout, 3)
         self.main_vertical_layout.addLayout(self.button_vertical_layout, 1)
 
-        self.path_box_storage.addLayout(self.osr_path_layout, 1)
-        self.path_box_storage.addLayout(self.path_vertical_layout, 1)
-        self.path_box_storage.addLayout(self.path_box_vertical_padding, 10)
-        w = QtWidgets.QWidget(self)
-        w.setStyleSheet("background-color:transparent;")
-        self.path_box_vertical_padding.addWidget(w)
+        #for auto_replay checkbox's horizontal padding
+        self.auto_replay_layout.addWidget(QtWidgets.QLabel(self), 1)
+        self.auto_replay_layout.addLayout(self.auto_replay_layout_checkbox, 50)
 
-        self.sub_horizontal_layout.addLayout(self.path_box_padding, 1)
-        self.sub_horizontal_layout.addLayout(self.path_box_storage, 2)
-
+        self.main_vertical_layout.addLayout(self.auto_replay_layout, 1)
+        self.path_box_storage.addLayout(self.path_vertical_layout, 3)
+        #padding for the 2 pathbox
+        self.path_box_storage.addWidget(QtWidgets.QLabel(self), 10)
+        self.sub_horizontal_layout.addWidget(QtWidgets.QLabel(self), 4)
+        self.sub_horizontal_layout.addLayout(self.path_box_storage, 25)
         self.main_vertical_layout.addLayout(self.sub_horizontal_layout, 3)
 
     def resizeEvent(self, event):

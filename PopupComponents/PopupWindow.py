@@ -19,7 +19,6 @@ class PopupWindow(PopupLabels):
 
     def resize_(self):
         if self.visible:
-            print("damn")
             width, height = 75/100*self.main_window.width(), 75/100*self.main_window.height()
             self.setPixmap(self.pixmap_idle.scaled(width, height, Qt.KeepAspectRatio, Qt.SmoothTransformation))
             x, y = self.main_window.width() / 2 - self.pixmap().width() / 2, self.main_window.height() / 2 - self.pixmap().height() / 2

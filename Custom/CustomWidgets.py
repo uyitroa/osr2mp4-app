@@ -6,7 +6,7 @@ import json
 class CustomLabel(QtWidgets.QLabel):
     def __init__(self, parent):
         super().__init__(parent)
-        self.setMinimumSize(QtCore.QSize(10, 10))
+        self.setMinimumSize(QtCore.QSize(20, 20))
         self.blur_effect=None
         #self.setStyleSheet("background-color:red;")
 
@@ -38,7 +38,6 @@ class CustomButtons(QtWidgets.QLabel):
 
     def enterEvent(self, event):
         self.setPixmap(self.pixmap_hover.scaled(self.width(), self.height(), QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation))
-
     def leaveEvent(self, event):
         self.setPixmap(self.pixmap_idle.scaled(self.width(), self.height(), QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation))
 

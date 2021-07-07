@@ -4,8 +4,9 @@ import logging
 import glob
 import re
 
-def check_data_paths(app_directory, app):
-    data_directory = os.path.join(app_directory, "data/config.json")
+
+def check_data_paths(app):
+    data_directory = os.path.join(app.app_directory, "data/config.json")
     with open(data_directory, 'r') as f:
         data = json.load(f)
         if data["osu! path"] == "" or data["Output path"] == "":
@@ -14,12 +15,15 @@ def check_data_paths(app_directory, app):
             app.popupable_bool = False
 
 
-def get_latest_replay():
+def get_latest_replay(current_config):
     try:
-        #if current_config["osu! path"] == "":
-            #return
+        if current_config["osu! path"] == "":
+            print("Error: The current osu! path is wrong")
+            logging.error("Error: The current osu! path is wrong")
+            return
 
-        path = r"D:/Games/osu!/Replays/*.osr"
+        path = current_config["osu! path"] + "/Replays/*.osr"
+        print(path)
         list_of_files = glob.glob(path)
         if not list_of_files:
             return
