@@ -5,14 +5,15 @@ import os
 class SkinDropDown(QtWidgets.QComboBox):
     def __init__(self, parent):
         super(SkinDropDown, self).__init__(parent)
+        self.main_window = parent
         self.img_drop = os.path.join(parent.app_directory, "images/Drop_Scale.png").replace("\\", "/")
         self.img_listview = os.path.join(parent.app_directory, "images/listview.png").replace("\\", "/")
-        self.setMinimumSize(QtCore.QSize(50, 20))
-        self.setGeometry(640, 255, 174, 24)
+        self.setMinimumSize(QtCore.QSize(30, 30))
         self.setup()
 
     def setup(self):
-        skin_path = r"D:\Games\osu!\Skins"
+        self.main_window.skin_layout_dropdown.addWidget(self)
+        skin_path = os.path.join(self.main_window.current_config["osu! path"], r"D:\Games\osu!\Skins")
         for skin in os.listdir(skin_path):
             self.addItem(skin)
 

@@ -35,7 +35,7 @@ class MyWidget(QtWidgets.QWidget):
         self.map_path = MapPath(self)
 
         self.auto_replay = AutoReplayCheckBox(self)
-        #self.skin_drop = SkinDropDown(self)
+        self.skin_drop = SkinDropDown(self)
 
         self.home_widgets = [self.osu_logo, self.osr_button, self.map_button, self.map_path, self.osr_path]
         self.popup_widgets = []
@@ -55,10 +55,13 @@ class MyWidget(QtWidgets.QWidget):
         self.button_vertical_layout = QtWidgets.QVBoxLayout(self)
 
         self.auto_replay_layout = QtWidgets.QHBoxLayout(self)
-        self.auto_replay_layout_checkbox = QtWidgets.QVBoxLayout(self)
+        self.auto_replay_layout_checkbox = QtWidgets.QHBoxLayout(self)
 
         self.path_box_storage = QtWidgets.QVBoxLayout(self)
         self.path_vertical_layout = QtWidgets.QVBoxLayout(self)
+
+        self.skin_layout = QtWidgets.QHBoxLayout(self)
+        self.skin_layout_dropdown = QtWidgets.QHBoxLayout(self)
 
         self.logo_horizontal = QtWidgets.QHBoxLayout(self)
 
@@ -79,6 +82,11 @@ class MyWidget(QtWidgets.QWidget):
         self.sub_horizontal_layout.addWidget(QtWidgets.QLabel(self), 4)
         self.sub_horizontal_layout.addLayout(self.path_box_storage, 25)
         self.main_vertical_layout.addLayout(self.sub_horizontal_layout, 3)
+
+        #for skin dropdown padding
+        self.skin_layout.addWidget(QtWidgets.QLabel(self), 1)
+        self.skin_layout.addLayout(self.skin_layout_dropdown, 2)
+        self.main_vertical_layout.addLayout(self.skin_layout, 1)
 
     def resizeEvent(self, event):
         if self.popupable_bool:
