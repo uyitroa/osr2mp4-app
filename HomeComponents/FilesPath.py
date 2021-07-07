@@ -13,9 +13,8 @@ class MapPath(CustomLabel):
         self.img_idle = "images/MapPathIdle.png"
         self.setGeometry(10, 10, 10, 10)
         self.layout = self.main_window.path_vertical_layout
-        #map_path_text = get_latest_replay()
         self.text = QLabel(self)
-        #self.text.setText(map_path_text)
+        self.text.setText(self.main_window.latest_beatmap_text)
         self.text.setStyleSheet("background-color:transparent;color:white;")
         super().setup()
 
@@ -32,8 +31,9 @@ class OsrPath(CustomLabel):
         self.img_idle = "images/OsrPathIdle.png"
         self.layout = self.main_window.path_vertical_layout
         self.text = QLabel(self)
-        replay_path_text = get_latest_replay(self.main_window.current_config)
+        replay_path_text, beatmap_name = get_latest_replay(self.main_window.current_config)
         self.text.setText(replay_path_text)
+        self.main_window.latest_beatmap_text = beatmap_name
         self.text.setStyleSheet("background-color:transparent;color:white;")
         super().setup()
 

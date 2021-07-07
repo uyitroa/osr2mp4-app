@@ -13,10 +13,12 @@ from Custom.CustomQtFunctions import unblur_widget
 import os
 import json
 
+
 class MyWidget(QtWidgets.QWidget):
     def __init__(self, ):
         super().__init__()
         window_width, window_height, window_starting_point = 832, 469, 0
+
         self.setGeometry(window_starting_point, window_starting_point, window_width, window_height)
         self.app_directory = os.path.abspath(os.getcwd())
         self.popupable_bool = True
@@ -26,6 +28,7 @@ class MyWidget(QtWidgets.QWidget):
         self.osu_logo = Osr2mp4Logo(self)
 
         self.osr_button = SelectOsr(self)
+        self.latest_beatmap_text = ""
         self.map_button = SelectBeatmap(self)
 
         self.osr_path = OsrPath(self)

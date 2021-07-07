@@ -3,7 +3,7 @@ import json
 import logging
 import glob
 import re
-
+from Custom.BeatmapParser import find_beatmap
 
 def check_data_paths(app):
     data_directory = os.path.join(app.app_directory, "data/config.json")
@@ -16,20 +16,20 @@ def check_data_paths(app):
 
 
 def get_latest_replay(current_config):
+    print("Fuck")
     try:
         if current_config["osu! path"] == "":
             print("Error: The current osu! path is wrong")
             logging.error("Error: The current osu! path is wrong")
             return
-
         path = current_config["osu! path"] + "/Replays/*.osr"
-        print(path)
         list_of_files = glob.glob(path)
         if not list_of_files:
             return
         path = max(list_of_files, key=os.path.getctime)
         path = path_parser(path)
-        return path
+        beatmap_name = get_beatmap(current_config, current_config["osu! path"] + "/Replays/" + path)
+        return path, beatmap_name
     # if prevreplay == replay or current_config[".osr path"] == "auto":
     # 	return prevreplay
 
@@ -39,18 +39,19 @@ def get_latest_replay(current_config):
         return None
 
 
-def get_right_map(replay):
+def get_beatmap(current_config, replay):
     try:
         if current_config["osu! path"] == "":
+            print("Error: The current osu! path is wrong")
+            logging.error("Error: The current osu! path is wrong")
             return
-
-        beatmap_name = find_beatmap_(replay, current_config["osu! path"])
+        beatmap_name = find_beatmap(replay, current_config["osu! path"])
         beatmap_path = os.path.join(current_config["osu! path"], "Songs", beatmap_name)
-
+        #app.map_path.text.setText(beatmap_name)
         if not os.path.isdir(beatmap_path):
             return None
 
-        return beatmap_path
+        return beatmap_name
 
     except Exception as e:
         print("Error: {}".format(e))
