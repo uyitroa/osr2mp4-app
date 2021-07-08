@@ -1,4 +1,4 @@
-#DO
+# DO
 - lessen the classes and layouts created
 - add popup message when there's a new update
 - add options page
