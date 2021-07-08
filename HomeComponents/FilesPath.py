@@ -1,13 +1,14 @@
-from Custom.CustomWidgets import CustomLabel
+from Custom.CustomWidgets import DefaultLabel
 from PyQt5.QtWidgets import QLabel
 from Custom.CustomFunctions import get_latest_replay
 
 
-class MapPath(CustomLabel):
+class MapPath(DefaultLabel):
     def __init__(self, parent):
         super(MapPath, self).__init__(parent)
         self.main_window = parent
         self.img_idle = "images/MapPathIdle.png"
+        self.img_hover = None
         self.layout = self.main_window.path_vertical_layout
         self.text = QLabel(self)
         self.text.setText(self.main_window.latest_beatmap_text)
@@ -19,12 +20,12 @@ class MapPath(CustomLabel):
         self.text.resize(self.pixmap().width(), self.pixmap().height())
 
 
-class OsrPath(CustomLabel):
+class OsrPath(DefaultLabel):
     def __init__(self, parent):
         super(OsrPath, self).__init__(parent)
         self.main_window = parent
-        self.text = None
         self.img_idle = "images/OsrPathIdle.png"
+        self.img_hover = None
         self.layout = self.main_window.path_vertical_layout
         self.text = QLabel(self)
         replay_path_text, beatmap_name = get_latest_replay(self.main_window.current_config)
