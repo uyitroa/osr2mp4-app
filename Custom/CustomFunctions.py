@@ -4,7 +4,7 @@ import logging
 import glob
 import re
 from Custom.BeatmapParser import find_beatmap
-
+from helper.osuhelper import parse_osr
 def check_data_paths(app):
     logging.info("Checking data paths existence")
     data_directory = os.path.join(app.app_directory, "data/config.json")
@@ -31,6 +31,7 @@ def get_latest_replay(current_config):
         current_config[".osr path"] = path
         path = path_parser(path)
         beatmap_name = get_beatmap(current_config, current_config["osu! path"] + "/Replays/" + path)
+        parse_osr(current_config)
         return path, beatmap_name
     # if prevreplay == replay or current_config[".osr path"] == "auto":
     # 	return prevreplay
