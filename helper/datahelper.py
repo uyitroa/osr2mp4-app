@@ -86,6 +86,7 @@ def loadsettings(config, settings, ppsettings):
 	else:
 		config["Output path"] = os.path.dirname(outputpath)
 
+	# not sure why this is a thing but oka
 	ppsettings["Rgb"] = eval(str(ppsettings["Rgb"]))
 	ppsettings["Hitresult Rgb"] = eval(str(ppsettings["Hitresult Rgb"]))
 
