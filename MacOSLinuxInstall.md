@@ -6,8 +6,6 @@ You'll be happy to know that this app works great in Linux, too! Here is a guide
 
 Check your current Python version. As of the time of writing, osr2mp4 requires Python 3.7 or higher and does not properly support lower versions. You can check your Python version by typing `python --version` in the terminal. If your version is lower than 3.7, consider upgrading.
 
-**We do NOT want to downgrade Python, as it would break any other apps that rely on the newer version!**
-
 # Installing ffmpeg
 
 ## Arch Linux, Manjaro, EndeavourOS
@@ -40,7 +38,7 @@ Proceed to Configuring and Running osr2mp4 to continue.
 
 The easiest way to use osr2mp4 on MacOS will be by installing most of our components with Brew, so please make sure you have this configured before we continue. MacOS has the following requirements before we can begin the installation process: `brew install zlib jpeg freetype xz ffmpeg`. After these are installed we can begin. 
 
-Proceed to Configuring and Running PyEnv and osr2mp4 to continue.
+Proceed to Configuring and Running osr2mp4 to continue.
 
 -------------------------------------------------------------------------------------------------------------------------------------
 
