@@ -38,7 +38,7 @@ else:
 		"FPS": 60,
 		"Start time": 0,
 		"End time": -1,
-		"Video codec": "XVID",
+		"Video codec": "X264",
 		"Process": 2,
 		"ffmpeg path": "ffmpeg"
 	}
