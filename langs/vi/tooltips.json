@@ -1,0 +1,18 @@
+{
+  "Process": "The number of process, the render time will be faster with higher processes (but too high will be slower depending on your pc's spec, usually 2-4 processes are enough on a normal pc).",
+  "Video codec": "FOURCC of the codec. You can find the fourcc of your codec <a href='https://www.fourcc.org/codecs.php'>here</a>",
+  "Output name": "{Map}  ->  Map folder \n{MapTitle}  ->  Map's name \n{Artist}  ->  Artist of the song \n{Creator}  ->  Mapper's name \n{Player}  ->  Player's name \n{PlayDate}  ->  The date of the play \n{Date}  ->  Current date \n{Accuracy}  ->  Accuracy of the play \n\nExample: {MapTitle} played by {Player}.mp4  ->  Harumachi clover played by Cookiezi.mp4  ",
+  "Rotate sliderball": "The feature is disabled by default to reduce the render time. Enable this if your skin needs sliderball to be rotated.",
+  "Enable PP counter": "You can customise the pp counter with CustomPP.exe",
+  "Global leaderboard": "You need to enter the api key to enable global leaderboard. Get api key <a href='https://osu.ppy.sh/p/api/'>here</a>. You might need to spam refresh the page because sometimes the link is broken and redirect you to the osu! home page.",
+  "api key": "Get api key <a href='https://old.ppy.sh/p/api/'>here</a>.",
+  "Mods leaderboard": "If you want to include all mods plays in the leaderboard, put * in the Mods leaderboard textbox. If you want to include only Hidden play, put HD. If you want to include HDHR and HR, put (HD)HR, HR will be a required mod and HD is an optional mod.",
+  "Custom mods": "Example: HDHR, and the replay will be in hdhr.",
+  "FFmpeg codec": "Find your codec <a href='https://github.com/uyitroa/osr2mp4-core/blob/master/res/Video%20codec%20list.txt'>here</a>",
+  "Audio codec": "Find your codec <a href='https://github.com/uyitroa/osr2mp4-core/blob/master/res/Audio%20codec%20list.txt'>here</a>",
+  "FFmpeg custom commands": "Add options just like how you would do with ffmpeg in command line. Learn more about ffmpeg <a href='https://ffmpeg.org/ffmpeg.html'>here</a>",
+  "Use FFmpeg video writer": "Using ffmpeg video writer allows more customisable options than opencv writer, but it might be slower than opencv.",
+  "Ignore beatmap hitsounds": "Disable hitsounds like clap, hitfinish and whistle",
+  "Use skin's sound samples": "If it's enabled, it will use skin's sound samples, if it's disabled it will use beatmap's hitsounds.",
+  "Slider quality": "Increase this if the slider looks bad or pixelated. Decrease this if you want faster render time. Usually between 2 and 3 is enough. It's very hard to notice the difference above 5. Put 10 or more if you want to waste your time."
+}
