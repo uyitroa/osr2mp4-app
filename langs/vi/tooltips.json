@@ -1,0 +1,18 @@
+{
+  "Process": "Càng nhiều tiến trình, thời gian kết xuất sẽ càng nhanh (nhưng nếu quá cao sẽ bị chậm lại, tuỳ vào cấu hình máy tính bạn, thường 2-4 tiến trình là đủ cho máy tính thông thường.",
+  "Video codec": "Tên codec theo FOURCC. Bạn có thể tìm tên FOURCC của codec bạn muốn tại <a href='https://www.fourcc.org/codecs.php'>here</a>.",
+  "Output name": "{Map}  ->  Thư mục map \n{MapTitle}  ->  Tên map \n{Artist}  ->  Nghệ sĩ biểu diễn \n{Creator}  ->  Tên người tạo map \n{Player}  ->  Tên người chơi \n{PlayDate}  ->  Ngày chơi \n{Date}  ->  Ngày hiện tại \n{Accuracy}  ->  Độ chính xác \n\nVí dụ: {MapTitle} được chơi bởi {Player}.mp4  ->  \"Harumachi clover được chơi bởi Cookiezi.mp4\".",
+  "Rotate sliderball": "Tính năng này mặc định đắt để giảm thời gian kết xuất. Bật nếu skin bạn cần xoay sliderball.",
+  "Enable PP counter": "Bạn có thể tuỳ biến bộ đếm PP thông qua CustomPP.exe",
+  "Global leaderboard": "Bạn cần nhập khoá api để bật bảng điểm xếp hạng thế giới. Lấy khoá api tại <a href='https://osu.ppy.sh/p/api/'>đây</a>. Bạn có thể sẽ cần bấm F5 trang liên tục vì đôi khi trang này bị hỏng và dẫn tới trang chủ osu!.",
+  "api key": "Lấy khoá api tại <a href='https://old.ppy.sh/p/api/'>đây</a>.",
+  "Mods leaderboard": "Nếu bạn muốn bao gồm điểm của mọi mods trong bảng xếp hạng, điền * vào hộp văn bản bảng xếp hạng Mods. Nếu bạn chỉ muốn hiển thị Hidden, điền HD. Nếu bạn muốn bao gồm cả HDHR và HR, điền (HD)HR, HR sẽ là mod bắt buộc và HD là mod tuỳ chọn.",
+  "Custom mods": "Ví dụ: HDHR, replay sẽ được kết xuất kèm HDHR.",
+  "FFmpeg codec": "Tìm codec tại <a href='https://github.com/uyitroa/osr2mp4-core/blob/master/res/Video%20codec%20list.txt'>đây</a>.",
+  "Audio codec": "Tìm codec tại <a href='https://github.com/uyitroa/osr2mp4-core/blob/master/res/Audio%20codec%20list.txt'>đây</a>.",
+  "FFmpeg custom commands": "Nhập các tuỳ chọn như bạn hay dùng với FFmpeg CLI. Tìm hiểu thêm về FFmpeg tại <a href='https://ffmpeg.org/ffmpeg.html'>đây</a>.",
+  "Use FFmpeg video writer": "Sử dụng trình ghi video FFmpeg cho phép nhiều tuỳ biến hơn OpenCV, nhưng có thể sẽ chậm hơn.",
+  "Ignore beatmap hitsounds": "Tắt hitsound như tiếng vỗ tay, huýt sáo, ...",
+  "Use skin's sound samples": "Nếu bật, hitsound của skin sẽ được dùng. Nếu tắt, hitsound của beatmap sẽ được dùng.",
+  "Slider quality": "Tăng giá trị lên nếu slider trông xấu. Giảm đi nếu bạn muốn kết xuất nhanh hơn. Thường thì 2 đến 3 là đủ. Gần như không phát hiện ra khác biệt với giá trị hơn 5. Đặt 10 nếu bạn muốn tốn thời gian."
+}
