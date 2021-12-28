@@ -1,0 +1,18 @@
+{
+  "Process": "Jumlah process yang digunakan, waktu render akan menjadi lebih cepat jika menggunakan process yang lebih tinggi (tapi process yang terlalu tinggi juga biasanya malah akan membuat lambat tergantung pada spek pc anda, biasanya 2-4 processes sudah cukup pada pc normalnya)",
+  "Video codec": "Kodek dari FOURCC. Kamu dapat menemukan fourcc kodek yang kamu pakai di <a href='https://www.fourcc.org/codecs.php'>sini</a>",
+  "Output name": "{Map}  ->  Folder map \n{MapTitle}  ->  Nama map \n{Artist}  ->  Artis \n{Creator}  ->  Nama mapper \n{Player}  ->  Nama player \n{PlayDate}  ->  Tanggal dari permainan \n{Date}  ->  Tanggal saat ini \n{Accuracy}  ->  Akurasi \n\nExample: {MapTitle} dimainkan oleh {Player}.mp4  ->  Harumachi clover dimainkan oleh Cookiezi.mp4  ",
+  "Rotate sliderball": "Fitur ini secara default akan dimatikan untuk mengurangi waktu render. Nyalakan fitur ini jika skin kamu membutuhkan rotasi pada sliderball.",
+  "Enable PP counter": "Kamu dapat melakukan kustomisasi pada penghitung pp dengan menggunakan CustomPP.exe",
+  "Global leaderboard": "Kamu harus menambahkan api key untuk dapat menampilkan papan peringkat global. Dapatkan api key di <a href='https://osu.ppy.sh/p/api/'>sini</a>. Kamu mungkin perlu melakukan spam refresh karena link tersebut terkadang rusak atau jika kamu dialihkan ke halaman home osu!.",
+  "api key": "Dapatkan api key di <a href='https://old.ppy.sh/p/api/'>sini</a>.",
+  "Mods leaderboard": "Jika kamu ingin menampilkan semua mods pada papan peringkat, kamu bisa melakukannya dengan cara menambahkan * pada bagian Mods leaderboard textbox. Jika kamu hanya ingin menampilkan hanya Hidden play, maka tambahkan HD. Jika kamu ingin menampilkan hanya HDHR dan HR, maka tampilkan (HD)HR, maka mod HR akan diwajibkan ada dan mod HD opsional.",
+  "Custom mods": "Contoh: HDHR, maka tayangan ulang akan menjadi hdhr.",
+  "FFmpeg codec": "Temukan kodek anda di <a href='https://github.com/uyitroa/osr2mp4-core/blob/master/res/Video%20codec%20list.txt'>sini</a>",
+  "Audio codec": "Temukan kodek anda di <a href='https://github.com/uyitroa/osr2mp4-core/blob/master/res/Audio%20codec%20list.txt'>sini</a>",
+  "FFmpeg custom commands": "Tambahkan opsi seperti yang akan anda lakukan dengan ffmpeg di command line. pelajari lebih lanjut tentang ffmpeg di <a href='https://ffmpeg.org/ffmpeg.html'>sini</a>",
+  "Use FFmpeg video writer": "Using ffmpeg video writer allows more customisable options than opencv writer, but it might be slower than opencv.",
+  "Ignore beatmap hitsounds": "Matikan hitsound seperti clap, hit finish, dan whistle",
+  "Use skin's sound samples": "Jika fitur ini diaktifkan, maka hitsound dari skin akan digunakan, jika dimatikan maka akan menggunakan hitsound dari beatmap.",
+  "Slider quality": "Tingkatkan kualitas slider jika slider terlihat buruk atau pixelated. Turunkan kualitas slider jika kamu ingin waktu render yang lebih cepat. Biasanya fitur ini berada di rentang 2 sampai 3. Perbedaan akan sulit dilihat jika di atas 5. Gunakan 10 jika kamu ingin membuang waktu kamu."
+}
