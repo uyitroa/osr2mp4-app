@@ -7,6 +7,8 @@ import PyQt5
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QLabel, QApplication, QSizePolicy, QDesktopWidget, QWidget
 
+from abspath import abspath
+
 class Window(QWidget):
 	def __init__(self):
 		super().__init__()
@@ -25,8 +27,10 @@ class Window(QWidget):
 		self.a = threading.Thread(target=self.install)
 
 		self.osrLogoUpdater()
+
 	def osrLogoUpdater(self):
-		pixmap = QPixmap('res/OsrUpdater.png')
+		pixmap = QPixmap(os.path.join(abspath, 'res/OsrUpdater.png'))
+		self.setFixedSize(pixmap.width(), pixmap.height())
 		self.label.setPixmap(pixmap)
 		self.setAttribute(PyQt5.QtCore.Qt.WA_TranslucentBackground)
 		self.setWindowFlags(PyQt5.QtCore.Qt.FramelessWindowHint)
@@ -42,6 +46,7 @@ class Window(QWidget):
 	def install(self):
 		for i in self.upgradelist:
 			subprocess.call([sys.executable, "-m", "pip", "install", i, "--upgrade"])
+
 		QApplication.quit()
 
 

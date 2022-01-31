@@ -4,6 +4,7 @@
     "y": {"type": "Small_Textbox"},
     "Size": {"type": "Small_Textbox"},
     "Rgb": {"type": "Big_Textbox"},
+    "Origin": {"type": "Small_Textbox"},
     "Alpha": {"type": "Small_Textbox"},
     "Font": {"type": "Small_Textbox"},
     "Background": {"type": "PathBox", "filetype": [".png", ".jpg", ".jpeg"]}
@@ -13,9 +14,32 @@
     "Hitresult y": {"type": "Small_Textbox"},
     "Hitresult Size": {"type": "Small_Textbox"},
     "Hitresult Rgb": {"type": "Big_Textbox"},
+    "Hitresult Origin": {"type": "Small_Textbox"},
     "Hitresult Alpha": {"type": "Small_Textbox"},
     "Hitresult Font": {"type": "Small_Textbox"},
     "Hitresult Background": {"type": "PathBox", "filetype": [".png", ".jpg", ".jpeg"]},
     "Hitresult Gap": {"type": "Small_Textbox"}
+  },
+
+  "UnstableRate counter": {
+    "URCounter x": {"type": "Small_Textbox"},
+    "URCounter y": {"type": "Small_Textbox"},
+    "URCounter Size": {"type": "Small_Textbox"},
+    "URCounter Rgb": {"type": "Big_Textbox"},
+    "URCounter Origin": {"type": "Small_Textbox"},
+    "URCounter Alpha": {"type": "Small_Textbox"},
+    "URCounter Font": {"type": "Small_Textbox"},
+    "URCounter Background": {"type": "PathBox", "filetype": [".png", ".jpg", ".jpeg"]}
+  },
+
+  "Strain Visualizer": {
+    "Strain x": {"type": "Small_Textbox"},
+    "Strain y": {"type": "Small_Textbox"},
+    "Strain Size": {"type": "Small_Textbox"},
+    "Strain AspectRatio": {"type": "Small_Textbox"},
+    "Strain Rgb": {"type": "Big_Textbox"},
+    "Strain Smoothing": {"type": "Small_Textbox"},
+    "Strain ProgressAlpha": {"type": "Small_Textbox"},
+    "Strain GraphDensity": {"type": "Small_Textbox"}
   }
 }

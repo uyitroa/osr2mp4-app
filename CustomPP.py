@@ -7,6 +7,8 @@ from PyQt5.QtCore import QSize
 from PyQt5.QtGui import QPixmap
 from osr2mp4.ImageProcess.Objects.Scores.PPCounter import PPCounter
 from osr2mp4.ImageProcess.Objects.Scores.HitresultCounter import HitresultCounter
+from osr2mp4.ImageProcess.Objects.Scores.URCounter import URCounter
+from osr2mp4.ImageProcess.Objects.Scores.StrainGraph import StrainGraph
 from osr2mp4.Utils.Resolution import get_screensize
 from osr2mp4.global_var import Settings
 from PyQt5.QtWidgets import QLabel, QMainWindow, QApplication
@@ -43,12 +45,23 @@ class PPSample:
 
 		self.hitresultcounter = HitresultCounter(settings)
 		self.hitresultcounter.set({100: 17, 50: 70, 0: 13})
+
+		settings.settings['Enable Strain Graph'] = True
+		self.urcounter = URCounter(settings)
+		self.urcounter.ur = 420.69
+
+		self.straingraph = StrainGraph(settings, 0, 1000)
+		self.straingraph.set_strain_graph(os.path.join(abspath, 'res/StrainExample.png'))
 		self.settings = settings
 
 	def draw(self):
 		background = self.background.copy()
-		self.ppcounter.add_to_frame(background)
-		self.hitresultcounter.add_to_frame(background)
+		for drawable in [self.ppcounter, self.hitresultcounter, self.urcounter]:
+			drawable.add_to_frame(background)
+
+		""" #IMNOTLIKEOTHERFUNCTIONS """
+		self.straingraph.add_to_frame(background, 500)
+
 		background.save(self.outputpath)
 
 

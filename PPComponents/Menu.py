@@ -31,10 +31,12 @@ class PPMenu(QMenuBar):
 			ppsettings = copy(current_ppsettings)
 			ppsettings["Rgb"] = eval(str(ppsettings["Rgb"]))
 			ppsettings["Hitresult Rgb"] = eval(str(ppsettings["Hitresult Rgb"]))
-			self.parent.ppsample.ppcounter.loadsettings(ppsettings)
-			self.parent.ppsample.ppcounter.loadimg()
-			self.parent.ppsample.hitresultcounter.loadsettings(ppsettings)
-			self.parent.ppsample.hitresultcounter.loadimg()
+
+			for drawable in [self.parent.ppsample.ppcounter, self.parent.ppsample.hitresultcounter, self.parent.ppsample.urcounter, self.parent.ppsample.straingraph]:
+				drawable.loadsettings(ppsettings)
+				drawable.loadimg()
+
+	
 			self.parent.updatepp()
 		except Exception as e:
 			print(repr(e))
@@ -53,10 +55,11 @@ class PPMenu(QMenuBar):
 		ppsettings = defaultppconfig
 		for k in ppsettings.keys():
 			current_ppsettings[k] = ppsettings[k]
-		self.parent.ppsample.ppcounter.loadsettings(current_ppsettings)
-		self.parent.ppsample.ppcounter.loadimg()
-		self.parent.ppsample.hitresultcounter.loadsettings(current_ppsettings)
-		self.parent.ppsample.hitresultcounter.loadimg()
+
+		for drawable in [self.parent.ppsample.ppcounter, self.parent.ppsample.hitresultcounter, self.parent.ppsample.urcounter, self.parent.ppsample.straingraph]:
+				drawable.loadsettings(ppsettings)
+				drawable.loadimg()
+				
 		self.parent.pplayout.updatevalue()
 		self.parent.updatepp()
 		with open(pppath, 'w+') as f:
